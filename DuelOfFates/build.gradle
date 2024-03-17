@@ -10,7 +10,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.1.2'
-        
 
     }
 }
@@ -38,6 +37,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         maven { url "https://jitpack.io" }
     }
+
 }
 
 project(":desktop") {
@@ -51,6 +51,19 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core-gamejolt:1.1.0"
+
+        // Annotation Processor - Lombok
+        compileOnly 'org.projectlombok:lombok:1.18.30'
+        annotationProcessor 'org.projectlombok:lombok:1.18.30'
+        testCompileOnly 'org.projectlombok:lombok:1.18.30'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+        // Dependency Injection - Dagger2
+        implementation 'com.google.dagger:dagger:2.27'
+        annotationProcessor 'com.google.dagger:dagger-compiler:2.27'
+        implementation 'com.google.dagger:dagger-android:2.27'
+        implementation 'com.google.dagger:dagger-android-support:2.27'
+        annotationProcessor 'com.google.dagger:dagger-android-processor:2.27'
 
     }
 }
@@ -98,6 +111,20 @@ project(":core") {
         api "com.badlogicgames.ashley:ashley:$ashleyVersion"
         api "com.kotcrab.vis:vis-ui:1.4.11"
         api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core:1.1.0"
+
+
+        // Annotation Processor - Lombok
+        compileOnly 'org.projectlombok:lombok:1.18.30'
+        annotationProcessor 'org.projectlombok:lombok:1.18.30'
+        testCompileOnly 'org.projectlombok:lombok:1.18.30'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+        // Dependency Injection - Dagger2
+        implementation 'com.google.dagger:dagger:2.27'
+        annotationProcessor 'com.google.dagger:dagger-compiler:2.27'
+        implementation 'com.google.dagger:dagger-android:2.27'
+        implementation 'com.google.dagger:dagger-android-support:2.27'
+        annotationProcessor 'com.google.dagger:dagger-android-processor:2.27'
 
     }
 }
