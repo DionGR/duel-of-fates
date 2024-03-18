@@ -10,7 +10,6 @@ import no.ntnu.dof.entity.gameplay.GameplayEntity;
 import no.ntnu.dof.entity.gameplay.effect.Effect;
 
 @Getter
-@Builder
 @SuperBuilder
 public abstract class Card extends GameplayEntity {
 

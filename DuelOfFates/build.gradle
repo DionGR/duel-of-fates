@@ -96,7 +96,6 @@ project(":android") {
         api "com.badlogicgames.ashley:ashley:$ashleyVersion"
         api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-android-gpgs:1.1.0"
         implementation platform('com.google.firebase:firebase-bom:32.7.4')
-        implementation 'com.google.firebase:firebase-analytics'
         implementation("com.google.firebase:firebase-auth")
     }
 }

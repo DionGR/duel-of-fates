@@ -2,12 +2,19 @@ package no.ntnu.dof.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import no.ntnu.dof.DuelOfFates;
 import no.ntnu.dof.AuthInterface;
@@ -28,18 +35,28 @@ public class LoginScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        // Text Field and Button Styles
+        TextFieldStyle textFieldStyle = new TextFieldStyle();
+        textFieldStyle.font = new BitmapFont();
+        textFieldStyle.fontColor = Color.WHITE;
+        textFieldStyle.background = createDrawableFromColor(Color.DARK_GRAY, 1, 1);
+
+        TextButtonStyle textButtonStyle = new TextButtonStyle();
+        textButtonStyle.font = new BitmapFont();
+        textButtonStyle.up = createDrawableFromColor(Color.LIGHT_GRAY, 1, 1);
+        textButtonStyle.down = createDrawableFromColor(Color.GRAY, 1, 1);
+        textButtonStyle.over = createDrawableFromColor(Color.DARK_GRAY, 1, 1);
 
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
-        final TextField emailField = new TextField("", skin);
-        final TextField passwordField = new TextField("", skin);
+        final TextField emailField = new TextField("admin@gmail.com", textFieldStyle);
+        final TextField passwordField = new TextField("admin123", textFieldStyle);
         passwordField.setPasswordCharacter('*');
         passwordField.setPasswordMode(true);
 
-        TextButton loginButton = new TextButton("Login", skin);
+        TextButton loginButton = new TextButton("Login", textButtonStyle);
         loginButton.addListener(event -> {
             String email = emailField.getText().trim();
             String password = passwordField.getText().trim();
@@ -60,15 +77,20 @@ public class LoginScreen implements Screen {
             return false;
         });
 
-        table.add("Email").padBottom(10);
+        table.add(emailField).fillX().uniformX().padBottom(10);
         table.row();
-        table.add(emailField).fillX().uniformX();
-        table.row().pad(10, 0, 10, 0);
-        table.add("Password").padBottom(10);
+        table.add(passwordField).fillX().uniformX().padBottom(10);
         table.row();
-        table.add(passwordField).fillX().uniformX();
-        table.row();
-        table.add(loginButton).fillX().uniformX().padTop(10);
+        table.add(loginButton).fillX().uniformX();
+    }
+
+    private Drawable createDrawableFromColor(Color color, int width, int height) {
+        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        pixmap.setColor(color);
+        pixmap.fill();
+        Texture texture = new Texture(pixmap);
+        pixmap.dispose();
+        return new TextureRegionDrawable(texture);
     }
 
     @Override
@@ -103,6 +125,6 @@ public class LoginScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        // Dispose other resources if necessary
+        // Dispose of other resources if necessary
     }
 }

@@ -1,5 +1,6 @@
 package no.ntnu.dof;
 
+import com.badlogic.gdx.Gdx;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class FirebaseAuthImpl implements AuthInterface {
