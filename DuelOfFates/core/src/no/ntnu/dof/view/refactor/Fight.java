@@ -1,9 +1,9 @@
-package no.ntnu.dof.State;
+package no.ntnu.dof.view.refactor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import no.ntnu.dof.Model.Image;
+import no.ntnu.dof.view.Image;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package no.ntnu.dof.entity;
+package no.ntnu.dof.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

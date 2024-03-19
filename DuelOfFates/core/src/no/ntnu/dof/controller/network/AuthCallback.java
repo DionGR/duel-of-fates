@@ -1,4 +1,4 @@
-package no.ntnu.dof;
+package no.ntnu.dof.controller.network;
 
 public interface AuthCallback {
     void onSuccess(); // Called when authentication is successful

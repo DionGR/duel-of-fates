@@ -1,4 +1,4 @@
-package no.ntnu.dof.screens;
+package no.ntnu.dof.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -16,9 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import no.ntnu.dof.DuelOfFates;
-import no.ntnu.dof.AuthInterface;
-import no.ntnu.dof.AuthCallback;
+import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.network.AuthInterface;
+import no.ntnu.dof.controller.network.AuthCallback;
 
 public class LoginScreen implements Screen {
     private Stage stage;

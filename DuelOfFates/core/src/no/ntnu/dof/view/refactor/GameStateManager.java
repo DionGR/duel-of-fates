@@ -1,4 +1,4 @@
-package no.ntnu.dof.State;
+package no.ntnu.dof.view.refactor;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
