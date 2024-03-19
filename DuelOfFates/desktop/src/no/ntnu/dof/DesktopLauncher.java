@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Duel of Fates");
+		System.out.println(System.getProperty("user.dir"));
 		new Lwjgl3Application(new DuelOfFates(new MockAuthImpl()), config);
 	}
 }
