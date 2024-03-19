@@ -1,4 +1,4 @@
-package no.ntnu.dof.entity.gameplay.effect;
+package no.ntnu.dof.model.gameplay.effect;
 
 import lombok.experimental.SuperBuilder;
 

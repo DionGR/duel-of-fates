@@ -1,4 +1,4 @@
-package no.ntnu.dof.Model;
+package no.ntnu.dof.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

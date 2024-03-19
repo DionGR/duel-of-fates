@@ -1,4 +1,4 @@
-package no.ntnu.dof.entity.gameplay.card;
+package no.ntnu.dof.model.gameplay.card;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Singular;
 import lombok.experimental.SuperBuilder;
-import no.ntnu.dof.entity.gameplay.GameplayEntity;
-import no.ntnu.dof.entity.gameplay.effect.Effect;
+import no.ntnu.dof.model.gameplay.GameplayEntity;
+import no.ntnu.dof.model.gameplay.effect.Effect;
 
 @Getter
 @SuperBuilder

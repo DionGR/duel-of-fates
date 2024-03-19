@@ -1,8 +1,8 @@
-package no.ntnu.dof.entity.gameplay;
+package no.ntnu.dof.model.gameplay;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import no.ntnu.dof.entity.Entity;
+import no.ntnu.dof.model.Entity;
 
 @Getter
 @SuperBuilder

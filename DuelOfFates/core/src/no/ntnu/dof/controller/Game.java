@@ -1,4 +1,4 @@
-package no.ntnu.dof;
+package no.ntnu.dof.controller;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

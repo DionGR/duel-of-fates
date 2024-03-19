@@ -1,4 +1,4 @@
-package no.ntnu.dof.entity.gameplay.card;
+package no.ntnu.dof.model.gameplay.card;
 
 import lombok.experimental.SuperBuilder;
 

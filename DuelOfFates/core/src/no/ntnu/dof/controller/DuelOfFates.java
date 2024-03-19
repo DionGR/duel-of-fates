@@ -1,10 +1,11 @@
-package no.ntnu.dof;
+package no.ntnu.dof.controller;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
-import no.ntnu.dof.screens.LoginScreen;
+
+import no.ntnu.dof.controller.network.AuthInterface;
+import no.ntnu.dof.view.screens.LoginScreen;
 
 public class DuelOfFates extends Game {
 	private AuthInterface auth;

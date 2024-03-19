@@ -1,7 +1,9 @@
 package no.ntnu.dof;
 
-import com.badlogic.gdx.Gdx;
 import com.google.firebase.auth.FirebaseAuth;
+
+import no.ntnu.dof.controller.network.AuthCallback;
+import no.ntnu.dof.controller.network.AuthInterface;
 
 public class FirebaseAuthImpl implements AuthInterface {
     @Override
