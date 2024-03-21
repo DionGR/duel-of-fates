@@ -11,6 +11,10 @@ public class AndroidLauncher extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+		config.setForegroundFPS(60);
+		config.setTitle("Duel of Fates");
+		config.height = 360;
+		config.width = 640;
 		initialize(new Game(), config);
 	}
 }
