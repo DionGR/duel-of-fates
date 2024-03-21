@@ -12,9 +12,10 @@ import no.ntnu.dof.model.gameplay.player.Player;
 @Getter
 @SuperBuilder
 public abstract class Card extends GameplayEntity {
-    private int manaCost;
     @Singular private List<Effect> hostEffects;
     @Singular private List<Effect> opponentEffects;
+
+    private int manaCost;
 
     public boolean isAvailableForPlay(Player player) {
         return manaCost <= player.getMana();

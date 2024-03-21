@@ -8,7 +8,7 @@ import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.view.screens.LoginScreen;
 
 public class DuelOfFates extends com.badlogic.gdx.Game {
-    private AuthInterface auth;
+    private final AuthInterface auth;
     SpriteBatch batch;
 
     public DuelOfFates(AuthInterface auth) {

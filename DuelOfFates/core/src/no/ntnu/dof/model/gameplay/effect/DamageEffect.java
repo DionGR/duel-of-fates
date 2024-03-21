@@ -8,7 +8,7 @@ public class DamageEffect extends Effect {
     private int damage;
 
     @Override
-    public void apply(Player player) {
+    public void apply(final Player player) {
         if (player.getDefense() > damage) {
             player.setDefense(player.getDefense() - damage);
         } else if (player.getDefense() > 0) {

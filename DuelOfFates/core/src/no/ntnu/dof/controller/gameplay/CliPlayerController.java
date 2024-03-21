@@ -16,7 +16,7 @@ public class CliPlayerController extends PlayerController {
     @Override
     public Optional<Card> playerTurn() {
         Optional<Card> toPlay = Optional.empty();
-        while (toPlay.isEmpty()) {
+        while (!toPlay.isPresent()) {
             System.out.println(player.getName() + "'s turn (" + player.getHealth() + " health, " + player.getMana() + " mana)");
             System.out.println("Choose a card from 0 to " + (player.getHand().getCards().size() - 1) + " (x to end turn):");
             for (int i = 0; i < player.getHand().getCards().size(); ++i) {

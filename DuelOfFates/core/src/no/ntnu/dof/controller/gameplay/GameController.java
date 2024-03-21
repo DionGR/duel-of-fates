@@ -23,11 +23,13 @@ public class GameController {
         while (!game.isOver()) {
             PlayerController currentPlayerController = playerControllers.get(game.getNextPlayer());
             Optional<Card> turnCard = currentPlayerController.playerTurn();
+
             if (turnCard.isPresent()) {
                 game.playCard(turnCard.get());
             } else {
                 game.finalizeTurn();
             }
+
         }
     }
 }
