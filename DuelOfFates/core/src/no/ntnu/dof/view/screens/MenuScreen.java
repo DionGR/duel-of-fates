@@ -2,8 +2,13 @@ package no.ntnu.dof.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.ntnu.dof.controller.DuelOfFates;
 
@@ -11,50 +16,49 @@ import no.ntnu.dof.controller.DuelOfFates;
 public class MenuScreen implements Screen {
 
     private Stage stage;
-    private Texture background;
     private DuelOfFates game;
 
-    private Texture playBtn;
-    private Texture tutorialBtn;
-    private Texture soundBtn;
+    private Skin skin;
 
     public MenuScreen(DuelOfFates game) {
-        super(gsm);
-        background = new Texture("menuBackground.jng");
-        // playBtn = new Texture("playBtn.png");
-	    // tutorialBtn = new Texture("tutorialBtn.png");
-	    // soundBtn = new Texture("soundBtn");
+        this.game = game;
     }
 
     @Override
-    protected void handleInput() {
-        if (Gdx.input.justTouched()) {
-            gsm.set(new PlayState(gsm));
-            dispose();
-        }
+    public void show() {
+        skin = new Skin(Gdx.files.internal("uskin.json"));
+        stage = new Stage(new ScreenViewport());
+
+        final TextButton button = new TextButton("Click Me", skin, "default");
+
+        stage.addActor(button);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
-    public void update(float dt) {
-        handleInput();
+    public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
     }
 
     @Override
-    public void render(SpriteBatch sb) {
-        sb.begin();
-        sb.draw(background, 0, 0, duelOfFates.WIDTH, duelOfFates.HEIGHT);
-        sb.draw(playBtn, duelOfFates.WIDTH/2 - (playBtn.getWidth()/2), duelOfFates.HEIGHT/3);
-        sb.draw(tutorialBtn, duelOfFates.WIDTH/2 - (tutorialBtn.getWidth()/2), duelOfFates.HEIGHT/3);
-	    sb.draw(soundBtn, 0, 0);
-        sb.end();
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+    }
 
+    @Override
+    public void pause() {
+    }
+    @Override
+    public void resume() {
+    }
+    @Override
+    public void hide() {
     }
 
     @Override
     public void dispose() {
-        background.dispose();
-        playBtn.dispose();
-	    tutorialBtn.dispose();
-	    soundBtn.dispose();
+        stage.dispose();
     }
 }
