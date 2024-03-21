@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import no.ntnu.dof.controller.network.AuthInterface;
 import no.ntnu.dof.view.screens.LoginScreen;
+import no.ntnu.dof.view.screens.MenuScreen;
 
 public class DuelOfFates extends Game {
 	private AuthInterface auth;
@@ -22,7 +23,9 @@ public class DuelOfFates extends Game {
 		img = new Texture("badlogic.jpg");
 
 		// Initialize the login screen as the first screen
-		this.setScreen(new LoginScreen(this, auth));
+//		this.setScreen(new LoginScreen(this, auth));
+		this.setScreen(new MenuScreen(this));
+
 	}
 
 	@Override

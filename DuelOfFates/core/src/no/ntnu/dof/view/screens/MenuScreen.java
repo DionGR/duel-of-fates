@@ -26,7 +26,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
-        skin = new Skin(Gdx.files.internal("uskin.json"));
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
         stage = new Stage(new ScreenViewport());
 
         final TextButton button = new TextButton("Click Me", skin, "default");
