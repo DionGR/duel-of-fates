@@ -8,7 +8,7 @@ import no.ntnu.dof.model.stats.Stats;
 
 @Getter
 @SuperBuilder
-public class GameClass extends GameplayEntity {
+public class PlayerClass extends GameplayEntity {
 
     private final Deck deck;
     private final Stats maxStats;

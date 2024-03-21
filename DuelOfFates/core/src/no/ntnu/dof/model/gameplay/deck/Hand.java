@@ -17,7 +17,11 @@ public class Hand extends GameplayEntity {
 
     public void refill(final Deck deck) {
         while (cards.size() < maxSize) {
-            cards.add(deck.drawCard());
+            cards.add(deck.next());
         }
+    }
+
+    public void remove(final Card card) {
+        cards.remove(card);
     }
 }

@@ -17,11 +17,11 @@ public class CliPlayerController extends PlayerController {
     public Optional<Card> playerTurn() {
         Optional<Card> toPlay = Optional.empty();
         while (!toPlay.isPresent()) {
-            System.out.println(player.getName() + "'s turn (" + player.getHealth() + " health, " + player.getMana() + " mana)");
+            System.out.println(player.getName() + "'s turn (" + player.getLiveStats().getHealth() + " health, " + player.getLiveStats().getMana() + " mana)");
             System.out.println("Choose a card from 0 to " + (player.getHand().getCards().size() - 1) + " (x to end turn):");
             for (int i = 0; i < player.getHand().getCards().size(); ++i) {
                 Card card = player.getHand().getCards().get(i);
-                System.out.println("\t" + i + ": " + card.getName() + " (" + card.getManaCost() + " mana)");
+                System.out.println("\t" + i + ": " + card.getName() + " (" + card.getCost().getMana() + " mana)");
             }
 
             String input = scanner.next();
@@ -34,7 +34,7 @@ public class CliPlayerController extends PlayerController {
             }
 
             Card card = player.getHand().getCards().get(cardIndex);
-            if (!card.isAvailableForPlay(player)) {
+            if (card.getCost().compareTo(player.getLiveStats()) > 0){
                 System.out.println("Card is not available for play");
                 continue;
             }

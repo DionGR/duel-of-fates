@@ -3,12 +3,13 @@ package no.ntnu.dof.model.gameplay.player;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;
 import no.ntnu.dof.model.gameplay.deck.Hand;
 import no.ntnu.dof.model.gameplay.effect.Effect;
-import no.ntnu.dof.model.gameplay.gameclass.GameClass;
+import no.ntnu.dof.model.gameplay.gameclass.PlayerClass;
 import no.ntnu.dof.model.stats.Stats;
 
 @Getter
@@ -16,24 +17,25 @@ import no.ntnu.dof.model.stats.Stats;
 @SuperBuilder(toBuilder = true)
 public class Player extends GameplayEntity {
 
-    private final GameClass gameClass;
-    private final Stats activeStats;
+    private final PlayerClass playerClass;
+    private final Stats liveStats;
     private final Hand hand;
-    private final List<Effect> activeEffects;
 
     public void applyEffects(final List<Effect> effects) {
-        activeEffects.addAll(effects);
-
         for (Effect effect: effects) {
             effect.apply(this);
         }
     }
 
+    public void applyCost(final Stats cost) {
+        this.liveStats.subtract(cost);
+    }
+
     public void refillHand() {
-        this.hand.refill(this.gameClass.getDeck());
+        this.hand.refill(this.playerClass.getDeck());
     }
 
     public boolean isDead() {
-        return this.stats.getHealth() <= 0;
+        return this.liveStats.getHealth() <= 0;
     }
 }

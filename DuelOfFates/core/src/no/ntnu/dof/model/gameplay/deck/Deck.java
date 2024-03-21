@@ -22,6 +22,12 @@ public class Deck extends GameplayEntity implements Iterator<Card> {
         Collections.shuffle(activeCards);
     }
 
+    public void refill() {
+        activeCards.addAll(playedCards);
+        playedCards.clear();
+        shuffle();
+    }
+
     @Override
     public boolean hasNext() {
         return !activeCards.isEmpty();
@@ -30,7 +36,7 @@ public class Deck extends GameplayEntity implements Iterator<Card> {
     @Override
     public Card next() throws IndexOutOfBoundsException {
         if (!hasNext()) {
-            throw new IndexOutOfBoundsException("Deck is empty");
+            refill();
         }
 
         return activeCards.remove(0);
