@@ -95,8 +95,8 @@ public class LoginScreen implements Screen {
                             }
                         });
 
-
                     }
+
 
                     @Override
                     public void onError(String message) {

@@ -11,7 +11,7 @@ import no.ntnu.dof.model.GameLobby;
 public class FirebaseLobbyService implements LobbyService {
     @Override
     public void createLobby(LobbyCreationCallback callback) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        // FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         // DatabaseReference databaseReference = database.getReferenceFromUrl("https://duel-of-fates-default-rtdb.europe-west1.firebasedatabase.app/");
         String lobbyId = databaseReference.child("lobbies").push().getKey();
