@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.card.Card;
+import no.ntnu.dof.model.gameplay.player.InsufficientResourcesException;
 import no.ntnu.dof.model.gameplay.player.Player;
 
 public class GameController {
@@ -22,10 +23,15 @@ public class GameController {
     public void gameLoop() {
         while (!game.isOver()) {
             PlayerController currentPlayerController = playerControllers.get(game.getNextPlayer());
-            Optional<Card> turnCard = currentPlayerController.playerTurn();
+            Optional<Card> turnCard = currentPlayerController.choosePlay();
 
             if (turnCard.isPresent()) {
-                game.playCard(turnCard.get());
+                try {
+                    game.playCard(turnCard.get());
+                } catch (InsufficientResourcesException ime) {
+                    // TODO handle error
+                    System.out.println(ime);
+                }
             } else {
                 game.finalizeTurn();
             }

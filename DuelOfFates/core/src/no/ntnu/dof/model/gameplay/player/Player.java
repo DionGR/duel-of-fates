@@ -1,16 +1,13 @@
 package no.ntnu.dof.model.gameplay.player;
 
-import java.util.List;
-
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;
 import no.ntnu.dof.model.gameplay.deck.Hand;
-import no.ntnu.dof.model.gameplay.effect.Effect;
-import no.ntnu.dof.model.gameplay.gameclass.PlayerClass;
-import no.ntnu.dof.model.stats.Stats;
+import no.ntnu.dof.model.gameplay.event.CardPlayedEvent;
+import no.ntnu.dof.model.gameplay.event.TurnEvent;
+import no.ntnu.dof.model.gameplay.stats.Stats;
 
 @Getter
 @Setter
@@ -20,15 +17,20 @@ public class Player extends GameplayEntity {
     private final PlayerClass playerClass;
     private final Stats liveStats;
     private final Hand hand;
+    public final TurnEvent beginTurnEvent = new TurnEvent(this);
+    public final TurnEvent endTurnEvent = new TurnEvent(this);
+    public final CardPlayedEvent cardPlayedEvent = new CardPlayedEvent(this);
 
-    public void applyEffects(final List<Effect> effects) {
-        for (Effect effect: effects) {
-            effect.apply(this);
-        }
+    public int getHealth() {
+        return this.liveStats.getHealth().getValue();
     }
 
-    public void applyCost(final Stats cost) {
-        this.liveStats.subtract(cost);
+    public int getMana() {
+        return this.liveStats.getMana().getValue();
+    }
+
+    public int getArmor() {
+        return this.liveStats.getArmor().getValue();
     }
 
     public void refillHand() {
@@ -36,6 +38,6 @@ public class Player extends GameplayEntity {
     }
 
     public boolean isDead() {
-        return this.liveStats.getHealth() <= 0;
+        return this.getHealth() <= 0;
     }
 }

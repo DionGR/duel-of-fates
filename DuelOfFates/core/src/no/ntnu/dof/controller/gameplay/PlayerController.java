@@ -12,5 +12,5 @@ public abstract class PlayerController {
         this.player = player;
     }
 
-    public abstract Optional<Card> playerTurn();
+    public abstract Optional<Card> choosePlay();
 }

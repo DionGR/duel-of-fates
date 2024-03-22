@@ -7,8 +7,7 @@ import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;
 import no.ntnu.dof.model.gameplay.effect.Effect;
-import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.model.stats.Stats;
+import no.ntnu.dof.model.gameplay.stats.Stats;
 
 @Getter
 @SuperBuilder

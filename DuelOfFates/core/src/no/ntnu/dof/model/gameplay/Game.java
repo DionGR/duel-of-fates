@@ -9,9 +9,13 @@ import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.deck.Deck;
 import no.ntnu.dof.model.gameplay.deck.Hand;
 import no.ntnu.dof.model.gameplay.effect.DamageEffect;
-import no.ntnu.dof.model.gameplay.gameclass.PlayerClass;
+import no.ntnu.dof.model.gameplay.effect.RefillHandEffect;
+import no.ntnu.dof.model.gameplay.effect.RefillManaEffect;
+import no.ntnu.dof.model.gameplay.effect.RemoveCardFromHandEffect;
+import no.ntnu.dof.model.gameplay.player.InsufficientResourcesException;
 import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.model.stats.Stats;
+import no.ntnu.dof.model.gameplay.player.PlayerClass;
+import no.ntnu.dof.model.gameplay.stats.Stats;
 
 public class Game {
     private final LinkedList<Player> players;
@@ -21,7 +25,11 @@ public class Game {
         players.add(player1);
         players.add(player2);
 
-        players.forEach(Player::refillHand);
+        players.forEach(p -> p.beginTurnEvent.register(RefillHandEffect.builder().build()));
+        players.forEach(p -> p.beginTurnEvent.register(RefillManaEffect.builder().build()));
+        players.forEach(p -> p.cardPlayedEvent.register(RemoveCardFromHandEffect.builder().build()));
+
+        players.forEach(p -> p.beginTurnEvent.fire());
     }
 
     public boolean isOver() {
@@ -32,27 +40,26 @@ public class Game {
         return players.peek();
     }
 
-    public void playCard(Card card) {
+    public void playCard(Card card) throws InsufficientResourcesException {
         Player host = players.peek();
         Player opponent = players.peekLast();
 
-        if (host.getLiveStats().compareTo(card.getCost()) > 0) {
-            host.applyCost(card.getCost());
+        if (host.getLiveStats().compareTo(card.getCost()) < 0)
+            throw new InsufficientResourcesException(host, card);
 
-            host.getHand().remove(card);
+        card.getCost().asEffects().forEach(e -> e.apply(host));
+        card.getHostEffects().forEach(e -> e.apply(host));
+        card.getOpponentEffects().forEach(e -> e.apply(opponent));
 
-            // TODO: APPLY effects
-//            card.getHostEffects().forEach(effect -> effect.apply(host));
-//            card.getOpponentEffects().forEach(effect -> effect.apply(opponent));
-        }
+        host.cardPlayedEvent.fire(card);
     }
 
     public void finalizeTurn() {
         Player current = players.poll();
         Player next = players.peek();
 
-        next.refillHand();
-        // TODO: Refill Mana Effect?
+        current.endTurnEvent.fire();
+        next.beginTurnEvent.fire();
 
         players.add(current);
     }
