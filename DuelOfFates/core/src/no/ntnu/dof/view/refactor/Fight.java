@@ -1,8 +1,13 @@
 package no.ntnu.dof.view.refactor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+
+import no.ntnu.dof.model.gameplay.player.Player;
+import no.ntnu.dof.view.Card_View;
 import no.ntnu.dof.view.Image;
 
 import java.util.ArrayList;
@@ -16,15 +21,22 @@ public class Fight extends GameState {
     protected GameStateManager gsm; //This is the GameStateManager object to handle states
     private Vector2 TouchPos;
 
+    private Player Player1_Model;
+    private Player Player2_Model;
+
     private List<Image> hand;
     private Image Card_back = new Image("./assets/Card_back.png", 0.35f);
     private int  start_hand;
     private int end_hand;
 
-    private Image Player1 = new Image("./assets/Player.png", 0.30f);
-    private Image Player2 = new Image("./assets/Player.png", 0.30f);
+    private Image Player1_View = new Image("./assets/Player.png", 0.30f);
+    private Image Player2_View = new Image("./assets/Player.png", 0.30f);
 
     private Image Mana_pool = new Image("./assets/Mana.png", 0.10f);
+
+
+    private int health_player1;
+    private int health_player2;
 
 
     /**
@@ -33,10 +45,12 @@ public class Fight extends GameState {
     public Fight(){
         this.gsm = GameStateManager.getInstance();
         this.TouchPos = new Vector2();
+        health_player1 = 90;
+
         hand = new ArrayList<Image>();
         for (int i = 0; i < 5; i++)
         {
-            hand.add(new Image("./assets/Card.png", 0.35f));
+            hand.add(new Card_View("./assets/Card.png", 0.35f, "Card"+i, "Description"+i, i));
         }
         if(Card_back==null)
         {
@@ -84,9 +98,7 @@ public class Fight extends GameState {
     {
         //This method is used to render the image
         spriteBatch.begin();
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-
-
+        Gdx.gl.glClearColor(0, 0, 1, 1);
 
         for(int i = 0; i < hand.size(); i++)
         {
@@ -96,11 +108,22 @@ public class Fight extends GameState {
         spriteBatch.draw(Card_back.getImg(), 0, 0, Card_back.getWidth(), Card_back.getHeight());
         spriteBatch.draw(Card_back.getImg(), Gdx.graphics.getWidth()-Card_back.getWidth(), 0, Card_back.getWidth(), Card_back.getHeight());
 
-        spriteBatch.draw(Player1.getImg(), (float) (Gdx.graphics.getWidth()/4-Player1.getWidth()/2), (float) (Gdx.graphics.getHeight()*0.6), Player1.getWidth(), Player1.getHeight());
-        spriteBatch.draw(Player2.getImg(), (float) (3*Gdx.graphics.getWidth()/4-Player2.getWidth()/2), (float) (Gdx.graphics.getHeight()*0.6), Player2.getWidth(), Player2.getHeight());
+        spriteBatch.draw(Player1_View.getImg(), (float) (Gdx.graphics.getWidth()/4- Player1_View.getWidth()/2), (float) (Gdx.graphics.getHeight()*0.6), Player1_View.getWidth(), Player1_View.getHeight());
+        spriteBatch.draw(Player2_View.getImg(), (float) (3*Gdx.graphics.getWidth()/4- Player2_View.getWidth()/2), (float) (Gdx.graphics.getHeight()*0.6), Player2_View.getWidth(), Player2_View.getHeight());
 
-        spriteBatch.draw(Mana_pool.getImg(), (float) (Gdx.graphics.getWidth()/4-Player1.getWidth()/2-Mana_pool.getWidth()*1.5), (float) (Gdx.graphics.getHeight()*0.6+Player1.getHeight()/2-Mana_pool.getHeight()), Mana_pool.getWidth(), Mana_pool.getHeight());
-        spriteBatch.draw(Mana_pool.getImg(), (float) (3*Gdx.graphics.getWidth()/4+Mana_pool.getWidth()*1.5), (float) (Gdx.graphics.getHeight()*0.6+Player2.getHeight()/2-Mana_pool.getHeight()), Mana_pool.getWidth(), Mana_pool.getHeight());
+        float percentage =  ((float) health_player1/100);
+        ShapeRenderer ShapeDrawer = new ShapeRenderer();
+        ShapeDrawer.begin(ShapeRenderer.ShapeType.Filled);
+        ShapeDrawer.setColor(Color.BLACK);
+        ShapeDrawer.rect( (float) (Gdx.graphics.getWidth()/4- Player1_View.getWidth()/2), (float) (Gdx.graphics.getHeight()*0.6) - ((float) (Gdx.graphics.getHeight()*0.05)+15), (float) Player1_View.getWidth(), (float) (Gdx.graphics.getHeight()*0.05));
+        ShapeDrawer.setColor(Color.GRAY);
+        ShapeDrawer.rect( (float) (Gdx.graphics.getWidth()/4- Player1_View.getWidth()/2)+3, (float) (Gdx.graphics.getHeight()*0.6) - ((float) (Gdx.graphics.getHeight()*0.05)+12), Player1_View.getWidth()-6, (float) (Gdx.graphics.getHeight()*0.05)-6);
+        ShapeDrawer.setColor(Color.RED);
+        ShapeDrawer.rect( (float) (Gdx.graphics.getWidth()/4- Player1_View.getWidth()/2)+3, (float) (Gdx.graphics.getHeight()*0.6) - ((float) (Gdx.graphics.getHeight()*0.05)+12),  percentage*(Player1_View.getWidth()-6), (float) (Gdx.graphics.getHeight()*0.05)-6);
+        ShapeDrawer.end();
+
+        spriteBatch.draw(Mana_pool.getImg(), (float) (Gdx.graphics.getWidth()/4- Player1_View.getWidth()/2-Mana_pool.getWidth()*1.5), (float) (Gdx.graphics.getHeight()*0.6+ Player1_View.getHeight()/2-Mana_pool.getHeight()), Mana_pool.getWidth(), Mana_pool.getHeight());
+        spriteBatch.draw(Mana_pool.getImg(), (float) (3*Gdx.graphics.getWidth()/4+Mana_pool.getWidth()*1.5), (float) (Gdx.graphics.getHeight()*0.6+ Player2_View.getHeight()/2-Mana_pool.getHeight()), Mana_pool.getWidth(), Mana_pool.getHeight());
 
         spriteBatch.end();
     }
