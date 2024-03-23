@@ -2,8 +2,8 @@ package no.ntnu.dof;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.network.ServiceLocator;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
@@ -11,7 +11,11 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Duel of Fates");
-		config.setWindowedMode(640,360);
-		new Lwjgl3Application(new DuelOfFates(new MockAuthImpl()), config);
+    
+		// Initalize mock services to be able to test UI on desktop
+		ServiceLocator.provideAuthService(new MockAuthImpl());
+		ServiceLocator.provideLobbyService(new MockLobbyService());
+    config.setWindowedMode(640,360);
+		new Lwjgl3Application(new DuelOfFates(), config);
 	}
 }
