@@ -13,11 +13,6 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-
-//		config.setForegroundFPS(60);
-//		config.setTitle("Duel of Fates");
-//		config.height = 360;
-//		config.width = 640;
 		initialize(new DuelOfFates(new FirebaseAuthImpl()), config);
 	}
 }
