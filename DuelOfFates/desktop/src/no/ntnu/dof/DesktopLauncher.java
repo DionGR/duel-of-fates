@@ -11,11 +11,11 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Duel of Fates");
-
+    
 		// Initalize mock services to be able to test UI on desktop
 		ServiceLocator.provideAuthService(new MockAuthImpl());
 		ServiceLocator.provideLobbyService(new MockLobbyService());
-
+    config.setWindowedMode(640,360);
 		new Lwjgl3Application(new DuelOfFates(), config);
 	}
 }
