@@ -26,6 +26,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
+        System.out.println(Gdx.files.internal("uiskin.json"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         stage = new Stage(new ScreenViewport());
 
