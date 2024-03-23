@@ -2,6 +2,7 @@ package no.ntnu.dof.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Image {
     private Texture img;
@@ -37,5 +38,10 @@ public class Image {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public void render(SpriteBatch spriteBatch, float x, float y) {
+        // Draw the image
+        spriteBatch.draw(img, x, y, width, height);
     }
 }

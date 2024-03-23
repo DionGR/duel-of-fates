@@ -25,7 +25,8 @@ public class Fight extends GameState {
     private Player Player2_Model;
 
     private List<Image> hand;
-    private Image Card_back = new Image("./assets/Card_back.png", 0.35f);
+    private Card_View Deck_view = new Card_View("./assets/Card_back.png", 0.35f, "Deck", " ", -1);
+    private Card_View Graveyard_view = new Card_View("./assets/Card_back.png", 0.35f, "Graveyard", " ", -1);
     private int  start_hand;
     private int end_hand;
 
@@ -52,7 +53,7 @@ public class Fight extends GameState {
         {
             hand.add(new Card_View("./assets/Card.png", 0.35f, "Card"+i, "Description"+i, i));
         }
-        if(Card_back==null)
+        if(Deck_view ==null)
         {
             System.out.println("Card_back is null");
         }
@@ -102,14 +103,15 @@ public class Fight extends GameState {
 
         for(int i = 0; i < hand.size(); i++)
         {
-            spriteBatch.draw(hand.get(0).getImg(),  start_hand + ((float) 2*hand.get(0).getWidth()/3)*(i), 0, hand.get(0).getWidth(), hand.get(0).getHeight());
+            hand.get(i).render(spriteBatch, start_hand + ((float) 2*hand.get(0).getWidth()/3)*(i), 0);
         }
 
-        spriteBatch.draw(Card_back.getImg(), 0, 0, Card_back.getWidth(), Card_back.getHeight());
-        spriteBatch.draw(Card_back.getImg(), Gdx.graphics.getWidth()-Card_back.getWidth(), 0, Card_back.getWidth(), Card_back.getHeight());
 
-        spriteBatch.draw(Player1_View.getImg(), (float) (Gdx.graphics.getWidth()/4- Player1_View.getWidth()/2), (float) (Gdx.graphics.getHeight()*0.6), Player1_View.getWidth(), Player1_View.getHeight());
-        spriteBatch.draw(Player2_View.getImg(), (float) (3*Gdx.graphics.getWidth()/4- Player2_View.getWidth()/2), (float) (Gdx.graphics.getHeight()*0.6), Player2_View.getWidth(), Player2_View.getHeight());
+        Deck_view.render(spriteBatch, 0, 0);
+        Graveyard_view.render(spriteBatch, Gdx.graphics.getWidth()- Deck_view.getWidth(), 0);
+
+        Player1_View.render(spriteBatch, (float) Gdx.graphics.getWidth() /4- (float) Player1_View.getWidth() /2, Gdx.graphics.getHeight()*0.6f);
+        Player2_View.render(spriteBatch, (float) (3 * Gdx.graphics.getWidth()) /4- (float) Player2_View.getWidth() /2, Gdx.graphics.getHeight()*0.6f);
 
         float percentage =  ((float) health_player1/100);
         ShapeRenderer ShapeDrawer = new ShapeRenderer();
@@ -122,9 +124,8 @@ public class Fight extends GameState {
         ShapeDrawer.rect( (float) (Gdx.graphics.getWidth()/4- Player1_View.getWidth()/2)+3, (float) (Gdx.graphics.getHeight()*0.6) - ((float) (Gdx.graphics.getHeight()*0.05)+12),  percentage*(Player1_View.getWidth()-6), (float) (Gdx.graphics.getHeight()*0.05)-6);
         ShapeDrawer.end();
 
-        spriteBatch.draw(Mana_pool.getImg(), (float) (Gdx.graphics.getWidth()/4- Player1_View.getWidth()/2-Mana_pool.getWidth()*1.5), (float) (Gdx.graphics.getHeight()*0.6+ Player1_View.getHeight()/2-Mana_pool.getHeight()), Mana_pool.getWidth(), Mana_pool.getHeight());
-        spriteBatch.draw(Mana_pool.getImg(), (float) (3*Gdx.graphics.getWidth()/4+Mana_pool.getWidth()*1.5), (float) (Gdx.graphics.getHeight()*0.6+ Player2_View.getHeight()/2-Mana_pool.getHeight()), Mana_pool.getWidth(), Mana_pool.getHeight());
-
+        Mana_pool.render(spriteBatch, (float) (Gdx.graphics.getWidth()/4- Player1_View.getWidth()/2-Mana_pool.getWidth()*1.5), (float) (Gdx.graphics.getHeight()*0.6+ Player1_View.getHeight()/2-Mana_pool.getHeight()));
+        Mana_pool.render(spriteBatch, (float) (3*Gdx.graphics.getWidth()/4+Player2_View.getWidth()/2), (float) (Gdx.graphics.getHeight()*0.6+ Player2_View.getHeight()/2-Mana_pool.getHeight()));
         spriteBatch.end();
     }
 
