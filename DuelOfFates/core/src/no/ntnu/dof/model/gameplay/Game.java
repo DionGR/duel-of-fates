@@ -8,13 +8,13 @@ import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.deck.Deck;
 import no.ntnu.dof.model.gameplay.deck.Hand;
-import no.ntnu.dof.model.gameplay.effect.DamageEffect;
-import no.ntnu.dof.model.gameplay.effect.RefillHandEffect;
-import no.ntnu.dof.model.gameplay.effect.RefillManaEffect;
-import no.ntnu.dof.model.gameplay.effect.RemoveCardFromHandEffect;
-import no.ntnu.dof.model.gameplay.player.InsufficientResourcesException;
+import no.ntnu.dof.model.gameplay.effect.card.DamageEffect;
+import no.ntnu.dof.model.gameplay.effect.card.RefillHandEffect;
+import no.ntnu.dof.model.gameplay.effect.card.RefillManaEffect;
+import no.ntnu.dof.model.gameplay.effect.card.RemoveCardFromHandEffect;
+import no.ntnu.dof.model.gameplay.player.exception.InsufficientResourcesException;
 import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.model.gameplay.player.PlayerClass;
+import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
 import no.ntnu.dof.model.gameplay.stats.Stats;
 
 public class Game {

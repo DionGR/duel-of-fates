@@ -1,19 +1,20 @@
-package no.ntnu.dof.model.gameplay.effect;
+package no.ntnu.dof.model.gameplay.effect.card;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
+import no.ntnu.dof.model.gameplay.effect.stats.ArmorEffect;
+import no.ntnu.dof.model.gameplay.effect.stats.HealthEffect;
 import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.model.gameplay.stats.armor.ArmorEffect;
-import no.ntnu.dof.model.gameplay.stats.health.HealthEffect;
 
 @SuperBuilder
 public class DamageEffect extends Effect {
     private final int damage;
 
     @Override
-    public void apply(Player player) {
+    public void apply(@NonNull final Player player) {
         List<Effect> effects = new ArrayList<>();
 
         int remainingDamage = damage;

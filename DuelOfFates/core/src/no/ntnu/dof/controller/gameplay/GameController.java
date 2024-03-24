@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.card.Card;
-import no.ntnu.dof.model.gameplay.player.InsufficientResourcesException;
+import no.ntnu.dof.model.gameplay.player.exception.InsufficientResourcesException;
 import no.ntnu.dof.model.gameplay.player.Player;
 
 public class GameController {

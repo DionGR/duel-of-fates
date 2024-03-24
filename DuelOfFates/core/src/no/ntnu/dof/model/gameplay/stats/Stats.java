@@ -9,13 +9,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;
-import no.ntnu.dof.model.gameplay.effect.Effect;
+import no.ntnu.dof.model.gameplay.effect.stats.Effect;
 import no.ntnu.dof.model.gameplay.stats.armor.Armor;
-import no.ntnu.dof.model.gameplay.stats.armor.ArmorEffect;
+import no.ntnu.dof.model.gameplay.effect.stats.ArmorEffect;
 import no.ntnu.dof.model.gameplay.stats.health.Health;
-import no.ntnu.dof.model.gameplay.stats.health.HealthEffect;
+import no.ntnu.dof.model.gameplay.effect.stats.HealthEffect;
 import no.ntnu.dof.model.gameplay.stats.mana.Mana;
-import no.ntnu.dof.model.gameplay.stats.mana.ManaEffect;
+import no.ntnu.dof.model.gameplay.effect.stats.ManaEffect;
 
 @Getter
 @Setter

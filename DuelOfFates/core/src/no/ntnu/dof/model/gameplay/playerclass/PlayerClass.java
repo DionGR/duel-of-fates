@@ -1,4 +1,4 @@
-package no.ntnu.dof.model.gameplay.player;
+package no.ntnu.dof.model.gameplay.playerclass;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;

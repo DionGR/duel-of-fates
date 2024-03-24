@@ -1,9 +1,10 @@
-package no.ntnu.dof.model.gameplay.player;
+package no.ntnu.dof.model.gameplay.player.exception;
 
 import androidx.annotation.NonNull;
 
 import lombok.AllArgsConstructor;
 import no.ntnu.dof.model.gameplay.card.Card;
+import no.ntnu.dof.model.gameplay.player.Player;
 
 @AllArgsConstructor
 public class InsufficientResourcesException extends Exception {
