@@ -9,4 +9,5 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public abstract class Entity {
     private final String name;
+
 }

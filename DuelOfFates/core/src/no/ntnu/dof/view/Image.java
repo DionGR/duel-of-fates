@@ -3,8 +3,9 @@ package no.ntnu.dof.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Image {
+public class Image  extends Actor {
     private Texture img;
     private int width;
     private int height;
@@ -14,6 +15,7 @@ public class Image {
         float ratio = (float)img.getWidth()/(float)img.getHeight();
         height = (int)(Gdx.graphics.getHeight()*Scale);
         width = (int)(height*ratio);
+        setBounds(0, 0, width, height);
     }
 
     public Texture getImg() {
@@ -22,22 +24,6 @@ public class Image {
 
     public void setImg(Texture img) {
         this.img = img;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     public void render(SpriteBatch spriteBatch, float x, float y) {

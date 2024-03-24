@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.ntnu.dof.controller.gameplay.GameController;
 import no.ntnu.dof.controller.network.AuthInterface;
 import no.ntnu.dof.model.gameplay.Game;
+import no.ntnu.dof.view.screens.FightScreen;
 import no.ntnu.dof.view.screens.LoginScreen;
 
 public class DuelOfFates extends com.badlogic.gdx.Game {
@@ -20,10 +21,10 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         batch = new SpriteBatch();
 
         // Initialize the login screen as the first screen
-        this.setScreen(new LoginScreen(this, auth));
+        this.setScreen(new FightScreen(this));
 
         // TODO remove CLI gameplay demo
-        new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2")).gameLoop();
+        //new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2")).gameLoop();
     }
 
     @Override
