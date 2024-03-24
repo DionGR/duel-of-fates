@@ -6,13 +6,18 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.network.ServiceLocator;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new DuelOfFates(new FirebaseAuthImpl()), config);
+
+		// Initialize Firebase services
+		ServiceLocator.provideAuthService(new FirebaseAuthImpl());
+		ServiceLocator.provideLobbyService(new FirebaseLobbyService());
+
+		initialize(new DuelOfFates(), config);
 	}
 }
