@@ -5,6 +5,7 @@ import java.util.List;
 
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
+import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.model.gameplay.effect.stats.ArmorEffect;
 import no.ntnu.dof.model.gameplay.effect.stats.HealthEffect;
 import no.ntnu.dof.model.gameplay.player.Player;

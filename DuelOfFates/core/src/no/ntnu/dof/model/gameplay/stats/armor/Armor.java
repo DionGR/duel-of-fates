@@ -8,5 +8,5 @@ import lombok.Value;
 @Getter
 @Value
 public class Armor {
-    @NonNull Integer value;
+    int value;
 }

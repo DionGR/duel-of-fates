@@ -41,8 +41,8 @@ public class Game {
     }
 
     public void playCard(Card card) throws InsufficientResourcesException {
-        Player host = players.peek();
-        Player opponent = players.peekLast();
+        final Player host = players.peek();
+        final Player opponent = players.peekLast();
 
         if (host.getLiveStats().compareTo(card.getCost()) < 0)
             throw new InsufficientResourcesException(host, card);

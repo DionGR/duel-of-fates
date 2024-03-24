@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;
-import no.ntnu.dof.model.gameplay.effect.stats.Effect;
+import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.model.gameplay.stats.armor.Armor;
 import no.ntnu.dof.model.gameplay.effect.stats.ArmorEffect;
 import no.ntnu.dof.model.gameplay.stats.health.Health;
