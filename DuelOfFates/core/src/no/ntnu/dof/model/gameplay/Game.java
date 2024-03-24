@@ -15,7 +15,9 @@ import no.ntnu.dof.model.gameplay.effect.card.RemoveCardFromHandEffect;
 import no.ntnu.dof.model.gameplay.player.exception.InsufficientResourcesException;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
-import no.ntnu.dof.model.gameplay.stats.Stats;
+import no.ntnu.dof.model.gameplay.stats.armor.Armor;
+import no.ntnu.dof.model.gameplay.stats.health.Health;
+import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 public class Game {
     private final LinkedList<Player> players;
@@ -44,14 +46,12 @@ public class Game {
         final Player host = players.peek();
         final Player opponent = players.peekLast();
 
-        if (host.getLiveStats().compareTo(card.getCost()) < 0)
+        if (host.getMana().compareTo(card.getCost()) < 0)
             throw new InsufficientResourcesException(host, card);
 
-        card.getCost().asEffects().forEach(e -> e.apply(host));
+        host.cardPlayedEvent.fire(card);
         card.getHostEffects().forEach(e -> e.apply(host));
         card.getOpponentEffects().forEach(e -> e.apply(opponent));
-
-        host.cardPlayedEvent.fire(card);
     }
 
     public void finalizeTurn() {
@@ -67,16 +67,10 @@ public class Game {
     public static Player demoPlayer(String name) {
         List<Card> cards = new ArrayList<>();
 
-        Stats cost = Stats.builder()
-                .health(0)
-                .mana(3)
-                .armor(0)
-                .build();
-
         for (int i = 0; i < 10; ++i) {
             cards.add(AttackCard.builder()
                     .name("Card" + i)
-                    .cost(cost)
+                    .cost(new Mana(3))
                     .opponentEffect(DamageEffect.builder()
                             .damage(4)
                             .build()
@@ -85,23 +79,14 @@ public class Game {
 
         PlayerClass playerClass = PlayerClass.builder()
                 .deck(Deck.builder().activeCards(cards).build())
-                .maxStats(Stats.builder()
-                        .health(10)
-                        .mana(5)
-                        .armor(0)
-                        .build()
-                ).build();
-
-        Stats playerStats = Stats.builder()
-                .health(10)
-                .mana(5)
-                .armor(0)
+                .maxHealth(new Health(10))
+                .maxArmor(new Armor(0))
+                .maxMana(new Mana(5))
                 .build();
 
         return Player.builder()
                 .name(name)
                 .playerClass(playerClass)
-                .liveStats(playerStats)
                 .hand(Hand.builder().maxSize(3).build())
                 .build();
     }

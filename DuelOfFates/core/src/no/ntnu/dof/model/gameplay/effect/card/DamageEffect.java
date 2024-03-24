@@ -6,8 +6,8 @@ import java.util.List;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.effect.Effect;
-import no.ntnu.dof.model.gameplay.effect.stats.ArmorEffect;
-import no.ntnu.dof.model.gameplay.effect.stats.HealthEffect;
+import no.ntnu.dof.model.gameplay.stats.armor.ArmorEffect;
+import no.ntnu.dof.model.gameplay.stats.health.HealthEffect;
 import no.ntnu.dof.model.gameplay.player.Player;
 
 @SuperBuilder
@@ -19,8 +19,8 @@ public class DamageEffect extends Effect {
         List<Effect> effects = new ArrayList<>();
 
         int remainingDamage = damage;
-        if (player.getArmor() > 0) {
-            int armorDamage = Integer.min(player.getArmor(), damage);
+        if (player.getArmor().getValue() > 0) {
+            int armorDamage = Integer.min(player.getArmor().getValue(), damage);
             remainingDamage = damage - armorDamage;
             effects.add(ArmorEffect.builder().delta(armorDamage).build());
         }

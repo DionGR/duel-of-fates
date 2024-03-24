@@ -1,10 +1,10 @@
 package no.ntnu.dof.model.gameplay.stats.health;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Value;
 
+@AllArgsConstructor
 @Getter
-@Value
 public class Health {
     int value;
 }

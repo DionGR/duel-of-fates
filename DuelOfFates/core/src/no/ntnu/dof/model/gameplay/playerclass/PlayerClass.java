@@ -4,23 +4,15 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;
 import no.ntnu.dof.model.gameplay.deck.Deck;
-import no.ntnu.dof.model.gameplay.stats.Stats;
+import no.ntnu.dof.model.gameplay.stats.armor.Armor;
+import no.ntnu.dof.model.gameplay.stats.health.Health;
+import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 @Getter
 @SuperBuilder
 public class PlayerClass extends GameplayEntity {
     private final Deck deck;
-    private final Stats maxStats;
-
-    public int getMaxHealth() {
-        return this.maxStats.getHealth().getValue();
-    }
-
-    public int getMaxArmor() {
-        return this.maxStats.getArmor().getValue();
-    }
-
-    public int getMaxMana() {
-        return this.maxStats.getMana().getValue();
-    }
+    private final Health maxHealth;
+    private final Armor maxArmor;
+    private final Mana maxMana;
 }

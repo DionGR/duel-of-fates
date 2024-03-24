@@ -17,11 +17,11 @@ public class CliPlayerController extends PlayerController {
     public Optional<Card> choosePlay() {
         Optional<Card> toPlay = Optional.empty();
         while (!toPlay.isPresent()) {
-            System.out.println(player.getName() + "'s turn " + player.getLiveStats());
+            System.out.println(player.getName() + "'s turn " + player);
             System.out.println("Choose a card from 0 to " + (player.getHand().getCards().size() - 1) + " (x to end turn):");
             for (int i = 0; i < player.getHand().getCards().size(); ++i) {
                 Card card = player.getHand().getCards().get(i);
-                System.out.println("\t" + i + ": " + card.getName() + " " + card.getCost());
+                System.out.println("\t" + i + ": " + card.getName() + " (" + card.getCost().getValue() + " mana)");
             }
 
             String input = scanner.next();
