@@ -36,8 +36,15 @@ public class FightScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
+
         Hand playerhand = Hand.builder().name("Hand1").maxSize(10).build();
         Card createcard = AttackCard.builder().name("Card1").cost(Stats.builder().mana(2).health(0).armor(0).build()).build();
+        playerhand.getCards().add(createcard);
+        createcard = AttackCard.builder().name("Card2").cost(Stats.builder().mana(1).health(0).armor(0).build()).build();
+        playerhand.getCards().add(createcard);
+        createcard = AttackCard.builder().name("Card3").cost(Stats.builder().mana(3).health(0).armor(0).build()).build();
+        playerhand.getCards().add(createcard);
+        createcard = AttackCard.builder().name("Card3").cost(Stats.builder().mana(4).health(0).armor(0).build()).build();
         playerhand.getCards().add(createcard);
         Stats playerstats = Stats.builder().name("Stat1").health(30).mana(0).armor(0).build();
         Deck playerdeck = Deck.builder().name("Deck1").build();
@@ -46,12 +53,23 @@ public class FightScreen implements Screen {
         Players[0] = Player.builder().name("Player 1").playerClass(PC).liveStats(playerstats).hand(playerhand).build();
         Players[1] = Player.builder().name("Player 2").playerClass(PC).liveStats(playerstats).hand(playerhand).build();
 
+
         Group Hand = new Group();
         for (int i = 0; i < Players[0].getHand().getCards().size(); i++) {
+            System.out.println(i);
             Card_View card = new Card_View(0.2f, Players[0].getHand().getCards().get(i));
-            card.setPosition(100 + i * 200, 100);
+            card.setPosition(((float) 2*card.getWidth()/3)*(i), 0);
+            card.setBounds(card.getX(), card.getY(), card.getWidth(), card.getHeight());
+            card.addListener( new InputListener() {
+                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                    System.out.println(card.getZIndex());
+                    return true;
+                }
+            } );
             Hand.addActor(card);
         }
+        Hand.setPosition(Gdx.graphics.getWidth()/2f - (Hand.getChild(Hand.getChildren().size-1).getX()+Hand.getChild(Hand.getChildren().size-1).getWidth())/2f, 5);
+
         stage.addActor(Hand);
 
         Hand.addListener( new InputListener() {

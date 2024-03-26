@@ -1,5 +1,6 @@
 package no.ntnu.dof.view;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,7 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import java.time.format.TextStyle;
 
 import lombok.Getter;
 import no.ntnu.dof.model.gameplay.card.Card;
@@ -27,12 +32,20 @@ public class Card_View extends Image{
     @Override
     public void draw(Batch batch, float parentAlpha) {
         // Draw the image
-        super.render((SpriteBatch) batch, 0, 0);
+        batch.draw(getImg(), getX(), getY(), getWidth(), getHeight());
+
+/*
+        TextField.TextFieldStyle NameStyle = new TextField.TextFieldStyle();
+        NameStyle.fontColor = Color.RED;
+        NameStyle.font = new BitmapFont();
+        TextArea Name = new TextArea(card.getName(), NameStyle);
+        this.addActor(Name);
+*/
 
         BitmapFont font = new BitmapFont();
         font.setColor(0.8f, 0.2f, 0.2f, 1);
         font.getData().setScale(2);
-        font.draw(batch, card.getName(), 0 + getWidth()*0.05f,0 + getHeight()*0.90f);
+        font.draw(batch, card.getName(), getX() + getWidth()*0.05f,0 + getHeight()*0.90f);
 
         font.setColor(0.5f, 0.5f, 0.5f, 1);
         font.getData().setScale(1);
@@ -42,7 +55,7 @@ public class Card_View extends Image{
         if(cost>0) {
             font.setColor(0.2f, 0.8f, 0.2f, 1);
             font.getData().setScale(2);
-            font.draw(batch, Integer.toString(cost), 0 + getWidth() * 0.83f, 0 + getHeight() * 0.94f);
+            font.draw(batch, Integer.toString(cost), getX() + getWidth() * 0.83f, getY() + getHeight() * 0.94f);
         }
     }
 
@@ -51,9 +64,7 @@ public class Card_View extends Image{
         super.act(delta);
         for (EventListener listener : getListeners()) {
             if(listener instanceof ClickListener) {
-                if (((ClickListener) listener).touchDown(new InputEvent(), 0, 0, 0, 0)) {
-                    System.out.println("Card clicked");
-                }
+                System.out.println("Card clicked");
             }
         }
     }
