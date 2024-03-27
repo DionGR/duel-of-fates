@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import no.ntnu.dof.view.screens.LobbiesScreen;
+import no.ntnu.dof.view.screens.LobbyScreen;
 import no.ntnu.dof.view.screens.LoginScreen;
 import no.ntnu.dof.view.screens.MenuScreen;
 
@@ -20,7 +21,7 @@ public class DuelOfFates extends Game {
 		img = new Texture("badlogic.jpg");
 
 //		this.setScreen(new LoginScreen(this, auth));
-		this.setScreen(new LobbiesScreen(this));
+		this.setScreen(new LobbyScreen(this));
 	}
 
 	@Override
