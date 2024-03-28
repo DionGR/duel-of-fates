@@ -56,8 +56,6 @@ public class MenuScreen implements Screen {
         tutorialBtn = new TextButton("Tutorial", skin, "default");
         logoutBtn = new TextButton("Log out", skin, "default");
 
-        lobbiesBtn.setSize(150,100);
-
 //        for (Actor btn:contentTable.getChildren()) {
 //            btn.setHeight(50);
 //            btn.setWidth(150);
@@ -73,14 +71,12 @@ public class MenuScreen implements Screen {
         stage.addActor(contentTable);
 
 
-        //
-//        lobbiesBtn.addListener(new ClickListener() {
-//            @Override
-//            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-//                System.out.println("test");
-//                super.touchUp(event, x, y, pointer, button);
-//            }
-//        });
+        lobbiesBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.transitionToMenu();
+            }
+        });
 
         batch = new SpriteBatch();
 

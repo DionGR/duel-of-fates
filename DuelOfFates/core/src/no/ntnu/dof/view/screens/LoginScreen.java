@@ -14,11 +14,17 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.network.AuthCallback;
 import no.ntnu.dof.controller.network.ServiceLocator;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 
 public class LoginScreen implements Screen {
     private Stage stage;
     private DuelOfFates game;
     private Label feedbackLabel;
+    private Texture backgroundTexture;
+    private SpriteBatch spriteBatch;
+
 
     public LoginScreen(DuelOfFates game) {
         this.game = game;
@@ -29,6 +35,8 @@ public class LoginScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        backgroundTexture = new Texture(Gdx.files.internal("menuBackground.png"));
+        spriteBatch = new SpriteBatch();
 
         Table table = new Table();
         table.setFillParent(true);
@@ -77,6 +85,11 @@ public class LoginScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        spriteBatch.begin();
+        spriteBatch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        spriteBatch.end();
+
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
@@ -96,5 +109,8 @@ public class LoginScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        backgroundTexture.dispose();
+        spriteBatch.dispose();
     }
+
 }

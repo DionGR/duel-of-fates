@@ -38,4 +38,8 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
     public void transitionToMenu() {
         this.setScreen(new MenuScreen(this));
     }
+
+    public void transitionToLobbies() {
+        this.setScreen(new LobbiesScreen(this));
+    }
 }
