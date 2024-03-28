@@ -3,6 +3,11 @@ package no.ntnu.dof.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Image {
     private Texture img;
     private int width;
@@ -13,29 +18,5 @@ public class Image {
         float ratio = (float)img.getWidth()/(float)img.getHeight();
         height = (int)(Gdx.graphics.getHeight()*Scale);
         width = (int)(height*ratio);
-    }
-
-    public Texture getImg() {
-        return img;
-    }
-
-    public void setImg(Texture img) {
-        this.img = img;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 }
