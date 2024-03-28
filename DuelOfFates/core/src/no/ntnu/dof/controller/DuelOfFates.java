@@ -2,6 +2,8 @@ package no.ntnu.dof.controller;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import no.ntnu.dof.view.screens.LobbiesScreen;
+import no.ntnu.dof.view.screens.LobbyScreen;
 import no.ntnu.dof.controller.gameplay.GameController;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.view.screens.LoginScreen;
@@ -15,8 +17,7 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
     @Override
     public void create() {
         batch = new SpriteBatch();
-
-//		this.setScreen(new LoginScreen(this, auth));
+      
 		this.setScreen(new MenuScreen(this));
 
         // TODO remove CLI gameplay demo
