@@ -18,7 +18,7 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
     public void create() {
         batch = new SpriteBatch();
       
-		this.setScreen(new MenuScreen(this));
+		this.setScreen(new LoginScreen(this));
 
         // TODO remove CLI gameplay demo
         new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2")).gameLoop();
@@ -33,5 +33,9 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
     public void dispose() {
         batch.dispose();
         super.dispose(); // Dispose the screen and other resources
+    }
+
+    public void transitionToMenu() {
+        this.setScreen(new MenuScreen(this));
     }
 }
