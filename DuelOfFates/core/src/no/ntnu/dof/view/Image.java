@@ -3,28 +3,24 @@ package no.ntnu.dof.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
-public class Image  extends Group {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+public class Image extends Group {
+    @Getter
     private Texture img;
     private int width;
     private int height;
 
     public Image(String path, float Scale) {
         img = new Texture(path);
-        float ratio = (float)img.getWidth()/(float)img.getHeight();
-        height = (int)(Gdx.graphics.getHeight()*Scale);
-        width = (int)(height*ratio);
+        float ratio = (float) img.getWidth() / (float) img.getHeight();
+        height = (int) (Gdx.graphics.getHeight() * Scale);
+        width = (int) (height * ratio);
         setBounds(0, 0, width, height);
-    }
-
-    public Texture getImg() {
-        return img;
-    }
-
-    public void setImg(Texture img) {
-        this.img = img;
     }
 
     public void render(SpriteBatch spriteBatch, float x, float y) {

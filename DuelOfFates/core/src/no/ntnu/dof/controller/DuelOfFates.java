@@ -21,7 +21,7 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         batch = new SpriteBatch();
 
         // Initialize the login screen as the first screen
-        this.setScreen(new FightScreen(this));
+        this.setScreen(new FightScreen(new Game(Game.demoPlayer("p1"), Game.demoPlayer("p2"))));
 
         // TODO remove CLI gameplay demo
         //new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2")).gameLoop();

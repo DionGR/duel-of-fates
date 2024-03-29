@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import lombok.Getter;
 import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.deck.Deck;
@@ -17,6 +18,7 @@ import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.model.gameplay.player.PlayerClass;
 import no.ntnu.dof.model.gameplay.stats.Stats;
 
+@Getter
 public class Game {
     private final LinkedList<Player> players;
 

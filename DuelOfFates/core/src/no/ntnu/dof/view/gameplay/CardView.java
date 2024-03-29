@@ -1,32 +1,32 @@
-package no.ntnu.dof.view;
+package no.ntnu.dof.view.gameplay;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
-import java.time.format.TextStyle;
 
 import lombok.Getter;
 import no.ntnu.dof.model.gameplay.card.Card;
-import no.ntnu.dof.model.gameplay.stats.mana.Mana;
+import no.ntnu.dof.view.Image;
 
 @Getter
-public class Card_View extends Image{
+public class CardView extends Image {
 
-    private Card card;
+    private final Card card;
 
-    public Card_View(float Scale, Card card) {
+    public CardView(float Scale, Card card) {
         super("./assets/Card.png", Scale);
         this.card = card;
+        this.setPosition(((float) 2 * this.getWidth()/3), 0);
+        this.setBounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        this.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println(event.getListenerActor());
+                return true;
+            }
+        } );
     }
 
     @Override
