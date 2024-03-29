@@ -2,14 +2,16 @@ package no.ntnu.dof.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public class Image extends Group {
+public class Image extends Actor {
     @Getter
     private Texture img;
     private int width;
@@ -26,5 +28,11 @@ public class Image extends Group {
     public void render(SpriteBatch spriteBatch, float x, float y) {
         // Draw the image
         spriteBatch.draw(img, x, y, width, height);
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        // Draw the image
+        batch.draw(img, getX(), getY(), getWidth(), getHeight());
     }
 }

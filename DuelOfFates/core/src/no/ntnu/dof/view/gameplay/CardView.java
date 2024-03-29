@@ -16,23 +16,26 @@ public class CardView extends Image {
 
     private final Card card;
 
-    public CardView(float Scale, Card card) {
+    public CardView(float Scale, Card card, int i) {
         super("./assets/Card.png", Scale);
+
+        System.out.println(i);
         this.card = card;
-        this.setPosition(((float) 2 * this.getWidth()/3), 0);
+        this.setPosition(((float) 2 * this.getWidth()/3)*i, 0);
         this.setBounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         this.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println(event.getListenerActor());
+                System.out.println( ((CardView)event.getListenerActor()).getCard().getName() + " clicked");
                 return true;
             }
         } );
+        System.out.println("CardView created");
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         // Draw the image
-        batch.draw(getImg(), getX(), getY(), getWidth(), getHeight());
+        super.draw(batch, parentAlpha);
 
 /*
         TextField.TextFieldStyle NameStyle = new TextField.TextFieldStyle();
