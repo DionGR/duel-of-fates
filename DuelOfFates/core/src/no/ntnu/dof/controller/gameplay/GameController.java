@@ -4,12 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import lombok.Getter;
+import no.ntnu.dof.controller.gameplay.player.CliPlayerController;
+import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.exception.InsufficientResourcesException;
 import no.ntnu.dof.model.gameplay.player.Player;
 
 public class GameController {
+    @Getter
     private final Game game;
     private final Map<Player, PlayerController> playerControllers;
 
@@ -35,7 +39,6 @@ public class GameController {
             } else {
                 game.finalizeTurn();
             }
-
         }
     }
 }

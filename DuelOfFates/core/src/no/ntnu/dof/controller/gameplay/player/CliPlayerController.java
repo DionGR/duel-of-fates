@@ -1,4 +1,4 @@
-package no.ntnu.dof.controller.gameplay;
+package no.ntnu.dof.controller.gameplay.player;
 
 import java.util.Optional;
 import java.util.Scanner;
@@ -6,11 +6,12 @@ import java.util.Scanner;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 
-public class CliPlayerController extends PlayerController {
-    Scanner scanner = new Scanner(System.in);
+public class CliPlayerController implements PlayerController {
+    private final Player player;
+    private final Scanner scanner = new Scanner(System.in);
 
     public CliPlayerController(Player player) {
-        super(player);
+        this.player = player;
     }
 
     @Override

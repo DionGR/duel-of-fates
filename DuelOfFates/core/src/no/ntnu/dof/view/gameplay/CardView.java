@@ -51,7 +51,7 @@ public class CardView extends Image {
         font.getData().setScale(1);
         //font.draw(spriteBatch, description, x + getWidth()*0.1f,y + getHeight()*0.37f);
 
-        int cost = card.getCost().getMana().getValue();
+        int cost = card.getCost().getValue();
         if(cost>0) {
             font.setColor(0.2f, 0.8f, 0.2f, 1);
             font.getData().setScale(2);
