@@ -1,17 +1,20 @@
-package no.ntnu.dof.model.gameplay.effect;
+package no.ntnu.dof.model.gameplay.effect.card;
 
+import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
+import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.model.gameplay.event.TurnListener;
 import no.ntnu.dof.model.gameplay.player.Player;
 
 @SuperBuilder
 public class RefillHandEffect extends Effect implements TurnListener {
     @Override
-    public void apply(Player player) {
+    public void apply(@NonNull final Player player) {
         player.refillHand();
     }
 
-    public void onTurn(Player player) {
+    @Override
+    public void onTurn(@NonNull final Player player) {
         this.apply(player);
     }
 }
