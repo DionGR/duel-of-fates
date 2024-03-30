@@ -1,4 +1,4 @@
-package no.ntnu.dof;
+package no.ntnu.dof.android;
 
 import com.google.firebase.auth.FirebaseAuth;
 import no.ntnu.dof.controller.network.AuthCallback;
