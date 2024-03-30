@@ -8,6 +8,6 @@ import no.ntnu.dof.model.gameplay.player.Player;
 
 @Getter
 @SuperBuilder
-public abstract class Effect extends GameplayEntity {
-    public abstract void apply(@NonNull final Player player);
+public abstract class Effect extends GameplayEntity implements EffectStrategy {
+
 }

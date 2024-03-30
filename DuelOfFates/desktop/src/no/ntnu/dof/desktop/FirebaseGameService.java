@@ -21,8 +21,11 @@ public class FirebaseGameService implements GameService {
     @Override
     public GameComms createComms(String gameId) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
         if (gameId == null) gameId = databaseReference.child("games").push().getKey();
+
         GameComms comms = new GameComms(gameId);
+
         databaseReference.child("games").child(gameId).setValue(comms, (error, ref) -> {
             // TODO implement callbacks if necessary
         });
@@ -42,16 +45,29 @@ public class FirebaseGameService implements GameService {
     @Override
     public void playCard(GameComms comms, Optional<Card> card) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
         if (card.isPresent()) {
-            String cardId = databaseReference.child("games").child(comms.getGameId())
-                    .child("cards").push().getKey();
-            databaseReference.child("games").child(comms.getGameId())
-                    .child("cards").child(cardId).setValue(card.get(), (error, ref) -> {
+            String cardId = databaseReference
+                    .child("games")
+                    .child(comms.getGameId())
+                    .child("cards")
+                    .push().getKey();
+
+
+            databaseReference
+                    .child("games")
+                    .child(comms.getGameId())
+                    .child("cards")
+                    .child(cardId)
+                    .setValue(card.get(), (error, ref) -> {
                         // TODO implement callbacks if necessary
                     });
         } else {
-            databaseReference.child("games").child(comms.getGameId())
-                    .child("playerLastTurn").setValue(comms.getPlayerLastTurn(), (error, ref) -> {
+            databaseReference
+                    .child("games")
+                    .child(comms.getGameId())
+                    .child("playerLastTurn")
+                    .setValue(comms.getPlayerLastTurn(), (error, ref) -> {
                         // TODO implement callbacks if necessary
                     });
         }
@@ -75,13 +91,16 @@ public class FirebaseGameService implements GameService {
         }
 
         @Override
-        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+        }
 
         @Override
-        public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+        }
 
         @Override
-        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+        }
 
         @Override
         public void onCancelled(@NonNull DatabaseError error) {

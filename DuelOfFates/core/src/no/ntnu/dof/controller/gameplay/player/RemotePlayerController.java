@@ -18,7 +18,11 @@ public class RemotePlayerController implements PlayerController, GameService.Pla
         this.player = player;
         this.chosen = Optional.empty();
         this.played = false;
-        GameComms comms = ServiceLocator.getGameService().createComms("-NuBZPuG4gkubhYI_FsN"); // TODO inject gameId
+
+        GameComms comms = ServiceLocator
+                .getGameService()
+                .createComms("-NuBZPuG4gkubhYI_FsN"); // TODO inject gameId
+
         ServiceLocator.getGameService().addPlayListener(comms, this);
     }
 
@@ -45,8 +49,10 @@ public class RemotePlayerController implements PlayerController, GameService.Pla
     @Override
     public synchronized void onTurnEnd(String player) {
         if (!player.equals(this.player.getName())) return;
+
         chosen = Optional.empty();
         played = true;
+
         this.notify();
     }
 }

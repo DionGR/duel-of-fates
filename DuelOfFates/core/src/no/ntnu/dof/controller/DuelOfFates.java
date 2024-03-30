@@ -2,6 +2,8 @@ package no.ntnu.dof.controller;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import no.ntnu.dof.controller.network.AuthCallback;
+import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.view.screens.LobbiesScreen;
 import no.ntnu.dof.view.screens.LobbyScreen;
 import no.ntnu.dof.controller.gameplay.GameController;
@@ -21,6 +23,17 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         this.setScreen(new MenuScreen(this));
 
         // TODO remove CLI gameplay demo
+        ServiceLocator.getAuthService().signIn("p1", "p1", new AuthCallback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
         new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2")).gameLoop();
     }
 

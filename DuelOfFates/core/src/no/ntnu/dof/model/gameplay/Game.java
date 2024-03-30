@@ -1,6 +1,7 @@
 package no.ntnu.dof.model.gameplay;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,6 +9,8 @@ import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.deck.Deck;
 import no.ntnu.dof.model.gameplay.deck.Hand;
+import no.ntnu.dof.model.gameplay.effect.Effect;
+import no.ntnu.dof.model.gameplay.effect.EffectInvoker;
 import no.ntnu.dof.model.gameplay.effect.card.DamageEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RefillHandEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RefillManaEffect;
@@ -21,6 +24,7 @@ import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 public class Game {
     private final LinkedList<Player> players;
+    private final EffectInvoker<String, Effect> effectInvoker;
 
     public Game(Player player1, Player player2) {
         players = new LinkedList<>();
@@ -30,6 +34,11 @@ public class Game {
         players.forEach(p -> p.beginTurnEvent.register(RefillHandEffect.builder().build()));
         players.forEach(p -> p.beginTurnEvent.register(RefillManaEffect.builder().build()));
         players.forEach(p -> p.cardPlayedEvent.register(RemoveCardFromHandEffect.builder().build()));
+
+        effectInvoker = new EffectInvoker<>(new HashMap<>());
+        effectInvoker.register("damage", DamageEffect.builder().build());
+        effectInvoker.register("refillHand", RefillHandEffect.builder().build());
+        effectInvoker.register("refillMana", RefillManaEffect.builder().build());
 
         players.forEach(p -> p.beginTurnEvent.fire());
     }
@@ -50,8 +59,9 @@ public class Game {
             throw new InsufficientResourcesException(host, card);
 
         host.cardPlayedEvent.fire(card);
-        card.getHostEffects().forEach(e -> e.apply(host));
-        card.getOpponentEffects().forEach(e -> e.apply(opponent));
+
+        card.getHostEffectNames().forEach(e -> effectInvoker.invoke(e, host));
+        card.getOpponentEffectNames().forEach(e -> effectInvoker.invoke(e, opponent));
     }
 
     public void finalizeTurn() {
@@ -71,10 +81,8 @@ public class Game {
             cards.add(AttackCard.builder()
                     .name("Card" + i)
                     .cost(new Mana(3))
-                    .opponentEffect(DamageEffect.builder()
-                            .damage(4)
-                            .build()
-                    ).build());
+                    .opponentEffectName("damage")
+                    .build());
         }
 
         PlayerClass playerClass = PlayerClass.builder()
