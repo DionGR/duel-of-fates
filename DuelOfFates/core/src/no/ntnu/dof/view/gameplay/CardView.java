@@ -1,14 +1,18 @@
 package no.ntnu.dof.view.gameplay;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 
 import lombok.Getter;
 import no.ntnu.dof.model.gameplay.card.Card;
+import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.view.Image;
 
 @Getter
@@ -18,8 +22,6 @@ public class CardView extends Image {
 
     public CardView(float Scale, Card card, int i) {
         super("./assets/Card.png", Scale);
-
-        System.out.println(i);
         this.card = card;
         this.setPosition(((float) 2 * this.getWidth()/3)*i, 0);
         this.setBounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());
@@ -29,37 +31,30 @@ public class CardView extends Image {
                 return true;
             }
         } );
-        System.out.println("CardView created");
+
+        Label name = (new TextLabel(card.getName(), getWidth()*0.05f,getHeight()*0.80f,getWidth()*0.6f,getHeight()*0.2f,getHeight()*0.008f, Color.RED)).getText();
+        name.setAlignment(Align.left);
+        this.addActor(name);
+        Label cost = (new TextLabel(Integer.toString(card.getCost().getValue()), getWidth()*0.82f,getHeight()*0.86f,getWidth()*0.1f,getHeight()*0.1f,getHeight()*0.005f, Color.GREEN)).getText();
+        this.addActor(cost);
+
+
+        String descriptionString = "";
+        for (Effect effect : card.getHostEffects()){
+            descriptionString += effect.toString() + "\n";
+        }
+        for (Effect effect : card.getOpponentEffects()){
+            descriptionString += effect.toString() + "\n";
+        }
+        Label description = (new TextLabel(descriptionString, getWidth()*0.09f,getHeight()*0.06f,getWidth()*0.8f,getHeight()*0.33f,getHeight()*0.004f, Color.BLACK)).getText();
+        description.setAlignment(Align.topLeft);
+        this.addActor(description);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         // Draw the image
         super.draw(batch, parentAlpha);
-
-/*
-        TextField.TextFieldStyle NameStyle = new TextField.TextFieldStyle();
-        NameStyle.fontColor = Color.RED;
-        NameStyle.font = new BitmapFont();
-        TextArea Name = new TextArea(card.getName(), NameStyle);
-        this.addActor(Name);
-*/
-
-        BitmapFont font = new BitmapFont();
-        font.setColor(0.8f, 0.2f, 0.2f, 1);
-        font.getData().setScale(2);
-        font.draw(batch, card.getName(), getX() + getWidth()*0.05f,0 + getHeight()*0.90f);
-
-        font.setColor(0.5f, 0.5f, 0.5f, 1);
-        font.getData().setScale(1);
-        //font.draw(spriteBatch, description, x + getWidth()*0.1f,y + getHeight()*0.37f);
-
-        int cost = card.getCost().getValue();
-        if(cost>0) {
-            font.setColor(0.2f, 0.8f, 0.2f, 1);
-            font.getData().setScale(2);
-            font.draw(batch, Integer.toString(cost), getX() + getWidth() * 0.83f, getY() + getHeight() * 0.94f);
-        }
     }
 
     @Override

@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public class Image extends Actor {
+public class Image extends Group {
     @Getter
     private Texture img;
     private int width;
@@ -34,5 +34,6 @@ public class Image extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         // Draw the image
         batch.draw(img, getX(), getY(), getWidth(), getHeight());
+        super.draw(batch, parentAlpha);
     }
 }

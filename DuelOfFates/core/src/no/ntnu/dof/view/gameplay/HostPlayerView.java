@@ -20,12 +20,13 @@ public class HostPlayerView extends PlayerView{
         super(player);
         this.setPosition((float) Gdx.graphics.getWidth()/4 - (float) this.getGraphics().getWidth()/2, Gdx.graphics.getHeight()*0.6f);
 
-        this.getManaPool().setPosition(-this.getManaPool().getWidth()-10, this.getGraphics().getHeight()/2-this.getManaPool().getHeight()/2);
+        this.getManaPool().setPosition(-this.getManaGraphics().getWidth()-10, this.getGraphics().getHeight()/2-this.getManaGraphics().getHeight()/2);
+
 
         hostInterface = new Group();
 
         handView = new Group();
-        player.getHand().getCards().forEach(c -> handView.addActor(new CardView(0.2f, c, handView.getChildren().size)));
+        player.getHand().getCards().forEach(c -> handView.addActor(new CardView(0.3f, c, handView.getChildren().size)));
         handView.setPosition(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 5);
         handView.addListener( new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
