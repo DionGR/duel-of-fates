@@ -13,7 +13,8 @@ public class HostPlayerController extends CliPlayerController {
 
     public HostPlayerController(Player player) {
         super(player);
-        comms = ServiceLocator.getGameService().createComms("-NuBZPuG4gkubhYI_FsN");
+        comms = ServiceLocator.getGameService().createComms("-NuBZPuG4gkubhYI_FsN"); // TODO inject gameId
+        comms.setPlayerLastTurn(this.player.getName());
     }
 
     @Override

@@ -33,7 +33,7 @@ public class FirebaseGameService implements GameService {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("games").child(comms.getGameId()).child("cards")
                 .addChildEventListener(firebaseChangeAdapter);
-        databaseReference.child("games").child(comms.getGameId()).child("turnFlag")
+        databaseReference.child("games").child(comms.getGameId()).child("playerLastTurn")
                 .addValueEventListener(firebaseChangeAdapter);
     }
 
@@ -50,7 +50,7 @@ public class FirebaseGameService implements GameService {
 //                    .addOnFailureListener(callback::onFailure);
         } else {
             databaseReference.child("games").child(comms.getGameId())
-                    .child("turnFlag").setValue(!comms.isTurnFlag());
+                    .child("playerLastTurn").setValue(comms.getPlayerLastTurn());
             // TODO implement callbacks if necessary
 //                    .addOnSuccessListener(aVoid -> callback.onSuccess(lobbyId))
 //                    .addOnFailureListener(callback::onFailure);
@@ -66,7 +66,7 @@ public class FirebaseGameService implements GameService {
 
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
-            if (snapshot.getValue() instanceof Boolean) listener.onTurnEnd();
+            listener.onTurnEnd(snapshot.getValue(String.class));
         }
 
         @Override

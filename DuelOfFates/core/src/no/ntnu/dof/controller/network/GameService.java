@@ -16,6 +16,6 @@ public interface GameService {
     interface PlayListener {
         void onCardPlayed(Card card);
 
-        void onTurnEnd();
+        void onTurnEnd(String player);
     }
 }

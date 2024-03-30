@@ -6,16 +6,19 @@ import no.ntnu.dof.controller.network.GameService;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.gameplay.card.Card;
+import no.ntnu.dof.model.gameplay.player.Player;
 
 // TODO inherit from visual implementation of PlayerController
 public class RemotePlayerController implements PlayerController, GameService.PlayListener {
+    protected Player player;
     protected Optional<Card> chosen;
     protected boolean played;
 
-    public RemotePlayerController() {
+    public RemotePlayerController(Player player) {
+        this.player = player;
         this.chosen = Optional.empty();
         this.played = false;
-        GameComms comms = ServiceLocator.getGameService().createComms("-NuBZPuG4gkubhYI_FsN");
+        GameComms comms = ServiceLocator.getGameService().createComms("-NuBZPuG4gkubhYI_FsN"); // TODO inject gameId
         ServiceLocator.getGameService().addPlayListener(comms, this);
     }
 
@@ -40,7 +43,8 @@ public class RemotePlayerController implements PlayerController, GameService.Pla
     }
 
     @Override
-    public synchronized void onTurnEnd() {
+    public synchronized void onTurnEnd(String player) {
+        if (!player.equals(this.player.getName())) return;
         chosen = Optional.empty();
         played = true;
         this.notify();
