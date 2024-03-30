@@ -17,12 +17,12 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
     @Override
     public void create() {
         batch = new SpriteBatch();
-      
-		this.setScreen(new MenuScreen(this));
+
+        this.setScreen(new MenuScreen(this));
 
         // TODO remove CLI gameplay demo
         new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2")).gameLoop();
-	}
+    }
 
     @Override
     public void render() {

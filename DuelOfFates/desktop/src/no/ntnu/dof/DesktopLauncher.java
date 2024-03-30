@@ -4,8 +4,10 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.network.AuthCallback;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.desktop.FirebaseAuthImpl;
+import no.ntnu.dof.desktop.FirebaseGameService;
 import no.ntnu.dof.desktop.FirebaseLobbyService;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
@@ -18,6 +20,8 @@ public class DesktopLauncher {
         // Initalize mock services to be able to test UI on desktop
         ServiceLocator.provideAuthService(new FirebaseAuthImpl());
         ServiceLocator.provideLobbyService(new FirebaseLobbyService());
+        ServiceLocator.provideGameService(new FirebaseGameService());
+
         config.setWindowedMode(640, 360);
         new Lwjgl3Application(new DuelOfFates(), config);
     }

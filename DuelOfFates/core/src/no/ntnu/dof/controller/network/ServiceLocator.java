@@ -7,7 +7,8 @@ public class ServiceLocator {
     private static AuthInterface authService;
     @Getter
     private static LobbyService lobbyService;
-    // Other services can be added here
+    @Getter
+    private static GameService gameService;
 
     public static void provideAuthService(AuthInterface authService) {
         ServiceLocator.authService = authService;
@@ -17,6 +18,8 @@ public class ServiceLocator {
         ServiceLocator.lobbyService = lobbyService;
     }
 
-    // Methods for other services go here
+    public static void provideGameService(GameService gameService) {
+        ServiceLocator.gameService = gameService;
+    }
 }
 

@@ -16,4 +16,10 @@ public abstract class Card extends GameplayEntity {
     @Singular private List<Effect> opponentEffects;
 
     private final Mana cost;
+
+    public void flipEffects() {
+        List<Effect> tmp = hostEffects;
+        hostEffects = opponentEffects;
+        opponentEffects = tmp;
+    }
 }

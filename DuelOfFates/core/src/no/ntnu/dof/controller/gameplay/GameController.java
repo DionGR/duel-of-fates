@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import no.ntnu.dof.controller.gameplay.player.HostPlayerController;
+import no.ntnu.dof.controller.gameplay.player.PlayerController;
+import no.ntnu.dof.controller.gameplay.player.RemotePlayerController;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.card.Card;
-import no.ntnu.dof.model.gameplay.player.exception.InsufficientResourcesException;
 import no.ntnu.dof.model.gameplay.player.Player;
+import no.ntnu.dof.model.gameplay.player.exception.InsufficientResourcesException;
 
 public class GameController {
     private final Game game;
@@ -16,8 +19,8 @@ public class GameController {
     public GameController(Player host, Player opponent) {
         this.game = new Game(host, opponent);
         this.playerControllers = new HashMap<>();
-        this.playerControllers.put(host, new CliPlayerController(host));
-        this.playerControllers.put(opponent, new CliPlayerController(opponent));
+        this.playerControllers.put(host, new HostPlayerController(host));
+        this.playerControllers.put(opponent, new RemotePlayerController());
     }
 
     public void gameLoop() {
