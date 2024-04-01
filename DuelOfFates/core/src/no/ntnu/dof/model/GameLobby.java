@@ -1,5 +1,6 @@
 package no.ntnu.dof.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -22,6 +23,9 @@ public class GameLobby {
         this.gameState = gameState;
         this.title = title;
         this.guest = null; // Initially, no guest
+    }
+
+    public <E> GameLobby(String lobbyId, ArrayList<E> es, String waiting) {
     }
 
     // Getters and setters

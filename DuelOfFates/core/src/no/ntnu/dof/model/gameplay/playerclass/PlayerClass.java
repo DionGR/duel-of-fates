@@ -1,5 +1,8 @@
 package no.ntnu.dof.model.gameplay.playerclass;
 
+import javax.inject.Inject;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;

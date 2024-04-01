@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import lombok.Data;
 import no.ntnu.dof.controller.gameplay.GameController;
+import no.ntnu.dof.controller.network.AuthCallback;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.User;
@@ -41,11 +42,22 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         ScreenManager.initialize(this, batch, assetManager);
         ScreenManager.transitionToLogin();
 
-
         // Fetch game lobbies
         this.gameLobbies = new GameLobbies();
+
         // TODO remove CLI gameplay demo
-        // new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2")).gameLoop();
+        ServiceLocator.getAuthService().signIn("p1", "p1", new AuthCallback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+        new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2")).gameLoop();
 	}
 
 
