@@ -2,6 +2,7 @@ package no.ntnu.dof.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -31,9 +32,12 @@ public class LobbiesScreen implements Screen {
     private Sprite soundOn;
     private Sprite soundOff;
     private Sprite backBtn;
+    private AssetManager assetManager;
 
-    public LobbiesScreen(DuelOfFates game) {
+    public LobbiesScreen(DuelOfFates game, SpriteBatch batch, AssetManager assetManager) {
         this.game = game;
+        this.batch = batch;
+        this.assetManager = assetManager;
     }
 
     @Override

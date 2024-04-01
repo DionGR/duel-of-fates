@@ -2,6 +2,7 @@ package no.ntnu.dof.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -34,13 +35,17 @@ public class MenuScreen implements Screen {
     private Label gameTitle;
     private Sprite soundOn;
     private Sprite soundOff;
+    private AssetManager assetManager;
 
-    public MenuScreen(DuelOfFates game) {
+    public MenuScreen(DuelOfFates game, SpriteBatch batch, AssetManager assetManager) {
         this.game = game;
+        this.batch = batch;
+        this.assetManager = assetManager;
     }
 
     @Override
     public void show() {
+        Gdx.app.log("MenuScreen", "show method called");
         // Loading skin
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         stage = new Stage(new ScreenViewport());
@@ -74,14 +79,19 @@ public class MenuScreen implements Screen {
         lobbiesBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.transitionToMenu();
+                game.transitionToLobbies();
             }
         });
 
-        batch = new SpriteBatch();
+        logoutBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.transitionToLogin();
+            }
+        });
 
         // Loading background
-        background = new Sprite(new Texture(Gdx.files.internal("menuBackground.png")));
+        background = new Sprite(assetManager.get("menuBackground.png", Texture.class));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         // Setting sound buttons
