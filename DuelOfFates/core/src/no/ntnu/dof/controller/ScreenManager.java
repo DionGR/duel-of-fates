@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Stack;
+
+import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.view.screens.LoginScreen;
 import no.ntnu.dof.view.screens.MenuScreen;
 import no.ntnu.dof.view.screens.LobbiesScreen;
@@ -41,6 +43,10 @@ public class ScreenManager {
 
     public static void transitionToLobbies() {
         pushScreen(new LobbiesScreen(game, batch, assetManager));
+    }
+
+    public static void transitionToLobby(GameLobby gameLobby) {
+        pushScreen(new LobbyScreen(game, gameLobby));
     }
 
     public static void transitionToLogin() {

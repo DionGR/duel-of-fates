@@ -20,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.ScreenManager;
+import no.ntnu.dof.model.GameLobbies;
+import no.ntnu.dof.model.GameLobby;
 
 public class LobbiesScreen implements Screen {
 
@@ -63,11 +65,18 @@ public class LobbiesScreen implements Screen {
         // Adding content to table
         contentTable.padTop(30);
         contentTable.add(lobbiesTitle).colspan(2).padBottom(30).row();
-        contentTable.add(new TextButton("<Lobby Title>\n<Host Name>", skin, "default")).padRight(10).padBottom(10).width(150).height(50);
-        contentTable.add(new TextButton("<Lobby Title>\n<Host Name>", skin, "default")).padBottom(10).width(150).height(50).row();
-        contentTable.add(new TextButton("<Lobby Title>\n<Host Name>", skin, "default")).padRight(10).padBottom(30).width(150).height(50);
-        contentTable.add(new TextButton("<Lobby Title>\n<Host Name>", skin, "default")).padBottom(30).width(150).height(50);
-
+        GameLobbies gameLobbies = game.getGameLobbies();
+        for (GameLobby lobby : gameLobbies.getLobbies()) {
+            TextButton lobbyButton = new TextButton(lobby.getTitle() + "\n" + lobby.getCreator().getEmail(), skin, "default");
+            lobbyButton.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    ScreenManager.transitionToLobby(lobby);
+                    return true;
+                }
+            });
+            contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
+        }
         stage.addActor(contentTable);
 
         batch = new SpriteBatch();

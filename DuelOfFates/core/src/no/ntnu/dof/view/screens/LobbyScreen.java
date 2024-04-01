@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.model.GameLobby;
 
 public class LobbyScreen implements Screen {
 
@@ -28,10 +29,12 @@ public class LobbyScreen implements Screen {
     private Sprite soundOn;
     private Sprite soundOff;
     private Sprite backBtn;
+    private GameLobby gameLobby;
 
-    public LobbyScreen(DuelOfFates game, String title) {
+    public LobbyScreen(DuelOfFates game, GameLobby gameLobby) {
         this.game = game;
-        this.lobbyTitle = new Label(title, skin, "big");
+        this.gameLobby = gameLobby;
+        this.lobbyTitle = new Label(gameLobby.getTitle(), skin, "big");
     }
 
     @Override
