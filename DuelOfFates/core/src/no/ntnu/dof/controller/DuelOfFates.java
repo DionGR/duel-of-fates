@@ -20,6 +20,7 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         batch = new SpriteBatch();
         assetManager = new AssetManager();
         assetManager.load("menuBackground.png", Texture.class);
+        assetManager.load("backBtn.png", Texture.class);
         assetManager.finishLoading(); // Blocks until all assets are loaded
 
         // Initialize first screen and ScreenManager

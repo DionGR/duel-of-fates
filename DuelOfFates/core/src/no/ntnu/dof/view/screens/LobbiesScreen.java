@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -16,11 +19,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.ScreenManager;
 
 public class LobbiesScreen implements Screen {
 
     private Stage stage;
-    private DuelOfFates game;
     private SpriteBatch batch;
     private Sprite background;
     private Skin skin;
@@ -33,11 +36,12 @@ public class LobbiesScreen implements Screen {
     private Sprite soundOff;
     private Sprite backBtn;
     private AssetManager assetManager;
+    private Rectangle backBtnBounds;
 
-    public LobbiesScreen(DuelOfFates game, SpriteBatch batch, AssetManager assetManager) {
-        this.game = game;
+    public LobbiesScreen(SpriteBatch batch, AssetManager assetManager) {
         this.batch = batch;
         this.assetManager = assetManager;
+        backBtnBounds = new Rectangle();
     }
 
     @Override
@@ -80,6 +84,21 @@ public class LobbiesScreen implements Screen {
         // Setting back button
         backBtn = new Sprite(new Texture(Gdx.files.internal("backBtn.png")));
         backBtn.setSize(50,50);
+        // Setting back button bounds for touch detection
+        backBtnBounds.set(150, Gdx.graphics.getHeight() - backBtn.getHeight() - 20, backBtn.getWidth(), backBtn.getHeight());
+
+        // Add a general input listener to the stage for handling back button clicks
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (backBtnBounds.contains(x, y)) {
+                    // Perform the action associated with the back button
+                    Gdx.app.postRunnable(ScreenManager::popScreen);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         // Setting create lobby button
         createLobbyBtn = new TextButton("Create Lobby", skin, "default");

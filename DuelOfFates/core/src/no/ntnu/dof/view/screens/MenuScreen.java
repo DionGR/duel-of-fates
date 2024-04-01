@@ -25,7 +25,6 @@ import no.ntnu.dof.controller.ScreenManager;
 public class MenuScreen implements Screen {
 
     private Stage stage;
-    private DuelOfFates game;
     private SpriteBatch batch;
     private Sprite background;
     private Skin skin;
@@ -38,8 +37,7 @@ public class MenuScreen implements Screen {
     private Sprite soundOff;
     private AssetManager assetManager;
 
-    public MenuScreen(DuelOfFates game, SpriteBatch batch, AssetManager assetManager) {
-        this.game = game;
+    public MenuScreen(SpriteBatch batch, AssetManager assetManager) {
         this.batch = batch;
         this.assetManager = assetManager;
     }

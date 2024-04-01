@@ -20,13 +20,11 @@ import no.ntnu.dof.controller.network.ServiceLocator;
 
 public class LoginScreen implements Screen {
     private Stage stage;
-    private DuelOfFates game;
     private Label feedbackLabel;
     private SpriteBatch spriteBatch;
     private AssetManager assetManager;
 
-    public LoginScreen(DuelOfFates game, SpriteBatch spriteBatch, AssetManager assetManager) {
-        this.game = game;
+    public LoginScreen(SpriteBatch spriteBatch, AssetManager assetManager) {
         this.spriteBatch = spriteBatch;
         this.assetManager = assetManager;
         initializeUI();
