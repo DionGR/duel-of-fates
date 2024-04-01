@@ -11,9 +11,10 @@ public class GameLobbies {
 
     public GameLobbies(DuelOfFates game) {
         this.lobbies = new ArrayList<>();
+        this.game = game;
         // Mock some data
         lobbies.add(new GameLobby("1", game.getCurrentUser(), "waiting"));
-        // lobbies.add(new GameLobby("2", new User("id", "name"), "started"));
+        lobbies.add(new GameLobby("2", new User("testID", ""), "started"));
     }
 }
 
