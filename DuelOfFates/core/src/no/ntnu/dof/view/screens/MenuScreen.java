@@ -2,6 +2,7 @@ package no.ntnu.dof.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -18,12 +19,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.ScreenManager;
 
 
 public class MenuScreen implements Screen {
 
     private Stage stage;
-    private DuelOfFates game;
     private SpriteBatch batch;
     private Sprite background;
     private Skin skin;
@@ -34,13 +35,18 @@ public class MenuScreen implements Screen {
     private Label gameTitle;
     private Sprite soundOn;
     private Sprite soundOff;
+    private AssetManager assetManager;
+    private DuelOfFates game;
 
-    public MenuScreen(DuelOfFates game) {
+    public MenuScreen(DuelOfFates game, SpriteBatch batch, AssetManager assetManager) {
+        this.batch = batch;
+        this.assetManager = assetManager;
         this.game = game;
     }
 
     @Override
     public void show() {
+        Gdx.app.log("MenuScreen", "show method called");
         // Loading skin
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         stage = new Stage(new ScreenViewport());
@@ -55,8 +61,6 @@ public class MenuScreen implements Screen {
         lobbiesBtn = new TextButton("Game Lobbies", skin, "default");
         tutorialBtn = new TextButton("Tutorial", skin, "default");
         logoutBtn = new TextButton("Log out", skin, "default");
-
-        lobbiesBtn.setSize(150,100);
 
 //        for (Actor btn:contentTable.getChildren()) {
 //            btn.setHeight(50);
@@ -73,19 +77,22 @@ public class MenuScreen implements Screen {
         stage.addActor(contentTable);
 
 
-        //
-//        lobbiesBtn.addListener(new ClickListener() {
-//            @Override
-//            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-//                System.out.println("test");
-//                super.touchUp(event, x, y, pointer, button);
-//            }
-//        });
+        lobbiesBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenManager.transitionToLobbies();
+            }
+        });
 
-        batch = new SpriteBatch();
+        logoutBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenManager.transitionToLogin();
+            }
+        });
 
         // Loading background
-        background = new Sprite(new Texture(Gdx.files.internal("menuBackground.png")));
+        background = new Sprite(assetManager.get("menuBackground.png", Texture.class));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         // Setting sound buttons

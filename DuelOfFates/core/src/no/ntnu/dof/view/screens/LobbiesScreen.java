@@ -2,10 +2,14 @@ package no.ntnu.dof.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,25 +19,32 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.ScreenManager;
+import no.ntnu.dof.model.GameLobbies;
+import no.ntnu.dof.model.GameLobby;
 
 public class LobbiesScreen implements Screen {
 
     private Stage stage;
-    private DuelOfFates game;
     private SpriteBatch batch;
     private Sprite background;
     private Skin skin;
     private Table contentTable;
     private TextButton lobbyBtn;
-
     private TextButton createLobbyBtn;
     private Label lobbiesTitle;
     private Sprite soundOn;
     private Sprite soundOff;
     private Sprite backBtn;
+    private AssetManager assetManager;
+    private Rectangle backBtnBounds;
+    private DuelOfFates game;
 
-    public LobbiesScreen(DuelOfFates game) {
+    public LobbiesScreen(DuelOfFates game, SpriteBatch batch, AssetManager assetManager) {
+        this.batch = batch;
+        this.assetManager = assetManager;
         this.game = game;
+        backBtnBounds = new Rectangle();
     }
 
     @Override
@@ -54,11 +65,18 @@ public class LobbiesScreen implements Screen {
         // Adding content to table
         contentTable.padTop(30);
         contentTable.add(lobbiesTitle).colspan(2).padBottom(30).row();
-        contentTable.add(new TextButton("<Lobby Title>\n<Host Name>", skin, "default")).padRight(10).padBottom(10).width(150).height(50);
-        contentTable.add(new TextButton("<Lobby Title>\n<Host Name>", skin, "default")).padBottom(10).width(150).height(50).row();
-        contentTable.add(new TextButton("<Lobby Title>\n<Host Name>", skin, "default")).padRight(10).padBottom(30).width(150).height(50);
-        contentTable.add(new TextButton("<Lobby Title>\n<Host Name>", skin, "default")).padBottom(30).width(150).height(50);
-
+        GameLobbies gameLobbies = game.getGameLobbies();
+        for (GameLobby lobby : gameLobbies.getLobbies()) {
+            TextButton lobbyButton = new TextButton(lobby.getTitle() + "\n" + lobby.getCreator().getEmail(), skin, "default");
+            lobbyButton.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    ScreenManager.transitionToLobby(lobby);
+                    return true;
+                }
+            });
+            contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
+        }
         stage.addActor(contentTable);
 
         batch = new SpriteBatch();
@@ -76,6 +94,21 @@ public class LobbiesScreen implements Screen {
         // Setting back button
         backBtn = new Sprite(new Texture(Gdx.files.internal("backBtn.png")));
         backBtn.setSize(50,50);
+        // Setting back button bounds for touch detection
+        backBtnBounds.set(150, Gdx.graphics.getHeight() - backBtn.getHeight() - 20, backBtn.getWidth(), backBtn.getHeight());
+
+        // Add a general input listener to the stage for handling back button clicks
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (backBtnBounds.contains(x, y)) {
+                    // Perform the action associated with the back button
+                    Gdx.app.postRunnable(ScreenManager::popScreen);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         // Setting create lobby button
         createLobbyBtn = new TextButton("Create Lobby", skin, "default");
