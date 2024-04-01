@@ -19,6 +19,7 @@ public class GameController {
     public GameController(Player host, Player opponent) {
         this.game = new Game(host, opponent);
         this.playerControllers = new HashMap<>();
+
         this.playerControllers.put(host, new HostPlayerController(host));
         this.playerControllers.put(opponent, new RemotePlayerController(opponent));
     }
@@ -38,7 +39,6 @@ public class GameController {
             } else {
                 game.finalizeTurn();
             }
-
         }
     }
 }

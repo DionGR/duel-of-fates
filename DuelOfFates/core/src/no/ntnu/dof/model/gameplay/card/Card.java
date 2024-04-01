@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;
-import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 @Getter
