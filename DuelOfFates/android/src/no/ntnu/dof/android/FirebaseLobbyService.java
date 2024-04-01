@@ -1,4 +1,4 @@
-package no.ntnu.dof;
+package no.ntnu.dof.android;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
