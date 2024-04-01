@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import no.ntnu.dof.controller.network.AuthCallback;
 import no.ntnu.dof.controller.network.AuthInterface;
+import no.ntnu.dof.model.User;
 
 public class FirebaseAuthImpl implements AuthInterface {
     private boolean appInitialized = false;
@@ -30,6 +31,13 @@ public class FirebaseAuthImpl implements AuthInterface {
         FirebaseApp.initializeApp(options.build());
         appInitialized = true;
         callback.onSuccess();
+    }
+
+    // TODO: Fetch User from Firebase and create User object
+    // Dummy function
+    @Override
+    public User createGameUserFromFirebaseUser() {
+        return new User("dummyID", "desktopdummymail@gmail.com");
     }
 }
 
