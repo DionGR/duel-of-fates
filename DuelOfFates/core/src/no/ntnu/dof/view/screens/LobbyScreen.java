@@ -29,8 +29,9 @@ public class LobbyScreen implements Screen {
     private Sprite soundOff;
     private Sprite backBtn;
 
-    public LobbyScreen(DuelOfFates game) {
+    public LobbyScreen(DuelOfFates game, String title) {
         this.game = game;
+        this.lobbyTitle = new Label(title, skin, "big");
     }
 
     @Override
@@ -44,8 +45,6 @@ public class LobbyScreen implements Screen {
         contentTable.setWidth(stage.getWidth());
         contentTable.align(Align.center|Align.top);
         contentTable.setPosition(0, Gdx.graphics.getHeight());
-
-        lobbyTitle = new Label("<Lobby Title>", skin, "big");
 
         // Adding content to table
         contentTable.padTop(30);

@@ -17,16 +17,19 @@ import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.ScreenManager;
 import no.ntnu.dof.controller.network.AuthCallback;
 import no.ntnu.dof.controller.network.ServiceLocator;
+import no.ntnu.dof.model.User;
 
 public class LoginScreen implements Screen {
     private Stage stage;
     private Label feedbackLabel;
     private SpriteBatch spriteBatch;
     private AssetManager assetManager;
+    private DuelOfFates game;
 
-    public LoginScreen(SpriteBatch spriteBatch, AssetManager assetManager) {
+    public LoginScreen(DuelOfFates game, SpriteBatch spriteBatch, AssetManager assetManager) {
         this.spriteBatch = spriteBatch;
         this.assetManager = assetManager;
+        this.game = game;
         initializeUI();
     }
 
@@ -65,7 +68,7 @@ public class LoginScreen implements Screen {
             ServiceLocator.getAuthService().signIn(email, password, new AuthCallback() {
                 @Override
                 public void onSuccess() {
-                    Gdx.app.postRunnable(ScreenManager::transitionToMenu);
+                    game.loginSuccess();
                 }
 
                 @Override

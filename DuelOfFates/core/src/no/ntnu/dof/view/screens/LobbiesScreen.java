@@ -29,7 +29,6 @@ public class LobbiesScreen implements Screen {
     private Skin skin;
     private Table contentTable;
     private TextButton lobbyBtn;
-
     private TextButton createLobbyBtn;
     private Label lobbiesTitle;
     private Sprite soundOn;
@@ -37,10 +36,12 @@ public class LobbiesScreen implements Screen {
     private Sprite backBtn;
     private AssetManager assetManager;
     private Rectangle backBtnBounds;
+    private DuelOfFates game;
 
-    public LobbiesScreen(SpriteBatch batch, AssetManager assetManager) {
+    public LobbiesScreen(DuelOfFates game, SpriteBatch batch, AssetManager assetManager) {
         this.batch = batch;
         this.assetManager = assetManager;
+        this.game = game;
         backBtnBounds = new Rectangle();
     }
 

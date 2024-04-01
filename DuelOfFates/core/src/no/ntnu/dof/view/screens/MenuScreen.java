@@ -36,10 +36,12 @@ public class MenuScreen implements Screen {
     private Sprite soundOn;
     private Sprite soundOff;
     private AssetManager assetManager;
+    private DuelOfFates game;
 
-    public MenuScreen(SpriteBatch batch, AssetManager assetManager) {
+    public MenuScreen(DuelOfFates game, SpriteBatch batch, AssetManager assetManager) {
         this.batch = batch;
         this.assetManager = assetManager;
+        this.game = game;
     }
 
     @Override

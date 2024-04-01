@@ -36,15 +36,15 @@ public class ScreenManager {
 
     // Transition methods
     public static void transitionToMenu() {
-        pushScreen(new MenuScreen(batch, assetManager));
+        pushScreen(new MenuScreen(game, batch, assetManager));
     }
 
     public static void transitionToLobbies() {
-        pushScreen(new LobbiesScreen(batch, assetManager));
+        pushScreen(new LobbiesScreen(game, batch, assetManager));
     }
 
     public static void transitionToLogin() {
-        pushScreen(new LoginScreen(batch, assetManager));
+        pushScreen(new LoginScreen(game, batch, assetManager));
     }
 }
 

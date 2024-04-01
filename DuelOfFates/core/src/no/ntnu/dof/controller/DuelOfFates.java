@@ -5,13 +5,20 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.ntnu.dof.controller.gameplay.GameController;
+import no.ntnu.dof.controller.network.ServiceLocator;
+import no.ntnu.dof.model.User;
+import lombok.Getter;
+import lombok.Setter;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.view.screens.LoginScreen;
-
 
 public class DuelOfFates extends com.badlogic.gdx.Game {
     SpriteBatch batch;
     AssetManager assetManager;
+
+    @Getter
+    @Setter
+    private User currentUser;
 
 	public DuelOfFates() {}
 
@@ -30,6 +37,16 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         // TODO remove CLI gameplay demo
         // new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2")).gameLoop();
 	}
+
+    public void loginSuccess() {
+        // Simulate user creation based on email for this example
+        this.currentUser = ServiceLocator.getAuthService().createGameUserFromFirebaseUser();
+
+        // Navigate to the menu screen
+        Gdx.app.postRunnable(() -> {
+            ScreenManager.transitionToMenu();
+        });
+    }
 
     @Override
     public void render() {
