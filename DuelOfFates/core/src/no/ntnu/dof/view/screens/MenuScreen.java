@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.ScreenManager;
 
 
 public class MenuScreen implements Screen {
@@ -79,14 +80,14 @@ public class MenuScreen implements Screen {
         lobbiesBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.transitionToLobbies();
+                ScreenManager.transitionToLobbies();
             }
         });
 
         logoutBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.transitionToLogin();
+                ScreenManager.transitionToLogin();
             }
         });
 

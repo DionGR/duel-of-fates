@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.ScreenManager;
 import no.ntnu.dof.controller.network.AuthCallback;
 import no.ntnu.dof.controller.network.ServiceLocator;
 
@@ -66,7 +67,7 @@ public class LoginScreen implements Screen {
             ServiceLocator.getAuthService().signIn(email, password, new AuthCallback() {
                 @Override
                 public void onSuccess() {
-                    Gdx.app.postRunnable(() -> game.transitionToMenu());
+                    Gdx.app.postRunnable(ScreenManager::transitionToMenu);
                 }
 
                 @Override
