@@ -17,7 +17,7 @@ public class CardModule {
         return AttackCard.builder()
                 .name("attack_1")
                 .cost(new Mana(3))
-                .opponentEffectName("damage")
+                .opponentEffectName("damageEffect")
                 .build();
     }
 

@@ -24,7 +24,9 @@ public class HostPlayerController extends CliPlayerController {
     @Override
     public Optional<Card> choosePlay() {
         Optional<Card> play = super.choosePlay();
+
         ServiceLocator.getGameService().playCard(comms, play);
+
         return play;
     }
 }

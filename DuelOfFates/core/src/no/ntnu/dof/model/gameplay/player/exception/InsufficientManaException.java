@@ -7,7 +7,7 @@ import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 
 @AllArgsConstructor
-public class InsufficientResourcesException extends Exception {
+public class InsufficientManaException extends Exception {
     private final Player player;
     private final Card card;
 

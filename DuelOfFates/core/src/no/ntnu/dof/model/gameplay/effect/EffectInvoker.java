@@ -1,5 +1,6 @@
 package no.ntnu.dof.model.gameplay.effect;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -10,8 +11,8 @@ import no.ntnu.dof.model.gameplay.player.Player;
 public class EffectInvoker<K, V extends Effect> {
     private final Map<K, V> effects;
 
-    public EffectInvoker(Map<K, V> effects) {
-        this.effects = effects;
+    public EffectInvoker() {
+        this.effects = new HashMap<>();
     }
 
     public void register(K key, V effect) {
