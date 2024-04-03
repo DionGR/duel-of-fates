@@ -29,11 +29,13 @@ public class RemotePlayerController implements PlayerController, GameService.Pla
     @Override
     public synchronized Optional<Card> choosePlay() {
         played = false;
+
         while (!played) {
             try {
                 this.wait();
             } catch (InterruptedException ignored) {}
         }
+
         played = false;
         return chosen;
     }
@@ -43,6 +45,7 @@ public class RemotePlayerController implements PlayerController, GameService.Pla
         card.flipEffects();
         chosen = Optional.of(card);
         played = true;
+
         this.notify();
     }
 

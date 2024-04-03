@@ -10,6 +10,5 @@ import no.ntnu.dof.model.di.PlayerClassModule;
 @Component(modules = PlayerClassModule.class)
 public interface GameControllerComponent {
 
-
     void inject(GameController gameController);
 }

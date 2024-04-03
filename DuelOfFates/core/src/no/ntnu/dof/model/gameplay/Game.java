@@ -64,10 +64,8 @@ public class Game {
 
         host.cardPlayedEvent.fire(card);
 
-        System.out.println("card fired");
         card.getHostEffectNames().forEach(e -> effectInvoker.invoke(e, host));
         card.getOpponentEffectNames().forEach(e -> effectInvoker.invoke(e, opponent));
-        System.out.println("effects applied");
     }
 
     public void finalizeTurn() {

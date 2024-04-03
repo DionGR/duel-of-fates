@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import no.ntnu.dof.controller.gameplay.di.DaggerGameControllerComponent;
 import no.ntnu.dof.controller.gameplay.di.GameControllerComponent;
+import no.ntnu.dof.controller.gameplay.player.CliPlayerController;
 import no.ntnu.dof.controller.gameplay.player.HostPlayerController;
 import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.controller.gameplay.player.RemotePlayerController;
@@ -41,12 +42,14 @@ public class GameController {
                 turnCard = currentPlayerController.choosePlay();
             } else {
                 turnCard = Optional.empty();
+                System.out.println("Player cannot afford to play any card, finalizing turn.");
             }
 
             if (turnCard.isPresent()) {
                 game.playCard(turnCard.get());
             } else {
                 game.finalizeTurn();
+                System.out.println("Turn finalized.");
             }
         }
     }
