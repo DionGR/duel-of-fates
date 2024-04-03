@@ -5,7 +5,7 @@ android {
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = [ "src/", "../core/src" ]
+            java.srcDirs = [ "src/" ]
             aidl.srcDirs = ['src']
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
@@ -34,6 +34,9 @@ android {
 }
 
 dependencies {
+    implementation 'org.slf4j:slf4j-api:2.1.0-alpha1'
+    implementation 'org.slf4j:slf4j-simple:2.1.0-alpha1'
+
     // Annotation Processor - Lombok
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
