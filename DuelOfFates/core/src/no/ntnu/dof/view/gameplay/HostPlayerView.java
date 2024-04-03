@@ -6,6 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.Image;
 
@@ -15,9 +20,11 @@ public class HostPlayerView extends PlayerView{
     private Group handView;
     private Image deckView;
     private Image discardView;
+    private Player player;
 
     public HostPlayerView(Player player) {
         super(player);
+        this.player = player;
         this.setPosition((float) Gdx.graphics.getWidth()/4 - (float) this.getGraphics().getWidth()/2, Gdx.graphics.getHeight()*0.6f);
 
         this.getManaPool().setPosition(-this.getManaGraphics().getWidth()-10, this.getGraphics().getHeight()/2-this.getManaGraphics().getHeight()/2);
@@ -49,6 +56,24 @@ public class HostPlayerView extends PlayerView{
     }
 
     public void draw(Batch batch, float parentAlpha) {
+        updateHandView();
+        updateManaView();
         super.draw(batch, parentAlpha);
     }
+
+    public void updateManaView(){
+        this.getManaText().setText(Integer.toString(player.getMana().getValue()));
+    }
+
+    public void updateHandView(){
+        handView.clear();
+        List<Card> temporaryList = new ArrayList<>(player.getHand().getCards());
+        //has to use iterator to avoid ConcurrentModificationException
+        for(Iterator<Card> iterator = temporaryList.iterator(); iterator.hasNext();){
+            Card c = iterator.next();
+            handView.addActor(new CardView(0.3f, c, handView.getChildren().size));
+        }
+        handView.setPosition(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 5);
+    }
+
 }

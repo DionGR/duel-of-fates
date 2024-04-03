@@ -7,6 +7,7 @@ import java.util.Optional;
 import lombok.Getter;
 import no.ntnu.dof.controller.gameplay.player.CliPlayerController;
 import no.ntnu.dof.controller.gameplay.player.PlayerController;
+import no.ntnu.dof.controller.gameplay.player.TestClickPlayerController;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.exception.InsufficientResourcesException;
@@ -20,7 +21,7 @@ public class GameController {
     public GameController(Player host, Player opponent) {
         this.game = new Game(host, opponent);
         this.playerControllers = new HashMap<>();
-        this.playerControllers.put(host, new CliPlayerController(host));
+        this.playerControllers.put(host, TestClickPlayerController.get());
         this.playerControllers.put(opponent, new CliPlayerController(opponent));
     }
 

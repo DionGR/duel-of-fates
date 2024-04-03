@@ -2,15 +2,15 @@ package no.ntnu.dof.view.gameplay;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
+import java.util.Optional;
+
 import lombok.Getter;
+import no.ntnu.dof.controller.gameplay.player.TestClickPlayerController;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.view.Image;
@@ -25,10 +25,11 @@ public class CardView extends Image {
         this.card = card;
         this.setPosition(((float) 2 * this.getWidth()/3)*i, 0);
         this.setBounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-        this.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println( ((CardView)event.getListenerActor()).getCard().getName() + " clicked");
-                return true;
+        this.addListener(new ClickListener() {
+            @Override
+            public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                TestClickPlayerController.setPlay(Optional.of(card));
+                return super.touchDown(event, x, y, pointer, button);
             }
         } );
 
@@ -53,18 +54,12 @@ public class CardView extends Image {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        // Draw the image
         super.draw(batch, parentAlpha);
     }
 
     @Override
-    public void act(float delta) {
-        super.act(delta);
-        for (EventListener listener : getListeners()) {
-            if(listener instanceof ClickListener) {
-                System.out.println("Card clicked");
-            }
-        }
+    public boolean remove () {
+        return super.remove();
     }
 
 }

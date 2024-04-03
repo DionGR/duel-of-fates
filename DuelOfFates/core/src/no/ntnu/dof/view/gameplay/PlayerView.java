@@ -54,12 +54,6 @@ public class PlayerView extends Group {
         ShapeDrawer.end();
 
         batch.begin();
-        /*
-        BitmapFont font = new BitmapFont();
-        font.setColor(0.8f, 0.2f, 0.2f, 1);
-        font.getData().setScale(2);
-        font.draw(batch, Integer.toString(player.getMana().getValue()), manaPool.getX()+manaPool.getWidth()*0.4f,manaPool.getHeight()*0.30f);
-        */
     }
 
 }
