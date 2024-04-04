@@ -17,7 +17,7 @@ public class FirebaseLobbyService implements LobbyService {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         // DatabaseReference databaseReference = database.getReferenceFromUrl("https://duel-of-fates-default-rtdb.europe-west1.firebasedatabase.app/");
         String lobbyId = databaseReference.child("lobbies").push().getKey();
-        GameLobby lobby = new GameLobby(lobbyId, user, "waiting", title);
+        GameLobby lobby = new GameLobby(lobbyId, user, title);
         databaseReference.child("lobbies").child(lobbyId).setValue(lobby)
                 .addOnSuccessListener(aVoid -> callback.onSuccess(lobbyId))
                 .addOnFailureListener(callback::onFailure);

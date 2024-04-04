@@ -14,7 +14,7 @@ public class FirebaseLobbyService implements LobbyService {
     public void createLobby(LobbyCreationCallback callback, User user, String title) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         String lobbyId = databaseReference.child("lobbies").push().getKey();
-        GameLobby lobby = new GameLobby(lobbyId, user, "waiting", title);
+        GameLobby lobby = new GameLobby(lobbyId, user, title);
         databaseReference.child("lobbies").child(lobbyId).setValue(lobby, (error, ref) -> {
             if (error == null) callback.onSuccess(lobbyId);
             else callback.onFailure(error.toException());

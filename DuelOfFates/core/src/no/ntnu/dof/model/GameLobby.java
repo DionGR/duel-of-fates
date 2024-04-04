@@ -16,14 +16,12 @@ public class GameLobby {
         // Default constructor for serialization
     }
 
-    public GameLobby(String lobbyId, User creator, String gameState, String title) {
+    public GameLobby(String lobbyId, User creator, String title) {
         this.lobbyId = lobbyId;
         this.creator = creator;
         this.gameState = gameState;
         this.title = title;
         this.guest = null; // Initially, no guest
     }
-
-    // Getters and setters
 }
 
