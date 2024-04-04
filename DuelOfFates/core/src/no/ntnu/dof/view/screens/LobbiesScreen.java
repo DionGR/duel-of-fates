@@ -178,7 +178,27 @@ public class LobbiesScreen implements Screen {
         game.getGameLobbies().addLobby(newLobby);
 
         // Refresh the UI to show the new lobby
+        updateLobbiesList();
     }
+
+    private void updateLobbiesList() {
+        // Clear the existing content but preserve the title
+        contentTable.clearChildren();
+        contentTable.add(lobbiesTitle).colspan(2).padBottom(30).row();
+
+        // Re-add each lobby as a button
+        for (GameLobby lobby : game.getGameLobbies().getLobbies()) {
+            TextButton lobbyButton = new TextButton(lobby.getTitle() + "\n" + lobby.getCreator().getEmail(), skin, "default");
+            lobbyButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    ScreenManager.transitionToLobby(lobby);
+                }
+            });
+            contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
+        }
+    }
+
 
     @Override
     public void render(float delta) {
