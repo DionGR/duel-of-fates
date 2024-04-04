@@ -17,11 +17,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.ScreenManager;
 import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.GameLobby;
+import no.ntnu.dof.model.User;
 
 public class LobbiesScreen implements Screen {
 
@@ -112,8 +116,68 @@ public class LobbiesScreen implements Screen {
 
         // Setting create lobby button
         createLobbyBtn = new TextButton("Create Lobby", skin, "default");
+        createLobbyBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showCreateLobbyDialog();
+            }
+        });
+
+        // Add the button directly to the stage
+        stage.addActor(createLobbyBtn);
+
+        // Positioning the create lobby button at the top right with some margin
+        float margin = 20; // Adjust the margin value as needed
+        float buttonX = Gdx.graphics.getWidth() - createLobbyBtn.getWidth() - margin;
+        float buttonY = Gdx.graphics.getHeight() - createLobbyBtn.getHeight() - margin;
+
+        createLobbyBtn.setPosition(buttonX, buttonY);
+
 
         Gdx.input.setInputProcessor(stage);
+    }
+
+    private void showCreateLobbyDialog() {
+        Dialog dialog = new Dialog("Create Lobby", skin) {
+            @Override
+            protected void result(Object object) {
+                boolean isConfirmed = (Boolean) object;
+                if (isConfirmed) {
+                    String lobbyTitle = ((TextField) findActor("lobbyTitleField")).getText();
+                    createNewLobby(lobbyTitle);
+                }
+                this.hide();
+            }
+        };
+        dialog.padTop(30).padBottom(30);
+
+        TextField lobbyTitleField = new TextField("", skin);
+        lobbyTitleField.setMessageText("Enter Lobby Title");
+        lobbyTitleField.setName("lobbyTitleField");
+        dialog.getContentTable().add(lobbyTitleField).width(200);
+
+        TextButton btnCancel = new TextButton("Cancel", skin);
+        btnCancel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                dialog.hide();
+            }
+        });
+
+        dialog.button(btnCancel, false); // false - do not create a new lobby
+
+        TextButton btnConfirm = new TextButton("Confirm", skin);
+        dialog.button(btnConfirm, true); // true - confirm and create a new lobby
+
+        dialog.show(stage);
+    }
+
+    private void createNewLobby(String title) {
+        User currentUser = game.getCurrentUser();
+        GameLobby newLobby = new GameLobby("dummyID", currentUser, title);
+        game.getGameLobbies().addLobby(newLobby);
+
+        // Refresh the UI to show the new lobby
     }
 
     @Override
