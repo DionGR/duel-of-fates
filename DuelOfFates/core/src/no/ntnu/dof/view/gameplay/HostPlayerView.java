@@ -5,11 +5,16 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
+import no.ntnu.dof.controller.gameplay.player.TestClickPlayerController;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.Image;
@@ -50,6 +55,18 @@ public class HostPlayerView extends PlayerView{
         discardView = new Image("./assets/Card_back.png", 0.25f);
         discardView.setPosition((float)Gdx.graphics.getWidth()-discardView.getWidth(),0);
         hostInterface.addActor(discardView);
+
+        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        TextButton endTurnButton = new TextButton("End Turn", skin, "default");
+        endTurnButton.addListener(new ClickListener() {
+            @Override
+            public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                TestClickPlayerController.setPlay(Optional.empty());
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        } );
+        endTurnButton.setPosition(discardView.getX()*0.9f, (discardView.getY()+discardView.getHeight())*1.5f);
+        hostInterface.addActor(endTurnButton);
 
         this.addActor(hostInterface);
         hostInterface.setPosition(-this.getX(),-this.getY());
