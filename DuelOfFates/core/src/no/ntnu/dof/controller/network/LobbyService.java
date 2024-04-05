@@ -10,6 +10,8 @@ public interface LobbyService {
 
     void listenForLobbyChanges(LobbyChangeListener listener);
 
+    void joinLobby(LobbyJoinCallback callback, GameLobby gameLobby, User user);
+
     interface LobbyCreationCallback {
         void onSuccess(GameLobby gameLobby);
         void onFailure(Throwable throwable);
@@ -17,6 +19,11 @@ public interface LobbyService {
 
     interface LobbyChangeListener {
         void onLobbiesUpdated(List<GameLobby> lobbies);
+    }
+
+    interface LobbyJoinCallback {
+        void onSuccess();
+        void onFailure(Throwable throwable);
     }
 
 }

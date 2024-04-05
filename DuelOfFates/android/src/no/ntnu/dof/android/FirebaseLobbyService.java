@@ -54,4 +54,15 @@ public class FirebaseLobbyService implements LobbyService {
             }
         });
     }
+
+    @Override
+    public void joinLobby(LobbyJoinCallback callback, GameLobby gameLobby, User user) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference lobbyRef = databaseReference.child("lobbies").child(gameLobby.getLobbyId());
+
+        lobbyRef.child("guest").setValue(user)
+                .addOnSuccessListener(aVoid -> callback.onSuccess())
+                .addOnFailureListener(callback::onFailure);
+    }
+
 }
