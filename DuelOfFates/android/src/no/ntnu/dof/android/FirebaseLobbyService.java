@@ -12,14 +12,22 @@ import no.ntnu.dof.model.User;
 public class FirebaseLobbyService implements LobbyService {
 
     @Override
-    public void createLobby(LobbyCreationCallback callback, User user, String title) {
-        // FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public void createLobby(LobbyCreationCallback callback, GameLobby lobby) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        // DatabaseReference databaseReference = database.getReferenceFromUrl("https://duel-of-fates-default-rtdb.europe-west1.firebasedatabase.app/");
-        String lobbyId = databaseReference.child("lobbies").push().getKey();
-        GameLobby lobby = new GameLobby(lobbyId, user, title);
-        databaseReference.child("lobbies").child(lobbyId).setValue(lobby)
-                .addOnSuccessListener(aVoid -> callback.onSuccess(lobbyId))
-                .addOnFailureListener(callback::onFailure);
+        DatabaseReference newLobbyRef = databaseReference.child("lobbies").push(); // This generates a new unique key
+
+        // Set lobbyId to the new unique key
+        String lobbyId = newLobbyRef.getKey();
+        lobby.setLobbyId(lobbyId);
+
+        // Save the lobby object, now including the lobbyId, to Firebase
+        newLobbyRef.setValue(lobby)
+                .addOnSuccessListener(aVoid -> {
+                    callback.onSuccess(lobby);
+                })
+                .addOnFailureListener(e -> {
+                    callback.onFailure(e);
+                });
     }
+
 }

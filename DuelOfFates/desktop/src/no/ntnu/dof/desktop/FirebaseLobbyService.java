@@ -11,13 +11,21 @@ import no.ntnu.dof.model.User;
 
 public class FirebaseLobbyService implements LobbyService {
     @Override
-    public void createLobby(LobbyCreationCallback callback, User user, String title) {
+    public void createLobby(LobbyCreationCallback callback, GameLobby lobby) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        String lobbyId = databaseReference.child("lobbies").push().getKey();
-        GameLobby lobby = new GameLobby(lobbyId, user, title);
-        databaseReference.child("lobbies").child(lobbyId).setValue(lobby, (error, ref) -> {
-            if (error == null) callback.onSuccess(lobbyId);
-            else callback.onFailure(error.toException());
+        DatabaseReference newLobbyRef = databaseReference.child("lobbies").push(); // This generates a new unique key
+
+        // Retrieve the unique key and set it as the lobbyId
+        String lobbyId = newLobbyRef.getKey();
+        lobby.setLobbyId(lobbyId);
+
+        // Upload the complete lobby object including the lobbyId
+        newLobbyRef.setValue(lobby, (databaseError, databaseReference1) -> {
+            if (databaseError == null) {
+                callback.onSuccess(lobby);
+            } else {
+                callback.onFailure(databaseError.toException());
+            }
         });
     }
 }

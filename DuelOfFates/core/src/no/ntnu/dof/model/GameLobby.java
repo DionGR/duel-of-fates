@@ -3,6 +3,7 @@ package no.ntnu.dof.model;
 import java.util.List;
 
 import lombok.Data;
+import lombok.Setter;
 
 @Data
 public class GameLobby {
@@ -16,12 +17,20 @@ public class GameLobby {
         // Default constructor for serialization
     }
 
-    public GameLobby(String lobbyId, User creator, String title) {
+    public GameLobby(User creator, String title) {
+        this.lobbyId = null;
+        this.creator = creator;
+        this.gameState = "waiting";
+        this.title = title;
+        this.guest = null; // Initially, no guest
+    }
+
+    public GameLobby(String lobbyId, User creator, String title, String gameState, User guest) {
         this.lobbyId = lobbyId;
         this.creator = creator;
         this.gameState = gameState;
         this.title = title;
-        this.guest = null; // Initially, no guest
+        this.guest = guest;
     }
 }
 

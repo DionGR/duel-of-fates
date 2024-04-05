@@ -23,6 +23,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.ScreenManager;
+import no.ntnu.dof.controller.network.LobbyService;
+import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
@@ -174,11 +176,20 @@ public class LobbiesScreen implements Screen {
 
     private void createNewLobby(String title) {
         User currentUser = game.getCurrentUser();
-        GameLobby newLobby = new GameLobby("dummyID", currentUser, title);
-        game.getGameLobbies().addLobby(newLobby);
+        GameLobby newLobby = new GameLobby(currentUser, title);
+        ServiceLocator.getLobbyService().createLobby(new LobbyService.LobbyCreationCallback() {
+            @Override
+            public void onSuccess(GameLobby lobby) {
+                game.getGameLobbies().addLobby(newLobby);
+                updateLobbiesList();
+            }
 
+            @Override
+            public void onFailure(Throwable throwable) {
+                // Handle failure, e.g., show an error message
+            }
+        }, newLobby);
         // Refresh the UI to show the new lobby
-        updateLobbiesList();
     }
 
     private void updateLobbiesList() {

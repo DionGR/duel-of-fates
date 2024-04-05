@@ -13,8 +13,8 @@ public class GameLobbies {
     public GameLobbies() {
         this.lobbies = new ArrayList<>();
         // Mock some data
-        lobbies.add(new GameLobby("1", new User("test2", "obiwan@gmail.com"), "Epic Match"));
-        lobbies.add(new GameLobby("2", new User("testID", "darthmaul@gmail.com"), "Phantom Menace"));
+        lobbies.add(new GameLobby(new User("test2", "obiwan@gmail.com"), "Epic Match"));
+        lobbies.add(new GameLobby(new User("testID", "darthmaul@gmail.com"), "Phantom Menace"));
     }
 
     public void addLobby(GameLobby lobby) {
