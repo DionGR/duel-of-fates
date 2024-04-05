@@ -7,7 +7,7 @@ import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 
 public class CliPlayerController implements PlayerController {
-    private final Player player;
+    protected final Player player;
     private final Scanner scanner = new Scanner(System.in);
 
     public CliPlayerController(Player player) {

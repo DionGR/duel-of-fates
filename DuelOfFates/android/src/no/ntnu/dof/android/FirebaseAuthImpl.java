@@ -1,8 +1,11 @@
-package no.ntnu.dof;
+package no.ntnu.dof.android;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import no.ntnu.dof.controller.network.AuthCallback;
 import no.ntnu.dof.controller.network.AuthInterface;
+import no.ntnu.dof.model.User;
 
 public class FirebaseAuthImpl implements AuthInterface {
     @Override
@@ -15,6 +18,19 @@ public class FirebaseAuthImpl implements AuthInterface {
                         callback.onError(task.getException().getMessage());
                     }
                 });
+    }
+
+    @Override
+    public User createGameUserFromFirebaseUser() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Get the unique user ID from the FirebaseUser object
+            String userId = user.getUid();
+            String userMail = user.getEmail();
+            return new User(userId, userMail);
+        } else {
+            return null;
+        }
     }
 }
 

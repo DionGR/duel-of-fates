@@ -1,24 +1,31 @@
 package no.ntnu.dof.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
 
-// BASIC AND UNFINISHED GAME LOBBY CLASS
 @Data
 public class GameLobby {
     private String lobbyId;
-    private List<String> players;
+    private User creator;
+    private User guest; // This can be null if no guest has joined
     private String gameState; // e.g., waiting, started, finished
+    private String title;
 
     public GameLobby() {
-        // Default constructor required for calls to DataSnapshot.getValue(GameLobby.class)
+        // Default constructor for serialization
     }
 
-    public GameLobby(String lobbyId, List<String> players, String gameState) {
+    public GameLobby(String lobbyId, User creator, String gameState, String title) {
         this.lobbyId = lobbyId;
-        this.players = players;
+        this.creator = creator;
         this.gameState = gameState;
+        this.title = title;
+        this.guest = null; // Initially, no guest
+    }
+
+    public <E> GameLobby(String lobbyId, ArrayList<E> es, String waiting) {
     }
 
     // Getters and setters

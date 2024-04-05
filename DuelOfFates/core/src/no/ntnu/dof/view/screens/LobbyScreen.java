@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,6 +16,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.ScreenManager;
+import no.ntnu.dof.model.GameLobby;
 
 public class LobbyScreen implements Screen {
 
@@ -28,9 +31,14 @@ public class LobbyScreen implements Screen {
     private Sprite soundOn;
     private Sprite soundOff;
     private Sprite backBtn;
+    private GameLobby gameLobby;
+    private Rectangle backBtnBounds;
 
-    public LobbyScreen(DuelOfFates game) {
+
+    public LobbyScreen(DuelOfFates game, GameLobby gameLobby) {
         this.game = game;
+        this.gameLobby = gameLobby;
+        backBtnBounds = new Rectangle();
     }
 
     @Override
@@ -39,21 +47,20 @@ public class LobbyScreen implements Screen {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         stage = new Stage(new ScreenViewport());
 
+        lobbyTitle = new Label(gameLobby.getTitle(), skin, "big");
+
         // Making a centered table to store title and buttons
         contentTable = new Table();
         contentTable.setWidth(stage.getWidth());
         contentTable.align(Align.center|Align.top);
         contentTable.setPosition(0, Gdx.graphics.getHeight());
 
-        lobbyTitle = new Label("<Lobby Title>", skin, "big");
-
         // Adding content to table
         contentTable.padTop(30);
         contentTable.add(lobbyTitle).colspan(2).padBottom(50).row();
-        contentTable.add(new TextButton("<Host Name>", skin, "default")).padRight(30).padBottom(100).width(150).height(50);
+        contentTable.add(new TextButton(gameLobby.getCreator().getEmail(), skin, "default")).padRight(30).padBottom(100).width(150).height(50);
         contentTable.add(new TextButton("<Guest Name>", skin, "default")).padBottom(100).width(150).height(50).row();
         contentTable.add(new TextButton("Start Game", skin, "default")).colspan(2).padBottom(10).width(150).height(50);
-
 
         stage.addActor(contentTable);
 
@@ -72,12 +79,26 @@ public class LobbyScreen implements Screen {
         // Setting back button
         backBtn = new Sprite(new Texture(Gdx.files.internal("backBtn.png")));
         backBtn.setSize(50,50);
+        backBtnBounds.set(150, Gdx.graphics.getHeight() - backBtn.getHeight() - 20, backBtn.getWidth(), backBtn.getHeight());
 
         Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
+        // Check if the screen is touched
+        if (Gdx.input.justTouched()) {
+            // Translate touch coordinates to screen coordinates
+            float touchX = Gdx.input.getX();
+            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY(); // LibGDX origin is bottom-left
+
+            if (backBtnBounds.contains(touchX, touchY)) {
+                // Code to handle back button press
+                Gdx.app.postRunnable(ScreenManager::popScreen);
+                return; // Important to prevent further processing
+            }
+        }
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
