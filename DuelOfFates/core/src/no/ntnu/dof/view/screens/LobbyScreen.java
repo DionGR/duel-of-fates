@@ -7,16 +7,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.ScreenManager;
+import no.ntnu.dof.controller.network.LobbyService;
+import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobby;
 
 public class LobbyScreen implements Screen {
@@ -33,11 +37,13 @@ public class LobbyScreen implements Screen {
     private Sprite backBtn;
     private GameLobby gameLobby;
     private Rectangle backBtnBounds;
-
+    private boolean isCreator;
+    private TextButton guestButton;
 
     public LobbyScreen(DuelOfFates game, GameLobby gameLobby) {
         this.game = game;
         this.gameLobby = gameLobby;
+        this.isCreator = gameLobby.getCreator().equals(game.getCurrentUser());
         backBtnBounds = new Rectangle();
     }
 
@@ -59,8 +65,45 @@ public class LobbyScreen implements Screen {
         contentTable.padTop(30);
         contentTable.add(lobbyTitle).colspan(2).padBottom(50).row();
         contentTable.add(new TextButton(gameLobby.getCreator().getEmail(), skin, "default")).padRight(30).padBottom(100).width(150).height(50);
-        contentTable.add(new TextButton("<Guest Name>", skin, "default")).padBottom(100).width(150).height(50).row();
-        contentTable.add(new TextButton("Start Game", skin, "default")).colspan(2).padBottom(10).width(150).height(50);
+
+        // If gameLobby.getGuest is not null, display guest.getEmail instead of "<Available>"
+        String guestDisplay = gameLobby.getGuest() != null ? gameLobby.getGuest().getEmail() : "<Available>";
+        guestButton = new TextButton(guestDisplay, skin, "default");
+        contentTable.add(guestButton).padBottom(100).width(150).height(50).row();
+
+        // If user is the creator, show "start game" button, else if user is a guest --> show join lobby button
+        TextButton actionButton;
+        if (isCreator) {
+            actionButton = new TextButton("Start Game", skin, "default");
+            // Set up listener for starting the game...
+        } else {
+            actionButton = new TextButton("Join Lobby", skin, "default");
+            actionButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    ServiceLocator.getLobbyService().joinLobby(new LobbyService.LobbyJoinCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Gdx.app.log("LobbyJoin", "Successfully joined the lobby.");
+                            gameLobby.setGuest(game.getCurrentUser());
+                            Gdx.app.postRunnable(() -> {
+                                // Update the guestButton text
+                                guestButton.setText(game.getCurrentUser().getEmail());
+                                contentTable.invalidateHierarchy();
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            Gdx.app.error("LobbyJoin", "Failed to join the lobby.", throwable);
+
+                        }
+                    }, gameLobby, game.getCurrentUser());
+                }
+            });
+        }
+
+        contentTable.add(actionButton).colspan(2).padBottom(10).width(150).height(50);
 
         stage.addActor(contentTable);
 
@@ -90,12 +133,12 @@ public class LobbyScreen implements Screen {
         if (Gdx.input.justTouched()) {
             // Translate touch coordinates to screen coordinates
             float touchX = Gdx.input.getX();
-            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY(); // LibGDX origin is bottom-left
+            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
             if (backBtnBounds.contains(touchX, touchY)) {
                 // Code to handle back button press
                 Gdx.app.postRunnable(ScreenManager::popScreen);
-                return; // Important to prevent further processing
+                return;
             }
         }
 
