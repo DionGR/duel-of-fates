@@ -72,13 +72,34 @@ public class LobbyScreen implements Screen {
         contentTable.add(guestButton).padBottom(100).width(150).height(50).row();
 
         // If user is the creator, show "start game" button, else if user is a guest --> show join lobby button
-        TextButton actionButton;
         if (isCreator) {
-            actionButton = new TextButton("Start Game", skin, "default");
+            TextButton startGameButton = new TextButton("Start Game", skin, "default");
             // Set up listener for starting the game...
+            TextButton deleteLobbyButton = new TextButton("Delete Lobby", skin, "default");
+            deleteLobbyButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    ServiceLocator.getLobbyService().deleteLobby(gameLobby.getLobbyId(), new LobbyService.LobbyDeletionCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Gdx.app.log("LobbyDeletion", "Lobby successfully deleted.");
+                            Gdx.app.postRunnable(ScreenManager::popScreen);
+                        }
+
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            Gdx.app.error("LobbyDeletion", "Failed to delete the lobby.", throwable);
+                            // Show error message or handle failure
+                        }
+                    });
+                }
+            });
+
+            contentTable.add(startGameButton).colspan(2).padBottom(10).width(150).height(50).row();
+            contentTable.add(deleteLobbyButton).colspan(2).padBottom(10).width(150).height(50).row();
         } else {
-            actionButton = new TextButton("Join Lobby", skin, "default");
-            actionButton.addListener(new ClickListener() {
+            TextButton joinGameButton = new TextButton("Join Lobby", skin, "default");
+            joinGameButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     ServiceLocator.getLobbyService().joinLobby(new LobbyService.LobbyJoinCallback() {
@@ -101,9 +122,9 @@ public class LobbyScreen implements Screen {
                     }, gameLobby, game.getCurrentUser());
                 }
             });
-        }
 
-        contentTable.add(actionButton).colspan(2).padBottom(10).width(150).height(50);
+            contentTable.add(joinGameButton).colspan(2).padBottom(10).width(150).height(50);
+        }
 
         stage.addActor(contentTable);
 
