@@ -42,15 +42,15 @@ public class PlayerView extends Group {
         //Draw the healthbar
         batch.end();
 
-        float percentage =  ((float) player.getHealth().getValue()/(float) player.getPlayerClass().getMaxHealth().getValue());
+        float percentage =  Math.max(0,((float) player.getHealth().getValue()/(float) player.getPlayerClass().getMaxHealth().getValue()));
         ShapeRenderer ShapeDrawer = new ShapeRenderer();
         ShapeDrawer.begin(ShapeRenderer.ShapeType.Filled);
         ShapeDrawer.setColor(Color.BLACK);
-        ShapeDrawer.rect( (float) getX(), getY()-10, graphics.getWidth(), (float) (Gdx.graphics.getHeight()*0.05));
+        ShapeDrawer.rect(getX(), getY()-10, graphics.getWidth(), (float) (Gdx.graphics.getHeight()*0.05));
         ShapeDrawer.setColor(Color.GRAY);
-        ShapeDrawer.rect( (float) getX()+2, getY()-8, graphics.getWidth()-4, (float) (Gdx.graphics.getHeight()*0.05)-4);
+        ShapeDrawer.rect(getX()+2, getY()-8, graphics.getWidth()-4, (float) (Gdx.graphics.getHeight()*0.05)-4);
         ShapeDrawer.setColor(Color.RED);
-        ShapeDrawer.rect((float) getX()+2, getY()-8, (graphics.getWidth()-4)*percentage, (float) (Gdx.graphics.getHeight()*0.05)-4);
+        ShapeDrawer.rect(getX()+2, getY()-8, (graphics.getWidth()-4)*percentage, (float) (Gdx.graphics.getHeight()*0.05)-4);
         ShapeDrawer.end();
 
         batch.begin();

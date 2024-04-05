@@ -22,7 +22,7 @@ public class GameController {
         this.game = new Game(host, opponent);
         this.playerControllers = new HashMap<>();
         this.playerControllers.put(host, TestClickPlayerController.get());
-        this.playerControllers.put(opponent, new CliPlayerController(opponent));
+        this.playerControllers.put(opponent, TestClickPlayerController.get());
     }
 
     public void gameLoop() {
