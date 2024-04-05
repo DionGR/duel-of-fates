@@ -73,4 +73,21 @@ public class FirebaseLobbyService implements LobbyService {
             }
         });
     }
+
+    @Override
+    public void deleteLobby(String lobbyId, LobbyDeletionCallback callback) {
+        DatabaseReference lobbyRef = FirebaseDatabase.getInstance().getReference("lobbies").child(lobbyId);
+        lobbyRef.removeValue((databaseError, databaseReference) -> {
+            if (databaseError == null) {
+                if (callback != null) {
+                    callback.onSuccess();
+                }
+            } else {
+                if (callback != null) {
+                    callback.onFailure(databaseError.toException());
+                }
+            }
+        });
+    }
+
 }

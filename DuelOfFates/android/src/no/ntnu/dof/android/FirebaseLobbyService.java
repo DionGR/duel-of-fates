@@ -65,4 +65,19 @@ public class FirebaseLobbyService implements LobbyService {
                 .addOnFailureListener(callback::onFailure);
     }
 
+    @Override
+    public void deleteLobby(String lobbyId, LobbyDeletionCallback callback) {
+        DatabaseReference lobbyRef = FirebaseDatabase.getInstance().getReference("lobbies").child(lobbyId);
+        lobbyRef.removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    if (callback != null) {
+                        callback.onSuccess();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    if (callback != null) {
+                        callback.onFailure(e);
+                    }
+                });
+    }
 }
