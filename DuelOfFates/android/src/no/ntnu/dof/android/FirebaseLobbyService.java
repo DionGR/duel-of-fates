@@ -1,7 +1,12 @@
 package no.ntnu.dof.android;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -30,4 +35,23 @@ public class FirebaseLobbyService implements LobbyService {
                 });
     }
 
+    public void listenForLobbyChanges(LobbyChangeListener listener) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<GameLobby> updatedLobbies = new ArrayList<>();
+                for (DataSnapshot lobbySnapshot: dataSnapshot.getChildren()) {
+                    GameLobby lobby = lobbySnapshot.getValue(GameLobby.class);
+                    updatedLobbies.add(lobby);
+                }
+                listener.onLobbiesUpdated(updatedLobbies);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+    }
 }

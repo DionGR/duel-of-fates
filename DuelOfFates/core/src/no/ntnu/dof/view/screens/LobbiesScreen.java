@@ -21,6 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import java.util.List;
+
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.ScreenManager;
 import no.ntnu.dof.controller.network.LobbyService;
@@ -135,6 +137,11 @@ public class LobbiesScreen implements Screen {
 
         createLobbyBtn.setPosition(buttonX, buttonY);
 
+        // Set up the Firebase listener
+        ServiceLocator.getLobbyService().listenForLobbyChanges(lobbies -> Gdx.app.postRunnable(() -> {
+            game.getGameLobbies().setLobbies(lobbies); // Assuming GameLobbies has a setter for the lobbies list
+            updateLobbiesList();
+        }));
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -180,8 +187,7 @@ public class LobbiesScreen implements Screen {
         ServiceLocator.getLobbyService().createLobby(new LobbyService.LobbyCreationCallback() {
             @Override
             public void onSuccess(GameLobby lobby) {
-                game.getGameLobbies().addLobby(newLobby);
-                updateLobbiesList();
+
             }
 
             @Override
