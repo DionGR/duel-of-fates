@@ -1,7 +1,9 @@
 package no.ntnu.dof.view.gameplay;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -16,15 +18,21 @@ import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.view.Image;
 
 @Getter
-public class CardView extends Image {
+public class CardView extends Group {
 
     private final Card card;
+    private final CardTexture cardTexture;
+    private float width;
+    private float height;
 
     public CardView(float Scale, Card card, int i) {
-        super("./assets/Card.png", Scale);
+        //super("./assets/Card.png", Scale);
         this.card = card;
-        this.setPosition(((float) 2 * this.getWidth()/3)*i, 0);
-        this.setBounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        this.cardTexture = new CardTexture(card.getName(), Scale* Gdx.graphics.getHeight());
+        this.width = cardTexture.getWidth();
+        this.height = cardTexture.getHeight();
+        this.setPosition(((float) 2 * width/3)*i, 0);
+        this.setBounds(this.getX(), this.getY(), width, height);
         this.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -33,10 +41,10 @@ public class CardView extends Image {
             }
         } );
 
-        Label name = (new TextLabel(card.getName(), getWidth()*0.05f,getHeight()*0.80f,getWidth()*0.6f,getHeight()*0.2f,getHeight()*0.008f, Color.RED)).getText();
-        name.setAlignment(Align.left);
+        Label name = (new TextLabel(card.getName(), width*0.05f,height*0.80f,width*0.8f,height*0.18f,height*0.006f, Color.RED)).getText();
+        name.setAlignment(Align.center);
         this.addActor(name);
-        Label cost = (new TextLabel(Integer.toString(card.getCost().getValue()), getWidth()*0.82f,getHeight()*0.86f,getWidth()*0.1f,getHeight()*0.1f,getHeight()*0.005f, Color.GREEN)).getText();
+        Label cost = (new TextLabel(Integer.toString(card.getCost().getValue()), width*0.82f,height*0.86f,width*0.1f,height*0.1f,height*0.005f, Color.GREEN)).getText();
         this.addActor(cost);
 
 
@@ -47,13 +55,14 @@ public class CardView extends Image {
         for (Effect effect : card.getOpponentEffects()){
             descriptionString += effect.toString() + "\n";
         }
-        Label description = (new TextLabel(descriptionString, getWidth()*0.09f,getHeight()*0.06f,getWidth()*0.8f,getHeight()*0.33f,getHeight()*0.004f, Color.BLACK)).getText();
+        Label description = (new TextLabel(descriptionString, width*0.09f,height*0.06f,width*0.8f,height*0.33f,height*0.004f, Color.WHITE)).getText();
         description.setAlignment(Align.topLeft);
         this.addActor(description);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        cardTexture.draw(batch, getX(), getY());
         super.draw(batch, parentAlpha);
     }
 
