@@ -73,9 +73,17 @@ public class LobbyScreen implements Screen {
 
         // If user is the creator, show "start game" button, else if user is a guest --> show join lobby button
         if (isCreator) {
-            TextButton startGameButton = new TextButton("Start Game", skin, "default");
+            // Initalize creator exclusive buttons
+            TextButton.TextButtonStyle startGameStyle = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
+            startGameStyle.up = skin.newDrawable("default-round", skin.getColor("green"));
+            startGameStyle.down = skin.newDrawable("default-round-down", skin.getColor("green"));
+            TextButton startGameButton = new TextButton("Start Game", startGameStyle);
             // Set up listener for starting the game...
-            TextButton deleteLobbyButton = new TextButton("Delete Lobby", skin, "default");
+
+            TextButton.TextButtonStyle deleteLobbyStyle = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
+            deleteLobbyStyle.up = skin.newDrawable("default-round", skin.getColor("red"));
+            deleteLobbyStyle.down = skin.newDrawable("default-round-down", skin.getColor("red")); // Assuming you have a down state drawable
+            TextButton deleteLobbyButton = new TextButton("Delete Lobby", deleteLobbyStyle);
             deleteLobbyButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
