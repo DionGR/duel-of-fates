@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import java.util.Optional;
 
 import lombok.Getter;
+import no.ntnu.dof.controller.gameplay.player.ClickHostPlayerController;
 import no.ntnu.dof.controller.gameplay.player.TestClickPlayerController;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.effect.Effect;
@@ -36,7 +37,7 @@ public class CardView extends Group {
         this.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                TestClickPlayerController.setPlay(Optional.of(card));
+                ClickHostPlayerController.setPlay(Optional.of(card));
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
@@ -49,11 +50,11 @@ public class CardView extends Group {
 
 
         String descriptionString = "";
-        for (Effect effect : card.getHostEffects()){
-            descriptionString += effect.toString() + "\n";
+        for (String effect : card.getHostEffectNames()){
+            descriptionString += effect + "\n";
         }
-        for (Effect effect : card.getOpponentEffects()){
-            descriptionString += effect.toString() + "\n";
+        for (String effect : card.getOpponentEffectNames()){
+            descriptionString += effect + "\n";
         }
         Label description = (new TextLabel(descriptionString, width*0.09f,height*0.06f,width*0.8f,height*0.33f,height*0.004f, Color.WHITE)).getText();
         description.setAlignment(Align.topLeft);

@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import no.ntnu.dof.controller.gameplay.di.DaggerGameControllerComponent;
 import no.ntnu.dof.controller.gameplay.di.GameControllerComponent;
 import no.ntnu.dof.controller.gameplay.player.CliPlayerController;
+import no.ntnu.dof.controller.gameplay.player.ClickHostPlayerController;
 import no.ntnu.dof.controller.gameplay.player.HostPlayerController;
 import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.controller.gameplay.player.RemotePlayerController;
@@ -31,7 +32,9 @@ public class GameController {
         this.game = new Game(host, opponent);
         this.playerControllers = new HashMap<>();
 
-        this.playerControllers.put(host, new HostPlayerController(host));
+        ClickHostPlayerController hostController = ClickHostPlayerController.get();
+        hostController.setPlayer(host);
+        this.playerControllers.put(host, hostController);
         this.playerControllers.put(opponent, new RemotePlayerController(opponent));
     }
 
