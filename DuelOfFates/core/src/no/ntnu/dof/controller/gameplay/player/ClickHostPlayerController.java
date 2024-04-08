@@ -59,6 +59,7 @@ public class ClickHostPlayerController extends ClickListener implements PlayerCo
             }
         }
         played = false;
+        ServiceLocator.getGameService().playCard(comms, chosen);
         return chosen;
     }
 
