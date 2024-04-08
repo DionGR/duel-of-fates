@@ -1,9 +1,9 @@
 package no.ntnu.dof.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
+import lombok.Setter;
 
 @Data
 public class GameLobby {
@@ -17,17 +17,20 @@ public class GameLobby {
         // Default constructor for serialization
     }
 
-    public GameLobby(String lobbyId, User creator, String gameState, String title) {
-        this.lobbyId = lobbyId;
+    public GameLobby(User creator, String title) {
+        this.lobbyId = null;
         this.creator = creator;
-        this.gameState = gameState;
+        this.gameState = "waiting";
         this.title = title;
         this.guest = null; // Initially, no guest
     }
 
-    public <E> GameLobby(String lobbyId, ArrayList<E> es, String waiting) {
+    public GameLobby(String lobbyId, User creator, String title, String gameState, User guest) {
+        this.lobbyId = lobbyId;
+        this.creator = creator;
+        this.gameState = gameState;
+        this.title = title;
+        this.guest = guest;
     }
-
-    // Getters and setters
 }
 

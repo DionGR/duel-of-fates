@@ -46,6 +46,8 @@ project(":desktop") {
 
     dependencies {
         implementation project(":core")
+        implementation 'org.slf4j:slf4j-api:2.1.0-alpha1'
+        implementation 'org.slf4j:slf4j-simple:2.1.0-alpha1'
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
@@ -64,10 +66,6 @@ project(":desktop") {
         implementation 'com.google.dagger:dagger-android:2.27'
         implementation 'com.google.dagger:dagger-android-support:2.27'
         annotationProcessor 'com.google.dagger:dagger-android-processor:2.27'
-
-        // Jackson
-        implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.2'
-
     }
 }
 
@@ -79,6 +77,8 @@ project(":android") {
 
     dependencies {
         implementation project(":core")
+        implementation 'org.slf4j:slf4j-api:2.1.0-alpha1'
+        implementation 'org.slf4j:slf4j-simple:2.1.0-alpha1'
         api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
@@ -101,9 +101,6 @@ project(":android") {
         implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
         implementation("com.google.firebase:firebase-auth")
         implementation("com.google.firebase:firebase-database")
-
-        implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.2'
-
     }
 }
 
@@ -121,7 +118,8 @@ project(":core") {
         api "com.kotcrab.vis:vis-ui:1.4.11"
         api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core:1.1.0"
 
-
+        implementation 'org.slf4j:slf4j-api:2.1.0-alpha1'
+        implementation 'org.slf4j:slf4j-simple:2.1.0-alpha1'
         // Annotation Processor - Lombok
         compileOnly 'org.projectlombok:lombok:1.18.30'
         annotationProcessor 'org.projectlombok:lombok:1.18.30'
@@ -134,8 +132,5 @@ project(":core") {
         implementation 'com.google.dagger:dagger-android:2.27'
         implementation 'com.google.dagger:dagger-android-support:2.27'
         annotationProcessor 'com.google.dagger:dagger-android-processor:2.27'
-
-        implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.2'
-
     }
 }
