@@ -22,7 +22,16 @@ public class GameLobbyController {
     }
 
     public void startGame() {
-        // Logic to start the game.
+        // Only start game if there is a guest
+        if (gameLobby.getGuest() == null) {
+            lobbyScreen.showError("A second player is required to start the game.");
+            return;
+        }
+
+        String hostPlayerClass = gameLobby.getCreator().getPlayerClassName();
+        String guestPlayerClass = gameLobby.getGuest().getPlayerClassName();
+
+        // Logic to start the game...
         System.out.println("Starting game for lobby: " + gameLobby.getTitle());
     }
 

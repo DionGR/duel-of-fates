@@ -38,6 +38,7 @@ public class LobbyScreen extends BaseScreen {
     private GameLobbyController controller;
     private boolean isCreator;
     private TextButton guestButton;
+    private Label errorLabel;
 
     public LobbyScreen(DuelOfFates game, GameLobby gameLobby) {
         super();
@@ -114,6 +115,10 @@ public class LobbyScreen extends BaseScreen {
 
             contentTable.add(joinGameButton).colspan(2).padBottom(10).width(150).height(50);
         }
+        errorLabel = new Label("", skin);
+        errorLabel.setColor(1, 0, 0, 1);
+        contentTable.row();
+        contentTable.add(errorLabel).padTop(10);
 
         stage.addActor(contentTable);
         Gdx.input.setInputProcessor(stage);
@@ -128,10 +133,10 @@ public class LobbyScreen extends BaseScreen {
 
     public void showError(String message) {
         Gdx.app.postRunnable(() -> {
-            // Display the error message to the user
-            // This might involve showing a dialog or updating a label on the screen
+            errorLabel.setText(message);
         });
     }
+
 
     @Override
     public void render(float delta) {
