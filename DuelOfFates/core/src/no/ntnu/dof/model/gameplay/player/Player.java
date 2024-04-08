@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;
+import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.deck.Hand;
 import no.ntnu.dof.model.gameplay.event.CardPlayedEvent;
 import no.ntnu.dof.model.gameplay.event.TurnEvent;
@@ -39,6 +40,16 @@ public class Player extends GameplayEntity {
     @Override
     public String toString() {
         return"(" + health.getValue() + " health, " + armor.getValue() + " armor, " + mana.getValue() + " mana)";
+    }
+
+    public boolean canPlay() {
+        for (Card card : hand.getCards()) {
+            if (mana.compareTo(card.getCost()) >= 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static abstract class PlayerBuilder<C extends Player, B extends PlayerBuilder<C, B>> extends GameplayEntityBuilder<C, B> {

@@ -4,15 +4,23 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import no.ntnu.dof.controller.gameplay.di.DaggerGameComponent;
+import no.ntnu.dof.controller.gameplay.di.DaggerGameControllerComponent;
+import no.ntnu.dof.controller.gameplay.di.GameComponent;
+import no.ntnu.dof.controller.gameplay.di.GameControllerComponent;
 import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.deck.Deck;
 import no.ntnu.dof.model.gameplay.deck.Hand;
-import no.ntnu.dof.model.gameplay.effect.card.DamageEffect;
+import no.ntnu.dof.model.gameplay.effect.Effect;
+import no.ntnu.dof.model.gameplay.effect.EffectInvoker;
 import no.ntnu.dof.model.gameplay.effect.card.RefillHandEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RefillManaEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RemoveCardFromHandEffect;
-import no.ntnu.dof.model.gameplay.player.exception.InsufficientResourcesException;
+import no.ntnu.dof.model.gameplay.player.exception.InsufficientManaException;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
 import no.ntnu.dof.model.gameplay.stats.armor.Armor;
@@ -20,9 +28,17 @@ import no.ntnu.dof.model.gameplay.stats.health.Health;
 import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 public class Game {
+
     private final LinkedList<Player> players;
 
+    @Inject
+    @Named("effectInvoker")
+    EffectInvoker<String, Effect> effectInvoker;
+
     public Game(Player player1, Player player2) {
+        GameComponent gameComponent = DaggerGameComponent.create();
+        gameComponent.inject(this);
+
         players = new LinkedList<>();
         players.add(player1);
         players.add(player2);
@@ -42,16 +58,14 @@ public class Game {
         return players.peek();
     }
 
-    public void playCard(Card card) throws InsufficientResourcesException {
+    public void playCard(Card card) {
         final Player host = players.peek();
         final Player opponent = players.peekLast();
 
-        if (host.getMana().compareTo(card.getCost()) < 0)
-            throw new InsufficientResourcesException(host, card);
-
         host.cardPlayedEvent.fire(card);
-        card.getHostEffects().forEach(e -> e.apply(host));
-        card.getOpponentEffects().forEach(e -> e.apply(opponent));
+
+        card.getHostEffectNames().forEach(e -> effectInvoker.invoke(e, host));
+        card.getOpponentEffectNames().forEach(e -> effectInvoker.invoke(e, opponent));
     }
 
     public void finalizeTurn() {
@@ -71,10 +85,8 @@ public class Game {
             cards.add(AttackCard.builder()
                     .name("Card" + i)
                     .cost(new Mana(3))
-                    .opponentEffect(DamageEffect.builder()
-                            .damage(4)
-                            .build()
-                    ).build());
+                    .opponentEffectName("damage")
+                    .build());
         }
 
         PlayerClass playerClass = PlayerClass.builder()
