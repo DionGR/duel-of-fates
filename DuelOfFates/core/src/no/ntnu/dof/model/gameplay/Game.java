@@ -11,6 +11,7 @@ import no.ntnu.dof.controller.gameplay.di.DaggerGameComponent;
 import no.ntnu.dof.controller.gameplay.di.DaggerGameControllerComponent;
 import no.ntnu.dof.controller.gameplay.di.GameComponent;
 import no.ntnu.dof.controller.gameplay.di.GameControllerComponent;
+import lombok.Getter;
 import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.deck.Deck;
@@ -27,6 +28,7 @@ import no.ntnu.dof.model.gameplay.stats.armor.Armor;
 import no.ntnu.dof.model.gameplay.stats.health.Health;
 import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
+@Getter
 public class Game {
 
     private final LinkedList<Player> players;

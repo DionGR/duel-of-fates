@@ -31,4 +31,9 @@ public class DamageEffect extends Effect {
 
         effects.forEach(e -> e.apply(player));
     }
+
+    @Override
+    public String toString() {
+        return "damage=" + damage;
+    }
 }

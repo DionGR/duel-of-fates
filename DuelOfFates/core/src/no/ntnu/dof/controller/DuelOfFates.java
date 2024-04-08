@@ -14,6 +14,7 @@ import no.ntnu.dof.model.User;
 import lombok.Getter;
 import lombok.Setter;
 import no.ntnu.dof.model.gameplay.Game;
+import no.ntnu.dof.view.screens.FightScreen;
 import no.ntnu.dof.view.screens.LoginScreen;
 
 public class DuelOfFates extends com.badlogic.gdx.Game {
@@ -57,7 +58,12 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
 
             }
         });
-        new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2")).gameLoop();
+
+        GameController gameController = new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2"));
+
+        // Initialize the fight screen as the first screen
+        this.setScreen(new FightScreen(gameController.getGame()));
+        new Thread(gameController::gameLoop).start();
 	}
 
 
