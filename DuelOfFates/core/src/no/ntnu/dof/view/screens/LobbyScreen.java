@@ -22,37 +22,35 @@ import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobby;
 
-public class LobbyScreen implements Screen {
+public class LobbyScreen extends BaseScreen {
 
     private Stage stage;
     private DuelOfFates game;
-    private SpriteBatch batch;
-    private Sprite background;
     private Skin skin;
     private Table contentTable;
     private Label lobbyTitle;
-    private Sprite soundOn;
-    private Sprite soundOff;
-    private Sprite backBtn;
     private GameLobby gameLobby;
-    private Rectangle backBtnBounds;
     private boolean isCreator;
     private TextButton guestButton;
 
     public LobbyScreen(DuelOfFates game, GameLobby gameLobby) {
+        super();
         this.game = game;
         this.gameLobby = gameLobby;
         this.isCreator = gameLobby.getCreator().equals(game.getCurrentUser());
-        backBtnBounds = new Rectangle();
     }
 
     @Override
     public void show() {
-        // Loading skin
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
-        stage = new Stage(new ScreenViewport());
+        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
+        this.stage = new Stage(new ScreenViewport(), this.batch); // Use the batch from BaseScreen
+        // Setting up the UI components specific to LobbyScreen
+        contentTable = new Table();
+        contentTable.setFillParent(true);
+        stage.addActor(contentTable);
 
         lobbyTitle = new Label(gameLobby.getTitle(), skin, "big");
+        contentTable.add(lobbyTitle).expandX().padTop(20).row();
 
         // Making a centered table to store title and buttons
         contentTable = new Table();
@@ -134,50 +132,14 @@ public class LobbyScreen implements Screen {
         }
 
         stage.addActor(contentTable);
-
-        batch = new SpriteBatch();
-
-        // Loading background
-        background = new Sprite(new Texture(Gdx.files.internal("menuBackground.png")));
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        // Setting sound buttons
-        soundOn = new Sprite(new Texture(Gdx.files.internal("soundOn.png")));
-        soundOn.setSize(80, 80);
-        soundOff = new Sprite(new Texture(Gdx.files.internal("soundOff.png")));
-        soundOff.setSize(80,80);
-
-        // Setting back button
-        backBtn = new Sprite(new Texture(Gdx.files.internal("backBtn.png")));
-        backBtn.setSize(50,50);
-        backBtnBounds.set(150, Gdx.graphics.getHeight() - backBtn.getHeight() - 20, backBtn.getWidth(), backBtn.getHeight());
-
         Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
-        // Check if the screen is touched
-        if (Gdx.input.justTouched()) {
-            // Translate touch coordinates to screen coordinates
-            float touchX = Gdx.input.getX();
-            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
+        super.render(delta);
 
-            if (backBtnBounds.contains(touchX, touchY)) {
-                // Code to handle back button press
-                Gdx.app.postRunnable(ScreenManager::popScreen);
-                return;
-            }
-        }
-
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        background.draw(batch);
-        soundOn.draw(batch);
-        backBtn.setPosition(150, Gdx.graphics.getHeight()-backBtn.getHeight()-20);
-        backBtn.draw(batch);
-        batch.end();
-        stage.act(Gdx.graphics.getDeltaTime());
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
 
@@ -199,6 +161,7 @@ public class LobbyScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        super.dispose();
     }
 
 }
