@@ -50,7 +50,9 @@ public class ScreenManager {
     }
 
     public static void transitionToLogin() {
-        pushScreen(new LoginScreen(game, batch, assetManager));
+        LoginScreen loginScreen = new LoginScreen(batch, assetManager);
+        new LoginController(game, loginScreen);
+        pushScreen(loginScreen);
     }
 }
 
