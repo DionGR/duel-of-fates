@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import lombok.Data;
 import no.ntnu.dof.controller.gameplay.GameController;
+import no.ntnu.dof.controller.gameplay.TutorialController;
 import no.ntnu.dof.controller.network.AuthCallback;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobbies;
@@ -59,7 +60,7 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
             }
         });
 
-        GameController gameController = new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2"));
+        TutorialController gameController = new TutorialController(Game.Tutorial("host"));
 
         // Initialize the fight screen as the first screen
         this.setScreen(new FightScreen(gameController.getGame()));

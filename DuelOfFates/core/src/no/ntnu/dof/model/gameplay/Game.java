@@ -14,6 +14,7 @@ import no.ntnu.dof.controller.gameplay.di.GameControllerComponent;
 import lombok.Getter;
 import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
+import no.ntnu.dof.model.gameplay.card.DefenseCard;
 import no.ntnu.dof.model.gameplay.deck.Deck;
 import no.ntnu.dof.model.gameplay.deck.Hand;
 import no.ntnu.dof.model.gameplay.effect.Effect;
@@ -103,5 +104,38 @@ public class Game {
                 .playerClass(playerClass)
                 .hand(Hand.builder().maxSize(3).build())
                 .build();
+    }
+
+    public static Player Tutorial(String hostname) {
+        List<Card> cards = new ArrayList<>();
+
+        for(int i = 0; i < 3; i++) {
+            cards.add(AttackCard.builder()
+                    .name("Card1")
+                    .cost(new Mana(3))
+                    .opponentEffectName("damage")
+                    .build());
+            cards.add(DefenseCard.builder()
+                .name("Card2")
+                .cost(new Mana(2))
+                .hostEffectName("armor")
+                .build());
+        }
+
+        PlayerClass playerClass = PlayerClass.builder()
+                .deck(Deck.builder().activeCards(cards).build())
+                .maxHealth(new Health(10))
+                .maxArmor(new Armor(0))
+                .maxMana(new Mana(5))
+                .build();
+
+
+        Player host = Player.builder()
+                .name(hostname)
+                .playerClass(playerClass)
+                .hand(Hand.builder().maxSize(2).build())
+                .build();
+
+        return host;
     }
 }
