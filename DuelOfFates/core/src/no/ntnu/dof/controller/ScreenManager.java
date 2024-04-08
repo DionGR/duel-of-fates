@@ -51,7 +51,7 @@ public class ScreenManager {
     }
 
     public static void transitionToChooseClass() {
-        pushScreen(new ChooseClassScreen(game, batch, assetManager));
+        pushScreen(new ChooseClassScreen(game));
     }
 
     public static void transitionToLogin() {

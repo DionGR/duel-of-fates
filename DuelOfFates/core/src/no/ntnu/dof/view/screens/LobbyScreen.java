@@ -34,8 +34,8 @@ public class LobbyScreen implements Screen {
     private Sprite soundOn;
     private Sprite soundOff;
     private Sprite backBtn;
-    private GameLobby gameLobby;
     private Rectangle backBtnBounds;
+    private GameLobby gameLobby;
     private boolean isCreator;
     private TextButton guestButton;
 
