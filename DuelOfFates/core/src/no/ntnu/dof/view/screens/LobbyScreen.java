@@ -44,12 +44,6 @@ public class LobbyScreen extends BaseScreen {
     public void show() {
         this.skin = new Skin(Gdx.files.internal("uiskin.json"));
         this.stage = new Stage(new ScreenViewport(), this.batch); // Use the batch from BaseScreen
-
-        setupUI(); // Encapsulate UI setup in its method for clarity
-        Gdx.input.setInputProcessor(stage);
-    }
-
-    private void setupUI() {
         // Setting up the UI components specific to LobbyScreen
         contentTable = new Table();
         contentTable.setFillParent(true);
@@ -138,6 +132,7 @@ public class LobbyScreen extends BaseScreen {
         }
 
         stage.addActor(contentTable);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

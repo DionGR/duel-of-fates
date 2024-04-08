@@ -43,7 +43,7 @@ public class ScreenManager {
     }
 
     public static void transitionToLobbies() {
-        pushScreen(new LobbiesScreen(game, batch, assetManager));
+        pushScreen(new LobbiesScreen(game));
     }
 
     public static void transitionToLobby(GameLobby gameLobby) {

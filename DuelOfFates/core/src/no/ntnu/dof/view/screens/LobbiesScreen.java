@@ -1,13 +1,6 @@
 package no.ntnu.dof.view.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,8 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import java.util.List;
-
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.ScreenManager;
 import no.ntnu.dof.controller.network.LobbyService;
@@ -31,30 +22,81 @@ import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
 
-public class LobbiesScreen implements Screen {
+public class LobbiesScreen extends BaseScreen {
 
     private Stage stage;
-    private SpriteBatch batch;
-    private Sprite background;
     private Skin skin;
     private Table contentTable;
-    private TextButton lobbyBtn;
     private TextButton createLobbyBtn;
     private Label lobbiesTitle;
-    private Sprite soundOn;
-    private Sprite soundOff;
-    private Sprite backBtn;
-    private AssetManager assetManager;
-    private Rectangle backBtnBounds;
     private DuelOfFates game;
 
-    public LobbiesScreen(DuelOfFates game, SpriteBatch batch, AssetManager assetManager) {
-        this.batch = batch;
-        this.assetManager = assetManager;
+    public LobbiesScreen(DuelOfFates game) {
+        super();
         this.game = game;
-        backBtnBounds = new Rectangle();
     }
 
+    @Override
+    public void show() {
+        super.show();
+        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
+        this.stage = new Stage(new ScreenViewport(), this.batch);
+
+        // Making a centered table to store title and buttons
+        contentTable = new Table();
+        contentTable.setWidth(stage.getWidth());
+        contentTable.align(Align.center|Align.top);
+        contentTable.setPosition(0, Gdx.graphics.getHeight());
+
+        lobbiesTitle = new Label("Lobbies", skin, "big");
+        contentTable.add(lobbiesTitle).expandX().padTop(20).row();
+
+        TextButton lobbyBtn = new TextButton("<Lobby Title>\n<Host Name>", skin, "default");
+        // Adding content to table
+        contentTable.padTop(30);
+        GameLobbies gameLobbies = game.getGameLobbies();
+        for (GameLobby lobby : gameLobbies.getLobbies()) {
+            TextButton lobbyButton = new TextButton(lobby.getTitle() + "\n" + lobby.getCreator().getEmail(), skin, "default");
+            lobbyButton.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    ScreenManager.transitionToLobby(lobby);
+                    return true;
+                }
+            });
+            contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
+        }
+        stage.addActor(contentTable);
+
+        // Setting create lobby button
+        createLobbyBtn = new TextButton("Create Lobby", skin, "default");
+        createLobbyBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showCreateLobbyDialog();
+            }
+        });
+
+        // Add the button directly to the stage
+        stage.addActor(createLobbyBtn);
+
+        // Positioning the create lobby button at the top right with some margin
+        float margin = 20; // Adjust the margin value as needed
+        float buttonX = Gdx.graphics.getWidth() - createLobbyBtn.getWidth() - margin;
+        float buttonY = Gdx.graphics.getHeight() - createLobbyBtn.getHeight() - margin;
+
+        createLobbyBtn.setPosition(buttonX, buttonY);
+
+        // Set up the Firebase listener
+        ServiceLocator.getLobbyService().listenForLobbyChanges(lobbies -> Gdx.app.postRunnable(() -> {
+            game.getGameLobbies().setLobbies(lobbies); // Assuming GameLobbies has a setter for the lobbies list
+            updateLobbiesList();
+        }));
+
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    /*
     @Override
     public void show() {
         // Loading skin
@@ -146,6 +188,9 @@ public class LobbiesScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
+     */
+
+
     private void showCreateLobbyDialog() {
         Dialog dialog = new Dialog("Create Lobby", skin) {
             @Override
@@ -219,16 +264,8 @@ public class LobbiesScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        background.draw(batch);
-        soundOn.draw(batch);
-        backBtn.setPosition(150, Gdx.graphics.getHeight()-backBtn.getHeight()-20);
-        backBtn.draw(batch);
-        createLobbyBtn.setPosition(Gdx.graphics.getWidth()-200, Gdx.graphics.getHeight()-60);
-        createLobbyBtn.draw(batch, 1);
-        batch.end();
-        stage.act(Gdx.graphics.getDeltaTime());
+        super.render(delta); // This will render the background and the back button
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
 
@@ -250,6 +287,7 @@ public class LobbiesScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        super.dispose();
     }
 
 }
