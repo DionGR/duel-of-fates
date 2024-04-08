@@ -42,9 +42,9 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         ScreenManager.initialize(this, batch, assetManager);
         ScreenManager.transitionToLogin();
 
+
         // Fetch game lobbies
         this.gameLobbies = new GameLobbies();
-
         // TODO remove CLI gameplay demo
         ServiceLocator.getAuthService().signIn("p1", "p1", new AuthCallback() {
             @Override
