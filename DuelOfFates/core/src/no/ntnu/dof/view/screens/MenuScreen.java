@@ -32,6 +32,7 @@ public class MenuScreen implements Screen {
     private TextButton lobbiesBtn;
     private TextButton tutorialBtn;
     private TextButton logoutBtn;
+    private TextButton chooseClassBtn;
     private Label gameTitle;
     private Sprite soundOn;
     private Sprite soundOff;
@@ -59,6 +60,7 @@ public class MenuScreen implements Screen {
 
         gameTitle = new Label("Duel of Fates", skin, "default");
         lobbiesBtn = new TextButton("Game Lobbies", skin, "default");
+        chooseClassBtn = new TextButton("Choose Class", skin, "default");
         tutorialBtn = new TextButton("Tutorial", skin, "default");
         logoutBtn = new TextButton("Log out", skin, "default");
 
@@ -71,6 +73,7 @@ public class MenuScreen implements Screen {
         contentTable.padTop(30);
         contentTable.add(gameTitle).padBottom(30).row();
         contentTable.add(lobbiesBtn).padBottom(30).width(150).height(50).row();
+        contentTable.add(chooseClassBtn).padBottom(30).width(150).height(50).row();
         contentTable.add(tutorialBtn).padBottom(30).width(150).height(50).row();;
         contentTable.add(logoutBtn).width(150).height(50);
 
@@ -81,6 +84,13 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ScreenManager.transitionToLobbies();
+            }
+        });
+
+        chooseClassBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenManager.transitionToChooseClass();
             }
         });
 
