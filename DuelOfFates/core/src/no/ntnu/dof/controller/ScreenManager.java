@@ -1,6 +1,5 @@
 package no.ntnu.dof.controller;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -43,11 +42,15 @@ public class ScreenManager {
     }
 
     public static void transitionToLobbies() {
-        pushScreen(new LobbiesScreen(game));
+        LobbiesScreen lobbiesScreen = new LobbiesScreen(game);
+        new GameLobbiesController(game, lobbiesScreen);
+        pushScreen(lobbiesScreen);
     }
 
     public static void transitionToLobby(GameLobby gameLobby) {
-        pushScreen(new LobbyScreen(game, gameLobby));
+        LobbyScreen lobbyScreen = new LobbyScreen(game, gameLobby);
+        new GameLobbyController(game, lobbyScreen, gameLobby);
+        pushScreen(lobbyScreen);
     }
 
     public static void transitionToChooseClass() {
