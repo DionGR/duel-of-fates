@@ -9,12 +9,13 @@ public class User {
     private String id;
     private String email;
     private String name;
-    private PlayerClass playerClass;
+    private String playerClassName;
 
     public User() {}
 
     public User(String id, String email) {
         this.id = id;
         this.email = email;
+        this.playerClassName = "warrior"; // NOTE: To be replaced by dynamically assigning a playerClass (name) from an available PlayerClass
     }
 }

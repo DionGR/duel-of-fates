@@ -52,7 +52,7 @@ public class ChooseClassScreen extends BaseScreen {
         for (PlayerClass playerClass : playerClasses) {
             TextButton classButton = new TextButton(playerClass.getName(), skin);
 
-            if (playerClass.equals(user.getPlayerClass())) {
+            if (playerClass.getName().equals(user.getPlayerClassName())) {
                 classButton.setStyle(selectedStyle);
                 selectedButton = classButton; // Set this button as selected if it matches the user's class
             } else {
@@ -67,7 +67,7 @@ public class ChooseClassScreen extends BaseScreen {
                     }
                     classButton.setStyle(selectedStyle);
                     selectedButton = classButton;
-                    user.setPlayerClass(playerClass);
+                    user.setPlayerClassName(playerClass.getName());
                 }
             });
             contentTable.add(classButton).padBottom(10).width(200).height(50).row();
