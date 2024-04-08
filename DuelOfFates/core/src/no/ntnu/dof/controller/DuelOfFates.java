@@ -47,6 +47,7 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         // Fetch game lobbies
         this.gameLobbies = new GameLobbies();
         // TODO remove CLI gameplay demo
+        /*
         ServiceLocator.getAuthService().signIn("p1", "p1", new AuthCallback() {
             @Override
             public void onSuccess() {
@@ -64,6 +65,7 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         // Initialize the fight screen as the first screen
         this.setScreen(new FightScreen(gameController.getGame()));
         new Thread(gameController::gameLoop).start();
+        */
 	}
 
 
