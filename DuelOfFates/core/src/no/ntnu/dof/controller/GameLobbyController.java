@@ -5,7 +5,7 @@ import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
-import no.ntnu.dof.view.screens.LobbyScreen;
+import no.ntnu.dof.view.screens.lobby.LobbyScreen;
 
 public class GameLobbyController {
 
@@ -50,6 +50,7 @@ public class GameLobbyController {
             public void onFailure(Throwable throwable) {
                 Gdx.app.error("LobbyJoin", "Failed to join the lobby.", throwable);
                 lobbyScreen.showError("Failed to join the lobby.");
+                Gdx.app.postRunnable(ScreenController::popScreen);
             }
         }, gameLobby, currentUser);
     }
@@ -62,8 +63,8 @@ public class GameLobbyController {
             @Override
             public void onSuccess() {
                 Gdx.app.log("LobbyDeletion", "Lobby successfully deleted.");
-                isDeletingLobby = false; // Reset flag
-                Gdx.app.postRunnable(() -> ScreenManager.transitionToLobbies());
+                isDeletingLobby = false; // Reset flags
+                Gdx.app.postRunnable(ScreenController::popScreen);
             }
 
             @Override
@@ -73,5 +74,22 @@ public class GameLobbyController {
                 Gdx.app.postRunnable(() -> lobbyScreen.showError("Failed to delete the lobby."));
             }
         });
+    }
+
+    public void exitLobby() {
+        ServiceLocator.getLobbyService().guestExitLobby(new LobbyService.LobbyExitCallback() {
+            @Override
+            public void onSuccess() {
+                Gdx.app.log("LobbyExit", "Successfully exited the lobby.");
+                lobbyScreen.updateGuestInfo("<Available>");
+                Gdx.app.postRunnable(ScreenController::popScreen);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Gdx.app.error("LobbyExit", "Failed to exit the lobby", throwable);
+                lobbyScreen.showError("Failed to exit the lobby.");
+            }
+        }, gameLobby);
     }
 }

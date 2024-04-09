@@ -1,4 +1,4 @@
-package no.ntnu.dof.view.screens;
+package no.ntnu.dof.view.screens.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -16,8 +16,10 @@ import java.util.List;
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.model.User;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
+import no.ntnu.dof.view.screens.BaseScreen;
+import no.ntnu.dof.view.screens.ReturnableScreen;
 
-public class ChooseClassScreen extends BaseScreen {
+public class ChooseClassScreen extends ReturnableScreen {
     private Stage stage;
     private Skin skin;
     private Table contentTable;

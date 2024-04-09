@@ -1,4 +1,4 @@
-package no.ntnu.dof.view.screens;
+package no.ntnu.dof.view.screens.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -6,18 +6,17 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import no.ntnu.dof.controller.DuelOfFates;
-import no.ntnu.dof.controller.ScreenManager;
-import no.ntnu.dof.controller.network.AuthCallback;
-import no.ntnu.dof.controller.network.ServiceLocator;
-import no.ntnu.dof.model.User;
+
+import no.ntnu.dof.controller.ScreenController;
 
 public class LoginScreen implements Screen {
     private Stage stage;
@@ -32,7 +31,7 @@ public class LoginScreen implements Screen {
         initializeUI();
     }
 
-    private void initializeUI() {
+    public void initializeUI() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -50,11 +49,13 @@ public class LoginScreen implements Screen {
         passwordField.setPasswordMode(true);
 
         TextButton loginButton = new TextButton("Login", skin);
-        loginButton.addListener(event -> {
-            String email = emailField.getText().trim();
-            String password = passwordField.getText().trim();
-            attemptLogin(email, password);
-            return false;
+        loginButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String email = emailField.getText().trim();
+                String password = passwordField.getText().trim();
+                attemptLogin(email, password);
+            }
         });
 
         table.add(emailField).fillX().uniformX().padBottom(10).row();

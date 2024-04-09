@@ -4,15 +4,14 @@ import com.badlogic.gdx.Gdx;
 
 import no.ntnu.dof.controller.network.AuthCallback;
 import no.ntnu.dof.controller.network.ServiceLocator;
-import no.ntnu.dof.model.User;
-import no.ntnu.dof.view.screens.LoginScreen;
+import no.ntnu.dof.view.screens.menu.LoginScreen;
 
 public class LoginController implements LoginScreen.LoginViewListener {
-    private final DuelOfFates game;
+    private final DuelOfFates application;
     private final LoginScreen loginScreen;
 
-    public LoginController(DuelOfFates game, LoginScreen loginScreen) {
-        this.game = game;
+    public LoginController(DuelOfFates application, LoginScreen loginScreen) {
+        this.application = application;
         this.loginScreen = loginScreen;
         this.loginScreen.setLoginViewListener(this);
     }
@@ -20,6 +19,10 @@ public class LoginController implements LoginScreen.LoginViewListener {
     @Override
     public void onLoginAttempt(String email, String password) {
         if (!email.isEmpty() && !password.isEmpty()) {
+            if (application.getCurrentUser() != null) {
+                initiateLogout();
+            }
+
             ServiceLocator.getAuthService().signIn(email, password, new AuthCallback() {
                 @Override
                 public void onSuccess() {
@@ -36,12 +39,15 @@ public class LoginController implements LoginScreen.LoginViewListener {
         }
     }
 
+    public void initiateLogout() {
+        this.application.setCurrentUser(null);
+        ServiceLocator.getAuthService().signOut();
+    }
+
     public void loginSuccess() {
-        game.setCurrentUser(ServiceLocator.getAuthService().createGameUserFromFirebaseUser());
+        application.setCurrentUser(ServiceLocator.getAuthService().createGameUserFromFirebaseUser());
 
         // Navigate to the menu screen
-        Gdx.app.postRunnable(() -> {
-            ScreenManager.transitionToMenu();
-        });
+        Gdx.app.postRunnable(ScreenController::transitionToMenu);
     }
 }

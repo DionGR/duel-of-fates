@@ -1,12 +1,6 @@
-package no.ntnu.dof.view.screens;
+package no.ntnu.dof.view.screens.lobby;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -20,10 +14,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import lombok.Setter;
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.GameLobbyController;
-import no.ntnu.dof.controller.ScreenManager;
-import no.ntnu.dof.controller.network.LobbyService;
-import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobby;
+import no.ntnu.dof.view.screens.BaseScreen;
 
 public class LobbyScreen extends BaseScreen {
 
@@ -113,7 +105,16 @@ public class LobbyScreen extends BaseScreen {
                 }
             });
 
+            TextButton exitLobbyButton = new TextButton("Exit Lobby", skin, "default");
+            exitLobbyButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    controller.exitLobby();
+                }
+            });
+
             contentTable.add(joinGameButton).colspan(2).padBottom(10).width(150).height(50);
+            contentTable.add(exitLobbyButton).colspan(3).padBottom(10).width(150).height(50);
         }
         errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1);

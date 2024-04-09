@@ -1,6 +1,5 @@
 package no.ntnu.dof.controller;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,14 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import lombok.Data;
-import no.ntnu.dof.controller.gameplay.GameController;
-import no.ntnu.dof.controller.network.AuthCallback;
-import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.User;
-import lombok.Getter;
-import lombok.Setter;
-import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.deck.Deck;
@@ -25,14 +18,14 @@ import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
 import no.ntnu.dof.model.gameplay.stats.armor.Armor;
 import no.ntnu.dof.model.gameplay.stats.health.Health;
 import no.ntnu.dof.model.gameplay.stats.mana.Mana;
-import no.ntnu.dof.view.screens.FightScreen;
-import no.ntnu.dof.view.screens.LoginScreen;
 
 @Data
 public class DuelOfFates extends com.badlogic.gdx.Game {
     private SpriteBatch batch;
     private AssetManager assetManager;
+
     private User currentUser;
+
     private GameLobbies gameLobbies;
     private List<PlayerClass> playerClasses;
 
@@ -45,10 +38,10 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         assetManager.load("menuBackground.png", Texture.class);
         assetManager.load("backBtn.png", Texture.class);
         assetManager.finishLoading(); // Blocks until all assets are loaded
-
+//
         // Initialize first screen and ScreenManager
-        ScreenManager.initialize(this, batch, assetManager);
-        ScreenManager.transitionToLogin();
+        ScreenController.initialize(this, batch, assetManager);
+        ScreenController.transitionToLogin();
 
 
         // Fetch game lobbies

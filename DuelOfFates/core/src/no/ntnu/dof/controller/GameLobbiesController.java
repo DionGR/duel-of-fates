@@ -6,7 +6,7 @@ import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
-import no.ntnu.dof.view.screens.LobbiesScreen;
+import no.ntnu.dof.view.screens.lobby.LobbiesScreen;
 
 public class GameLobbiesController {
 
@@ -31,7 +31,7 @@ public class GameLobbiesController {
     }
 
     public void transitionToLobby(GameLobby lobby) {
-        ScreenManager.transitionToLobby(lobby);
+        ScreenController.transitionToLobby(lobby);
     }
 
     public void createNewLobby(String title) {
@@ -40,7 +40,6 @@ public class GameLobbiesController {
         ServiceLocator.getLobbyService().createLobby(new LobbyService.LobbyCreationCallback() {
             @Override
             public void onSuccess(GameLobby lobby) {
-                // TODO: Feedback
             }
 
             @Override
