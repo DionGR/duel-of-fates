@@ -16,7 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import lombok.Setter;
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.GameLobbyController;
 import no.ntnu.dof.controller.ScreenManager;
 import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.controller.network.ServiceLocator;
@@ -30,8 +33,12 @@ public class LobbyScreen extends BaseScreen {
     private Table contentTable;
     private Label lobbyTitle;
     private GameLobby gameLobby;
+
+    @Setter
+    private GameLobbyController controller;
     private boolean isCreator;
     private TextButton guestButton;
+    private Label errorLabel;
 
     public LobbyScreen(DuelOfFates game, GameLobby gameLobby) {
         super();
@@ -75,7 +82,14 @@ public class LobbyScreen extends BaseScreen {
             startGameStyle.up = skin.newDrawable("default-round", skin.getColor("green"));
             startGameStyle.down = skin.newDrawable("default-round-down", skin.getColor("green"));
             TextButton startGameButton = new TextButton("Start Game", startGameStyle);
-            // Set up listener for starting the game...
+
+            // Listener for starting the game
+            startGameButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    controller.startGame();
+                }
+            });
 
             TextButton.TextButtonStyle deleteLobbyStyle = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
             deleteLobbyStyle.up = skin.newDrawable("default-round", skin.getColor("red"));
@@ -84,19 +98,7 @@ public class LobbyScreen extends BaseScreen {
             deleteLobbyButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    ServiceLocator.getLobbyService().deleteLobby(gameLobby.getLobbyId(), new LobbyService.LobbyDeletionCallback() {
-                        @Override
-                        public void onSuccess() {
-                            Gdx.app.log("LobbyDeletion", "Lobby successfully deleted.");
-                            Gdx.app.postRunnable(ScreenManager::popScreen);
-                        }
-
-                        @Override
-                        public void onFailure(Throwable throwable) {
-                            Gdx.app.error("LobbyDeletion", "Failed to delete the lobby.", throwable);
-                            // Show error message or handle failure
-                        }
-                    });
+                    controller.deleteLobby();
                 }
             });
 
@@ -107,33 +109,34 @@ public class LobbyScreen extends BaseScreen {
             joinGameButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    ServiceLocator.getLobbyService().joinLobby(new LobbyService.LobbyJoinCallback() {
-                        @Override
-                        public void onSuccess() {
-                            Gdx.app.log("LobbyJoin", "Successfully joined the lobby.");
-                            gameLobby.setGuest(game.getCurrentUser());
-                            Gdx.app.postRunnable(() -> {
-                                // Update the guestButton text
-                                guestButton.setText(game.getCurrentUser().getEmail());
-                                contentTable.invalidateHierarchy();
-                            });
-                        }
-
-                        @Override
-                        public void onFailure(Throwable throwable) {
-                            Gdx.app.error("LobbyJoin", "Failed to join the lobby.", throwable);
-
-                        }
-                    }, gameLobby, game.getCurrentUser());
+                    controller.joinLobby();
                 }
             });
 
             contentTable.add(joinGameButton).colspan(2).padBottom(10).width(150).height(50);
         }
+        errorLabel = new Label("", skin);
+        errorLabel.setColor(1, 0, 0, 1);
+        contentTable.row();
+        contentTable.add(errorLabel).padTop(10);
 
         stage.addActor(contentTable);
         Gdx.input.setInputProcessor(stage);
     }
+
+    public void updateGuestInfo(String guestEmail) {
+        Gdx.app.postRunnable(() -> {
+            guestButton.setText(guestEmail); // Update the guest button text with the new guest email
+            contentTable.invalidateHierarchy(); // Refresh the UI layout
+        });
+    }
+
+    public void showError(String message) {
+        Gdx.app.postRunnable(() -> {
+            errorLabel.setText(message);
+        });
+    }
+
 
     @Override
     public void render(float delta) {
