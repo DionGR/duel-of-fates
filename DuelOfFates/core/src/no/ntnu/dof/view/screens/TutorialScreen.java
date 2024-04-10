@@ -22,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Stack;
 import java.util.function.Function;
 
 import no.ntnu.dof.model.gameplay.Game;
@@ -29,6 +30,7 @@ import no.ntnu.dof.view.Image;
 import no.ntnu.dof.view.gameplay.GameView;
 import no.ntnu.dof.view.gameplay.HighlightingArea;
 import no.ntnu.dof.view.gameplay.HostPlayerView;
+import no.ntnu.dof.view.gameplay.TextLabel;
 
 public class TutorialScreen implements Screen {
     private Stage stage;
@@ -36,11 +38,20 @@ public class TutorialScreen implements Screen {
     private Label activeLabel;
     private HighlightingArea HighlightedArea;
     private Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+    private ArrayList<Label> tutorialLabels;
 
 
 
     public TutorialScreen(Game game) {
         this.gameView = new GameView(game);
+        this.activeLabel = null;
+        this.tutorialLabels = new ArrayList<Label>();
+
+        this.tutorialLabels.add(new Label("You can play cards from your hand by clicking on them", skin, "default"));
+        this.tutorialLabels.add(new Label("When you can't play anymore cards, your turn is finished automatically", skin, "default"));
+        this.tutorialLabels.add(new Label("Turn 3 tutorial", skin, "default"));
+        this.tutorialLabels.add(new Label("Turn 4 tutorial", skin, "default"));
+        this.tutorialLabels.add(new Label("Turn 5 tutorial", skin, "default"));
     }
 
     @Override
@@ -96,8 +107,16 @@ public class TutorialScreen implements Screen {
     public void TutorialTurn(int turnNumber)
     {
         if(activeLabel != null && !stage.getActors().contains(activeLabel, true)) {
+            activeLabel = tutorialLabels.get(turnNumber);
             activeLabel.setPosition(Gdx.graphics.getWidth()/2f - activeLabel.getWidth()/2f, Gdx.graphics.getHeight()/2f - activeLabel.getHeight()/2f);
             activeLabel.setAlignment(Align.center);
+            activeLabel.addListener(new ClickListener() {
+                @Override
+                public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                    activeLabel.remove();
+                    return super.touchDown(event, x, y, pointer, button);
+                }
+            } );
             stage.addActor(activeLabel);
         }
     }
@@ -126,11 +145,28 @@ public class TutorialScreen implements Screen {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
+                ShowOpponentHealthBar();
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        } );
+        stage.addActor(activeLabel);
+    }
+
+    public void ShowOpponentHealthBar()
+    {
+        activeLabel.setText("This the health bar of your opponent, when it reaches 0 you win the game");
+        ActiveLabelPosition();
+        activeLabel.addListener(new ClickListener() {
+            @Override
+            public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                activeLabel.remove();
                 ShowHealthBar();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
+        //Highlight health bar
+        HighlightActor(gameView.getOpponentPlayerView().getHealthBarView());
     }
 
     public void ShowHealthBar()
@@ -146,7 +182,8 @@ public class TutorialScreen implements Screen {
             }
         } );
         stage.addActor(activeLabel);
-        //HighlightActor(gameView.getHostPlayerView().getDiscardView());
+        //Highlight health bar
+        HighlightActor(gameView.getHostPlayerView().getHealthBarView());
     }
 
     public void ShowMana()
@@ -226,7 +263,7 @@ public class TutorialScreen implements Screen {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
-                TutorialTurn(1);
+                StartPlay();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
@@ -234,6 +271,24 @@ public class TutorialScreen implements Screen {
 
         //Highlight end turn button
         HighlightActor(gameView.getHostPlayerView().getEndTurnButton());
+    }
+
+    public void StartPlay()
+    {
+        activeLabel.setText("You can play cards from your hand by clicking on them");
+        ActiveLabelPosition();
+        activeLabel.addListener(new ClickListener() {
+            @Override
+            public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                activeLabel.remove();
+                HighlightedArea.remove();
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        } );
+        stage.addActor(activeLabel);
+
+        //Highlight hand
+        HighlightActor(gameView.getHostPlayerView().getHandView());
     }
 
     private void HighlightActor(Actor actor) {

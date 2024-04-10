@@ -14,20 +14,18 @@ import lombok.Getter;
 public class Image extends Group {
     @Getter
     private Texture img;
-    private int width;
-    private int height;
 
     public Image(String path, float Scale) {
         img = new Texture(path);
         float ratio = (float) img.getWidth() / (float) img.getHeight();
-        height = (int) (Gdx.graphics.getHeight() * Scale);
-        width = (int) (height * ratio);
-        setBounds(0, 0, width, height);
+        this.setHeight((int) (Gdx.graphics.getHeight() * Scale));
+        this.setWidth((int) (getHeight() * ratio));
+        setBounds(0, 0, getWidth(), getHeight());
     }
 
     public void render(SpriteBatch spriteBatch, float x, float y) {
         // Draw the image
-        spriteBatch.draw(img, x, y, width, height);
+        spriteBatch.draw(img, x, y, this.getWidth(), this.getHeight());
     }
 
     @Override

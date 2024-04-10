@@ -18,7 +18,7 @@ public class GameView extends Group {
     private final Game game;
     private Image graphics;
     @Getter private final HostPlayerView hostPlayerView;
-    private final OpponentPlayerView opponentPlayerView;
+    @Getter private final OpponentPlayerView opponentPlayerView;
     public GameView(Game game) {
         this.game = game;
 

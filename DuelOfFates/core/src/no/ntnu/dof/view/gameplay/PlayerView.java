@@ -21,6 +21,7 @@ public class PlayerView extends Group {
     private final Group manaPool;
     private final Image manaGraphics;
     private final Label manaText;
+    private final HealthBarView healthBarView;
 
     public PlayerView(Player player) {
         this.player = player;
@@ -33,29 +34,14 @@ public class PlayerView extends Group {
 
         manaText = (new TextLabel(Integer.toString(player.getMana().getValue()), manaGraphics.getWidth()*0.28f,manaGraphics.getHeight()*0.3f,manaGraphics.getWidth()*0.4f,manaGraphics.getHeight()*0.4f,manaGraphics.getHeight()*0.03f, Color.GREEN)).getText();
         manaPool.addActor(manaText);
-
         this.addActor(manaPool);
+
+        healthBarView = new HealthBarView(player, getX(), getY()-10, graphics.getWidth());
+        this.addActor(healthBarView);
     }
     public void draw(Batch batch, float parentAlpha) {
+        healthBarView.setPosition(getX(), getY()-10);
         super.draw(batch, parentAlpha);
-
-        //Draw the healthbar
-        batch.end();
-
-        float healthPercentage =  Math.max(0,((float) player.getHealth().getValue()/((float) player.getPlayerClass().getMaxHealth().getValue()+ (float) player.getArmor().getValue())));
-        float armorPercentage = Math.max(0,((float) player.getArmor().getValue()/((float) player.getPlayerClass().getMaxHealth().getValue()+ (float) player.getArmor().getValue())));
-
-        ShapeRenderer ShapeDrawer = new ShapeRenderer();
-        ShapeDrawer.begin(ShapeRenderer.ShapeType.Filled);
-        ShapeDrawer.setColor(Color.BLACK);
-        ShapeDrawer.rect(getX(), getY()-10, graphics.getWidth(), (float) (Gdx.graphics.getHeight()*0.05));
-        ShapeDrawer.setColor(Color.RED);
-        ShapeDrawer.rect(getX()+2, getY()-8, (graphics.getWidth()-4)*healthPercentage, (float) (Gdx.graphics.getHeight()*0.05)-4);
-        ShapeDrawer.setColor(Color.GRAY);
-        ShapeDrawer.rect(getX()+2+(graphics.getWidth()-4)*healthPercentage, getY()-8, (graphics.getWidth()-4)*armorPercentage, (float) (Gdx.graphics.getHeight()*0.05)-4);
-        ShapeDrawer.end();
-
-        batch.begin();
     }
 
 }

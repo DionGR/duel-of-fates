@@ -41,9 +41,10 @@ public class TutorialController {
     }
 
     public void gameLoop() {
-        int turn = 0;
+        int turn = 1;
+        screen.GamePresentation();
         while (!game.isOver()) {
-            screen.GamePresentation();
+            TutorialTurn(turn);
 
             System.out.println("Turn of " + game.getNextPlayer().getName() + " (" + game.getNextPlayer().getHealth().getValue() + " HP)");
             Player currentPlayer = game.getNextPlayer();
@@ -67,6 +68,7 @@ public class TutorialController {
             }
         }
     }
+
 
     public void TutorialTurn(int turnNumber)
     {
