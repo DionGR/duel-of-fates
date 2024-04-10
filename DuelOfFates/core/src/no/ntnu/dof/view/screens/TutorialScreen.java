@@ -48,10 +48,10 @@ public class TutorialScreen implements Screen {
         this.tutorialLabels = new ArrayList<Label>();
 
         this.tutorialLabels.add(new Label("You can play cards from your hand by clicking on them", skin, "default"));
-        this.tutorialLabels.add(new Label("When you can't play anymore cards, your turn is finished automatically", skin, "default"));
-        this.tutorialLabels.add(new Label("Turn 3 tutorial", skin, "default"));
-        this.tutorialLabels.add(new Label("Turn 4 tutorial", skin, "default"));
-        this.tutorialLabels.add(new Label("Turn 5 tutorial", skin, "default"));
+        this.tutorialLabels.add(new Label("When you can't play anymore cards, your turn is finished automatically \n At the beginning of your turn, you get all your mana point \n and draw until your hand reach is maximum hand size", skin, "default"));
+        this.tutorialLabels.add(new Label("On his turn, your opponent will also play card to decrease your health point \n You can play card that get you armor for 1 turn. \n Armor will take damage before your health", skin, "default"));
+        //this.tutorialLabels.add(new Label("Turn 4 tutorial", skin, "default"));
+        //this.tutorialLabels.add(new Label("Turn 5 tutorial", skin, "default"));
     }
 
     @Override
@@ -106,19 +106,23 @@ public class TutorialScreen implements Screen {
 
     public void TutorialTurn(int turnNumber)
     {
-        if(activeLabel != null && !stage.getActors().contains(activeLabel, true)) {
-            activeLabel = tutorialLabels.get(turnNumber);
-            activeLabel.setPosition(Gdx.graphics.getWidth()/2f - activeLabel.getWidth()/2f, Gdx.graphics.getHeight()/2f - activeLabel.getHeight()/2f);
-            activeLabel.setAlignment(Align.center);
-            activeLabel.addListener(new ClickListener() {
-                @Override
-                public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    activeLabel.remove();
-                    return super.touchDown(event, x, y, pointer, button);
-                }
-            } );
-            stage.addActor(activeLabel);
+        turnNumber = turnNumber/2;
+        if(turnNumber < tutorialLabels.size()) {
+            if (activeLabel != null && !stage.getActors().contains(activeLabel, true)) {
+                activeLabel = tutorialLabels.get(turnNumber);
+                activeLabel.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                activeLabel.setAlignment(Align.center);
+                activeLabel.addListener(new ClickListener() {
+                    @Override
+                    public synchronized boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        activeLabel.remove();
+                        return super.touchDown(event, x, y, pointer, button);
+                    }
+                });
+                stage.addActor(activeLabel);
+            }
         }
+        else gameView.getGame().getPlayers().get(0).getHand().setMaxSize(5);
     }
 
     public void GamePresentation()

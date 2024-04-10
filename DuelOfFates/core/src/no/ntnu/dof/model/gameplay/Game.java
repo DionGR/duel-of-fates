@@ -111,14 +111,31 @@ public class Game {
 
         cards.add(AttackCard.builder()
                     .name("Card1")
+                    .cost(new Mana(1))
+                    .opponentEffectName("damage")
+                    .build());
+        cards.add(AttackCard.builder()
+                .name("Card1")
+                .cost(new Mana(1))
+                .opponentEffectName("damage")
+                .build());
+        cards.add(DefenseCard.builder()
+                .name("Card2")
+                .cost(new Mana(1))
+                .hostEffectName("armor")
+                .build());
+        for (int i = 4; i < 10; i=i+2) {
+            cards.add(AttackCard.builder()
+                    .name("Card" + i)
                     .cost(new Mana(3))
                     .opponentEffectName("damage")
                     .build());
-        cards.add(DefenseCard.builder()
-                .name("Card2")
-                .cost(new Mana(3))
-                .hostEffectName("armor")
-                .build());
+            cards.add(DefenseCard.builder()
+                    .name("Card" + (i+1))
+                    .cost(new Mana(2))
+                    .hostEffectName("armor")
+                    .build());
+        }
 
         PlayerClass playerClass = PlayerClass.builder()
                 .deck(Deck.builder().activeCards(cards).build())

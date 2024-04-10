@@ -10,6 +10,7 @@ import no.ntnu.dof.controller.gameplay.player.ClickHostPlayerController;
 import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.controller.gameplay.player.RemotePlayerController;
 import no.ntnu.dof.model.gameplay.Game;
+import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.deck.Deck;
 import no.ntnu.dof.model.gameplay.deck.Hand;
@@ -44,13 +45,12 @@ public class TutorialController {
         int turn = 1;
         screen.GamePresentation();
         while (!game.isOver()) {
-            TutorialTurn(turn);
-
             System.out.println("Turn of " + game.getNextPlayer().getName() + " (" + game.getNextPlayer().getHealth().getValue() + " HP)");
             Player currentPlayer = game.getNextPlayer();
             PlayerController currentPlayerController = playerControllers.get(currentPlayer);
 
             Optional<Card> turnCard;
+
 
             if (currentPlayer.canPlay()) {
                 turnCard = currentPlayerController.choosePlay();
@@ -59,12 +59,20 @@ public class TutorialController {
                 System.out.println("Player cannot afford to play any card, finalizing turn.");
             }
 
+            if(turn == 2)
+            {
+                turnCard = Optional.empty();
+            }
+
+
             if (turnCard.isPresent()) {
                 game.playCard(turnCard.get());
             } else {
+
+                turn++;
+                TutorialTurn(turn);
                 game.finalizeTurn();
                 System.out.println("Turn finalized.");
-                turn++;
             }
         }
     }
