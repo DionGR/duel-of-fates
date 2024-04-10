@@ -41,7 +41,7 @@ public class ScreenController {
     }
 
     public static void transitionToMenu() {
-        pushScreen(new MenuScreen(application, batch, assetManager));
+        pushScreen(new MenuScreen());
     }
 
     public static void transitionToLobbies() {
@@ -64,6 +64,7 @@ public class ScreenController {
 
     public static void transitionToLogin() {
         LoginScreen loginScreen = new LoginScreen(batch, assetManager);
+        // LoginController needs to update the User element in DuelOfFates, and thus needs a reference to application
         new LoginController(application, loginScreen);
         pushScreen(loginScreen);
     }
