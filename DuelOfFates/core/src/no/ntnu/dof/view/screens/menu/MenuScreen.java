@@ -1,0 +1,136 @@
+package no.ntnu.dof.view.screens.menu;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.ScreenController;
+
+
+public class MenuScreen implements Screen {
+
+    private Stage stage;
+    private final SpriteBatch batch;
+    private Sprite background;
+    private Sprite soundOn;
+    private final AssetManager assetManager;
+
+    public MenuScreen(DuelOfFates game, SpriteBatch batch, AssetManager assetManager) {
+        this.batch = batch;
+        this.assetManager = assetManager;
+    }
+
+    @Override
+    public void show() {
+        Gdx.app.log("MenuScreen", "show method called");
+        // Loading skin
+        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        stage = new Stage(new ScreenViewport());
+
+        // Making a centered table to store title and buttons
+        Table contentTable = new Table();
+        contentTable.setWidth(stage.getWidth());
+        contentTable.align(Align.center|Align.top);
+        contentTable.setPosition(0, Gdx.graphics.getHeight());
+
+        Label gameTitle = new Label("Duel of Fates", skin, "default");
+        TextButton lobbiesBtn = new TextButton("Game Lobbies", skin, "default");
+        TextButton chooseClassBtn = new TextButton("Choose Class", skin, "default");
+        TextButton tutorialBtn = new TextButton("Tutorial", skin, "default");
+        TextButton logoutBtn = new TextButton("Log Out", skin, "default");
+
+//        for (Actor btn:contentTable.getChildren()) {
+//            btn.setHeight(50);
+//            btn.setWidth(150);
+//        }
+
+        // Adding content to table
+        contentTable.padTop(30);
+        contentTable.add(gameTitle).padBottom(30).row();
+        contentTable.add(lobbiesBtn).padBottom(30).width(150).height(50).row();
+        contentTable.add(chooseClassBtn).padBottom(30).width(150).height(50).row();
+        contentTable.add(tutorialBtn).padBottom(30).width(150).height(50).row();;
+        contentTable.add(logoutBtn).width(150).height(50);
+
+        stage.addActor(contentTable);
+
+
+        lobbiesBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenController.transitionToLobbies();
+            }
+        });
+
+        chooseClassBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenController.transitionToChooseClass();
+            }
+        });
+
+        logoutBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenController.transitionToLoginWhenLoggedIn();
+            }
+        });
+
+        // Loading background
+        background = new Sprite(assetManager.get("menuBackground.png", Texture.class));
+        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        // Setting sound buttons
+        soundOn = new Sprite(new Texture(Gdx.files.internal("soundOn.png")));
+        soundOn.setSize(80, 80);
+        Sprite soundOff = new Sprite(new Texture(Gdx.files.internal("soundOff.png")));
+        soundOff.setSize(80,80);
+
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+        background.draw(batch);
+        soundOn.draw(batch);
+        batch.end();
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void pause() {
+    }
+    @Override
+    public void resume() {
+    }
+    @Override
+    public void hide() {
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
+}
