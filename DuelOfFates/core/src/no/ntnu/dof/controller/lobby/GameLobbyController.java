@@ -8,20 +8,19 @@ import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
 import no.ntnu.dof.view.screens.lobby.LobbyScreen;
-import no.ntnu.dof.controller.DuelOfFates;
 
-public class GameLobbyController {
+public class GameLobbyController implements ILobbyViewListener {
 
-    private final DuelOfFates game;
+    private final User currentUser;
     private final LobbyScreen lobbyScreen;
     private final GameLobby gameLobby;
     private boolean isDeletingLobby = false;
 
-    public GameLobbyController(DuelOfFates game, LobbyScreen lobbyScreen, GameLobby gameLobby) {
-        this.game = game;
+    public GameLobbyController(User currentUser, LobbyScreen lobbyScreen, GameLobby gameLobby) {
+        this.currentUser = currentUser;
         this.lobbyScreen = lobbyScreen;
         this.gameLobby = gameLobby;
-        lobbyScreen.setController(this);
+        lobbyScreen.setListener(this);
     }
 
     public void startGame() {
@@ -40,7 +39,6 @@ public class GameLobbyController {
 
     public void joinLobby() {
         // Current user attempts to join the lobby
-        User currentUser = game.getCurrentUser();
         ServiceLocator.getLobbyService().joinLobby(new LobbyService.LobbyJoinCallback() {
             @Override
             public void onSuccess() {

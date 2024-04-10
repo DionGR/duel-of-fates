@@ -9,6 +9,7 @@ import no.ntnu.dof.controller.lobby.GameLobbiesController;
 import no.ntnu.dof.controller.lobby.GameLobbyController;
 import no.ntnu.dof.controller.menu.LoginController;
 import no.ntnu.dof.model.GameLobby;
+import no.ntnu.dof.model.User;
 import no.ntnu.dof.view.screens.menu.ChooseClassScreen;
 import no.ntnu.dof.view.screens.menu.LoginScreen;
 import no.ntnu.dof.view.screens.menu.MenuScreen;
@@ -50,8 +51,10 @@ public class ScreenController {
     }
 
     public static void transitionToLobby(GameLobby gameLobby) {
-        LobbyScreen lobbyScreen = new LobbyScreen(application, gameLobby);
-        new GameLobbyController(application, lobbyScreen, gameLobby);
+        User currentUser = application.getCurrentUser();
+        // The LobbyScreen needs the currentUser and gameLobby in order to load the correct UI to begin with
+        LobbyScreen lobbyScreen = new LobbyScreen(currentUser, gameLobby);
+        new GameLobbyController(currentUser, lobbyScreen, gameLobby);
         pushScreen(lobbyScreen);
     }
 
