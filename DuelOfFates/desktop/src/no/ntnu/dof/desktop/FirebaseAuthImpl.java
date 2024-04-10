@@ -33,6 +33,12 @@ public class FirebaseAuthImpl implements AuthInterface {
         callback.onSuccess();
     }
 
+    @Override
+    public void signOut() {
+        FirebaseApp.getInstance().delete();
+        appInitialized = false;
+    }
+
     // TODO: Fetch User from Firebase and create User object
     // Dummy function
     @Override

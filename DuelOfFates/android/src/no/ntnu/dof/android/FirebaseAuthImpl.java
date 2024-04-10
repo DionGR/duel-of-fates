@@ -21,6 +21,11 @@ public class FirebaseAuthImpl implements AuthInterface {
     }
 
     @Override
+    public void signOut() {
+        FirebaseAuth.getInstance().signOut();
+    }
+
+    @Override
     public User createGameUserFromFirebaseUser() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

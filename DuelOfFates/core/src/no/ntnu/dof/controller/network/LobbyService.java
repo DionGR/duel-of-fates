@@ -14,6 +14,8 @@ public interface LobbyService {
 
     void deleteLobby(String lobbyId, LobbyDeletionCallback callback);
 
+    void guestExitLobby(LobbyExitCallback callback, GameLobby gameLobby);
+
     interface LobbyCreationCallback {
         void onSuccess(GameLobby gameLobby);
         void onFailure(Throwable throwable);
@@ -24,6 +26,11 @@ public interface LobbyService {
     }
 
     interface LobbyJoinCallback {
+        void onSuccess();
+        void onFailure(Throwable throwable);
+    }
+
+    interface LobbyExitCallback {
         void onSuccess();
         void onFailure(Throwable throwable);
     }

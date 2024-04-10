@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import java.util.Optional;
 
 import no.ntnu.dof.model.gameplay.card.Card;
-import no.ntnu.dof.view.gameplay.CardView;
+import no.ntnu.dof.view.entity.view.CardView;
 
 public class ClickPlayerController extends ClickListener implements PlayerController {
     protected Optional<Card> chosen;

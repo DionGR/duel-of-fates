@@ -61,7 +61,38 @@ public class FirebaseLobbyService implements LobbyService {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference lobbyRef = databaseReference.child("lobbies").child(gameLobby.getLobbyId());
 
-        lobbyRef.child("guest").setValue(user, (DatabaseReference.CompletionListener) (databaseError, databaseReference1) -> {
+        // Check if lobby still exists
+        lobbyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    callback.onFailure(new Exception("Lobby does not exist."));
+                } else
+                    lobbyRef.child("guest").setValue(user, (DatabaseReference.CompletionListener) (databaseError, databaseReference1) -> {
+                        if (databaseError == null) {
+                            if (callback != null) {
+                                callback.onSuccess();
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFailure(databaseError.toException());
+                            }
+                        }
+                    });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onFailure(databaseError.toException());
+            }
+        });
+
+    }
+
+    @Override
+    public void deleteLobby(String lobbyId, LobbyDeletionCallback callback) {
+        DatabaseReference lobbyRef = FirebaseDatabase.getInstance().getReference("lobbies").child(lobbyId);
+        lobbyRef.removeValue((databaseError, databaseReference) -> {
             if (databaseError == null) {
                 if (callback != null) {
                     callback.onSuccess();
@@ -75,9 +106,11 @@ public class FirebaseLobbyService implements LobbyService {
     }
 
     @Override
-    public void deleteLobby(String lobbyId, LobbyDeletionCallback callback) {
-        DatabaseReference lobbyRef = FirebaseDatabase.getInstance().getReference("lobbies").child(lobbyId);
-        lobbyRef.removeValue((databaseError, databaseReference) -> {
+    public void guestExitLobby(LobbyExitCallback callback, GameLobby gameLobby) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference lobbyRef = databaseReference.child("lobbies").child(gameLobby.getLobbyId());
+
+        lobbyRef.child("guest").removeValue((databaseError, databaseReference1) -> {
             if (databaseError == null) {
                 if (callback != null) {
                     callback.onSuccess();

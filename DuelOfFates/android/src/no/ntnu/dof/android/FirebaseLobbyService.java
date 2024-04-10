@@ -60,14 +60,57 @@ public class FirebaseLobbyService implements LobbyService {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference lobbyRef = databaseReference.child("lobbies").child(gameLobby.getLobbyId());
 
-        lobbyRef.child("guest").setValue(user)
-                .addOnSuccessListener(aVoid -> callback.onSuccess())
-                .addOnFailureListener(callback::onFailure);
+        // Check if lobby still exists
+        lobbyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    callback.onFailure(new Exception("Lobby does not exist."));
+                } else
+                    lobbyRef.child("guest").setValue(user, (DatabaseReference.CompletionListener) (databaseError, databaseReference1) -> {
+                        if (databaseError == null) {
+                            if (callback != null) {
+                                callback.onSuccess();
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFailure(databaseError.toException());
+                            }
+                        }
+                    });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onFailure(databaseError.toException());
+            }
+        });
     }
 
     @Override
     public void deleteLobby(String lobbyId, LobbyDeletionCallback callback) {
         DatabaseReference lobbyRef = FirebaseDatabase.getInstance().getReference("lobbies").child(lobbyId);
+        lobbyRef.removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    if (callback != null) {
+                        callback.onSuccess();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    if (callback != null) {
+                        callback.onFailure(e);
+                    }
+                });
+    }
+
+    @Override
+    public void guestExitLobby(LobbyExitCallback callback, GameLobby gameLobby) {
+        DatabaseReference lobbyRef = FirebaseDatabase
+                .getInstance()
+                .getReference("lobbies")
+                .child(gameLobby.getLobbyId())
+                .child("guest");
+
         lobbyRef.removeValue()
                 .addOnSuccessListener(aVoid -> {
                     if (callback != null) {

@@ -1,9 +1,6 @@
 package no.ntnu.dof.model;
 
-import java.util.List;
-
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 public class GameLobby {

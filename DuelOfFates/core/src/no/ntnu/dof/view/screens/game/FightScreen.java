@@ -1,4 +1,4 @@
-package no.ntnu.dof.view.screens;
+package no.ntnu.dof.view.screens.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import no.ntnu.dof.model.gameplay.Game;
-import no.ntnu.dof.view.gameplay.GameView;
+import no.ntnu.dof.view.entity.view.GameView;
 
 
 public class FightScreen implements Screen {

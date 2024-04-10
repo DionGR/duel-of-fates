@@ -1,4 +1,4 @@
-package no.ntnu.dof.view.screens;
+package no.ntnu.dof.view.screens.lobby;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,12 +16,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import lombok.Setter;
 import no.ntnu.dof.controller.DuelOfFates;
-import no.ntnu.dof.controller.ScreenManager;
+import no.ntnu.dof.controller.ScreenController;
 import no.ntnu.dof.controller.GameLobbiesController;
 import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.GameLobby;
+import no.ntnu.dof.view.screens.BaseScreen;
+import no.ntnu.dof.view.screens.ReturnableScreen;
 
-public class LobbiesScreen extends BaseScreen {
+public class LobbiesScreen extends ReturnableScreen {
 
     private Stage stage;
     private Skin skin;
@@ -54,6 +56,7 @@ public class LobbiesScreen extends BaseScreen {
         contentTable.add(lobbiesTitle).expandX().padTop(20).row();
 
         TextButton lobbyBtn = new TextButton("<Lobby Title>\n<Host Name>", skin, "default");
+
         // Adding content to table
         contentTable.padTop(30);
         GameLobbies gameLobbies = game.getGameLobbies();
@@ -62,7 +65,7 @@ public class LobbiesScreen extends BaseScreen {
             lobbyButton.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    ScreenManager.transitionToLobby(lobby);
+                    ScreenController.transitionToLobby(lobby);
                     return true;
                 }
             });

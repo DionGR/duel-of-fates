@@ -9,7 +9,7 @@ import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.view.gameplay.CardView;
+import no.ntnu.dof.view.entity.view.CardView;
 
 public class ClickHostPlayerController extends ClickListener implements PlayerController{
 
