@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import lombok.Setter;
 import no.ntnu.dof.controller.DuelOfFates;
-import no.ntnu.dof.controller.GameLobbyController;
+import no.ntnu.dof.controller.lobby.GameLobbyController;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.view.screens.BaseScreen;
 

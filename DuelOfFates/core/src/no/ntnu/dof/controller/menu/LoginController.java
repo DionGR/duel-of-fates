@@ -1,10 +1,12 @@
-package no.ntnu.dof.controller;
+package no.ntnu.dof.controller.menu;
 
 import com.badlogic.gdx.Gdx;
 
+import no.ntnu.dof.controller.ScreenController;
 import no.ntnu.dof.controller.network.AuthCallback;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.view.screens.menu.LoginScreen;
+import no.ntnu.dof.controller.DuelOfFates;
 
 public class LoginController implements LoginScreen.LoginViewListener {
     private final DuelOfFates application;

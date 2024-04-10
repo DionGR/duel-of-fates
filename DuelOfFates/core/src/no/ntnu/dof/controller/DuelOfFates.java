@@ -25,8 +25,6 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
     private AssetManager assetManager;
 
     private User currentUser;
-
-    private GameLobbies gameLobbies;
     private List<PlayerClass> playerClasses;
 
 	public DuelOfFates() {}
@@ -43,9 +41,6 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         ScreenController.initialize(this, batch, assetManager);
         ScreenController.transitionToLogin();
 
-
-        // Fetch game lobbies
-        this.gameLobbies = new GameLobbies();
         // Set MockPlayerClasses:
         setMockPlayerClasses();
         // TODO remove CLI gameplay demo

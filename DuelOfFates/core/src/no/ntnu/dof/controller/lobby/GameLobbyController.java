@@ -1,11 +1,14 @@
-package no.ntnu.dof.controller;
+package no.ntnu.dof.controller.lobby;
 
 import com.badlogic.gdx.Gdx;
+
+import no.ntnu.dof.controller.ScreenController;
 import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
 import no.ntnu.dof.view.screens.lobby.LobbyScreen;
+import no.ntnu.dof.controller.DuelOfFates;
 
 public class GameLobbyController {
 
