@@ -6,6 +6,7 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
+import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.deck.Deck;
 
@@ -16,12 +17,10 @@ public class DeckModule {
     @Named ("exampleDeck")
     public Deck provideExampleDeck(@Named ("exampleCard") Card attackCard) {
         ArrayList<Card> cards = new ArrayList<>();
-        cards.add(attackCard);
-        cards.add(attackCard);
-        cards.add(attackCard);
-        cards.add(attackCard);
-        cards.add(attackCard);
-        cards.add(attackCard);
+                                    cards.add(attackCard);
+                                    cards.add(attackCard);
+                                    cards.add(attackCard);
+                                    cards.add(attackCard);
 
         return Deck.builder()
                 .activeCards(cards)

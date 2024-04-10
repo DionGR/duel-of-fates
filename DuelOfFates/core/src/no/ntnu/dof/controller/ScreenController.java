@@ -1,5 +1,6 @@
 package no.ntnu.dof.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -81,8 +82,9 @@ public class ScreenController {
     public static void transitionToGame(PlayerClass hostPlayerClass, PlayerClass guestPlayerClass) {
         GameController gameController = new GameController(hostPlayerClass, guestPlayerClass);
         GameScreen gameScreen = new GameScreen(gameController.getGame());
-        screens.push(gameScreen);
-        new Thread(gameController::gameLoop).start();
+//        new Thread(gameController::gameLoop).start();
+        Gdx.app.postRunnable(gameController::gameLoop);
+        pushScreen(gameScreen);
     }
 }
 

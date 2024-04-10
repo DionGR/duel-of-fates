@@ -58,7 +58,8 @@ public class Player extends GameplayEntity {
             this.health = new Health(playerClass.getMaxHealth().getValue());
             this.armor = new Armor(playerClass.getMaxArmor().getValue());
             this.mana = new Mana(playerClass.getMaxMana().getValue());
-            this.hand = Hand.builder().build();
+            this.hand = Hand.builder().maxSize(3).build();
+
             this.hand.refill(playerClass.getDeck());
 
             return self();
