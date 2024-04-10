@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import lombok.Setter;
-import no.ntnu.dof.controller.lobby.ILobbyViewListener;
+import no.ntnu.dof.controller.lobby.LobbyViewListener;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
 import no.ntnu.dof.view.screens.BaseScreen;
@@ -26,7 +26,7 @@ public class LobbyScreen extends BaseScreen {
     private GameLobby gameLobby;
 
     @Setter
-    private ILobbyViewListener listener;
+    private LobbyViewListener listener;
 
     @Setter
     private boolean isCreator;

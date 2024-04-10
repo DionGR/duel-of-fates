@@ -2,36 +2,37 @@ package no.ntnu.dof.controller.lobby;
 
 import com.badlogic.gdx.Gdx;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import no.ntnu.dof.controller.ScreenController;
+import no.ntnu.dof.controller.gameplay.di.DaggerGameLobbyControllerComponent;
+import no.ntnu.dof.controller.gameplay.di.GameLobbyControllerComponent;
 import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
-import no.ntnu.dof.model.gameplay.effect.Effect;
-import no.ntnu.dof.model.gameplay.effect.EffectInvoker;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClassInvoker;
 import no.ntnu.dof.view.screens.lobby.LobbyScreen;
 
-public class GameLobbyController implements ILobbyViewListener {
+public class GameLobbyController implements LobbyViewListener {
 
     private final User currentUser;
     private final LobbyScreen lobbyScreen;
     private final GameLobby gameLobby;
     private boolean isDeletingLobby = false;
 
-    public GameLobbyController(User currentUser, LobbyScreen lobbyScreen, GameLobby gameLobby) {
-        this.currentUser = currentUser;
     @Inject
     @Named("playerClassInvoker")
     PlayerClassInvoker<String, PlayerClass> playerClassInvoker;
 
 
-    public GameLobbyController(DuelOfFates game, LobbyScreen lobbyScreen, GameLobby gameLobby) {
+    public GameLobbyController(User currentUser, LobbyScreen lobbyScreen, GameLobby gameLobby) {
         GameLobbyControllerComponent gameLobbyControllerComponent = DaggerGameLobbyControllerComponent.create();
         gameLobbyControllerComponent.inject(this);
+        this.currentUser = currentUser;
 
-        this.game = game;
         this.lobbyScreen = lobbyScreen;
         this.gameLobby = gameLobby;
         lobbyScreen.setListener(this);

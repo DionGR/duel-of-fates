@@ -5,11 +5,14 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Stack;
 
+import no.ntnu.dof.controller.gameplay.GameController;
 import no.ntnu.dof.controller.lobby.GameLobbiesController;
 import no.ntnu.dof.controller.lobby.GameLobbyController;
 import no.ntnu.dof.controller.menu.LoginController;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
+import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
+import no.ntnu.dof.view.screens.game.GameScreen;
 import no.ntnu.dof.view.screens.menu.ChooseClassScreen;
 import no.ntnu.dof.view.screens.menu.LoginScreen;
 import no.ntnu.dof.view.screens.menu.MenuScreen;

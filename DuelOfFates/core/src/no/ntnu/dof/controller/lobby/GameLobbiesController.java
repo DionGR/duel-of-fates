@@ -12,7 +12,7 @@ import no.ntnu.dof.model.User;
 import no.ntnu.dof.view.screens.lobby.LobbiesScreen;
 
 @Data
-public class GameLobbiesController implements ILobbiesViewListener {
+public class GameLobbiesController implements LobbiesViewListener {
     private GameLobbies gameLobbies;
     private final LobbiesScreen lobbiesScreen;
     private User currentUser;
