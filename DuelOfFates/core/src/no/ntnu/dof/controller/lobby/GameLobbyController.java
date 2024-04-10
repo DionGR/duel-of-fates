@@ -21,6 +21,20 @@ public class GameLobbyController implements ILobbyViewListener {
         this.lobbyScreen = lobbyScreen;
         this.gameLobby = gameLobby;
         lobbyScreen.setListener(this);
+        startListeningForLobbyUpdates();
+    }
+
+    public void startListeningForLobbyUpdates() {
+        ServiceLocator.getLobbyService().listenForLobbyUpdate(gameLobby.getLobbyId(), updatedLobby -> {
+            gameLobby.setGuest(updatedLobby.getGuest());
+            if (lobbyScreen != null && updatedLobby.getGuest() != null) {
+                lobbyScreen.updateGuestInfo(updatedLobby.getGuest().getEmail());
+            }
+        });
+    }
+
+    public void stopListeningForLobbyUpdates() {
+        ServiceLocator.getLobbyService().stopListeningForLobbyUpdates(gameLobby.getLobbyId());
     }
 
     public void startGame() {
