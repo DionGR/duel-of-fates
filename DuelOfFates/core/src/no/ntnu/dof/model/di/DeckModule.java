@@ -17,6 +17,11 @@ public class DeckModule {
     public Deck provideExampleDeck(@Named ("exampleCard") Card attackCard) {
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(attackCard);
+        cards.add(attackCard);
+        cards.add(attackCard);
+        cards.add(attackCard);
+        cards.add(attackCard);
+        cards.add(attackCard);
 
         return Deck.builder()
                 .activeCards(cards)

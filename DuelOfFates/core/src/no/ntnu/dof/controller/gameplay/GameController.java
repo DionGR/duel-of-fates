@@ -20,8 +20,14 @@ public class GameController {
     private final Map<Player, PlayerController> playerControllers;
 
     public GameController(PlayerClass hostPlayerClass, PlayerClass opponentPlayerClass) {
-        Player host = Player.builder().playerClass(hostPlayerClass).build();
-        Player opponent = Player.builder().playerClass(opponentPlayerClass).build();
+        Player host = Player.builder()
+                .playerClass(hostPlayerClass)
+                .build();
+
+        Player opponent = Player.builder()
+                .playerClass(opponentPlayerClass)
+                .build();
+
         this.game = new Game(host, opponent);
         this.playerControllers = new HashMap<>();
 

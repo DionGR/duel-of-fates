@@ -39,7 +39,10 @@ public class HostPlayerView extends PlayerView{
 
         handView = new Group();
         player.getHand().getCards().forEach(c -> handView.addActor(new CardView(0.3f, c, handView.getChildren().size)));
+
+        // this line has a mistake
         handView.setPosition(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 5);
+
         handView.addListener( new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("down");

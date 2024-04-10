@@ -1,5 +1,7 @@
 package no.ntnu.dof.desktop;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +36,32 @@ public class FirebaseLobbyService implements LobbyService {
     }
 
     @Override
+    public void updateLobbyState(LobbyUpdateCallback callback, String lobbyId, String state) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies");
+        DatabaseReference lobbyRef = databaseReference.child(lobbyId).child("gameState");
+
+        lobbyRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataSnapshot.getRef().setValue(state, (databaseError, databaseReference) -> {
+                    if (databaseError == null) {
+                        callback.onSuccess();
+                    } else {
+                        callback.onFailure(databaseError.toException());
+                    }
+                });
+                callback.onSuccess();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.err.println("Data could not be saved " + databaseError.getMessage());
+                callback.onFailure(databaseError.toException());
+            }
+        });
+    }
+
+    @Override
     public void listenForLobbyChanges(LobbyChangeListener listener) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -54,6 +82,29 @@ public class FirebaseLobbyService implements LobbyService {
                 System.err.println("The read failed: " + databaseError.getCode());
             }
         });
+    }
+
+    @Override
+    public void listenForGameStart(GameStartListener listener) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot lobbySnapshot: dataSnapshot.getChildren()) {
+                    GameLobby lobby = lobbySnapshot.getValue(GameLobby.class);
+                    if (lobby != null && lobby.getGameState() != null && lobby.getGameState().equals("started")) {
+                        listener.onGameStart(lobby);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
     }
 
     @Override

@@ -2,6 +2,8 @@ package no.ntnu.dof.controller.lobby;
 
 import com.badlogic.gdx.Gdx;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -36,10 +38,10 @@ public class GameLobbyController implements LobbyViewListener {
         this.lobbyScreen = lobbyScreen;
         this.gameLobby = gameLobby;
         lobbyScreen.setListener(this);
+        initializeListeners();
     }
 
-    public void startGame() {
-        // Only start game if there is a guest
+    public void startGame(){
         if (gameLobby.getGuest() == null) {
             lobbyScreen.showError("A second player is required to start the game.");
             return;
@@ -47,17 +49,56 @@ public class GameLobbyController implements LobbyViewListener {
 
         PlayerClass hostPlayerClass = playerClassInvoker.invoke(
                 gameLobby
-                .getCreator()
-                .getPlayerClassName());
+                        .getCreator()
+                        .getPlayerClassName());
         PlayerClass guestPlayerClass = playerClassInvoker.invoke(
                 gameLobby
-                .getGuest()
-                .getPlayerClassName());
+                        .getGuest()
+                        .getPlayerClassName());
+
+        // update firebase game state to "started"
+        ServiceLocator.getLobbyService().updateLobbyState(new LobbyService.LobbyUpdateCallback() {
+            @Override
+            public void onSuccess() {
+                Gdx.app.log("LobbyUpdate", "Successfully updated the lobby state.");
+                Gdx.app.postRunnable(() -> ScreenController.transitionToGame(hostPlayerClass, guestPlayerClass));
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Gdx.app.error("LobbyUpdate", "Failed to update the lobby state.", throwable);
+                lobbyScreen.showError("Failed to update the lobby state.");
+            }
+        }, gameLobby.getLobbyId(), "started");
 
         // Logic to start the game...
         System.out.println("Starting game for lobby: " + gameLobby.getTitle());
-        ScreenController.transitionToGame(hostPlayerClass, guestPlayerClass);
     }
+
+    private void initializeListeners() {
+        ServiceLocator.getLobbyService().listenForGameStart(this::updateLobbyState);
+    }
+
+    public void updateLobbyState(GameLobby gameLobby) {
+        if (gameLobby.getGameState().equals("started")) {
+            lobbyScreen.showError("Game is starting...");
+            this.startGame();
+        }
+
+        ServiceLocator.getLobbyService().updateLobbyState(new LobbyService.LobbyUpdateCallback() {
+            @Override
+            public void onSuccess() {
+                Gdx.app.log("LobbyUpdate", "Successfully updated the lobby state.");
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Gdx.app.error("LobbyUpdate", "Failed to update the lobby state.", throwable);
+                lobbyScreen.showError("Failed to update the lobby state.");
+            }
+        }, gameLobby.getLobbyId(), gameLobby.getGameState());
+    }
+
 
     public void joinLobby() {
         // Current user attempts to join the lobby
