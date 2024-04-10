@@ -44,6 +44,7 @@ public class PlayerView extends Group {
 
         float healthPercentage =  Math.max(0,((float) player.getHealth().getValue()/((float) player.getPlayerClass().getMaxHealth().getValue()+ (float) player.getArmor().getValue())));
         float armorPercentage = Math.max(0,((float) player.getArmor().getValue()/((float) player.getPlayerClass().getMaxHealth().getValue()+ (float) player.getArmor().getValue())));
+
         ShapeRenderer ShapeDrawer = new ShapeRenderer();
         ShapeDrawer.begin(ShapeRenderer.ShapeType.Filled);
         ShapeDrawer.setColor(Color.BLACK);

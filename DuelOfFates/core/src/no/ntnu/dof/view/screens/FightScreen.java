@@ -59,6 +59,4 @@ public class FightScreen implements Screen {
     public void dispose() {
 
     }
-
-
 }

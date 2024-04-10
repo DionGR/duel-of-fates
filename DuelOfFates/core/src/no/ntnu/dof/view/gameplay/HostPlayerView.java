@@ -14,11 +14,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.Getter;
 import no.ntnu.dof.controller.gameplay.player.TestClickPlayerController;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.Image;
 
+@Getter
 public class HostPlayerView extends PlayerView{
 
     private Group hostInterface;
@@ -26,6 +28,7 @@ public class HostPlayerView extends PlayerView{
     private Image deckView;
     private Image discardView;
     private Player player;
+    private TextButton endTurnButton;
 
     public HostPlayerView(Player player) {
         super(player);
@@ -40,12 +43,14 @@ public class HostPlayerView extends PlayerView{
         handView = new Group();
         player.getHand().getCards().forEach(c -> handView.addActor(new CardView(0.3f, c, handView.getChildren().size)));
         handView.setPosition(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 5);
+        /*
         handView.addListener( new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("down");
                 return true;
             }
         } );
+        */
         hostInterface.addActor(handView);
 
         deckView = new Image("./assets/Card_back.png", 0.25f);
@@ -57,7 +62,7 @@ public class HostPlayerView extends PlayerView{
         hostInterface.addActor(discardView);
 
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-        TextButton endTurnButton = new TextButton("End Turn", skin, "default");
+        endTurnButton = new TextButton("End Turn", skin, "default");
         endTurnButton.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -91,6 +96,10 @@ public class HostPlayerView extends PlayerView{
             handView.addActor(new CardView(0.3f, c, handView.getChildren().size));
         }
         handView.setPosition(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 5);
+        CardView FirstChild = (CardView) handView.getChild(0);
+        CardView LastChild = (CardView) handView.getChild(handView.getChildren().size-1);
+        handView.setBounds(handView.getX(), handView.getY(), LastChild.getX()-FirstChild.getX()+LastChild.getWidth(), LastChild.getY()-FirstChild.getY()+LastChild.getHeight());
     }
+
 
 }

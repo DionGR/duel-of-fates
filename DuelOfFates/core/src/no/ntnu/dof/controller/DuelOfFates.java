@@ -15,8 +15,10 @@ import no.ntnu.dof.model.User;
 import lombok.Getter;
 import lombok.Setter;
 import no.ntnu.dof.model.gameplay.Game;
+import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.screens.FightScreen;
 import no.ntnu.dof.view.screens.LoginScreen;
+import no.ntnu.dof.view.screens.TutorialScreen;
 
 public class DuelOfFates extends com.badlogic.gdx.Game {
     private SpriteBatch batch;
@@ -42,7 +44,7 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
 
         // Initialize first screen and ScreenManager
         ScreenManager.initialize(this, batch, assetManager);
-        ScreenManager.transitionToLogin();
+        //ScreenManager.transitionToLogin();
 
 
         // Fetch game lobbies
@@ -60,10 +62,12 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
             }
         });
 
-        TutorialController gameController = new TutorialController(Game.Tutorial("host"));
+        Game game = new Game(Game.Tutorial("host"), Game.demoPlayer("bot"));
 
-        // Initialize the fight screen as the first screen
-        this.setScreen(new FightScreen(gameController.getGame()));
+        TutorialScreen screen1 = new TutorialScreen(game);
+        TutorialController gameController = new TutorialController(game, screen1);
+
+        this.setScreen(screen1);
         new Thread(gameController::gameLoop).start();
 	}
 

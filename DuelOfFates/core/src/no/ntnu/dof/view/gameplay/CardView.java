@@ -27,7 +27,6 @@ public class CardView extends Group {
     private float height;
 
     public CardView(float Scale, Card card, int i) {
-        //super("./assets/Card.png", Scale);
         this.card = card;
         this.cardTexture = new CardTexture(card.getName(), Scale* Gdx.graphics.getHeight());
         this.width = cardTexture.getWidth();

@@ -10,13 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.view.Image;
 
 public class GameView extends Group {
     private final Game game;
     private Image graphics;
-    private final HostPlayerView hostPlayerView;
+    @Getter private final HostPlayerView hostPlayerView;
     private final OpponentPlayerView opponentPlayerView;
     public GameView(Game game) {
         this.game = game;

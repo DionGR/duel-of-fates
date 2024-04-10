@@ -87,7 +87,7 @@ public class Game {
         for (int i = 0; i < 10; ++i) {
             cards.add(AttackCard.builder()
                     .name("Card" + i)
-                    .cost(new Mana(3))
+                    .cost(new Mana(5))
                     .opponentEffectName("damage")
                     .build());
         }
@@ -114,16 +114,9 @@ public class Game {
                     .cost(new Mana(3))
                     .opponentEffectName("damage")
                     .build());
-        for(int i = 0; i < 6; i++){
-            cards.add(AttackCard.builder()
-                    .name("Card" + i)
-                    .cost(new Mana(1))
-                    .opponentEffectName("damage")
-                    .build());
-        }
         cards.add(DefenseCard.builder()
                 .name("Card2")
-                .cost(new Mana(1))
+                .cost(new Mana(3))
                 .hostEffectName("armor")
                 .build());
 
@@ -138,7 +131,7 @@ public class Game {
         Player host = Player.builder()
                 .name(hostname)
                 .playerClass(playerClass)
-                .hand(Hand.builder().maxSize(2).build())
+                .hand(Hand.builder().maxSize(1).build())
                 .build();
 
         return host;

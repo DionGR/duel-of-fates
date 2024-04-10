@@ -18,17 +18,21 @@ import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
 import no.ntnu.dof.model.gameplay.stats.armor.Armor;
 import no.ntnu.dof.model.gameplay.stats.health.Health;
 import no.ntnu.dof.model.gameplay.stats.mana.Mana;
+import no.ntnu.dof.view.screens.TutorialScreen;
 
 public class TutorialController {
     @Getter
     private final Game game;
+    private final TutorialScreen screen;
     private final Map<Player, PlayerController> playerControllers;
 
-    public TutorialController(Player host) {
-        Player bot = Game.demoPlayer("bot");
-
-        this.game = new Game(host, bot);
+    public TutorialController(Game game, TutorialScreen screen) {
+        this.game = game;
         this.playerControllers = new HashMap<>();
+        this.screen = screen;
+
+        Player host = game.getPlayers().get(0);
+        Player bot = game.getPlayers().get(1);
 
         ClickHostPlayerController hostController = ClickHostPlayerController.get();
         hostController.setPlayer(host);
@@ -37,8 +41,11 @@ public class TutorialController {
     }
 
     public void gameLoop() {
+        int turn = 0;
         while (!game.isOver()) {
-            System.out.println("Turn of " + game.getNextPlayer().getName() + " (" + game.getNextPlayer().getHealth() + " HP)");
+            screen.GamePresentation();
+
+            System.out.println("Turn of " + game.getNextPlayer().getName() + " (" + game.getNextPlayer().getHealth().getValue() + " HP)");
             Player currentPlayer = game.getNextPlayer();
             PlayerController currentPlayerController = playerControllers.get(currentPlayer);
 
@@ -56,7 +63,15 @@ public class TutorialController {
             } else {
                 game.finalizeTurn();
                 System.out.println("Turn finalized.");
+                turn++;
             }
         }
     }
+
+    public void TutorialTurn(int turnNumber)
+    {
+        System.out.println("Turn " + turnNumber);
+        screen.TutorialTurn(turnNumber);
+    }
+
 }
