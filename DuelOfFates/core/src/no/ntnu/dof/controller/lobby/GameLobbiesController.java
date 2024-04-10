@@ -1,22 +1,28 @@
-package no.ntnu.dof.controller;
+package no.ntnu.dof.controller.lobby;
 
 import java.util.List;
 
+import lombok.Data;
+import no.ntnu.dof.controller.ScreenController;
 import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.controller.network.ServiceLocator;
+import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
 import no.ntnu.dof.view.screens.lobby.LobbiesScreen;
 
-public class GameLobbiesController {
-
-    private final DuelOfFates game;
+@Data
+public class GameLobbiesController implements ILobbiesViewListener {
+    private GameLobbies gameLobbies;
     private final LobbiesScreen lobbiesScreen;
+    private User currentUser;
 
-    public GameLobbiesController(DuelOfFates game, LobbiesScreen lobbiesScreen) {
-        this.game = game;
+    public GameLobbiesController(User currentUser, LobbiesScreen lobbiesScreen) {
+        this.currentUser = currentUser;
+        this.gameLobbies = new GameLobbies();
         this.lobbiesScreen = lobbiesScreen;
-        lobbiesScreen.setController(this);
+        lobbiesScreen.setListener(this);
+        lobbiesScreen.setGameLobbies(this.gameLobbies);
         initializeListeners();
     }
 
@@ -26,8 +32,8 @@ public class GameLobbiesController {
     }
 
     public void updateLobbiesList(List<GameLobby> gameLobbies) {
-        game.getGameLobbies().setLobbies(gameLobbies);
-        lobbiesScreen.updateLobbiesList();
+        this.gameLobbies.setLobbies(gameLobbies);
+        lobbiesScreen.updateLobbiesList(this.gameLobbies);
     }
 
     public void transitionToLobby(GameLobby lobby) {
@@ -35,8 +41,7 @@ public class GameLobbiesController {
     }
 
     public void createNewLobby(String title) {
-        User currentUser = game.getCurrentUser();
-        GameLobby newLobby = new GameLobby(currentUser, title);
+        GameLobby newLobby = new GameLobby(this.currentUser, title);
         ServiceLocator.getLobbyService().createLobby(new LobbyService.LobbyCreationCallback() {
             @Override
             public void onSuccess(GameLobby lobby) {

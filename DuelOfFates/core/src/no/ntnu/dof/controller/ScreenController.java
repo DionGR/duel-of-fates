@@ -5,7 +5,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Stack;
 
+import no.ntnu.dof.controller.lobby.GameLobbiesController;
+import no.ntnu.dof.controller.lobby.GameLobbyController;
+import no.ntnu.dof.controller.menu.LoginController;
 import no.ntnu.dof.model.GameLobby;
+import no.ntnu.dof.model.User;
 import no.ntnu.dof.view.screens.menu.ChooseClassScreen;
 import no.ntnu.dof.view.screens.menu.LoginScreen;
 import no.ntnu.dof.view.screens.menu.MenuScreen;
@@ -37,18 +41,20 @@ public class ScreenController {
     }
 
     public static void transitionToMenu() {
-        pushScreen(new MenuScreen(application, batch, assetManager));
+        pushScreen(new MenuScreen());
     }
 
     public static void transitionToLobbies() {
-        LobbiesScreen lobbiesScreen = new LobbiesScreen(application);
-        new GameLobbiesController(application, lobbiesScreen);
+        LobbiesScreen lobbiesScreen = new LobbiesScreen();
+        new GameLobbiesController(application.getCurrentUser(), lobbiesScreen);
         pushScreen(lobbiesScreen);
     }
 
     public static void transitionToLobby(GameLobby gameLobby) {
-        LobbyScreen lobbyScreen = new LobbyScreen(application, gameLobby);
-        new GameLobbyController(application, lobbyScreen, gameLobby);
+        User currentUser = application.getCurrentUser();
+        // The LobbyScreen needs the currentUser and gameLobby in order to load the correct UI to begin with
+        LobbyScreen lobbyScreen = new LobbyScreen(currentUser, gameLobby);
+        new GameLobbyController(currentUser, lobbyScreen, gameLobby);
         pushScreen(lobbyScreen);
     }
 
@@ -58,6 +64,7 @@ public class ScreenController {
 
     public static void transitionToLogin() {
         LoginScreen loginScreen = new LoginScreen(batch, assetManager);
+        // LoginController needs to update the User element in DuelOfFates, and thus needs a reference to application
         new LoginController(application, loginScreen);
         pushScreen(loginScreen);
     }
