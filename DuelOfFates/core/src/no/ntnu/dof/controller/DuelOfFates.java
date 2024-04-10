@@ -27,7 +27,6 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
     private User currentUser;
 
     private GameLobbies gameLobbies;
-    private List<PlayerClass> playerClasses;
 
 	public DuelOfFates() {}
 
@@ -38,7 +37,7 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         assetManager.load("menuBackground.png", Texture.class);
         assetManager.load("backBtn.png", Texture.class);
         assetManager.finishLoading(); // Blocks until all assets are loaded
-//
+
         // Initialize first screen and ScreenManager
         ScreenController.initialize(this, batch, assetManager);
         ScreenController.transitionToLogin();
@@ -47,7 +46,6 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         // Fetch game lobbies
         this.gameLobbies = new GameLobbies();
         // Set MockPlayerClasses:
-        setMockPlayerClasses();
         // TODO remove CLI gameplay demo
         /*
         ServiceLocator.getAuthService().signIn("p1", "p1", new AuthCallback() {
@@ -69,44 +67,6 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         new Thread(gameController::gameLoop).start();
         */
 	}
-
-    // TODO: Replace setMockPlayerClasses with actual set of PlayerClasses
-    private void setMockPlayerClasses() {
-        List<Card> cards = new ArrayList<>();
-        for (int i = 0; i < 10; ++i) {
-            cards.add(AttackCard.builder()
-                    .name("Card" + i)
-                    .cost(new Mana(3))
-                    .opponentEffectName("damage")
-                    .build());
-        }
-
-        PlayerClass warrior = PlayerClass.builder()
-                .name("warrior")
-                .deck(Deck.builder().activeCards(cards).build())
-                .maxHealth(new Health(10))
-                .maxArmor(new Armor(0))
-                .maxMana(new Mana(5))
-                .build();
-
-        PlayerClass mage = PlayerClass.builder()
-                .name("mage")
-                .deck(Deck.builder().activeCards(cards).build())
-                .maxHealth(new Health(10))
-                .maxArmor(new Armor(0))
-                .maxMana(new Mana(5))
-                .build();
-
-        PlayerClass rogue = PlayerClass.builder()
-                .name("rogue")
-                .deck(Deck.builder().activeCards(cards).build())
-                .maxHealth(new Health(10))
-                .maxArmor(new Armor(0))
-                .maxMana(new Mana(5))
-                .build();
-
-        this.playerClasses = Arrays.asList(warrior, mage, rogue);
-    }
 
     @Override
     public void render() {
