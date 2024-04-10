@@ -1,12 +1,12 @@
 package no.ntnu.dof.controller;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Stack;
 
 import no.ntnu.dof.model.GameLobby;
+import no.ntnu.dof.view.screens.ChooseClassScreen;
 import no.ntnu.dof.view.screens.LoginScreen;
 import no.ntnu.dof.view.screens.MenuScreen;
 import no.ntnu.dof.view.screens.LobbiesScreen;
@@ -42,15 +42,25 @@ public class ScreenManager {
     }
 
     public static void transitionToLobbies() {
-        pushScreen(new LobbiesScreen(game, batch, assetManager));
+        LobbiesScreen lobbiesScreen = new LobbiesScreen(game);
+        new GameLobbiesController(game, lobbiesScreen);
+        pushScreen(lobbiesScreen);
     }
 
     public static void transitionToLobby(GameLobby gameLobby) {
-        pushScreen(new LobbyScreen(game, gameLobby));
+        LobbyScreen lobbyScreen = new LobbyScreen(game, gameLobby);
+        new GameLobbyController(game, lobbyScreen, gameLobby);
+        pushScreen(lobbyScreen);
+    }
+
+    public static void transitionToChooseClass() {
+        pushScreen(new ChooseClassScreen(game));
     }
 
     public static void transitionToLogin() {
-        pushScreen(new LoginScreen(game, batch, assetManager));
+        LoginScreen loginScreen = new LoginScreen(batch, assetManager);
+        new LoginController(game, loginScreen);
+        pushScreen(loginScreen);
     }
 }
 

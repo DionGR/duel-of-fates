@@ -24,12 +24,11 @@ public class LoginScreen implements Screen {
     private Label feedbackLabel;
     private SpriteBatch spriteBatch;
     private AssetManager assetManager;
-    private DuelOfFates game;
+    private LoginViewListener listener;
 
-    public LoginScreen(DuelOfFates game, SpriteBatch spriteBatch, AssetManager assetManager) {
+    public LoginScreen(SpriteBatch spriteBatch, AssetManager assetManager) {
         this.spriteBatch = spriteBatch;
         this.assetManager = assetManager;
-        this.game = game;
         initializeUI();
     }
 
@@ -63,19 +62,21 @@ public class LoginScreen implements Screen {
         table.add(loginButton).fillX().uniformX();
     }
 
-    private void attemptLogin(String email, String password) {
-        if (!email.isEmpty() && !password.isEmpty()) {
-            ServiceLocator.getAuthService().signIn(email, password, new AuthCallback() {
-                @Override
-                public void onSuccess() {
-                    game.loginSuccess();
-                }
+    public interface LoginViewListener {
+        void onLoginAttempt(String email, String password);
+    }
 
-                @Override
-                public void onError(String message) {
-                    Gdx.app.postRunnable(() -> feedbackLabel.setText("Login failed: " + message));
-                }
-            });
+    public void setLoginViewListener(LoginViewListener listener) {
+        this.listener = listener;
+    }
+
+    public void showLoginFailed(String message) {
+        Gdx.app.postRunnable(() -> feedbackLabel.setText("Login failed: " + message));
+    }
+
+    private void attemptLogin(String email, String password) {
+        if (listener != null) {
+            listener.onLoginAttempt(email, password);
         }
     }
 
@@ -110,13 +111,11 @@ public class LoginScreen implements Screen {
     public void resume() {}
 
     @Override
-    public void hide() {
-        // It's crucial to not dispose shared assets here
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
-        // Dispose only the Stage here, as it's exclusive to LoginScreen.
+        // Dispose only the Stage, as it's exclusive to LoginScreen.
         stage.dispose();
         // Do NOT dispose spriteBatch or assets from assetManager here.
     }

@@ -17,43 +17,47 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import lombok.Setter;
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.GameLobbyController;
 import no.ntnu.dof.controller.ScreenManager;
 import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobby;
 
-public class LobbyScreen implements Screen {
+public class LobbyScreen extends BaseScreen {
 
     private Stage stage;
     private DuelOfFates game;
-    private SpriteBatch batch;
-    private Sprite background;
     private Skin skin;
     private Table contentTable;
     private Label lobbyTitle;
-    private Sprite soundOn;
-    private Sprite soundOff;
-    private Sprite backBtn;
     private GameLobby gameLobby;
-    private Rectangle backBtnBounds;
+
+    @Setter
+    private GameLobbyController controller;
     private boolean isCreator;
     private TextButton guestButton;
+    private Label errorLabel;
 
     public LobbyScreen(DuelOfFates game, GameLobby gameLobby) {
+        super();
         this.game = game;
         this.gameLobby = gameLobby;
         this.isCreator = gameLobby.getCreator().equals(game.getCurrentUser());
-        backBtnBounds = new Rectangle();
     }
 
     @Override
     public void show() {
-        // Loading skin
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
-        stage = new Stage(new ScreenViewport());
+        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
+        this.stage = new Stage(new ScreenViewport(), this.batch); // Use the batch from BaseScreen
+        // Setting up the UI components specific to LobbyScreen
+        contentTable = new Table();
+        contentTable.setFillParent(true);
+        stage.addActor(contentTable);
 
         lobbyTitle = new Label(gameLobby.getTitle(), skin, "big");
+        contentTable.add(lobbyTitle).expandX().padTop(20).row();
 
         // Making a centered table to store title and buttons
         contentTable = new Table();
@@ -78,7 +82,14 @@ public class LobbyScreen implements Screen {
             startGameStyle.up = skin.newDrawable("default-round", skin.getColor("green"));
             startGameStyle.down = skin.newDrawable("default-round-down", skin.getColor("green"));
             TextButton startGameButton = new TextButton("Start Game", startGameStyle);
-            // Set up listener for starting the game...
+
+            // Listener for starting the game
+            startGameButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    controller.startGame();
+                }
+            });
 
             TextButton.TextButtonStyle deleteLobbyStyle = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
             deleteLobbyStyle.up = skin.newDrawable("default-round", skin.getColor("red"));
@@ -87,19 +98,7 @@ public class LobbyScreen implements Screen {
             deleteLobbyButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    ServiceLocator.getLobbyService().deleteLobby(gameLobby.getLobbyId(), new LobbyService.LobbyDeletionCallback() {
-                        @Override
-                        public void onSuccess() {
-                            Gdx.app.log("LobbyDeletion", "Lobby successfully deleted.");
-                            Gdx.app.postRunnable(ScreenManager::popScreen);
-                        }
-
-                        @Override
-                        public void onFailure(Throwable throwable) {
-                            Gdx.app.error("LobbyDeletion", "Failed to delete the lobby.", throwable);
-                            // Show error message or handle failure
-                        }
-                    });
+                    controller.deleteLobby();
                 }
             });
 
@@ -110,75 +109,40 @@ public class LobbyScreen implements Screen {
             joinGameButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    ServiceLocator.getLobbyService().joinLobby(new LobbyService.LobbyJoinCallback() {
-                        @Override
-                        public void onSuccess() {
-                            Gdx.app.log("LobbyJoin", "Successfully joined the lobby.");
-                            gameLobby.setGuest(game.getCurrentUser());
-                            Gdx.app.postRunnable(() -> {
-                                // Update the guestButton text
-                                guestButton.setText(game.getCurrentUser().getEmail());
-                                contentTable.invalidateHierarchy();
-                            });
-                        }
-
-                        @Override
-                        public void onFailure(Throwable throwable) {
-                            Gdx.app.error("LobbyJoin", "Failed to join the lobby.", throwable);
-
-                        }
-                    }, gameLobby, game.getCurrentUser());
+                    controller.joinLobby();
                 }
             });
 
             contentTable.add(joinGameButton).colspan(2).padBottom(10).width(150).height(50);
         }
+        errorLabel = new Label("", skin);
+        errorLabel.setColor(1, 0, 0, 1);
+        contentTable.row();
+        contentTable.add(errorLabel).padTop(10);
 
         stage.addActor(contentTable);
-
-        batch = new SpriteBatch();
-
-        // Loading background
-        background = new Sprite(new Texture(Gdx.files.internal("menuBackground.png")));
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        // Setting sound buttons
-        soundOn = new Sprite(new Texture(Gdx.files.internal("soundOn.png")));
-        soundOn.setSize(80, 80);
-        soundOff = new Sprite(new Texture(Gdx.files.internal("soundOff.png")));
-        soundOff.setSize(80,80);
-
-        // Setting back button
-        backBtn = new Sprite(new Texture(Gdx.files.internal("backBtn.png")));
-        backBtn.setSize(50,50);
-        backBtnBounds.set(150, Gdx.graphics.getHeight() - backBtn.getHeight() - 20, backBtn.getWidth(), backBtn.getHeight());
-
         Gdx.input.setInputProcessor(stage);
     }
 
+    public void updateGuestInfo(String guestEmail) {
+        Gdx.app.postRunnable(() -> {
+            guestButton.setText(guestEmail); // Update the guest button text with the new guest email
+            contentTable.invalidateHierarchy(); // Refresh the UI layout
+        });
+    }
+
+    public void showError(String message) {
+        Gdx.app.postRunnable(() -> {
+            errorLabel.setText(message);
+        });
+    }
+
+
     @Override
     public void render(float delta) {
-        // Check if the screen is touched
-        if (Gdx.input.justTouched()) {
-            // Translate touch coordinates to screen coordinates
-            float touchX = Gdx.input.getX();
-            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
+        super.render(delta);
 
-            if (backBtnBounds.contains(touchX, touchY)) {
-                // Code to handle back button press
-                Gdx.app.postRunnable(ScreenManager::popScreen);
-                return;
-            }
-        }
-
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        background.draw(batch);
-        soundOn.draw(batch);
-        backBtn.setPosition(150, Gdx.graphics.getHeight()-backBtn.getHeight()-20);
-        backBtn.draw(batch);
-        batch.end();
-        stage.act(Gdx.graphics.getDeltaTime());
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
 
@@ -200,6 +164,7 @@ public class LobbyScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        super.dispose();
     }
 
 }
