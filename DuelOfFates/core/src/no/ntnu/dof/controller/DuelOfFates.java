@@ -26,8 +26,6 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
 
     private User currentUser;
 
-    private GameLobbies gameLobbies;
-
 	public DuelOfFates() {}
 
     @Override
@@ -37,15 +35,11 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         assetManager.load("menuBackground.png", Texture.class);
         assetManager.load("backBtn.png", Texture.class);
         assetManager.finishLoading(); // Blocks until all assets are loaded
-
+//
         // Initialize first screen and ScreenManager
         ScreenController.initialize(this, batch, assetManager);
         ScreenController.transitionToLogin();
 
-
-        // Fetch game lobbies
-        this.gameLobbies = new GameLobbies();
-        // Set MockPlayerClasses:
         // TODO remove CLI gameplay demo
         /*
         ServiceLocator.getAuthService().signIn("p1", "p1", new AuthCallback() {

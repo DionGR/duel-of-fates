@@ -1,16 +1,8 @@
-package no.ntnu.dof.controller;
+package no.ntnu.dof.controller.lobby;
 
 import com.badlogic.gdx.Gdx;
 
-import java.util.function.Function;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import no.ntnu.dof.controller.gameplay.di.DaggerGameComponent;
-import no.ntnu.dof.controller.gameplay.di.DaggerGameLobbyControllerComponent;
-import no.ntnu.dof.controller.gameplay.di.GameComponent;
-import no.ntnu.dof.controller.gameplay.di.GameLobbyControllerComponent;
+import no.ntnu.dof.controller.ScreenController;
 import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobby;
@@ -21,13 +13,15 @@ import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClassInvoker;
 import no.ntnu.dof.view.screens.lobby.LobbyScreen;
 
-public class GameLobbyController {
+public class GameLobbyController implements ILobbyViewListener {
 
-    private final DuelOfFates game;
+    private final User currentUser;
     private final LobbyScreen lobbyScreen;
     private final GameLobby gameLobby;
     private boolean isDeletingLobby = false;
 
+    public GameLobbyController(User currentUser, LobbyScreen lobbyScreen, GameLobby gameLobby) {
+        this.currentUser = currentUser;
     @Inject
     @Named("playerClassInvoker")
     PlayerClassInvoker<String, PlayerClass> playerClassInvoker;
@@ -40,7 +34,7 @@ public class GameLobbyController {
         this.game = game;
         this.lobbyScreen = lobbyScreen;
         this.gameLobby = gameLobby;
-        lobbyScreen.setController(this);
+        lobbyScreen.setListener(this);
     }
 
     public void startGame() {
@@ -66,7 +60,6 @@ public class GameLobbyController {
 
     public void joinLobby() {
         // Current user attempts to join the lobby
-        User currentUser = game.getCurrentUser();
         ServiceLocator.getLobbyService().joinLobby(new LobbyService.LobbyJoinCallback() {
             @Override
             public void onSuccess() {

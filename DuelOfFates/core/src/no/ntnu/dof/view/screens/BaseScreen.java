@@ -20,6 +20,14 @@ public abstract class BaseScreen extends ScreenAdapter {
         Texture backgroundTexture = new Texture(Gdx.files.internal("menuBackground.png"));
         background = new Sprite(backgroundTexture);
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        /*
+        // Setting sound buttons
+        soundOn = new Sprite(new Texture(Gdx.files.internal("soundOn.png")));
+        soundOn.setSize(80, 80);
+        Sprite soundOff = new Sprite(new Texture(Gdx.files.internal("soundOff.png")));
+        soundOff.setSize(80,80);
+         */
     }
     @Override
     public void render(float delta) {

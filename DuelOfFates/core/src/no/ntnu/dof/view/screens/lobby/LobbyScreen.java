@@ -12,31 +12,31 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import lombok.Setter;
-import no.ntnu.dof.controller.DuelOfFates;
-import no.ntnu.dof.controller.GameLobbyController;
+import no.ntnu.dof.controller.lobby.ILobbyViewListener;
 import no.ntnu.dof.model.GameLobby;
+import no.ntnu.dof.model.User;
 import no.ntnu.dof.view.screens.BaseScreen;
 
 public class LobbyScreen extends BaseScreen {
 
     private Stage stage;
-    private DuelOfFates game;
     private Skin skin;
     private Table contentTable;
     private Label lobbyTitle;
     private GameLobby gameLobby;
 
     @Setter
-    private GameLobbyController controller;
+    private ILobbyViewListener listener;
+
+    @Setter
     private boolean isCreator;
     private TextButton guestButton;
     private Label errorLabel;
 
-    public LobbyScreen(DuelOfFates game, GameLobby gameLobby) {
+    public LobbyScreen(User currentUser, GameLobby gameLobby) {
         super();
-        this.game = game;
         this.gameLobby = gameLobby;
-        this.isCreator = gameLobby.getCreator().equals(game.getCurrentUser());
+        this.isCreator = gameLobby.getCreator().equals(currentUser);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class LobbyScreen extends BaseScreen {
             startGameButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    controller.startGame();
+                    listener.startGame();
                 }
             });
 
@@ -90,7 +90,7 @@ public class LobbyScreen extends BaseScreen {
             deleteLobbyButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    controller.deleteLobby();
+                    listener.deleteLobby();
                 }
             });
 
@@ -101,7 +101,7 @@ public class LobbyScreen extends BaseScreen {
             joinGameButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    controller.joinLobby();
+                    listener.joinLobby();
                 }
             });
 
@@ -109,7 +109,7 @@ public class LobbyScreen extends BaseScreen {
             exitLobbyButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    controller.exitLobby();
+                    listener.exitLobby();
                 }
             });
 
