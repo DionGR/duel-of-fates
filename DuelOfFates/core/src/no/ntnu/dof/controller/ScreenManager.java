@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.view.screens.ChooseClassScreen;
+import no.ntnu.dof.view.screens.HistoryScreen;
 import no.ntnu.dof.view.screens.LoginScreen;
 import no.ntnu.dof.view.screens.MenuScreen;
 import no.ntnu.dof.view.screens.LobbiesScreen;
@@ -61,6 +62,10 @@ public class ScreenManager {
         LoginScreen loginScreen = new LoginScreen(batch, assetManager);
         new LoginController(game, loginScreen);
         pushScreen(loginScreen);
+    }
+
+    public static void transitionToHistory() {
+        pushScreen(new HistoryScreen(game));
     }
 }
 

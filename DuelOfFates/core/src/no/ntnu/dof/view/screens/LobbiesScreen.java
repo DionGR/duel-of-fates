@@ -27,6 +27,7 @@ public class LobbiesScreen extends BaseScreen {
     private Skin skin;
     private Table contentTable;
     private TextButton createLobbyBtn;
+    private TextButton matchHistoryBtn;
     private Label lobbiesTitle;
     private DuelOfFates game;
 
@@ -79,15 +80,26 @@ public class LobbiesScreen extends BaseScreen {
             }
         });
 
+        matchHistoryBtn = new TextButton("Match History", skin, "default");
+        matchHistoryBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenManager.transitionToHistory();
+            }
+        });
+
         // Add the button directly to the stage
         stage.addActor(createLobbyBtn);
+        stage.addActor(matchHistoryBtn);
 
         // Positioning the create lobby button at the top right with some margin
         float margin = 20; // Adjust the margin value as needed
         float buttonX = Gdx.graphics.getWidth() - createLobbyBtn.getWidth() - margin;
         float buttonY = Gdx.graphics.getHeight() - createLobbyBtn.getHeight() - margin;
 
+        float historyBtnY = buttonY - createLobbyBtn.getHeight() - margin;
         createLobbyBtn.setPosition(buttonX, buttonY);
+        matchHistoryBtn.setPosition(buttonX, historyBtnY);
 
         Gdx.input.setInputProcessor(stage);
     }
