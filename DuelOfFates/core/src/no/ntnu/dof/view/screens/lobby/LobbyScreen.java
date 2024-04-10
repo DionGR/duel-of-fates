@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import lombok.Setter;
+import no.ntnu.dof.controller.lobby.GameLobbyController;
 import no.ntnu.dof.controller.lobby.ILobbyViewListener;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
@@ -160,12 +161,18 @@ public class LobbyScreen extends BaseScreen {
     }
     @Override
     public void hide() {
+        super.hide();
+        if (listener instanceof GameLobbyController) {
+            ((GameLobbyController) listener).stopListeningForLobbyUpdates();
+        }
     }
 
     @Override
     public void dispose() {
+        if (listener instanceof GameLobbyController) {
+            ((GameLobbyController) listener).stopListeningForLobbyUpdates();
+        }
         stage.dispose();
         super.dispose();
     }
-
 }

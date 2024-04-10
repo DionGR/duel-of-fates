@@ -28,7 +28,7 @@ public class GameLobbiesController implements ILobbiesViewListener {
 
     private void initializeListeners() {
         // Set up the Firebase listener for lobby changes
-        ServiceLocator.getLobbyService().listenForLobbyChanges(this::updateLobbiesList);
+        ServiceLocator.getLobbyService().listenForLobbiesChanges(this::updateLobbiesList);
     }
 
     public void updateLobbiesList(List<GameLobby> gameLobbies) {
