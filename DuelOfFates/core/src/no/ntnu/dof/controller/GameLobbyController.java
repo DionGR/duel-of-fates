@@ -2,6 +2,8 @@ package no.ntnu.dof.controller;
 
 import com.badlogic.gdx.Gdx;
 
+import java.util.function.Function;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -59,6 +61,7 @@ public class GameLobbyController {
 
         // Logic to start the game...
         System.out.println("Starting game for lobby: " + gameLobby.getTitle());
+        ScreenController.transitionToGame(hostPlayerClass, guestPlayerClass);
     }
 
     public void joinLobby() {
