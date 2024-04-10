@@ -15,8 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import lombok.Setter;
-import no.ntnu.dof.controller.DuelOfFates;
-import no.ntnu.dof.controller.lobby.GameLobbiesController;
 import no.ntnu.dof.controller.lobby.ILobbiesViewListener;
 import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.GameLobby;
@@ -128,26 +126,31 @@ public class LobbiesScreen extends ReturnableScreen {
     }
 
     public void updateLobbiesList(GameLobbies gameLobbies) {
-        this.gameLobbies = gameLobbies;
-        if (contentTable != null) {
-            // Clear the existing content but preserve the title
-            contentTable.clearChildren();
-            contentTable.add(lobbiesTitle).expandX().padTop(20).row();
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                LobbiesScreen.this.gameLobbies = gameLobbies;
+                if (contentTable != null) {
+                    // Clear the existing content but preserve the title
+                    contentTable.clearChildren();
+                    contentTable.add(lobbiesTitle).expandX().padTop(20).row();
 
-            // Re-add each lobby as a button
-            for (GameLobby lobby : gameLobbies.getLobbies()) {
-                TextButton lobbyButton = new TextButton(lobby.getTitle() + "\n" + lobby.getCreator().getEmail(), skin, "default");
-                lobbyButton.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        listener.transitionToLobby(lobby);
+                    // Re-add each lobby as a button
+                    for (GameLobby lobby : gameLobbies.getLobbies()) {
+                        TextButton lobbyButton = new TextButton(lobby.getTitle() + "\n" + lobby.getCreator().getEmail(), skin, "default");
+                        lobbyButton.addListener(new ClickListener() {
+                            @Override
+                            public void clicked(InputEvent event, float x, float y) {
+                                listener.transitionToLobby(lobby);
+                            }
+                        });
+                        contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
                     }
-                });
-                contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
+                } else {
+                    Gdx.app.log("LobbiesScreen", "Attempted to update lobbies list when contentTable is null.");
+                }
             }
-        } else {
-            Gdx.app.log("LobbiesScreen", "Attempted to update lobbies list when contentTable is null.");
-        }
+        });
     }
 
 

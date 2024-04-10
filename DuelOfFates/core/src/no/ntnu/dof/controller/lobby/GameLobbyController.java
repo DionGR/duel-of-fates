@@ -27,8 +27,9 @@ public class GameLobbyController implements ILobbyViewListener {
     public void startListeningForLobbyUpdates() {
         ServiceLocator.getLobbyService().listenForLobbyUpdate(gameLobby.getLobbyId(), updatedLobby -> {
             gameLobby.setGuest(updatedLobby.getGuest());
-            if (lobbyScreen != null && updatedLobby.getGuest() != null) {
-                lobbyScreen.updateGuestInfo(updatedLobby.getGuest().getEmail());
+            String guestInfo = updatedLobby.getGuest() != null ? updatedLobby.getGuest().getEmail() : "<Available>";
+            if (lobbyScreen != null) {
+                Gdx.app.postRunnable(() -> lobbyScreen.updateGuestInfo(guestInfo));
             }
         });
     }
