@@ -1,4 +1,4 @@
-package no.ntnu.dof.view.screens;
+package no.ntnu.dof.view.screens.lobby;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -9,8 +9,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.model.User;
+import no.ntnu.dof.view.screens.ReturnableScreen;
 
-public class HistoryScreen extends BaseScreen {
+public class HistoryScreen extends ReturnableScreen {
     private DuelOfFates game;
     private Skin skin;
     private Stage stage;

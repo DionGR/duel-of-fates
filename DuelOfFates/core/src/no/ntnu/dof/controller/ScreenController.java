@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Stack;
 
 import no.ntnu.dof.model.GameLobby;
+import no.ntnu.dof.view.screens.lobby.HistoryScreen;
 import no.ntnu.dof.view.screens.menu.ChooseClassScreen;
 import no.ntnu.dof.view.screens.menu.LoginScreen;
 import no.ntnu.dof.view.screens.menu.MenuScreen;
@@ -66,6 +67,10 @@ public class ScreenController {
         popScreen();
         LoginScreen loginScreen = (LoginScreen) screens.peek();
         loginScreen.initializeUI();
+    }
+
+    public static void transitionToHistory() {
+        pushScreen(new HistoryScreen(application));
     }
 }
 
