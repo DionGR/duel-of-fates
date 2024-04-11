@@ -8,11 +8,17 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
+import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.ScreenController;
 
 public abstract class ReturnableScreen extends BaseScreen{
     protected Sprite backBtn;
     protected Rectangle backBtnBounds;
+
+    protected Rectangle soundBtnBounds;
+    protected Sprite soundBtn;
+
+    protected DuelOfFates game;
 
     public ReturnableScreen() {
         super();
@@ -23,6 +29,12 @@ public abstract class ReturnableScreen extends BaseScreen{
         backBtn.setSize(30, 50);
         backBtn.setPosition(20, Gdx.graphics.getHeight() - backBtn.getHeight() - 20);
         backBtnBounds = new Rectangle(backBtn.getX(), backBtn.getY(), backBtn.getWidth(), backBtn.getHeight());
+
+        Texture soundBtnTexture = new Texture(Gdx.files.internal("soundOn.png"));
+        soundBtn = new Sprite(soundBtnTexture);
+        soundBtn.setSize(60, 60);
+        soundBtn.setPosition(10, 10);
+        soundBtnBounds = new Rectangle(soundBtn.getX(), soundBtn.getY(), soundBtn.getWidth(), soundBtn.getHeight());
     }
 
     protected void handleBackButtonInput() {
@@ -41,14 +53,17 @@ public abstract class ReturnableScreen extends BaseScreen{
         batch.begin();
         background.draw(batch); // Draw the background
         backBtn.draw(batch); // Draw the back button
+        soundBtn.draw(batch);
         batch.end();
 
         handleBackButtonInput();
+        handleSoundButtonInput();
     }
 
     @Override
     public void dispose() {
         super.dispose();
         backBtn.getTexture().dispose();
+        soundBtn.getTexture().dispose();
     }
 }

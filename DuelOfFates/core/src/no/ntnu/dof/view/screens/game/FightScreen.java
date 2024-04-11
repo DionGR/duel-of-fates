@@ -7,9 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.view.entity.view.GameView;
+import no.ntnu.dof.view.screens.BaseScreen;
 
 
-public class FightScreen implements Screen {
+public class FightScreen extends BaseScreen {
     private Stage stage;
 
     private final GameView gameView;

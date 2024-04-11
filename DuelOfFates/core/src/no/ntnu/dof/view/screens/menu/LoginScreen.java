@@ -17,8 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.ntnu.dof.controller.ScreenController;
+import no.ntnu.dof.view.screens.BaseScreen;
 
-public class LoginScreen implements Screen {
+public class LoginScreen extends BaseScreen {
     private Stage stage;
     private Label feedbackLabel;
     private SpriteBatch spriteBatch;

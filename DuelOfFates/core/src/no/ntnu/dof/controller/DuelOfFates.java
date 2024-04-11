@@ -31,9 +31,11 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
     private GameLobbies gameLobbies;
     private List<PlayerClass> playerClasses;
 
-    private boolean isSoundOn = true;
+    private boolean isSoundOn;
     private Music music;
-	public DuelOfFates() {}
+	public DuelOfFates() {
+        this.isSoundOn = true;
+    }
 
     @Override
     public void create() {
@@ -46,7 +48,9 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         assetManager.load("skyfallFull.mp3", Music.class);
         music = Gdx.audio.newMusic(Gdx.files.internal("skyfallFull.mp3"));
         music.setLooping(true);
-        music.play();
+        if (isSoundOn) {
+            music.play();
+        }
 
         assetManager.finishLoading(); // Blocks until all assets are loaded
 //
@@ -117,6 +121,18 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
                 .build();
 
         this.playerClasses = Arrays.asList(warrior, mage, rogue);
+    }
+
+    public boolean getSoundBool() {
+        return isSoundOn;
+    }
+
+    public void setSoundBool(boolean bool) {
+        this.isSoundOn = bool;
+    }
+
+    public Music getMusic() {
+        return music;
     }
 
     @Override

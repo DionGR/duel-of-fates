@@ -19,19 +19,22 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.ScreenController;
+import no.ntnu.dof.view.screens.BaseScreen;
+import no.ntnu.dof.view.screens.ReturnableScreen;
 
 
-public class MenuScreen implements Screen {
+public class MenuScreen extends ReturnableScreen {
 
     private Stage stage;
     private final SpriteBatch batch;
     private Sprite background;
-    private Sprite soundOn;
     private final AssetManager assetManager;
 
     public MenuScreen(DuelOfFates game, SpriteBatch batch, AssetManager assetManager) {
+        super();
         this.batch = batch;
         this.assetManager = assetManager;
+        this.game = game;
     }
 
     @Override
@@ -53,17 +56,13 @@ public class MenuScreen implements Screen {
         TextButton tutorialBtn = new TextButton("Tutorial", skin, "default");
         TextButton logoutBtn = new TextButton("Log Out", skin, "default");
 
-//        for (Actor btn:contentTable.getChildren()) {
-//            btn.setHeight(50);
-//            btn.setWidth(150);
-//        }
 
         // Adding content to table
         contentTable.padTop(30);
         contentTable.add(gameTitle).padBottom(30).row();
-        contentTable.add(lobbiesBtn).padBottom(30).width(150).height(50).row();
-        contentTable.add(chooseClassBtn).padBottom(30).width(150).height(50).row();
-        contentTable.add(tutorialBtn).padBottom(30).width(150).height(50).row();;
+        contentTable.add(lobbiesBtn).padBottom(20).width(150).height(50).row();
+        contentTable.add(chooseClassBtn).padBottom(20).width(150).height(50).row();
+        contentTable.add(tutorialBtn).padBottom(20).width(150).height(50).row();;
         contentTable.add(logoutBtn).width(150).height(50);
 
         stage.addActor(contentTable);
@@ -94,21 +93,15 @@ public class MenuScreen implements Screen {
         background = new Sprite(assetManager.get("menuBackground.png", Texture.class));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        // Setting sound buttons
-        soundOn = new Sprite(new Texture(Gdx.files.internal("soundOn.png")));
-        soundOn.setSize(80, 80);
-        Sprite soundOff = new Sprite(new Texture(Gdx.files.internal("soundOff.png")));
-        soundOff.setSize(80,80);
-
         Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
+        super.render(delta);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-        soundOn.draw(batch);
         batch.end();
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
@@ -132,5 +125,6 @@ public class MenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        super.dispose();
     }
 }
