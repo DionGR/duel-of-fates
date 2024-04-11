@@ -31,11 +31,11 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
     private GameLobbies gameLobbies;
     private List<PlayerClass> playerClasses;
 
-    private boolean isSoundOn;
-    private Music music;
-	public DuelOfFates() {
-        this.isSoundOn = true;
-    }
+//    private boolean isSoundOn;
+//    private Music music;
+//	public DuelOfFates() {
+//        this.isSoundOn = true;
+//    }
 
     @Override
     public void create() {
@@ -45,12 +45,12 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         assetManager.load("backBtn.png", Texture.class);
 
         // Music
-        assetManager.load("skyfallFull.mp3", Music.class);
-        music = Gdx.audio.newMusic(Gdx.files.internal("skyfallFull.mp3"));
-        music.setLooping(true);
-        if (isSoundOn) {
-            music.play();
-        }
+//        assetManager.load("skyfallFull.mp3", Music.class);
+//        music = Gdx.audio.newMusic(Gdx.files.internal("skyfallFull.mp3"));
+//        music.setLooping(true);
+//        if (isSoundOn) {
+//            music.play();
+//        }
 
         assetManager.finishLoading(); // Blocks until all assets are loaded
 //
@@ -123,17 +123,17 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         this.playerClasses = Arrays.asList(warrior, mage, rogue);
     }
 
-    public boolean getSoundBool() {
-        return isSoundOn;
-    }
-
-    public void setSoundBool(boolean bool) {
-        this.isSoundOn = bool;
-    }
-
-    public Music getMusic() {
-        return music;
-    }
+//    public boolean getSoundBool() {
+//        return isSoundOn;
+//    }
+//
+//    public void setSoundBool(boolean bool) {
+//        this.isSoundOn = bool;
+//    }
+//
+//    public Music getMusic() {
+//        return music;
+//    }
 
     @Override
     public void render() {

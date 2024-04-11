@@ -1,7 +1,10 @@
 package no.ntnu.dof.view.screens;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -20,9 +23,14 @@ public abstract class BaseScreen extends ScreenAdapter {
 
     protected DuelOfFates game;
 
+    private boolean isSoundOn;
+    private Music music;
+    private AssetManager assetManager;
+
     public BaseScreen() {
         super();
         this.batch = new SpriteBatch();
+        this.isSoundOn = false;
 
         // Initialize the background
         Texture backgroundTexture = new Texture(Gdx.files.internal("menuBackground.png"));
@@ -34,6 +42,11 @@ public abstract class BaseScreen extends ScreenAdapter {
         soundBtn.setSize(220, 220);
         soundBtn.setPosition(10, 10);
         soundBtnBounds = new Rectangle(soundBtn.getX(), soundBtn.getY(), soundBtn.getWidth(), soundBtn.getHeight());
+
+        assetManager = new AssetManager();
+        assetManager.load("skyfallFull.mp3", Music.class);
+        music = Gdx.audio.newMusic(Gdx.files.internal("skyfallFull.mp3"));
+        music.setLooping(true);
     }
 
     protected void handleSoundButtonInput() {
@@ -47,12 +60,12 @@ public abstract class BaseScreen extends ScreenAdapter {
     }
 
     protected void toggleSound() {
-        if (game.getSoundBool()) {
-            game.getMusic().pause();
+        if (isSoundOn) {
+            music.pause();
         } else {
-            game.getMusic().play();
+            music.play();
         }
-        game.setSoundBool(!game.getSoundBool());
+        isSoundOn = !isSoundOn;
     }
 
     @Override
