@@ -8,6 +8,11 @@ import no.ntnu.dof.model.User;
 public interface LobbyService {
     void createLobby(LobbyCreationCallback callback, GameLobby gameLobby);
 
+    void listenForLobbiesChanges(LobbyChangeListener listener);
+
+    void listenForLobbyUpdate(String lobbyId, LobbyUpdateListener listener);
+
+    void stopListeningForLobbyUpdates(String lobbyId);
     void updateLobbyState(LobbyUpdateCallback callback, String lobbyId, String state);
 
     void listenForLobbyChanges(LobbyChangeListener listener);
@@ -31,6 +36,10 @@ public interface LobbyService {
 
     interface LobbyChangeListener {
         void onLobbiesUpdated(List<GameLobby> lobbies);
+    }
+
+    interface LobbyUpdateListener {
+        void onLobbyUpdated(GameLobby updatedLobby);
     }
 
     interface LobbyJoinCallback {
