@@ -63,8 +63,16 @@ public class Game {
 
         host.cardPlayedEvent.fire(card);
 
-        card.getHostEffectNames().forEach(e -> effectInvoker.invoke(e, host));
-        card.getOpponentEffectNames().forEach(e -> effectInvoker.invoke(e, opponent));
+
+        List<String> hostEffectNames = new ArrayList<>(card.getHostEffectNames());
+        if (!hostEffectNames.isEmpty()) {
+            hostEffectNames.forEach(e -> effectInvoker.invoke(e).apply(host));
+        }
+
+        List<String> opponentEffectNames = new ArrayList<>(card.getOpponentEffectNames());
+        if (!opponentEffectNames.isEmpty()) {
+            opponentEffectNames.forEach(e -> effectInvoker.invoke(e).apply(host));
+        }
     }
 
     public void finalizeTurn() {
@@ -77,28 +85,28 @@ public class Game {
         players.add(current);
     }
 
-    public static Player demoPlayer(String name) {
-        List<Card> cards = new ArrayList<>();
-
-        for (int i = 0; i < 10; ++i) {
-            cards.add(AttackCard.builder()
-                    .name("Card" + i)
-                    .cost(new Mana(3))
-                    .opponentEffectName("damage")
-                    .build());
-        }
-
-        PlayerClass playerClass = PlayerClass.builder()
-                .deck(Deck.builder().activeCards(cards).build())
-                .maxHealth(new Health(10))
-                .maxArmor(new Armor(0))
-                .maxMana(new Mana(5))
-                .build();
-
-        return Player.builder()
-                .name(name)
-                .playerClass(playerClass)
-                .hand(Hand.builder().maxSize(3).build())
-                .build();
-    }
+//    public static Player demoPlayer(String name) {
+//        List<Card> cards = new ArrayList<>();
+//
+//        for (int i = 0; i < 10; ++i) {
+//            cards.add(AttackCard.builder()
+//                    .name("Card" + i)
+//                    .cost(new Mana(3))
+//                    .opponentEffectName("damage")
+//                    .build());
+//        }
+//
+//        PlayerClass playerClass = PlayerClass.builder()
+//                .deck(Deck.builder().activeCards(cards).build())
+//                .maxHealth(new Health(10))
+//                .maxArmor(new Armor(0))
+//                .maxMana(new Mana(5))
+//                .build();
+//
+//        return Player.builder()
+//                .name(name)
+//                .playerClass(playerClass)
+//                .hand(Hand.builder().maxSize(3).build())
+//                .build();
+//    }
 }

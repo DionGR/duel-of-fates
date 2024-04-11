@@ -82,8 +82,8 @@ public class ScreenController {
     public static void transitionToGame(PlayerClass hostPlayerClass, PlayerClass guestPlayerClass) {
         GameController gameController = new GameController(hostPlayerClass, guestPlayerClass);
         GameScreen gameScreen = new GameScreen(gameController.getGame());
-//        new Thread(gameController::gameLoop).start();
-        Gdx.app.postRunnable(gameController::gameLoop);
+        new Thread(gameController::gameLoop).start();
+//        Gdx.app.postRunnable(gameController::gameLoop);
         pushScreen(gameScreen);
     }
 }
