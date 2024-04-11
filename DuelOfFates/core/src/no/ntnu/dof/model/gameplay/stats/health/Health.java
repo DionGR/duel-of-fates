@@ -7,4 +7,8 @@ import lombok.Getter;
 @Getter
 public class Health {
     int value;
+
+    public String toString() {
+        return value + " HP";
+    }
 }

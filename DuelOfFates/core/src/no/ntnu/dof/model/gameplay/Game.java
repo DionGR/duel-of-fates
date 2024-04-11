@@ -63,7 +63,6 @@ public class Game {
 
         host.cardPlayedEvent.fire(card);
 
-
         List<String> hostEffectNames = new ArrayList<>(card.getHostEffectNames());
         if (!hostEffectNames.isEmpty()) {
             hostEffectNames.forEach(e -> effectInvoker.invoke(e).apply(host));
@@ -71,7 +70,7 @@ public class Game {
 
         List<String> opponentEffectNames = new ArrayList<>(card.getOpponentEffectNames());
         if (!opponentEffectNames.isEmpty()) {
-            opponentEffectNames.forEach(e -> effectInvoker.invoke(e).apply(host));
+            opponentEffectNames.forEach(e -> effectInvoker.invoke(e).apply(opponent));
         }
     }
 
@@ -81,6 +80,9 @@ public class Game {
 
         current.endTurnEvent.fire();
         next.beginTurnEvent.fire();
+
+        current.refillHand();
+        next.refillHand();
 
         players.add(current);
     }

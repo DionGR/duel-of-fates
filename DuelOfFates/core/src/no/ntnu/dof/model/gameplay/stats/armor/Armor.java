@@ -7,4 +7,8 @@ import lombok.Getter;
 @Getter
 public class Armor {
     int value;
+
+    public String toString() {
+        return value + " ARMOR";
+    }
 }

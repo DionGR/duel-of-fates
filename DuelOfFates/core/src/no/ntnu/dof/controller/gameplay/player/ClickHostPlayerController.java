@@ -58,8 +58,10 @@ public class ClickHostPlayerController extends ClickListener implements PlayerCo
             } catch (InterruptedException ignored) {
             }
         }
+
         played = false;
         ServiceLocator.getGameService().playCard(comms, chosen);
+
         return chosen;
     }
 
