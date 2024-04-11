@@ -15,8 +15,6 @@ public interface LobbyService {
     void stopListeningForLobbyUpdates(String lobbyId);
     void updateLobbyState(LobbyUpdateCallback callback, String lobbyId, String state);
 
-    void listenForLobbyChanges(LobbyChangeListener listener);
-
     void listenForGameStart(GameStartListener listener);
 
     void joinLobby(LobbyJoinCallback callback, GameLobby gameLobby, User user);
