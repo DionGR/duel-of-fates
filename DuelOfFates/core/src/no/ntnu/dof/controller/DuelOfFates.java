@@ -1,6 +1,8 @@
 package no.ntnu.dof.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -29,6 +31,8 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
     private GameLobbies gameLobbies;
     private List<PlayerClass> playerClasses;
 
+    private boolean isSoundOn = true;
+    private Music music;
 	public DuelOfFates() {}
 
     @Override
@@ -37,6 +41,13 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         assetManager = new AssetManager();
         assetManager.load("menuBackground.png", Texture.class);
         assetManager.load("backBtn.png", Texture.class);
+
+        // Music
+        assetManager.load("skyfallFull.mp3", Music.class);
+        music = Gdx.audio.newMusic(Gdx.files.internal("skyfallFull.mp3"));
+        music.setLooping(true);
+        music.play();
+
         assetManager.finishLoading(); // Blocks until all assets are loaded
 //
         // Initialize first screen and ScreenManager
