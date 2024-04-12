@@ -39,16 +39,16 @@ public abstract class BaseScreen extends ScreenAdapter {
         background = new Sprite(backgroundTexture);
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        Texture soundBtnTexture = new Texture(Gdx.files.internal("soundOn.png"));
-        soundBtn = new Sprite(soundBtnTexture);
-        soundBtn.setSize(60, 60);
-        soundBtn.setPosition(10, 10);
-        soundBtnBounds = new Rectangle(soundBtn.getX(), soundBtn.getY(), soundBtn.getWidth(), soundBtn.getHeight());
-
-        assetManager = new AssetManager();
-        assetManager.load("skyfallFull.mp3", Music.class);
-        music = Gdx.audio.newMusic(Gdx.files.internal("skyfallFull.mp3"));
-        music.setLooping(true);
+//        Texture soundBtnTexture = new Texture(Gdx.files.internal("soundOn.png"));
+//        soundBtn = new Sprite(soundBtnTexture);
+//        soundBtn.setSize(60, 60);
+//        soundBtn.setPosition(10, 10);
+//        soundBtnBounds = new Rectangle(soundBtn.getX(), soundBtn.getY(), soundBtn.getWidth(), soundBtn.getHeight());
+//
+//        assetManager = new AssetManager();
+//        assetManager.load("skyfallFull.mp3", Music.class);
+//        music = Gdx.audio.newMusic(Gdx.files.internal("skyfallFull.mp3"));
+//        music.setLooping(true);
     }
 
     protected void handleSoundButtonInput() {
@@ -66,7 +66,7 @@ public abstract class BaseScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen
         batch.begin();
         background.draw(batch); // Draw the background
-        soundBtn.draw(batch);
+        game.getSoundBtn().draw(batch);
         batch.end();
         handleSoundButtonInput();
     }

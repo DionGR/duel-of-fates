@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +35,14 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
 
     private boolean isSoundOn;
     private Music music;
+
+    private Sprite soundBtn;
+    private Texture soundOnTexture;
+
+    private Texture soundOffTexture;
+
+    private Rectangle soundBtnBounds;
+
 	public DuelOfFates() {}
 
     @Override
@@ -43,10 +53,17 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         assetManager.load("backBtn.png", Texture.class);
 
         // Music
-//      assetManager.load("skyfallFull.mp3", Music.class);
         music = Gdx.audio.newMusic(Gdx.files.internal("skyfallFull.mp3"));
         music.setLooping(true);
         music.play();
+
+        // Music button
+        soundOnTexture = new Texture(Gdx.files.internal("soundOn.png"));
+        soundOffTexture = new Texture(Gdx.files.internal("soundOff.png"));
+        soundBtn = new Sprite(new Texture(Gdx.files.internal("soundOn.png")));
+        soundBtn.setSize(60, 60);
+        soundBtn.setPosition(10, 10);
+        soundBtnBounds = new Rectangle(soundBtn.getX(), soundBtn.getY(), soundBtn.getWidth(), soundBtn.getHeight());
 
         assetManager.finishLoading(); // Blocks until all assets are loaded
 //
@@ -119,38 +136,43 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         this.playerClasses = Arrays.asList(warrior, mage, rogue);
     }
 
-//    public boolean getSoundBool() {
-//        return isSoundOn;
+//    public void pauseMusic() {
+//        if (music.isPlaying()) {
+//            music.pause();
+//        }
 //    }
 //
-//    public void setSoundBool(boolean bool) {
-//        this.isSoundOn = bool;
-//    }
-//
-//    public Music getMusic() {
-//        return music;
+//    public void resumeMusic() {
+//        if (!music.isPlaying()) {
+//            music.play();
+//        }
 //    }
 
-    public void pauseMusic() {
-        if (music.isPlaying()) {
-            music.pause();
-        }
-    }
 
-    public void resumeMusic() {
-        if (!music.isPlaying()) {
-            music.play();
-        }
-    }
 
     public void toggleSound() {
         if (isSoundOn) {
             music.pause();
+            // Copy the attributes from the existing Sprite to the new one
+            Sprite newSprite = new Sprite(soundOffTexture);
+            newSprite.setPosition(soundBtn.getX(), soundBtn.getY());
+            newSprite.setSize(soundBtn.getWidth(), soundBtn.getHeight());
+            soundBtn = newSprite;
         } else {
             music.play();
+            // Copy the attributes from the existing Sprite to the new one
+            Sprite newSprite = new Sprite(soundOnTexture);
+            newSprite.setPosition(soundBtn.getX(), soundBtn.getY());
+            newSprite.setSize(soundBtn.getWidth(), soundBtn.getHeight());
+            soundBtn = newSprite;
         }
         isSoundOn = !isSoundOn;
     }
+
+    public Sprite getSoundBtn() {
+        return soundBtn;
+    }
+
 
     @Override
     public void render() {
