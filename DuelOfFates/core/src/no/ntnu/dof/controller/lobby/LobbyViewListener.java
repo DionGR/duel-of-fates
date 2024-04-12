@@ -1,6 +1,6 @@
 package no.ntnu.dof.controller.lobby;
 
-public interface ILobbyViewListener {
+public interface LobbyViewListener {
     void startGame();
     void joinLobby();
     void deleteLobby();

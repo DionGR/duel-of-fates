@@ -19,12 +19,22 @@ import no.ntnu.dof.model.gameplay.card.Card;
 
 public class FirebaseGameService implements GameService {
     @Override
-    public GameComms createComms(String gameId) {
+    public GameComms createComms(String startingPlayerName) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        if (gameId == null) gameId = databaseReference.child("games").push().getKey();
-        GameComms comms = new GameComms(gameId);
+        String gameId = databaseReference.child("games").push().getKey();
+        GameComms comms = new GameComms(gameId, startingPlayerName);
         databaseReference.child("games").child(gameId).setValue(comms);
         return comms;
+    }
+
+    @Override
+    public void getComms(String gameId, GetCommsCallback callback) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference gameRef = databaseReference.child("games").child(gameId);
+
+        gameRef.get()
+            .addOnSuccessListener(dataSnapshot -> callback.onSuccess(dataSnapshot.getValue(GameComms.class)))
+            .addOnFailureListener(callback::onFailure);
     }
 
     @Override
