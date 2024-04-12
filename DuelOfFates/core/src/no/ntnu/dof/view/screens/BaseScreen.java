@@ -20,7 +20,11 @@ public abstract class BaseScreen extends ScreenAdapter {
 
     protected DuelOfFates game;
 
-    protected Sprite soundBtn;
+    private Sprite soundBtn;
+    private Texture soundOnTexture;
+    private Texture soundOffTexture;
+
+    private Rectangle soundBtnBounds;
 
 
     public BaseScreen() {}
@@ -34,18 +38,54 @@ public abstract class BaseScreen extends ScreenAdapter {
         background = new Sprite(backgroundTexture);
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        // Initialize sound button
-        soundBtn = new Sprite(game.getSoundBtn());
+        // Music button
+        soundOnTexture = new Texture(Gdx.files.internal("soundOn.png"));
+        soundOffTexture = new Texture(Gdx.files.internal("soundOff.png"));
+        if (game.getSoundBool()) {
+            soundBtn = new Sprite(soundOnTexture);
+        } else {
+            soundBtn = new Sprite(soundOffTexture);
+        }
+        soundBtn.setSize(60, 60);
+        soundBtn.setPosition(10, 10);
+        soundBtnBounds = new Rectangle(soundBtn.getX(), soundBtn.getY(), soundBtn.getWidth(), soundBtn.getHeight());
     }
 
     protected void handleSoundButtonInput() {
         if (Gdx.input.justTouched()) {
             float touchX = Gdx.input.getX();
             float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
-            if (game.getSoundBtnBounds().contains(touchX,touchY)) {
-                game.toggleSound();
+            if (getSoundBtnBounds().contains(touchX,touchY)) {
+                toggleSound();
             }
         }
+    }
+
+    public void toggleSound() {
+        if (game.getSoundBool()) {
+            game.pauseMusic();
+            // Copy the attributes from the existing Sprite to the new one
+            Sprite newSprite = new Sprite(soundOffTexture);
+            newSprite.setPosition(soundBtn.getX(), soundBtn.getY());
+            newSprite.setSize(soundBtn.getWidth(), soundBtn.getHeight());
+            soundBtn = newSprite;
+        } else {
+            game.playMusic();
+            // Copy the attributes from the existing Sprite to the new one
+            Sprite newSprite = new Sprite(soundOnTexture);
+            newSprite.setPosition(soundBtn.getX(), soundBtn.getY());
+            newSprite.setSize(soundBtn.getWidth(), soundBtn.getHeight());
+            soundBtn = newSprite;
+        }
+        game.setSoundBool(!game.getSoundBool());
+    }
+
+    public Sprite getSoundBtn() {
+        return soundBtn;
+    }
+
+    public Rectangle getSoundBtnBounds () {
+        return soundBtnBounds;
     }
 
     @Override
@@ -53,7 +93,7 @@ public abstract class BaseScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen
         batch.begin();
         background.draw(batch); // Draw the background
-        soundBtn.draw(batch);
+        getSoundBtn().draw(batch);
         batch.end();
         handleSoundButtonInput();
     }
@@ -63,6 +103,6 @@ public abstract class BaseScreen extends ScreenAdapter {
         super.dispose();
         batch.dispose();
         background.getTexture().dispose();
-        soundBtn.getTexture().dispose();
+        getSoundBtn().getTexture().dispose();
     }
 }

@@ -15,10 +15,7 @@ public abstract class ReturnableScreen extends BaseScreen{
     protected Sprite backBtn;
     protected Rectangle backBtnBounds;
 
-    protected Rectangle soundBtnBounds;
-
     protected DuelOfFates game;
-    protected Sprite soundBtn;
 
 
     public ReturnableScreen(DuelOfFates game) {
@@ -31,9 +28,6 @@ public abstract class ReturnableScreen extends BaseScreen{
         backBtn.setSize(30, 50);
         backBtn.setPosition(20, Gdx.graphics.getHeight() - backBtn.getHeight() - 20);
         backBtnBounds = new Rectangle(backBtn.getX(), backBtn.getY(), backBtn.getWidth(), backBtn.getHeight());
-
-        // Initialize sound button
-        soundBtn = new Sprite(game.getSoundBtn());
     }
 
     protected void handleBackButtonInput() {
@@ -45,16 +39,6 @@ public abstract class ReturnableScreen extends BaseScreen{
             }
         }
     }
-//
-//    protected void handleSoundButtonInput() {
-//        if (Gdx.input.justTouched()) {
-//            float touchX = Gdx.input.getX();
-//            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
-//            if (game.getSoundBtnBounds().contains(touchX,touchY)) {
-//                game.toggleSound();
-//            }
-//        }
-//    }
 
     @Override
     public void render(float delta) {
@@ -62,7 +46,7 @@ public abstract class ReturnableScreen extends BaseScreen{
         batch.begin();
         background.draw(batch); // Draw the background
         backBtn.draw(batch); // Draw the back button
-        soundBtn.draw(batch);
+        getSoundBtn().draw(batch);
         batch.end();
 
         handleBackButtonInput();
@@ -72,6 +56,6 @@ public abstract class ReturnableScreen extends BaseScreen{
     public void dispose() {
         super.dispose();
         backBtn.getTexture().dispose();
-        soundBtn.getTexture().dispose();
+//        soundBtn.getTexture().dispose();
     }
 }
