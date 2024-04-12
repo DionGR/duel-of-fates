@@ -7,19 +7,12 @@ import java.util.Optional;
 import lombok.Getter;
 import no.ntnu.dof.controller.gameplay.player.BotTutorialController;
 import no.ntnu.dof.controller.gameplay.player.ClickHostPlayerController;
+import no.ntnu.dof.controller.gameplay.player.ClickPlayerController;
 import no.ntnu.dof.controller.gameplay.player.PlayerController;
-import no.ntnu.dof.controller.gameplay.player.RemotePlayerController;
 import no.ntnu.dof.model.gameplay.Game;
-import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
-import no.ntnu.dof.model.gameplay.deck.Deck;
-import no.ntnu.dof.model.gameplay.deck.Hand;
 import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
-import no.ntnu.dof.model.gameplay.stats.armor.Armor;
-import no.ntnu.dof.model.gameplay.stats.health.Health;
-import no.ntnu.dof.model.gameplay.stats.mana.Mana;
-import no.ntnu.dof.view.screens.TutorialScreen;
+import no.ntnu.dof.view.screens.game.TutorialScreen;
 
 public class TutorialController {
     @Getter
@@ -35,8 +28,7 @@ public class TutorialController {
         Player host = game.getPlayers().get(0);
         Player bot = game.getPlayers().get(1);
 
-        ClickHostPlayerController hostController = ClickHostPlayerController.get();
-        hostController.setPlayer(host);
+        ClickPlayerController hostController = new ClickPlayerController();
         this.playerControllers.put(host, hostController);
         this.playerControllers.put(bot, new BotTutorialController());
     }
@@ -63,7 +55,6 @@ public class TutorialController {
             {
                 turnCard = Optional.empty();
             }
-
 
             if (turnCard.isPresent()) {
                 game.playCard(turnCard.get());

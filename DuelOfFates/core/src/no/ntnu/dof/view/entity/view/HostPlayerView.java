@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -19,9 +18,11 @@ import no.ntnu.dof.controller.gameplay.player.TestClickPlayerController;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.Image;
+import no.ntnu.dof.view.entity.view.CardView;
+import no.ntnu.dof.view.entity.view.PlayerView;
 
 @Getter
-public class HostPlayerView extends PlayerView{
+public class HostPlayerView extends PlayerView {
 
     private Group hostInterface;
     private Group handView;

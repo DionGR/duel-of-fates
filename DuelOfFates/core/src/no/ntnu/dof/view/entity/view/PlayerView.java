@@ -1,9 +1,6 @@
 package no.ntnu.dof.view.entity.view;
 
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -12,6 +9,7 @@ import lombok.Getter;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.Image;
 import no.ntnu.dof.view.entity.label.TextLabel;
+import no.ntnu.dof.view.gameplay.HealthBarView;
 
 @Getter
 public class PlayerView extends Group {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import lombok.Getter;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.view.Image;
+import no.ntnu.dof.view.gameplay.HostPlayerView;
 
 @Getter
 public class GameView extends Group {

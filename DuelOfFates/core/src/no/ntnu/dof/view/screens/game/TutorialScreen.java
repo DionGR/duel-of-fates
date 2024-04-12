@@ -1,43 +1,28 @@
-package no.ntnu.dof.view.screens;
+package no.ntnu.dof.view.screens.game;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.lang.Class;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Stack;
-import java.util.function.Function;
+
 
 import no.ntnu.dof.model.gameplay.Game;
-import no.ntnu.dof.view.Image;
-import no.ntnu.dof.view.gameplay.GameView;
+import no.ntnu.dof.view.entity.view.GameView;
 import no.ntnu.dof.view.gameplay.HighlightingArea;
-import no.ntnu.dof.view.gameplay.HostPlayerView;
-import no.ntnu.dof.view.gameplay.TextLabel;
 
 public class TutorialScreen implements Screen {
     private Stage stage;
     private final GameView gameView;
     private Label activeLabel;
     private HighlightingArea HighlightedArea;
-    private Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+    private final Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
     private ArrayList<Label> tutorialLabels;
 
 
@@ -50,8 +35,6 @@ public class TutorialScreen implements Screen {
         this.tutorialLabels.add(new Label("You can play cards from your hand by clicking on them", skin, "default"));
         this.tutorialLabels.add(new Label("When you can't play anymore cards, your turn is finished automatically \n At the beginning of your turn, you get all your mana point \n and draw until your hand reach is maximum hand size", skin, "default"));
         this.tutorialLabels.add(new Label("On his turn, your opponent will also play card to decrease your health point \n You can play card that get you armor for 1 turn. \n Armor will take damage before your health", skin, "default"));
-        //this.tutorialLabels.add(new Label("Turn 4 tutorial", skin, "default"));
-        //this.tutorialLabels.add(new Label("Turn 5 tutorial", skin, "default"));
     }
 
     @Override
