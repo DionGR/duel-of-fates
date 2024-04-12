@@ -66,7 +66,6 @@ public abstract class ReturnableScreen extends BaseScreen{
         batch.end();
 
         handleBackButtonInput();
-//        handleSoundButtonInput();
     }
 
     @Override

@@ -42,6 +42,7 @@ public class LobbiesScreen extends ReturnableScreen {
 
     @Override
     public void show() {
+        Gdx.app.log("LobbiesScreen", "show method called");
         super.show();
         this.skin = new Skin(Gdx.files.internal("uiskin.json"));
         this.stage = new Stage(new ScreenViewport(), this.batch);
