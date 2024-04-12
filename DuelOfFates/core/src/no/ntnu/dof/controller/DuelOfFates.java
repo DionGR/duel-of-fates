@@ -51,6 +51,8 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         assetManager = new AssetManager();
         assetManager.load("menuBackground.png", Texture.class);
         assetManager.load("backBtn.png", Texture.class);
+        assetManager.load("soundOn.png", Texture.class);
+        assetManager.load("soundOff.png", Texture.class);
 
         // Music
         music = Gdx.audio.newMusic(Gdx.files.internal("skyfallFull.mp3"));
@@ -64,6 +66,7 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         soundBtn.setSize(60, 60);
         soundBtn.setPosition(10, 10);
         soundBtnBounds = new Rectangle(soundBtn.getX(), soundBtn.getY(), soundBtn.getWidth(), soundBtn.getHeight());
+
 
         assetManager.finishLoading(); // Blocks until all assets are loaded
 //
@@ -136,20 +139,6 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         this.playerClasses = Arrays.asList(warrior, mage, rogue);
     }
 
-//    public void pauseMusic() {
-//        if (music.isPlaying()) {
-//            music.pause();
-//        }
-//    }
-//
-//    public void resumeMusic() {
-//        if (!music.isPlaying()) {
-//            music.play();
-//        }
-//    }
-
-
-
     public void toggleSound() {
         if (isSoundOn) {
             music.pause();
@@ -171,6 +160,10 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
 
     public Sprite getSoundBtn() {
         return soundBtn;
+    }
+
+    public Rectangle getSoundBtnBounds () {
+        return soundBtnBounds;
     }
 
 

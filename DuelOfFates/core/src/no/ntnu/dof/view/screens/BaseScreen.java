@@ -18,20 +18,15 @@ public abstract class BaseScreen extends ScreenAdapter {
     protected SpriteBatch batch;
     protected Sprite background;
 
-    protected Rectangle soundBtnBounds;
-    protected Sprite soundBtn;
-
     protected DuelOfFates game;
 
-    private boolean isSoundOn;
-    private Music music;
-    private AssetManager assetManager;
+    protected Sprite soundBtn;
+
 
     public BaseScreen() {}
     public BaseScreen(DuelOfFates game) {
         super();
         this.batch = new SpriteBatch();
-        this.isSoundOn = false;
         this.game = game;
 
         // Initialize the background
@@ -39,23 +34,15 @@ public abstract class BaseScreen extends ScreenAdapter {
         background = new Sprite(backgroundTexture);
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-//        Texture soundBtnTexture = new Texture(Gdx.files.internal("soundOn.png"));
-//        soundBtn = new Sprite(soundBtnTexture);
-//        soundBtn.setSize(60, 60);
-//        soundBtn.setPosition(10, 10);
-//        soundBtnBounds = new Rectangle(soundBtn.getX(), soundBtn.getY(), soundBtn.getWidth(), soundBtn.getHeight());
-//
-//        assetManager = new AssetManager();
-//        assetManager.load("skyfallFull.mp3", Music.class);
-//        music = Gdx.audio.newMusic(Gdx.files.internal("skyfallFull.mp3"));
-//        music.setLooping(true);
+        // Initialize sound button
+        soundBtn = new Sprite(game.getSoundBtn());
     }
 
     protected void handleSoundButtonInput() {
         if (Gdx.input.justTouched()) {
             float touchX = Gdx.input.getX();
             float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
-            if (soundBtnBounds.contains(touchX,touchY)) {
+            if (game.getSoundBtnBounds().contains(touchX,touchY)) {
                 game.toggleSound();
             }
         }
@@ -66,7 +53,7 @@ public abstract class BaseScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen
         batch.begin();
         background.draw(batch); // Draw the background
-        game.getSoundBtn().draw(batch);
+        soundBtn.draw(batch);
         batch.end();
         handleSoundButtonInput();
     }

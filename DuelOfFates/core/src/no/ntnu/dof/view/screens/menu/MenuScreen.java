@@ -102,6 +102,7 @@ public class MenuScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
+        game.getSoundBtn().draw(batch);
         batch.end();
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
