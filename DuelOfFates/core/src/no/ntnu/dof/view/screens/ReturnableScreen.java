@@ -17,7 +17,6 @@ public abstract class ReturnableScreen extends BaseScreen{
 
     protected DuelOfFates game;
 
-
     public ReturnableScreen(DuelOfFates game) {
         super(game);
         this.batch = new SpriteBatch();
@@ -48,7 +47,6 @@ public abstract class ReturnableScreen extends BaseScreen{
         backBtn.draw(batch); // Draw the back button
         getSoundBtn().draw(batch);
         batch.end();
-
         handleBackButtonInput();
     }
 
@@ -56,6 +54,6 @@ public abstract class ReturnableScreen extends BaseScreen{
     public void dispose() {
         super.dispose();
         backBtn.getTexture().dispose();
-//        soundBtn.getTexture().dispose();
+        getSoundBtn().getTexture().dispose();
     }
 }
