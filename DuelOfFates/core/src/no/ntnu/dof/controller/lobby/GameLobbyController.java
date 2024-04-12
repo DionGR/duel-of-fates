@@ -2,8 +2,6 @@ package no.ntnu.dof.controller.lobby;
 
 import com.badlogic.gdx.Gdx;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -49,11 +47,11 @@ public class GameLobbyController implements LobbyViewListener {
                 Gdx.app.postRunnable(() -> lobbyScreen.updateGuestInfo(guestInfo));
             }
         });
+        ServiceLocator.getLobbyService().listenForGameStart(gameLobby.getLobbyId(), this::updateLobbyState);
     }
 
     public void stopListeningForLobbyUpdates() {
         ServiceLocator.getLobbyService().stopListeningForLobbyUpdates(gameLobby.getLobbyId());
-        initializeListeners();
     }
 
     public void startGame(){
@@ -88,10 +86,6 @@ public class GameLobbyController implements LobbyViewListener {
 
         // Logic to start the game...
         System.out.println("Starting game for lobby: " + gameLobby.getTitle());
-    }
-
-    private void initializeListeners() {
-        ServiceLocator.getLobbyService().listenForGameStart(this::updateLobbyState);
     }
 
     public void updateLobbyState(GameLobby gameLobby) {

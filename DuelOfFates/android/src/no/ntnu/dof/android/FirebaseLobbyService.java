@@ -77,17 +77,15 @@ public class FirebaseLobbyService implements LobbyService {
     }
 
     @Override
-    public void listenForGameStart(GameStartListener listener) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies");
+    public void listenForGameStart(String lobbyId, GameStartListener listener) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies").child(lobbyId);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot lobbySnapshot: dataSnapshot.getChildren()) {
-                    GameLobby lobby = lobbySnapshot.getValue(GameLobby.class);
-                    if (lobby != null && lobby.getGameState() != null && lobby.getGameState().equals("started")) {
-                        listener.onGameStart(lobby);
-                    }
+                GameLobby lobby = dataSnapshot.getValue(GameLobby.class);
+                if (lobby != null && lobby.getGameState() != null && lobby.getGameState().equals("started")) {
+                    listener.onGameStart(lobby);
                 }
             }
 

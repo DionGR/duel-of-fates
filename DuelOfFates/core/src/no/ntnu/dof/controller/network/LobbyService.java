@@ -15,7 +15,7 @@ public interface LobbyService {
     void stopListeningForLobbyUpdates(String lobbyId);
     void updateLobbyState(LobbyUpdateCallback callback, String lobbyId, String state);
 
-    void listenForGameStart(GameStartListener listener);
+    void listenForGameStart(String lobbyId, GameStartListener listener);
 
     void joinLobby(LobbyJoinCallback callback, GameLobby gameLobby, User user);
 
@@ -55,7 +55,7 @@ public interface LobbyService {
         void onFailure(Throwable throwable);
     }
 
-    public interface LobbyUpdateCallback {
+    interface LobbyUpdateCallback {
         void onSuccess();
         void onFailure(Throwable throwable);
     }
