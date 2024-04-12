@@ -1,14 +1,7 @@
-package no.ntnu.dof.view.gameplay;
+package no.ntnu.dof.view.entity.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import lombok.Getter;
 import no.ntnu.dof.model.gameplay.Game;

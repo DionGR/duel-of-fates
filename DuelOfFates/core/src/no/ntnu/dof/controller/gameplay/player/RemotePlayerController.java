@@ -14,14 +14,10 @@ public class RemotePlayerController implements PlayerController, GameService.Pla
     protected Optional<Card> chosen;
     protected boolean played;
 
-    public RemotePlayerController(Player player) {
+    public RemotePlayerController(Player player, GameComms comms) {
         this.player = player;
         this.chosen = Optional.empty();
         this.played = false;
-
-        GameComms comms = ServiceLocator
-                .getGameService()
-                .createComms("-NuBZPuG4gkubhYI_FsN"); // TODO inject gameId
 
         ServiceLocator.getGameService().addPlayListener(comms, this);
     }

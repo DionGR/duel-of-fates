@@ -1,9 +1,6 @@
 package no.ntnu.dof.model;
 
-import java.util.List;
-
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 public class GameLobby {
@@ -12,6 +9,7 @@ public class GameLobby {
     private User guest; // This can be null if no guest has joined
     private String gameState; // e.g., waiting, started, finished
     private String title;
+    private String gameId;
 
     public GameLobby() {
         // Default constructor for serialization
@@ -23,14 +21,16 @@ public class GameLobby {
         this.gameState = "waiting";
         this.title = title;
         this.guest = null; // Initially, no guest
+        this.gameId = null;
     }
 
-    public GameLobby(String lobbyId, User creator, String title, String gameState, User guest) {
+    public GameLobby(String lobbyId, User creator, String title, String gameState, User guest, String gameId) {
         this.lobbyId = lobbyId;
         this.creator = creator;
         this.gameState = gameState;
         this.title = title;
         this.guest = guest;
+        this.gameId = gameId;
     }
 }
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,9 +18,9 @@ public class GameComms {
     private String playerLastTurn;
     private List<Card> cards;
 
-    public GameComms(String gameId) {
+    public GameComms(String gameId, String startingPlayerName) {
         this.gameId = gameId;
-        this.playerLastTurn = null;
+        this.playerLastTurn = startingPlayerName;
         this.cards = new ArrayList<>();
     }
 }

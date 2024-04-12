@@ -5,32 +5,27 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import lombok.Data;
-import no.ntnu.dof.controller.gameplay.GameController;
-import no.ntnu.dof.controller.gameplay.TutorialController;
-import no.ntnu.dof.controller.network.AuthCallback;
-import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.User;
-import lombok.Getter;
-import lombok.Setter;
-import no.ntnu.dof.model.gameplay.Game;
-import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.view.screens.FightScreen;
-import no.ntnu.dof.view.screens.LoginScreen;
-import no.ntnu.dof.view.screens.TutorialScreen;
+import no.ntnu.dof.model.gameplay.card.AttackCard;
+import no.ntnu.dof.model.gameplay.card.Card;
+import no.ntnu.dof.model.gameplay.deck.Deck;
+import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
+import no.ntnu.dof.model.gameplay.stats.armor.Armor;
+import no.ntnu.dof.model.gameplay.stats.health.Health;
+import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
+@Data
 public class DuelOfFates extends com.badlogic.gdx.Game {
     private SpriteBatch batch;
     private AssetManager assetManager;
 
-    @Getter
-    @Setter
     private User currentUser;
-
-    // Ensure this method returns a valid GameLobbies instance
-    @Getter
-    private GameLobbies gameLobbies;
 
 	public DuelOfFates() {}
 
@@ -43,13 +38,11 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
         assetManager.finishLoading(); // Blocks until all assets are loaded
 
         // Initialize first screen and ScreenManager
-        ScreenManager.initialize(this, batch, assetManager);
-        //ScreenManager.transitionToLogin();
+        ScreenController.initialize(this, batch, assetManager);
+        ScreenController.transitionToLogin();
 
-
-        // Fetch game lobbies
-        this.gameLobbies = new GameLobbies();
         // TODO remove CLI gameplay demo
+        /*
         ServiceLocator.getAuthService().signIn("p1", "p1", new AuthCallback() {
             @Override
             public void onSuccess() {
@@ -62,25 +55,13 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
             }
         });
 
-        Game game = new Game(Game.Tutorial("host"), Game.demoPlayer("bot"));
+        GameController gameController = new GameController(Game.demoPlayer("p1"), Game.demoPlayer("p2"));
 
-        TutorialScreen screen1 = new TutorialScreen(game);
-        TutorialController gameController = new TutorialController(game, screen1);
-
-        this.setScreen(screen1);
+        // Initialize the fight screen as the first screen
+        this.setScreen(new FightScreen(gameController.getGame()));
         new Thread(gameController::gameLoop).start();
+        */
 	}
-
-
-    public void loginSuccess() {
-        // Simulate user creation based on email for this example
-        this.currentUser = ServiceLocator.getAuthService().createGameUserFromFirebaseUser();
-
-        // Navigate to the menu screen
-        Gdx.app.postRunnable(() -> {
-            ScreenManager.transitionToMenu();
-        });
-    }
 
     @Override
     public void render() {

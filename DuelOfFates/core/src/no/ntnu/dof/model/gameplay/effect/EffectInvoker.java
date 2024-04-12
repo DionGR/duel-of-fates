@@ -5,6 +5,7 @@ import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 import no.ntnu.dof.model.gameplay.player.Player;
 
 @Getter
@@ -19,8 +20,12 @@ public class EffectInvoker<K, V extends Effect> {
         effects.put(key, effect);
     }
 
-    public void invoke(K key, Player player) {
-        effects.get(key).apply(player);
+    @NonNull public V invoke(K key) {
+        return effects.get(key);
+    }
+
+    public void printEffects() {
+        effects.forEach((k, v) -> System.out.println(k + " -> " + v));
     }
 
 }

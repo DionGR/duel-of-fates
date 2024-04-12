@@ -1,11 +1,9 @@
-package no.ntnu.dof.view.gameplay;
+package no.ntnu.dof.view.entity.texture;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
-import java.util.ArrayList;
 
 import lombok.Getter;
 

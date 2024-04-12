@@ -9,7 +9,7 @@ import no.ntnu.dof.model.gameplay.GameplayEntity;
 import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public abstract class Card extends GameplayEntity {
     @Singular private List<String> hostEffectNames;
     @Singular private List<String> opponentEffectNames;

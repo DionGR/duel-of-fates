@@ -39,6 +39,10 @@ public class Deck extends GameplayEntity implements Iterator<Card> {
             refill();
         }
 
-        return activeCards.remove(0);
+        Card nextCard = activeCards.remove(0);
+
+        playedCards.add(nextCard);
+
+        return nextCard;
     }
 }

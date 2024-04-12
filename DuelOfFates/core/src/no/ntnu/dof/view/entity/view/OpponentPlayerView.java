@@ -1,4 +1,4 @@
-package no.ntnu.dof.view.gameplay;
+package no.ntnu.dof.view.entity.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;

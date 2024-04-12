@@ -12,4 +12,8 @@ public class Mana implements Comparable<Mana> {
     public int compareTo(Mana other) {
         return Integer.compare(this.value, other.value);
     }
+
+    public String toString() {
+        return value + " MANA";
+    }
 }

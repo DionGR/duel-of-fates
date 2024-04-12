@@ -1,4 +1,4 @@
-package no.ntnu.dof.view.screens;
+package no.ntnu.dof.view.screens.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -6,34 +6,32 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import no.ntnu.dof.controller.DuelOfFates;
-import no.ntnu.dof.controller.ScreenManager;
-import no.ntnu.dof.controller.network.AuthCallback;
-import no.ntnu.dof.controller.network.ServiceLocator;
-import no.ntnu.dof.model.User;
+
+import no.ntnu.dof.controller.ScreenController;
 
 public class LoginScreen implements Screen {
     private Stage stage;
     private Label feedbackLabel;
     private SpriteBatch spriteBatch;
     private AssetManager assetManager;
-    private DuelOfFates game;
+    private LoginViewListener listener;
 
-    public LoginScreen(DuelOfFates game, SpriteBatch spriteBatch, AssetManager assetManager) {
+    public LoginScreen(SpriteBatch spriteBatch, AssetManager assetManager) {
         this.spriteBatch = spriteBatch;
         this.assetManager = assetManager;
-        this.game = game;
         initializeUI();
     }
 
-    private void initializeUI() {
+    public void initializeUI() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -51,11 +49,13 @@ public class LoginScreen implements Screen {
         passwordField.setPasswordMode(true);
 
         TextButton loginButton = new TextButton("Login", skin);
-        loginButton.addListener(event -> {
-            String email = emailField.getText().trim();
-            String password = passwordField.getText().trim();
-            attemptLogin(email, password);
-            return false;
+        loginButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String email = emailField.getText().trim();
+                String password = passwordField.getText().trim();
+                attemptLogin(email, password);
+            }
         });
 
         table.add(emailField).fillX().uniformX().padBottom(10).row();
@@ -63,19 +63,21 @@ public class LoginScreen implements Screen {
         table.add(loginButton).fillX().uniformX();
     }
 
-    private void attemptLogin(String email, String password) {
-        if (!email.isEmpty() && !password.isEmpty()) {
-            ServiceLocator.getAuthService().signIn(email, password, new AuthCallback() {
-                @Override
-                public void onSuccess() {
-                    game.loginSuccess();
-                }
+    public interface LoginViewListener {
+        void onLoginAttempt(String email, String password);
+    }
 
-                @Override
-                public void onError(String message) {
-                    Gdx.app.postRunnable(() -> feedbackLabel.setText("Login failed: " + message));
-                }
-            });
+    public void setLoginViewListener(LoginViewListener listener) {
+        this.listener = listener;
+    }
+
+    public void showLoginFailed(String message) {
+        Gdx.app.postRunnable(() -> feedbackLabel.setText("Login failed: " + message));
+    }
+
+    private void attemptLogin(String email, String password) {
+        if (listener != null) {
+            listener.onLoginAttempt(email, password);
         }
     }
 
@@ -110,13 +112,11 @@ public class LoginScreen implements Screen {
     public void resume() {}
 
     @Override
-    public void hide() {
-        // It's crucial to not dispose shared assets here
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
-        // Dispose only the Stage here, as it's exclusive to LoginScreen.
+        // Dispose only the Stage, as it's exclusive to LoginScreen.
         stage.dispose();
         // Do NOT dispose spriteBatch or assets from assetManager here.
     }

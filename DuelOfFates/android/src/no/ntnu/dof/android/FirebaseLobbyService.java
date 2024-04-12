@@ -9,12 +9,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
 
 public class FirebaseLobbyService implements LobbyService {
+    private final Map<String, ValueEventListener> listeners = new HashMap<>();
 
     @Override
     public void createLobby(LobbyCreationCallback callback, GameLobby lobby) {
@@ -27,15 +30,19 @@ public class FirebaseLobbyService implements LobbyService {
 
         // Save the lobby object, now including the lobbyId, to Firebase
         newLobbyRef.setValue(lobby)
-                .addOnSuccessListener(aVoid -> {
-                    callback.onSuccess(lobby);
-                })
-                .addOnFailureListener(e -> {
-                    callback.onFailure(e);
-                });
+                .addOnSuccessListener(aVoid -> callback.onSuccess(lobby))
+                .addOnFailureListener(callback::onFailure);
     }
 
-    public void listenForLobbyChanges(LobbyChangeListener listener) {
+    @Override
+    public void initializeGame(LobbyUpdateCallback callback, String lobbyId, String gameId) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies");
+        DatabaseReference lobbyRef = databaseReference.child(lobbyId);
+        lobbyRef.child("gameState").setValue("started");
+        lobbyRef.child("gameId").setValue(gameId);
+    }
+
+    public void listenForLobbiesChanges(LobbyChangeListener listener) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -56,18 +63,112 @@ public class FirebaseLobbyService implements LobbyService {
     }
 
     @Override
+    public void listenForGameStart(String lobbyId, GameStartListener listener) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies").child(lobbyId);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                GameLobby lobby = dataSnapshot.getValue(GameLobby.class);
+                if (lobby != null && lobby.getGameState() != null && lobby.getGameState().equals("started")) {
+                    listener.onGameStart(lobby);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+    }
+
+    @Override
+    public void listenForLobbyUpdate(String lobbyId, LobbyUpdateListener listener) {
+        DatabaseReference lobbyRef = FirebaseDatabase.getInstance().getReference("lobbies").child(lobbyId);
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                GameLobby updatedLobby = dataSnapshot.getValue(GameLobby.class);
+                if (updatedLobby != null) {
+                    listener.onLobbyUpdated(updatedLobby);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        };
+        lobbyRef.addValueEventListener(valueEventListener);
+        listeners.put(lobbyId, valueEventListener);
+    }
+
+    @Override
+    public void stopListeningForLobbyUpdates(String lobbyId) {
+        if (listeners.containsKey(lobbyId)) {
+            DatabaseReference lobbyRef = FirebaseDatabase.getInstance().getReference("lobbies").child(lobbyId);
+            lobbyRef.removeEventListener(listeners.get(lobbyId));
+            listeners.remove(lobbyId);
+        }
+    }
+
+    @Override
     public void joinLobby(LobbyJoinCallback callback, GameLobby gameLobby, User user) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference lobbyRef = databaseReference.child("lobbies").child(gameLobby.getLobbyId());
 
-        lobbyRef.child("guest").setValue(user)
-                .addOnSuccessListener(aVoid -> callback.onSuccess())
-                .addOnFailureListener(callback::onFailure);
+        // Check if lobby still exists
+        lobbyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    callback.onFailure(new Exception("Lobby does not exist."));
+                } else
+                    lobbyRef.child("guest").setValue(user, (DatabaseReference.CompletionListener) (databaseError, databaseReference1) -> {
+                        if (databaseError == null) {
+                            if (callback != null) {
+                                callback.onSuccess();
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFailure(databaseError.toException());
+                            }
+                        }
+                    });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                callback.onFailure(databaseError.toException());
+            }
+        });
     }
 
     @Override
     public void deleteLobby(String lobbyId, LobbyDeletionCallback callback) {
         DatabaseReference lobbyRef = FirebaseDatabase.getInstance().getReference("lobbies").child(lobbyId);
+        lobbyRef.removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    if (callback != null) {
+                        callback.onSuccess();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    if (callback != null) {
+                        callback.onFailure(e);
+                    }
+                });
+    }
+
+    @Override
+    public void guestExitLobby(LobbyExitCallback callback, GameLobby gameLobby) {
+        DatabaseReference lobbyRef = FirebaseDatabase
+                .getInstance()
+                .getReference("lobbies")
+                .child(gameLobby.getLobbyId())
+                .child("guest");
+
         lobbyRef.removeValue()
                 .addOnSuccessListener(aVoid -> {
                     if (callback != null) {

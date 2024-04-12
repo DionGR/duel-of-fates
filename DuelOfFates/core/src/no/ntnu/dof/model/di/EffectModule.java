@@ -11,7 +11,6 @@ import no.ntnu.dof.model.gameplay.effect.EffectInvoker;
 import no.ntnu.dof.model.gameplay.effect.card.DamageEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RefillHandEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RefillManaEffect;
-import no.ntnu.dof.model.gameplay.stats.armor.ArmorEffect;
 
 @Module
 public class EffectModule {
@@ -20,17 +19,8 @@ public class EffectModule {
     @Named("damageEffect")
     public Effect provideDamageEffect() {
         return DamageEffect.builder()
-                .name("damage")
-                .damage(1)
-                .build();
-    }
-
-    @Provides
-    @Named("armorEffect")
-    public Effect provideArmorEffect() {
-        return ArmorEffect.builder()
-                .name("armor")
-                .delta(-5)
+                .name("damageEffect")
+                .damage(5)
                 .build();
     }
 
@@ -54,14 +44,12 @@ public class EffectModule {
     @Named("effectInvoker")
     public EffectInvoker<String, Effect> provideEffectInvoker(
                                                 @Named("damageEffect") Effect damageEffect,
-                                                @Named("armorEffect") Effect armorEffect,
                                                 @Named("refillHandEffect") Effect refillHandEffect,
                                                 @Named("refillManaEffect") Effect refillManaEffect){
 
         EffectInvoker<String, Effect> effectInvoker = new EffectInvoker<>();
 
         effectInvoker.register(damageEffect.getName(), damageEffect);
-        effectInvoker.register(armorEffect.getName(), armorEffect);
         effectInvoker.register(refillHandEffect.getName(), refillHandEffect);
         effectInvoker.register(refillManaEffect.getName(), refillManaEffect);
 

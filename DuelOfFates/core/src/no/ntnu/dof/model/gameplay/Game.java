@@ -7,27 +7,16 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import no.ntnu.dof.controller.gameplay.di.DaggerGameComponent;
-import no.ntnu.dof.controller.gameplay.di.DaggerGameControllerComponent;
-import no.ntnu.dof.controller.gameplay.di.GameComponent;
-import no.ntnu.dof.controller.gameplay.di.GameControllerComponent;
 import lombok.Getter;
-import no.ntnu.dof.model.gameplay.card.AttackCard;
+import no.ntnu.dof.controller.gameplay.di.DaggerGameComponent;
+import no.ntnu.dof.controller.gameplay.di.GameComponent;
 import no.ntnu.dof.model.gameplay.card.Card;
-import no.ntnu.dof.model.gameplay.card.DefenseCard;
-import no.ntnu.dof.model.gameplay.deck.Deck;
-import no.ntnu.dof.model.gameplay.deck.Hand;
 import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.model.gameplay.effect.EffectInvoker;
 import no.ntnu.dof.model.gameplay.effect.card.RefillHandEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RefillManaEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RemoveCardFromHandEffect;
-import no.ntnu.dof.model.gameplay.player.exception.InsufficientManaException;
 import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
-import no.ntnu.dof.model.gameplay.stats.armor.Armor;
-import no.ntnu.dof.model.gameplay.stats.health.Health;
-import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 @Getter
 public class Game {
@@ -67,8 +56,15 @@ public class Game {
 
         host.cardPlayedEvent.fire(card);
 
-        card.getHostEffectNames().forEach(e -> effectInvoker.invoke(e, host));
-        card.getOpponentEffectNames().forEach(e -> effectInvoker.invoke(e, opponent));
+        List<String> hostEffectNames = new ArrayList<>(card.getHostEffectNames());
+        if (!hostEffectNames.isEmpty()) {
+            hostEffectNames.forEach(e -> effectInvoker.invoke(e).apply(host));
+        }
+
+        List<String> opponentEffectNames = new ArrayList<>(card.getOpponentEffectNames());
+        if (!opponentEffectNames.isEmpty()) {
+            opponentEffectNames.forEach(e -> effectInvoker.invoke(e).apply(opponent));
+        }
     }
 
     public void finalizeTurn() {
@@ -81,76 +77,28 @@ public class Game {
         players.add(current);
     }
 
-    public static Player demoPlayer(String name) {
-        List<Card> cards = new ArrayList<>();
-
-        for (int i = 0; i < 10; ++i) {
-            cards.add(AttackCard.builder()
-                    .name("Card" + i)
-                    .cost(new Mana(5))
-                    .opponentEffectName("damage")
-                    .build());
-        }
-
-        PlayerClass playerClass = PlayerClass.builder()
-                .deck(Deck.builder().activeCards(cards).build())
-                .maxHealth(new Health(10))
-                .maxArmor(new Armor(0))
-                .maxMana(new Mana(5))
-                .build();
-
-        return Player.builder()
-                .name(name)
-                .playerClass(playerClass)
-                .hand(Hand.builder().maxSize(3).build())
-                .build();
-    }
-
-    public static Player Tutorial(String hostname) {
-        List<Card> cards = new ArrayList<>();
-
-        cards.add(AttackCard.builder()
-                    .name("Card1")
-                    .cost(new Mana(1))
-                    .opponentEffectName("damage")
-                    .build());
-        cards.add(AttackCard.builder()
-                .name("Card1")
-                .cost(new Mana(1))
-                .opponentEffectName("damage")
-                .build());
-        cards.add(DefenseCard.builder()
-                .name("Card2")
-                .cost(new Mana(1))
-                .hostEffectName("armor")
-                .build());
-        for (int i = 4; i < 10; i=i+2) {
-            cards.add(AttackCard.builder()
-                    .name("Card" + i)
-                    .cost(new Mana(3))
-                    .opponentEffectName("damage")
-                    .build());
-            cards.add(DefenseCard.builder()
-                    .name("Card" + (i+1))
-                    .cost(new Mana(2))
-                    .hostEffectName("armor")
-                    .build());
-        }
-
-        PlayerClass playerClass = PlayerClass.builder()
-                .deck(Deck.builder().activeCards(cards).build())
-                .maxHealth(new Health(10))
-                .maxArmor(new Armor(0))
-                .maxMana(new Mana(5))
-                .build();
-
-
-        Player host = Player.builder()
-                .name(hostname)
-                .playerClass(playerClass)
-                .hand(Hand.builder().maxSize(1).build())
-                .build();
-
-        return host;
-    }
+//    public static Player demoPlayer(String name) {
+//        List<Card> cards = new ArrayList<>();
+//
+//        for (int i = 0; i < 10; ++i) {
+//            cards.add(AttackCard.builder()
+//                    .name("Card" + i)
+//                    .cost(new Mana(3))
+//                    .opponentEffectName("damage")
+//                    .build());
+//        }
+//
+//        PlayerClass playerClass = PlayerClass.builder()
+//                .deck(Deck.builder().activeCards(cards).build())
+//                .maxHealth(new Health(10))
+//                .maxArmor(new Armor(0))
+//                .maxMana(new Mana(5))
+//                .build();
+//
+//        return Player.builder()
+//                .name(name)
+//                .playerClass(playerClass)
+//                .hand(Hand.builder().maxSize(3).build())
+//                .build();
+//    }
 }
