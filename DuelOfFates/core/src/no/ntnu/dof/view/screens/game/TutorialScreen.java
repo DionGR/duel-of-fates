@@ -25,12 +25,10 @@ public class TutorialScreen implements Screen {
     private final Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
     private ArrayList<Label> tutorialLabels;
 
-
-
     public TutorialScreen(Game game) {
         this.gameView = new GameView(game);
         this.activeLabel = null;
-        this.tutorialLabels = new ArrayList<Label>();
+        this.tutorialLabels = new ArrayList<>();
 
         this.tutorialLabels.add(new Label("You can play cards from your hand by clicking on them", skin, "default"));
         this.tutorialLabels.add(new Label("When you can't play anymore cards, your turn is finished automatically \n At the beginning of your turn, you get all your mana point \n and draw until your hand reach is maximum hand size", skin, "default"));

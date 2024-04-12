@@ -4,7 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import lombok.Getter;
+import no.ntnu.dof.controller.gameplay.di.DaggerGameLobbyControllerComponent;
+import no.ntnu.dof.controller.gameplay.di.DaggerTutorialComponent;
+import no.ntnu.dof.controller.gameplay.di.GameLobbyControllerComponent;
+import no.ntnu.dof.controller.gameplay.di.TutorialComponent;
 import no.ntnu.dof.controller.gameplay.player.BotTutorialController;
 import no.ntnu.dof.controller.gameplay.player.ClickHostPlayerController;
 import no.ntnu.dof.controller.gameplay.player.ClickPlayerController;
@@ -14,23 +21,33 @@ import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.screens.game.TutorialScreen;
 
+@Getter
 public class TutorialController {
-    @Getter
-    private final Game game;
-    private final TutorialScreen screen;
     private final Map<Player, PlayerController> playerControllers;
 
-    public TutorialController(Game game, TutorialScreen screen) {
-        this.game = game;
-        this.playerControllers = new HashMap<>();
-        this.screen = screen;
+    @Inject
+    @Named("hostTutorialPlayer")
+    Player host;
+    @Inject
+    @Named("botTutorialPlayer")
+    Player bot;
+    @Inject
+    @Named("tutorialGame")
+    Game game;
+    @Inject
+    @Named("tutorialScreen")
+    TutorialScreen screen;
 
-        Player host = game.getPlayers().get(0);
-        Player bot = game.getPlayers().get(1);
+
+    public TutorialController() {
+        TutorialComponent tutorialComponent = DaggerTutorialComponent.create();
+        tutorialComponent.inject(this);
+
+        this.playerControllers = new HashMap<>();
 
         ClickPlayerController hostController = new ClickPlayerController();
-        this.playerControllers.put(host, hostController);
-        this.playerControllers.put(bot, new BotTutorialController());
+        this.playerControllers.put(this.host, hostController);
+        this.playerControllers.put(this.bot, new BotTutorialController());
     }
 
     public void gameLoop() {

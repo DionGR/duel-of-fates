@@ -62,7 +62,6 @@ public class MenuScreen extends BaseScreen {
 
         stage.addActor(contentTable);
 
-
         lobbiesBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -74,6 +73,13 @@ public class MenuScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ScreenController.transitionToChooseClass();
+            }
+        });
+
+        tutorialBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenController.transitionToTutorial();
             }
         });
 
