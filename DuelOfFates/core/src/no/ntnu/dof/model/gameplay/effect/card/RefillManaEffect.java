@@ -9,6 +9,7 @@ import no.ntnu.dof.model.gameplay.stats.mana.ManaEffect;
 
 @SuperBuilder
 public class RefillManaEffect extends Effect implements TurnListener {
+
     @Override
     public void apply(@NonNull final Player player) {
         int manaToFill = player.getPlayerClass().getMaxMana().getValue() - player.getMana().getValue();
