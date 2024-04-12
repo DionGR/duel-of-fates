@@ -4,12 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
-import java.util.Optional;
 
 import lombok.Getter;
 import no.ntnu.dof.controller.gameplay.player.ClickHostPlayerController;
@@ -33,13 +29,7 @@ public class CardView extends Group {
         this.height = cardTexture.getHeight();
         this.setPosition(((float) 2 * width/3)*i, 0);
         this.setBounds(this.getX(), this.getY(), width, height);
-        this.addListener(new ClickListener() {
-            @Override
-            public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                ClickHostPlayerController.setPlay(Optional.of(card));
-                return super.touchDown(event, x, y, pointer, button);
-            }
-        } );
+        this.addListener(ClickHostPlayerController.get());
 
         Label name = (new TextLabel(card.getName(), width*0.05f,height*0.80f,width*0.8f,height*0.18f,height*0.006f, Color.RED)).getText();
         name.setAlignment(Align.center);

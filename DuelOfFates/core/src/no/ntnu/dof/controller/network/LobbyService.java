@@ -13,7 +13,7 @@ public interface LobbyService {
     void listenForLobbyUpdate(String lobbyId, LobbyUpdateListener listener);
 
     void stopListeningForLobbyUpdates(String lobbyId);
-    void updateLobbyState(LobbyUpdateCallback callback, String lobbyId, String state);
+    void initializeGame(LobbyUpdateCallback callback, String lobbyId, String gameId);
 
     void listenForGameStart(String lobbyId, GameStartListener listener);
 

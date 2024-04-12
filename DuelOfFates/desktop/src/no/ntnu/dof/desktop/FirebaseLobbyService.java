@@ -39,29 +39,17 @@ public class FirebaseLobbyService implements LobbyService {
     }
 
     @Override
-    public void updateLobbyState(LobbyUpdateCallback callback, String lobbyId, String state) {
+    public void initializeGame(LobbyUpdateCallback callback, String lobbyId, String gameId) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies");
-        DatabaseReference lobbyRef = databaseReference.child(lobbyId).child("gameState");
+        DatabaseReference lobbyRef = databaseReference.child(lobbyId);
 
-        lobbyRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dataSnapshot.getRef().setValue(state, (databaseError, databaseReference) -> {
-                    if (databaseError == null) {
-                        callback.onSuccess();
-                    } else {
-                        callback.onFailure(databaseError.toException());
-                    }
-                });
-                callback.onSuccess();
-            }
+        DatabaseReference.CompletionListener completionListener = (error, ref) -> {
+            if (error == null) callback.onSuccess();
+            else callback.onFailure(error.toException());
+        };
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.err.println("Data could not be saved " + databaseError.getMessage());
-                callback.onFailure(databaseError.toException());
-            }
-        });
+        lobbyRef.child("gameState").setValue("started", completionListener);
+        lobbyRef.child("gameId").setValue(gameId, completionListener);
     }
 
     @Override

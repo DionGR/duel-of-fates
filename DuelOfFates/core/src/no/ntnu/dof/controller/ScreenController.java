@@ -1,24 +1,25 @@
 package no.ntnu.dof.controller;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import java.util.Stack;
 
 import no.ntnu.dof.controller.gameplay.GameController;
 import no.ntnu.dof.controller.lobby.GameLobbiesController;
 import no.ntnu.dof.controller.lobby.GameLobbyController;
 import no.ntnu.dof.controller.menu.LoginController;
+import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
-import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
+import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.screens.game.GameScreen;
+import no.ntnu.dof.view.screens.lobby.LobbiesScreen;
+import no.ntnu.dof.view.screens.lobby.LobbyScreen;
 import no.ntnu.dof.view.screens.menu.ChooseClassScreen;
 import no.ntnu.dof.view.screens.menu.LoginScreen;
 import no.ntnu.dof.view.screens.menu.MenuScreen;
-import no.ntnu.dof.view.screens.lobby.LobbiesScreen;
-import no.ntnu.dof.view.screens.lobby.LobbyScreen;
 
 public class ScreenController {
     private static final Stack<Screen> screens = new Stack<>();
@@ -79,8 +80,8 @@ public class ScreenController {
         loginScreen.initializeUI();
     }
 
-    public static void transitionToGame(PlayerClass hostPlayerClass, PlayerClass guestPlayerClass) {
-        GameController gameController = new GameController(hostPlayerClass, guestPlayerClass);
+    public static void transitionToGame(Player host, Player guest, GameComms comms) {
+        GameController gameController = new GameController(host, guest, comms);
         GameScreen gameScreen = new GameScreen(gameController.getGame());
         new Thread(gameController::gameLoop).start();
 //        Gdx.app.postRunnable(gameController::gameLoop);

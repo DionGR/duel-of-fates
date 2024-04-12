@@ -10,20 +10,13 @@ import javax.inject.Named;
 import lombok.Getter;
 import no.ntnu.dof.controller.gameplay.di.DaggerGameComponent;
 import no.ntnu.dof.controller.gameplay.di.GameComponent;
-import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
-import no.ntnu.dof.model.gameplay.deck.Deck;
-import no.ntnu.dof.model.gameplay.deck.Hand;
 import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.model.gameplay.effect.EffectInvoker;
 import no.ntnu.dof.model.gameplay.effect.card.RefillHandEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RefillManaEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RemoveCardFromHandEffect;
 import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
-import no.ntnu.dof.model.gameplay.stats.armor.Armor;
-import no.ntnu.dof.model.gameplay.stats.health.Health;
-import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 @Getter
 public class Game {
@@ -80,9 +73,6 @@ public class Game {
 
         current.endTurnEvent.fire();
         next.beginTurnEvent.fire();
-
-        current.refillHand();
-        next.refillHand();
 
         players.add(current);
     }

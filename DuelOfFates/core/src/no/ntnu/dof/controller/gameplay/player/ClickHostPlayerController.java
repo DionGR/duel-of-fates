@@ -25,11 +25,9 @@ public class ClickHostPlayerController extends ClickListener implements PlayerCo
         this.played = false;
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(Player player, GameComms comms) {
         this.player = player;
-        comms = ServiceLocator
-                .getGameService()
-                .createComms("-NuBZPuG4gkubhYI_FsN"); // TODO inject gameId
+        this.comms = comms;
 
         comms.setPlayerLastTurn(this.player.getName());
     }
@@ -63,15 +61,5 @@ public class ClickHostPlayerController extends ClickListener implements PlayerCo
         ServiceLocator.getGameService().playCard(comms, chosen);
 
         return chosen;
-    }
-
-    public static void setPlay(Optional<Card> play) {
-        instance.setChosen(play);
-    }
-
-    private synchronized void setChosen(Optional<Card> play) {
-        this.chosen = play;
-        played = true;
-        this.notify();
     }
 }

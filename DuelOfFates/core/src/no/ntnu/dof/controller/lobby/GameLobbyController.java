@@ -8,10 +8,13 @@ import javax.inject.Named;
 import no.ntnu.dof.controller.ScreenController;
 import no.ntnu.dof.controller.gameplay.di.DaggerGameLobbyControllerComponent;
 import no.ntnu.dof.controller.gameplay.di.GameLobbyControllerComponent;
+import no.ntnu.dof.controller.network.GameService;
 import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.controller.network.ServiceLocator;
+import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
+import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClassInvoker;
 import no.ntnu.dof.view.screens.lobby.LobbyScreen;
@@ -26,7 +29,6 @@ public class GameLobbyController implements LobbyViewListener {
     @Inject
     @Named("playerClassInvoker")
     PlayerClassInvoker<String, PlayerClass> playerClassInvoker;
-
 
     public GameLobbyController(User currentUser, LobbyScreen lobbyScreen, GameLobby gameLobby) {
         GameLobbyControllerComponent gameLobbyControllerComponent = DaggerGameLobbyControllerComponent.create();
@@ -60,21 +62,13 @@ public class GameLobbyController implements LobbyViewListener {
             return;
         }
 
-        PlayerClass hostPlayerClass = playerClassInvoker.invoke(
-                gameLobby
-                        .getCreator()
-                        .getPlayerClassName());
-        PlayerClass guestPlayerClass = playerClassInvoker.invoke(
-                gameLobby
-                        .getGuest()
-                        .getPlayerClassName());
+        GameComms comms = ServiceLocator.getGameService().createComms(gameLobby.getCreator().getName());
 
         // update firebase game state to "started"
-        ServiceLocator.getLobbyService().updateLobbyState(new LobbyService.LobbyUpdateCallback() {
+        ServiceLocator.getLobbyService().initializeGame(new LobbyService.LobbyUpdateCallback() {
             @Override
             public void onSuccess() {
                 Gdx.app.log("LobbyUpdate", "Successfully updated the lobby state.");
-                Gdx.app.postRunnable(() -> ScreenController.transitionToGame(hostPlayerClass, guestPlayerClass));
             }
 
             @Override
@@ -82,30 +76,49 @@ public class GameLobbyController implements LobbyViewListener {
                 Gdx.app.error("LobbyUpdate", "Failed to update the lobby state.", throwable);
                 lobbyScreen.showError("Failed to update the lobby state.");
             }
-        }, gameLobby.getLobbyId(), "started");
+        }, gameLobby.getLobbyId(), comms.getGameId());
 
         // Logic to start the game...
         System.out.println("Starting game for lobby: " + gameLobby.getTitle());
     }
 
+    private void initializeAndLaunchGame(GameComms comms) {
+        User hostUser, guestUser;
+        if (currentUser.getId().equals(gameLobby.getCreator().getId())) {
+            hostUser = gameLobby.getCreator();
+            guestUser = gameLobby.getGuest();
+        } else {
+            hostUser = gameLobby.getGuest();
+            guestUser = gameLobby.getCreator();
+        }
+        Player host = Player.builder()
+                .name(hostUser.getName())
+                .playerClass(playerClassInvoker.invoke(hostUser.getPlayerClassName()))
+                .build();
+        Player guest = Player.builder()
+                .name(guestUser.getName())
+                .playerClass(playerClassInvoker.invoke(guestUser.getPlayerClassName()))
+                .build();
+
+        ScreenController.transitionToGame(host, guest, comms);
+    }
+
     public void updateLobbyState(GameLobby gameLobby) {
         if (gameLobby.getGameState().equals("started")) {
             lobbyScreen.showError("Game is starting...");
-            this.startGame();
+            ServiceLocator.getGameService().getComms(gameLobby.getGameId(), new GameService.GetCommsCallback() {
+                @Override
+                public void onSuccess(GameComms comms) {
+                    Gdx.app.postRunnable(() -> initializeAndLaunchGame(comms));
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Gdx.app.error("LobbyUpdate", "Failed to retrieve game communications.", throwable);
+                    lobbyScreen.showError("Unable to start game");
+                }
+            });
         }
-
-        ServiceLocator.getLobbyService().updateLobbyState(new LobbyService.LobbyUpdateCallback() {
-            @Override
-            public void onSuccess() {
-                Gdx.app.log("LobbyUpdate", "Successfully updated the lobby state.");
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                Gdx.app.error("LobbyUpdate", "Failed to update the lobby state.", throwable);
-                lobbyScreen.showError("Failed to update the lobby state.");
-            }
-        }, gameLobby.getLobbyId(), gameLobby.getGameState());
     }
 
 
