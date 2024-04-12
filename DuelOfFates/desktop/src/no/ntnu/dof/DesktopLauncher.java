@@ -11,6 +11,7 @@ import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.desktop.FirebaseAuthImpl;
 import no.ntnu.dof.desktop.FirebaseGameService;
 import no.ntnu.dof.desktop.FirebaseLobbyService;
+import no.ntnu.dof.desktop.FirebaseUserService;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 @Slf4j
@@ -25,6 +26,7 @@ public class DesktopLauncher {
         ServiceLocator.provideAuthService(new FirebaseAuthImpl());
         ServiceLocator.provideLobbyService(new FirebaseLobbyService());
         ServiceLocator.provideGameService(new FirebaseGameService());
+        //ServiceLocator.provideUserService(new FirebaseUserService());
 
         config.setWindowedMode(640, 360);
         new Lwjgl3Application(new DuelOfFates(), config);

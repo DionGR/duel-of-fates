@@ -1,4 +1,5 @@
-package no.ntnu.dof.desktop;
+package no.ntnu.dof.android;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +21,7 @@ public class FirebaseUserService implements UserService {
         usersReference = firebaseDatabase.getReference("users");
     }
 
+    @Override
     public void addUser(User user, UserCreationCallback callback) {
         String userId = user.getId(); // Assuming User class has a getId() method that returns a String.
         DatabaseReference newUserRef = usersReference.child(userId);

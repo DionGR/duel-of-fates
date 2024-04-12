@@ -30,6 +30,11 @@ public class FirebaseAuthImpl implements AuthInterface {
 
         FirebaseApp.initializeApp(options.build());
         appInitialized = true;
+        callback.onError("");
+    }
+
+    @Override
+    public void signUp(String email, String password, AuthCallback callback) {
         callback.onSuccess();
     }
 
