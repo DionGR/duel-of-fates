@@ -19,7 +19,7 @@ public class EffectModule {
     @Named("damageEffect")
     public Effect provideDamageEffect() {
         return DamageEffect.builder()
-                .name("damage")
+                .name("damageEffect")
                 .damage(5)
                 .build();
     }

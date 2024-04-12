@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import lombok.Setter;
-import no.ntnu.dof.controller.lobby.ILobbiesViewListener;
+import no.ntnu.dof.controller.lobby.LobbiesViewListener;
 import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.view.screens.ReturnableScreen;
@@ -29,7 +29,7 @@ public class LobbiesScreen extends ReturnableScreen {
     private TextButton matchHistoryBtn;
     private Label lobbiesTitle;
     @Setter
-    private ILobbiesViewListener listener;
+    private LobbiesViewListener listener;
     @Setter
     private GameLobbies gameLobbies;
 

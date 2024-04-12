@@ -30,12 +30,16 @@ public class FirebaseLobbyService implements LobbyService {
 
         // Save the lobby object, now including the lobbyId, to Firebase
         newLobbyRef.setValue(lobby)
-                .addOnSuccessListener(aVoid -> {
-                    callback.onSuccess(lobby);
-                })
-                .addOnFailureListener(e -> {
-                    callback.onFailure(e);
-                });
+                .addOnSuccessListener(aVoid -> callback.onSuccess(lobby))
+                .addOnFailureListener(callback::onFailure);
+    }
+
+    @Override
+    public void initializeGame(LobbyUpdateCallback callback, String lobbyId, String gameId) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies");
+        DatabaseReference lobbyRef = databaseReference.child(lobbyId);
+        lobbyRef.child("gameState").setValue("started");
+        lobbyRef.child("gameId").setValue(gameId);
     }
 
     public void listenForLobbiesChanges(LobbyChangeListener listener) {
@@ -56,6 +60,27 @@ public class FirebaseLobbyService implements LobbyService {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
+    }
+
+    @Override
+    public void listenForGameStart(String lobbyId, GameStartListener listener) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies").child(lobbyId);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                GameLobby lobby = dataSnapshot.getValue(GameLobby.class);
+                if (lobby != null && lobby.getGameState() != null && lobby.getGameState().equals("started")) {
+                    listener.onGameStart(lobby);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
     }
 
     @Override
@@ -96,7 +121,7 @@ public class FirebaseLobbyService implements LobbyService {
         // Check if lobby still exists
         lobbyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
                     callback.onFailure(new Exception("Lobby does not exist."));
                 } else
@@ -114,7 +139,7 @@ public class FirebaseLobbyService implements LobbyService {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 callback.onFailure(databaseError.toException());
             }
         });

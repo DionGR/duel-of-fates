@@ -5,7 +5,7 @@ import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.Entity;
 
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public abstract class GameplayEntity extends Entity {
 
 }

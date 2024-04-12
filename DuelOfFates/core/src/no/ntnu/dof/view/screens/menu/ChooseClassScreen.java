@@ -13,9 +13,16 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import no.ntnu.dof.controller.DuelOfFates;
+import no.ntnu.dof.controller.gameplay.di.DaggerGameLobbyControllerComponent;
+import no.ntnu.dof.controller.gameplay.di.GameLobbyControllerComponent;
 import no.ntnu.dof.model.User;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
+import no.ntnu.dof.view.di.ChooseClassScreenComponent;
+import no.ntnu.dof.view.di.DaggerChooseClassScreenComponent;
 import no.ntnu.dof.view.screens.BaseScreen;
 import no.ntnu.dof.view.screens.ReturnableScreen;
 
@@ -24,15 +31,20 @@ public class ChooseClassScreen extends ReturnableScreen {
     private Skin skin;
     private Table contentTable;
     private User user;
-    private List<PlayerClass> playerClasses;
     private TextButton selectedButton = null; // To keep track of the currently selected button
     private TextButton.TextButtonStyle defaultStyle;
     private TextButton.TextButtonStyle selectedStyle;
 
+    @Inject
+    @Named("listPlayerClasses")
+    protected List<PlayerClass> playerClasses;
+
     public ChooseClassScreen(DuelOfFates game) {
         super();
+        ChooseClassScreenComponent chooseClassScreenComponent = DaggerChooseClassScreenComponent.create();
+        chooseClassScreenComponent.inject(this);
+
         this.user = game.getCurrentUser();
-        this.playerClasses = game.getPlayerClasses();
         this.skin = new Skin(Gdx.files.internal("uiskin.json"));
         this.stage = new Stage(new ScreenViewport(), this.batch);
 

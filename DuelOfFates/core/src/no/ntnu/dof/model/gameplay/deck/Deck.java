@@ -16,7 +16,7 @@ import no.ntnu.dof.model.gameplay.card.Card;
 @SuperBuilder(toBuilder = true)
 public class Deck extends GameplayEntity implements Iterator<Card> {
     @Builder.Default private final List<Card> activeCards = new ArrayList<>();
-    private final List<Card> playedCards;
+    private final List<Card> playedCards = new ArrayList<>();
 
     public void shuffle() {
         Collections.shuffle(activeCards);
@@ -39,6 +39,10 @@ public class Deck extends GameplayEntity implements Iterator<Card> {
             refill();
         }
 
-        return activeCards.remove(0);
+        Card nextCard = activeCards.remove(0);
+
+        playedCards.add(nextCard);
+
+        return nextCard;
     }
 }

@@ -9,12 +9,12 @@ import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.view.entity.view.GameView;
 
 
-public class FightScreen implements Screen {
+public class GameScreen implements Screen {
     private Stage stage;
 
     private final GameView gameView;
 
-    public FightScreen(Game game) {
+    public GameScreen(Game game) {
         this.gameView = new GameView(game);
     }
 
