@@ -30,7 +30,7 @@ public class ChooseClassScreen extends ReturnableScreen {
     private TextButton.TextButtonStyle selectedStyle;
 
     public ChooseClassScreen(DuelOfFates game) {
-        super();
+        super(game);
         this.user = game.getCurrentUser();
         this.playerClasses = game.getPlayerClasses();
         this.skin = new Skin(Gdx.files.internal("uiskin.json"));

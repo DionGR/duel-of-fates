@@ -20,8 +20,8 @@ public abstract class ReturnableScreen extends BaseScreen{
 
     protected DuelOfFates game;
 
-    public ReturnableScreen() {
-        super();
+    public ReturnableScreen(DuelOfFates game) {
+        super(game);
 
         // Initialize the back button and its bounds
         Texture backBtnTexture = new Texture(Gdx.files.internal("backBtn.png"));
@@ -64,6 +64,5 @@ public abstract class ReturnableScreen extends BaseScreen{
     public void dispose() {
         super.dispose();
         backBtn.getTexture().dispose();
-        soundBtn.getTexture().dispose();
     }
 }

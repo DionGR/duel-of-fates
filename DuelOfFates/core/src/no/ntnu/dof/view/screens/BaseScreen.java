@@ -27,10 +27,12 @@ public abstract class BaseScreen extends ScreenAdapter {
     private Music music;
     private AssetManager assetManager;
 
-    public BaseScreen() {
+    public BaseScreen() {}
+    public BaseScreen(DuelOfFates game) {
         super();
         this.batch = new SpriteBatch();
         this.isSoundOn = false;
+        this.game = game;
 
         // Initialize the background
         Texture backgroundTexture = new Texture(Gdx.files.internal("menuBackground.png"));
@@ -39,7 +41,7 @@ public abstract class BaseScreen extends ScreenAdapter {
 
         Texture soundBtnTexture = new Texture(Gdx.files.internal("soundOn.png"));
         soundBtn = new Sprite(soundBtnTexture);
-        soundBtn.setSize(220, 220);
+        soundBtn.setSize(60, 60);
         soundBtn.setPosition(10, 10);
         soundBtnBounds = new Rectangle(soundBtn.getX(), soundBtn.getY(), soundBtn.getWidth(), soundBtn.getHeight());
 
@@ -54,18 +56,9 @@ public abstract class BaseScreen extends ScreenAdapter {
             float touchX = Gdx.input.getX();
             float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
             if (soundBtnBounds.contains(touchX,touchY)) {
-                toggleSound();
+                game.toggleSound();
             }
         }
-    }
-
-    protected void toggleSound() {
-        if (isSoundOn) {
-            music.pause();
-        } else {
-            music.play();
-        }
-        isSoundOn = !isSoundOn;
     }
 
     @Override

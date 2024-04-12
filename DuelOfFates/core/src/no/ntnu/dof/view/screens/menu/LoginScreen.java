@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.ScreenController;
 import no.ntnu.dof.view.screens.BaseScreen;
 
@@ -26,7 +27,8 @@ public class LoginScreen extends BaseScreen {
     private AssetManager assetManager;
     private LoginViewListener listener;
 
-    public LoginScreen(SpriteBatch spriteBatch, AssetManager assetManager) {
+    public LoginScreen(SpriteBatch spriteBatch, AssetManager assetManager, DuelOfFates game) {
+        super(game);
         this.spriteBatch = spriteBatch;
         this.assetManager = assetManager;
         initializeUI();

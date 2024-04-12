@@ -57,7 +57,7 @@ public class ScreenController {
     }
 
     public static void transitionToLogin() {
-        LoginScreen loginScreen = new LoginScreen(batch, assetManager);
+        LoginScreen loginScreen = new LoginScreen(batch, assetManager, application);
         new LoginController(application, loginScreen);
         pushScreen(loginScreen);
     }

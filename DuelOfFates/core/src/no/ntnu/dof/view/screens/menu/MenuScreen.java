@@ -23,7 +23,7 @@ import no.ntnu.dof.view.screens.BaseScreen;
 import no.ntnu.dof.view.screens.ReturnableScreen;
 
 
-public class MenuScreen extends ReturnableScreen {
+public class MenuScreen extends BaseScreen {
 
     private Stage stage;
     private final SpriteBatch batch;
@@ -31,7 +31,7 @@ public class MenuScreen extends ReturnableScreen {
     private final AssetManager assetManager;
 
     public MenuScreen(DuelOfFates game, SpriteBatch batch, AssetManager assetManager) {
-        super();
+        super(game);
         this.batch = batch;
         this.assetManager = assetManager;
         this.game = game;
@@ -42,7 +42,7 @@ public class MenuScreen extends ReturnableScreen {
         Gdx.app.log("MenuScreen", "show method called");
         // Loading skin
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new ScreenViewport(), this.batch);
 
         // Making a centered table to store title and buttons
         Table contentTable = new Table();

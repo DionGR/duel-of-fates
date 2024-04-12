@@ -36,7 +36,7 @@ public class LobbiesScreen extends ReturnableScreen {
     private GameLobbiesController controller;
 
     public LobbiesScreen(DuelOfFates game) {
-        super();
+        super(game);
         this.game = game;
     }
 

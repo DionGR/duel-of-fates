@@ -33,7 +33,7 @@ public class LobbyScreen extends BaseScreen {
     private Label errorLabel;
 
     public LobbyScreen(DuelOfFates game, GameLobby gameLobby) {
-        super();
+        super(game);
         this.game = game;
         this.gameLobby = gameLobby;
         this.isCreator = gameLobby.getCreator().equals(game.getCurrentUser());
