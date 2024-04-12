@@ -7,18 +7,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import lombok.Setter;
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.model.User;
 import no.ntnu.dof.view.screens.ReturnableScreen;
 
 public class HistoryScreen extends ReturnableScreen {
-    private DuelOfFates game;
     private Skin skin;
     private Stage stage;
     private User user;
     private Label title;
-
-    public HistoryScreen(DuelOfFates game) {
+    public HistoryScreen(User user) {
         super();
         this.skin = new Skin(Gdx.files.internal("uiskin.json"));
         this.stage = new Stage(new ScreenViewport(), this.batch);
@@ -35,6 +35,10 @@ public class HistoryScreen extends ReturnableScreen {
 
         title = new Label("Match History", skin, "default");
         contentTable.add(title).padTop(20).row();
+
+        // Add matches played
+
+
         stage.addActor(contentTable);
     }
 

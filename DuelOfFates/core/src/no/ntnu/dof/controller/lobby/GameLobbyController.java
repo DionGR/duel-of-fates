@@ -92,11 +92,11 @@ public class GameLobbyController implements LobbyViewListener {
             guestUser = gameLobby.getCreator();
         }
         Player host = Player.builder()
-                .name(hostUser.getName())
+                .name(hostUser.getId())
                 .playerClass(playerClassInvoker.invoke(hostUser.getPlayerClassName()))
                 .build();
         Player guest = Player.builder()
-                .name(guestUser.getName())
+                .name(guestUser.getId())
                 .playerClass(playerClassInvoker.invoke(guestUser.getPlayerClassName()))
                 .build();
 

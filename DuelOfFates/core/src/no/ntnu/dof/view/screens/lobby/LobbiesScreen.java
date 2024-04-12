@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import lombok.Setter;
+import no.ntnu.dof.controller.ScreenController;
 import no.ntnu.dof.controller.lobby.LobbiesViewListener;
 import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.GameLobby;

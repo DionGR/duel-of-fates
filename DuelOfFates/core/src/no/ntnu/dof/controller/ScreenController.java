@@ -12,6 +12,7 @@ import no.ntnu.dof.controller.lobby.GameLobbyController;
 import no.ntnu.dof.controller.menu.LoginController;
 import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.GameLobby;
+import no.ntnu.dof.model.User;
 import no.ntnu.dof.view.screens.lobby.HistoryScreen;
 import no.ntnu.dof.model.User;
 import no.ntnu.dof.model.gameplay.player.Player;
@@ -70,7 +71,6 @@ public class ScreenController {
 
     public static void transitionToLogin() {
         LoginScreen loginScreen = new LoginScreen(batch, assetManager);
-        // LoginController needs to update the User element in DuelOfFates, and thus needs a reference to application
         new LoginController(application, loginScreen);
         pushScreen(loginScreen);
     }
@@ -82,7 +82,7 @@ public class ScreenController {
     }
 
     public static void transitionToHistory() {
-        pushScreen(new HistoryScreen(application));
+        pushScreen(new HistoryScreen(application.getCurrentUser()));
     }
 
     public static void transitionToGame(Player host, Player guest, GameComms comms) {
