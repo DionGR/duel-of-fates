@@ -87,5 +87,11 @@ public class ScreenController {
 //        Gdx.app.postRunnable(gameController::gameLoop);
         pushScreen(gameScreen);
     }
+
+    public static void endGameTransition() {
+        while (screens.size() > 2) {
+            screens.pop().dispose();
+        }
+    }
 }
 

@@ -18,9 +18,11 @@ public class GameController {
     @Getter
     private final Game game;
     private final Map<Player, PlayerController> playerControllers;
+    private final Player ourPlayer;
 
     public GameController(Player host, Player opponent, GameComms comms) {
         this.game = new Game(host, opponent);
+        this.ourPlayer = host;
         this.playerControllers = new HashMap<>();
 
         ClickHostPlayerController hostController = ClickHostPlayerController.get();
@@ -50,6 +52,13 @@ public class GameController {
                 game.finalizeTurn();
                 System.out.println("Turn finalized.");
             }
+        }
+
+        // TODO: Callbacks and so on?
+        if (this.ourPlayer.isDead()) {
+            System.out.println("You lost");
+        } else {
+            System.out.println("You won");
         }
 
         System.out.println("Game over");
