@@ -21,6 +21,7 @@ public class FirebaseUserService implements UserService {
         usersReference = firebaseDatabase.getReference("users");
     }
 
+    @Override
     public void addUser(User user, UserCreationCallback callback) {
         String userId = user.getId(); // Assuming User class has a getId() method that returns a String.
         DatabaseReference newUserRef = usersReference.child(userId);

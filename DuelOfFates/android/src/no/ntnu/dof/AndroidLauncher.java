@@ -25,7 +25,7 @@ public class AndroidLauncher extends AndroidApplication {
 		ServiceLocator.provideAuthService(new FirebaseAuthImpl());
 		ServiceLocator.provideLobbyService(new FirebaseLobbyService());
 		ServiceLocator.provideGameService(new FirebaseGameService());
-		//ServiceLocator.provideUserService(new FirebaseUserService());
+		ServiceLocator.provideUserService(new FirebaseUserService());
 
 		initialize(new DuelOfFates(), config);
 	}
