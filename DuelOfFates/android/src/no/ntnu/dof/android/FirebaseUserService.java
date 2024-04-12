@@ -1,4 +1,5 @@
-package no.ntnu.dof.desktop;
+package no.ntnu.dof.android;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;

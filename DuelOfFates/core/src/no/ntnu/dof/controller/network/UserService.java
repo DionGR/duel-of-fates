@@ -7,14 +7,10 @@ import no.ntnu.dof.model.User;
 
 public interface UserService {
 
+    void addUser(User user, UserCreationCallback callback);
 
     interface UserCreationCallback {
         void onSuccess(User user);
-        void onFailure(Exception e);
-    }
-
-    interface UserFetchCallback {
-        void onSuccess(ArrayList<User> users);
         void onFailure(Exception e);
     }
 
