@@ -1,15 +1,16 @@
 package no.ntnu.dof.view.screens.lobby;
 
+import androidx.annotation.NonNull;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-
-import lombok.Setter;
-import no.ntnu.dof.controller.DuelOfFates;
+import java.util.List;
+import no.ntnu.dof.model.GameSummary;
 import no.ntnu.dof.model.User;
 import no.ntnu.dof.view.screens.ReturnableScreen;
 
@@ -18,28 +19,13 @@ public class HistoryScreen extends ReturnableScreen {
     private Stage stage;
     private User user;
     private Label title;
-    public HistoryScreen(User user) {
+    private Table contentTable;
+
+    public HistoryScreen() {
         super();
         this.skin = new Skin(Gdx.files.internal("uiskin.json"));
         this.stage = new Stage(new ScreenViewport(), this.batch);
-
         Gdx.input.setInputProcessor(stage);
-    }
-
-    @Override
-    public void show() {
-        Table contentTable = new Table();
-        contentTable.setWidth(stage.getWidth());
-        contentTable.align(Align.center|Align.top);
-        contentTable.setPosition(0, Gdx.graphics.getHeight());
-
-        title = new Label("Match History", skin, "default");
-        contentTable.add(title).padTop(20).row();
-
-        // Add matches played
-
-
-        stage.addActor(contentTable);
     }
 
     @Override
@@ -58,4 +44,40 @@ public class HistoryScreen extends ReturnableScreen {
         super.dispose();
         stage.dispose();
     }
-}
+
+    public void showMockGameSummaries(@NonNull List<GameSummary> gameSummaries) {
+        Table contentTable = new Table();
+        contentTable.setWidth(stage.getWidth());
+        contentTable.align(Align.center|Align.top);
+        contentTable.setPosition(0, Gdx.graphics.getHeight());
+
+        title = new Label("Match History", skin, "default");
+        contentTable.add(title).padTop(20).row();
+
+        for (GameSummary summary : gameSummaries) {
+            Table summaryTable = new Table(skin);
+            summaryTable.setBackground("default-pane");
+            summaryTable.pad(10);
+
+            Label hostLabel = new Label("Host: " + summary.getPlayer1().getName(), skin);
+            Label guestLabel = new Label("Guest: " + summary.getPlayer2().getName(), skin);
+            Label winLabel = new Label("Won!", skin);
+            winLabel.setColor(Color.GREEN);
+            Label loseLabel = new Label("Lost!", skin);
+            loseLabel.setColor(Color.RED);
+
+
+            if (summary.getPlayer1Win() == true && summary.getPlayer2Win() == false) {
+                summaryTable.add(player1Label).padBottom(5).row();
+                summaryTable.add(player1WinLabel).padBottom(5).row();
+                summaryTable.add(player2Label).padBottom(5).row();
+                summaryTable.add(player2LoseLabel).padBottom(5).row();
+            }
+
+
+            contentTable.add(summaryTable).padTop(10).row();
+        }
+        stage.addActor(contentTable);
+    }
+
+};

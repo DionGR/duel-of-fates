@@ -9,6 +9,7 @@ import java.util.Stack;
 import no.ntnu.dof.controller.gameplay.GameController;
 import no.ntnu.dof.controller.lobby.GameLobbiesController;
 import no.ntnu.dof.controller.lobby.GameLobbyController;
+import no.ntnu.dof.controller.lobby.HistoryController;
 import no.ntnu.dof.controller.menu.LoginController;
 import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.GameLobby;
@@ -82,7 +83,9 @@ public class ScreenController {
     }
 
     public static void transitionToHistory() {
-        pushScreen(new HistoryScreen(application.getCurrentUser()));
+        HistoryScreen historyScreen = new HistoryScreen();
+        new HistoryController(application.getCurrentUser(), historyScreen);
+        pushScreen(historyScreen);
     }
 
     public static void transitionToGame(Player host, Player guest, GameComms comms) {
