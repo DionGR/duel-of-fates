@@ -1,6 +1,5 @@
 package no.ntnu.dof.model.di;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,6 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import jdk.jfr.Name;
 import no.ntnu.dof.model.gameplay.deck.Deck;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClassInvoker;

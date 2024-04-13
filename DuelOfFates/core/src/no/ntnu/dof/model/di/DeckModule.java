@@ -1,76 +1,100 @@
 package no.ntnu.dof.model.di;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.deck.Deck;
 
 @Module(includes = {CardModule.class})
 public class DeckModule {
 
-    @Provides
-    @Named ("exampleDeck")
-    public Deck provideExampleDeck(@Named ("exampleCard") Card attackCard) {
-        ArrayList<Card> cards = new ArrayList<>();
-                                    cards.add(attackCard);
-                                    cards.add(attackCard);
-                                    cards.add(attackCard);
-                                    cards.add(attackCard);
-
-        return Deck.builder()
-                .activeCards(cards)
-                .build();
-    }
-
-    @Provides
-    @Named("skeletonDeck")
-    public Deck provideSkeletonDeck(@Named("doubleStrikeCard") Card doubleStrikeCard,
-                                    @Named("damageEffect_5") Card damageCard) {
-        List<Card> cards = Arrays.asList(doubleStrikeCard, damageCard, doubleStrikeCard, damageCard,
-                doubleStrikeCard, damageCard, doubleStrikeCard, damageCard, doubleStrikeCard, damageCard);
-
-        ArrayList<Card> cards = new ArrayList<>();
-
-        cards.add(doubleStrikeCard);
-        cards.add(damageCard);
-        cards
-
-        return Deck.builder()
-                .activeCards(cards)
-                .build();
-    }
-
-    @Provides
-    @Named("mageDeck")
-    public Deck provideMageDeck(@Named("freezeCard") Card freezeCard,
-                                @Named("attackCard_Poison3") Card poisonCard,
-                                @Named("manaEffect_4") Card manaRegenCard) {
-        List<Card> cards = Arrays.asList(freezeCard, poisonCard, manaRegenCard, freezeCard, poisonCard,
-                manaRegenCard, poisonCard, freezeCard, manaRegenCard, freezeCard);
-        return Deck.builder()
-                .activeCards(cards)
-                .build();
-    }
-
+    /**
+     * Creates a knightDeck focusing on high defense and strong attacks using armor and health boosts.
+     */
     @Provides
     @Named("knightDeck")
-    public Deck provideKnightDeck(@Named("armorBoostCard_5") Card armorBoostCard,
-                                  @Named("healthCard_5") Card healthCard,
-                                  @Named("attackCard_2") Card attackCard,
-                                  @Named("attackCard_5") Card bigAttackCard) {
-        List<Card> cards = Arrays.asList(armorBoostCard, healthCard, attackCard, bigAttackCard,
-                armorBoostCard, healthCard, attackCard, armorBoostCard, healthCard, bigAttackCard);
+    public Deck provideKnightDeck(
+            @Named("attackCard_10") Card highDamageCard,
+            @Named("healthCard_10") Card largeHealCard,
+            @Named("defensiveHealthCard_10") Card defensiveHealthCard,
+            @Named("refillHandCard") Card refillHandCard,
+            @Named("attackCard_2") Card smallDamageCard,
+            @Named("healthCard_2") Card healCard,
+            @Named("surpriseAttackCard_2") Card surpriseAttackCard
+    ) {
+        List<Card> cards = new ArrayList<>();
+        cards.add(highDamageCard);
+        cards.add(largeHealCard);
+        cards.add(defensiveHealthCard);
+        cards.add(refillHandCard);
+        cards.add(smallDamageCard);
+        cards.add(healCard);
+        cards.add(surpriseAttackCard);
+        cards.addAll(cards);  // Adding the same set of cards to make it 12
+
         return Deck.builder()
                 .activeCards(cards)
                 .build();
     }
 
-    //TODO: Add more decks
+    /**
+     * Creates a mageDeck with focus on mana manipulation and powerful effect-based attacks.
+     */
+    @Provides
+    @Named("mageDeck")
+    public Deck provideMageDeck(
+            @Named("manaCard_4") Card manaCard4,
+            @Named("poisonCard_4_3") Card poisonCard,
+            @Named("passiveHealingCard_3_5") Card passiveHealingCard,
+            @Named("refillManaCard") Card refillManaCard,
+            @Named("attackCard_5") Card moderateDamageCard,
+            @Named("manaCard_2") Card manaCard2
+    ) {
+        List<Card> cards = new ArrayList<>();
+        cards.add(manaCard4);
+        cards.add(poisonCard);
+        cards.add(passiveHealingCard);
+        cards.add(refillManaCard);
+        cards.add(moderateDamageCard);
+        cards.add(manaCard2);
+        cards.addAll(cards);
+
+        return Deck.builder()
+                .activeCards(cards)
+                .build();
+    }
+
+    /**
+     * Creates a skeletonDeck emphasizing durability and persistent damage, leveraging its high health.
+     */
+    @Provides
+    @Named("skeletonDeck")
+    public Deck provideSkeletonDeck(
+            @Named("poisonCard_4_3") Card heavyPoisonCard,
+            @Named("healthCard_5") Card skeletonHealingCard,
+            @Named("multiPoisonCard_4_3") Card multiPoisonCard,
+            @Named("extendedHealingCard_3_5") Card extendedHealingCard,
+            @Named("attackCard_10") Card devastatingAttackCard,
+            @Named("healthCard_2") Card minorHealCard,
+            @Named("refillManaCard") Card manaRefillCard
+    ) {
+        List<Card> cards = new ArrayList<>();
+        cards.add(heavyPoisonCard);
+        cards.add(skeletonHealingCard);
+        cards.add(multiPoisonCard);
+        cards.add(extendedHealingCard);
+        cards.add(devastatingAttackCard);
+        cards.add(minorHealCard);
+        cards.add(manaRefillCard);
+        cards.addAll(cards);
+
+        return Deck.builder()
+                .activeCards(cards)
+                .build();
+    }
 }
