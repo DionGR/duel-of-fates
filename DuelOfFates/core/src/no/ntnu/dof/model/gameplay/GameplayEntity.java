@@ -7,5 +7,5 @@ import no.ntnu.dof.model.Entity;
 @Getter
 @SuperBuilder(toBuilder = true)
 public abstract class GameplayEntity extends Entity {
-
+    public GameplayEntity() {}
 }

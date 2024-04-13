@@ -11,7 +11,7 @@ import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.entity.view.CardView;
 
-public class ClickHostPlayerController extends ClickListener implements PlayerController{
+public class ClickHostPlayerController extends ClickListener implements PlayerController {
 
     protected Player player;
     protected Optional<Card> chosen;
@@ -28,8 +28,6 @@ public class ClickHostPlayerController extends ClickListener implements PlayerCo
     public void setPlayer(Player player, GameComms comms) {
         this.player = player;
         this.comms = comms;
-
-        comms.setPlayerLastTurn(this.player.getName());
     }
 
     public static ClickHostPlayerController get() {
@@ -58,6 +56,7 @@ public class ClickHostPlayerController extends ClickListener implements PlayerCo
         }
 
         played = false;
+        comms.setPlayerLastTurn(this.player.getName());
         ServiceLocator.getGameService().playCard(comms, chosen);
 
         return chosen;

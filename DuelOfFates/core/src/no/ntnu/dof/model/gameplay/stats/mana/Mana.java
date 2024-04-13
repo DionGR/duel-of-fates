@@ -8,6 +8,8 @@ import lombok.Getter;
 public class Mana implements Comparable<Mana> {
     int value;
 
+    public Mana() {}
+
     @Override
     public int compareTo(Mana other) {
         return Integer.compare(this.value, other.value);

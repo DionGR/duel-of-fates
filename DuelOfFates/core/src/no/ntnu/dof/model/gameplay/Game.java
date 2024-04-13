@@ -1,8 +1,6 @@
 package no.ntnu.dof.model.gameplay;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -56,15 +54,11 @@ public class Game {
 
         host.cardPlayedEvent.fire(card);
 
-        List<String> hostEffectNames = new ArrayList<>(card.getHostEffectNames());
-        if (!hostEffectNames.isEmpty()) {
-            hostEffectNames.forEach(e -> effectInvoker.invoke(e).apply(host));
-        }
+        if (card.getHostEffectNames() != null)
+            card.getHostEffectNames().forEach(e -> effectInvoker.invoke(e).apply(host));
 
-        List<String> opponentEffectNames = new ArrayList<>(card.getOpponentEffectNames());
-        if (!opponentEffectNames.isEmpty()) {
-            opponentEffectNames.forEach(e -> effectInvoker.invoke(e).apply(opponent));
-        }
+        if (card.getOpponentEffectNames() != null)
+            card.getOpponentEffectNames().forEach(e -> effectInvoker.invoke(e).apply(opponent));
     }
 
     public void finalizeTurn() {

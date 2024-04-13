@@ -27,6 +27,10 @@ public class GameController {
         hostController.setPlayer(host, comms);
         this.playerControllers.put(host, hostController);
         this.playerControllers.put(opponent, new RemotePlayerController(opponent, comms));
+
+        if (game.getNextPlayer().getName().equals(comms.getPlayerLastTurn())) {
+            game.getPlayers().add(game.getPlayers().poll());
+        }
     }
 
     public void gameLoop() {
