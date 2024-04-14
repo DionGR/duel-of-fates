@@ -8,11 +8,14 @@ import no.ntnu.dof.view.Image;
 
 public class GameView extends Group {
     private final Game game;
-    private Image graphics;
+    private Image background;
     private final HostPlayerView hostPlayerView;
     private final OpponentPlayerView opponentPlayerView;
     public GameView(Game game) {
         this.game = game;
+
+        background = new Image("./assets/background.png", 1.0f);
+        this.addActor(background);
 
         hostPlayerView = new HostPlayerView(this.game.getPlayers().get(0));
         this.addActor(hostPlayerView);
@@ -23,5 +26,11 @@ public class GameView extends Group {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+    }
+
+    public void dispose() {
+        background.dispose();
+        hostPlayerView.dispose();
+        opponentPlayerView.dispose();
     }
 }

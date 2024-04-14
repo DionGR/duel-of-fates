@@ -143,14 +143,14 @@ public class EffectModule {
             @Named("refillManaEffect") Effect refillManaEffect,
             @Named("damageEffect_2") Effect damageEffect2,
             @Named("damageEffect_5") Effect damageEffect5,
-            @Named("damageEffect_10") Effect damageEffect10,
+            @Named("damageEffect_12") Effect damageEffect10,
             @Named("manaEffect_2") Effect manaEffect2,
-            @Named("manaEffect_4") Effect manaEffect4,
+            @Named("manaEffect_5") Effect manaEffect4,
             @Named("healthEffect_2") Effect healthEffect2,
             @Named("healthEffect_5") Effect healthEffect5,
-            @Named("healthEffect_10") Effect healthEffect10,
+            @Named("healthEffect_12") Effect healthEffect10,
             @Named("poisonEffect_4_3") Effect poisonEffect4_3,
-            @Named("passiveHealingEffect_3_5") Effect passiveHealingEffect3_5
+            @Named("passiveHealingEffect_3_4") Effect passiveHealingEffect3_5
     ) {
 
         EffectInvoker<String, Effect> effectInvoker = new EffectInvoker<>();

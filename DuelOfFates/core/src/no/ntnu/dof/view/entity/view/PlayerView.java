@@ -55,4 +55,9 @@ public class PlayerView extends Group {
         batch.begin();
     }
 
+    public void dispose() {
+        graphics.dispose();
+        manaGraphics.dispose();
+    }
+
 }

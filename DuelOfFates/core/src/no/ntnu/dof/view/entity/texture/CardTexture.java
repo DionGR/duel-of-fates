@@ -34,4 +34,8 @@ public class CardTexture {
         batch.draw(line, x, y, width, height);
         //batch.draw(mana, x, y, width, height);
     }
+
+    public void dispose() {
+        image.dispose();
+    }
 }

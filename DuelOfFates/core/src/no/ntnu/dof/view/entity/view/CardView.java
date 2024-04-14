@@ -61,4 +61,8 @@ public class CardView extends Group {
         return super.remove();
     }
 
+    public void dispose() {
+        cardTexture.dispose();
+    }
+
 }
