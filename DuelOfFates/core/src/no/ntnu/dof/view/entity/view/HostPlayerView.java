@@ -43,9 +43,7 @@ public class HostPlayerView extends PlayerView {
         hostInterface.addActor(discardView);
 
         handView = new Group();
-        player.getHand().getCards().forEach(c -> handView.addActor(new CardView(0.3f, c, handView.getChildren().size, playListener)));
-
-        handView.setPosition(Gdx.graphics.getWidth() / 2f - (handView.getChild(handView.getChildren().size - 1).getX() + handView.getChild(handView.getChildren().size - 1).getWidth()) / 2f, 5);
+        updateHandView();
         hostInterface.addActor(handView);
 
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -77,7 +75,9 @@ public class HostPlayerView extends PlayerView {
             ClickListener cardListener = player.canPlay(card) ? playListener : null;
             handView.addActor(new CardView(0.3f, card, handView.getChildren().size, cardListener));
         }
-        handView.setPosition(Gdx.graphics.getWidth() / 2f - (handView.getChild(handView.getChildren().size - 1).getX() + handView.getChild(handView.getChildren().size - 1).getWidth()) / 2f, 5);
+        if(handView.getChildren().size > 0){
+            handView.setPosition(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 5);
+        }
     }
 
     public static void provideClickListener(ClickListener playListener) {
