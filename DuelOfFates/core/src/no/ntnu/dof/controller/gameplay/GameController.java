@@ -21,16 +21,15 @@ public class GameController {
 
     public GameController(Player host, Player opponent, GameComms comms) {
         this.game = new Game(host, opponent);
-        this.playerControllers = new HashMap<>();
+        if (game.getNextPlayer().getName().equals(comms.getPlayerLastTurn())) {
+            game.finalizeTurn();
+        }
 
+        this.playerControllers = new HashMap<>();
         ClickHostPlayerController hostController = ClickHostPlayerController.get();
         hostController.setPlayer(host, comms);
         this.playerControllers.put(host, hostController);
         this.playerControllers.put(opponent, new RemotePlayerController(opponent, comms));
-
-        if (game.getNextPlayer().getName().equals(comms.getPlayerLastTurn())) {
-            game.getPlayers().add(game.getPlayers().poll());
-        }
     }
 
     public void gameLoop() {

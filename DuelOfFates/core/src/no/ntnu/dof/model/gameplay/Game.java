@@ -16,22 +16,25 @@ import no.ntnu.dof.model.gameplay.effect.card.RefillManaEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RemoveCardFromHandEffect;
 import no.ntnu.dof.model.gameplay.player.Player;
 
-@Getter
 public class Game {
 
     private final LinkedList<Player> players;
+    @Getter private final Player host;
+    @Getter private final Player opponent;
 
     @Inject
     @Named("effectInvoker")
     EffectInvoker<String, Effect> effectInvoker;
 
-    public Game(Player player1, Player player2) {
+    public Game(Player host, Player opponent) {
         GameComponent gameComponent = DaggerGameComponent.create();
         gameComponent.inject(this);
 
+        this.host = host;
+        this.opponent = opponent;
         players = new LinkedList<>();
-        players.add(player1);
-        players.add(player2);
+        players.add(host);
+        players.add(opponent);
 
         players.forEach(p -> p.beginTurnEvent.register(RefillHandEffect.builder().build()));
         players.forEach(p -> p.beginTurnEvent.register(RefillManaEffect.builder().build()));

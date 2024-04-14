@@ -38,7 +38,6 @@ public class RemotePlayerController implements PlayerController, GameService.Pla
 
     @Override
     public synchronized void onCardPlayed(Card card) {
-        card.flipEffects();
         chosen = Optional.of(card);
         played = true;
 

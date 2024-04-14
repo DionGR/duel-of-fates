@@ -17,10 +17,4 @@ public class Card extends GameplayEntity {
     private Mana cost;
 
     public Card() {}
-
-    public void flipEffects() {
-        List<String> tmp = hostEffectNames;
-        hostEffectNames = opponentEffectNames;
-        opponentEffectNames = tmp;
-    }
 }
