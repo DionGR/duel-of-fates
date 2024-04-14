@@ -10,15 +10,11 @@ import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 @Getter
 @SuperBuilder(toBuilder = true)
-public abstract class Card extends GameplayEntity {
+public class Card extends GameplayEntity {
     @Singular private List<String> hostEffectNames;
     @Singular private List<String> opponentEffectNames;
 
-    private final Mana cost;
+    private Mana cost;
 
-    public void flipEffects() {
-        List<String> tmp = hostEffectNames;
-        hostEffectNames = opponentEffectNames;
-        opponentEffectNames = tmp;
-    }
+    public Card() {}
 }

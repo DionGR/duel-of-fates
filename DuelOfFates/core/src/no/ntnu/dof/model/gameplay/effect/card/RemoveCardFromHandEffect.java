@@ -14,5 +14,6 @@ public class RemoveCardFromHandEffect implements CardPlayedListener {
         ManaEffect manaEffect = ManaEffect.builder().delta(card.getCost().getValue()).build();
         manaEffect.apply(player);
         player.getHand().remove(card);
+        player.getDeck().getPlayedCards().add(card);
     }
 }
