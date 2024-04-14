@@ -8,7 +8,6 @@ import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 
-// TODO inherit from visual implementation of PlayerController
 public class RemotePlayerController implements PlayerController, GameService.PlayListener {
     protected Player player;
     protected Optional<Card> chosen;

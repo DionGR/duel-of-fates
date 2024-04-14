@@ -42,14 +42,8 @@ public class Player extends GameplayEntity {
         return"(" + health.getValue() + " health, " + armor.getValue() + " armor, " + mana.getValue() + " mana)";
     }
 
-    public boolean canPlay() {
-        for (Card card : hand.getCards()) {
-            if (mana.compareTo(card.getCost()) >= 0) {
-                return true;
-            }
-        }
-
-        return false;
+    public boolean canPlay(Card card) {
+        return mana.compareTo(card.getCost()) >= 0;
     }
 
     public static abstract class PlayerBuilder<C extends Player, B extends PlayerBuilder<C, B>> extends GameplayEntityBuilder<C, B> {
