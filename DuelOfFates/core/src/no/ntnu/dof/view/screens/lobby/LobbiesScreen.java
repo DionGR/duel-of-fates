@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -66,7 +67,15 @@ public class LobbiesScreen extends ReturnableScreen {
             });
             contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
         }
-        stage.addActor(contentTable);
+
+        // Making scrollable table
+        final ScrollPane scroller = new ScrollPane(contentTable);
+
+        final Table table = new Table();
+        table.setFillParent(true);
+        table.add(scroller).fill().expand();
+
+        stage.addActor(table);
 
         // Setting create lobby button
         createLobbyBtn = new TextButton("Create Lobby", skin, "default");
