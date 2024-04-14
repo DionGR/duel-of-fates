@@ -143,14 +143,14 @@ public class EffectModule {
             @Named("refillManaEffect") Effect refillManaEffect,
             @Named("damageEffect_2") Effect damageEffect2,
             @Named("damageEffect_5") Effect damageEffect5,
-            @Named("damageEffect_10") Effect damageEffect10,
+            @Named("damageEffect_12") Effect damageEffect10,
             @Named("manaEffect_2") Effect manaEffect2,
-            @Named("manaEffect_4") Effect manaEffect4,
+            @Named("manaEffect_5") Effect manaEffect4,
             @Named("healthEffect_2") Effect healthEffect2,
             @Named("healthEffect_5") Effect healthEffect5,
-            @Named("healthEffect_10") Effect healthEffect10,
+            @Named("healthEffect_12") Effect healthEffect10,
             @Named("poisonEffect_4_3") Effect poisonEffect4_3,
-            @Named("passiveHealingEffect_3_5") Effect passiveHealingEffect3_5
+            @Named("passiveHealingEffect_3_4") Effect passiveHealingEffect3_5
     ) {
 
         EffectInvoker<String, Effect> effectInvoker = new EffectInvoker<>();
@@ -159,14 +159,14 @@ public class EffectModule {
         effectInvoker.register("refillManaEffect", refillManaEffect);
         effectInvoker.register("damageEffect_2", damageEffect2);
         effectInvoker.register("damageEffect_5", damageEffect5);
-        effectInvoker.register("damageEffect_10", damageEffect10);
+        effectInvoker.register("damageEffect_12", damageEffect10);
         effectInvoker.register("manaEffect_2", manaEffect2);
-        effectInvoker.register("manaEffect_4", manaEffect4);
+        effectInvoker.register("manaEffect_5", manaEffect4);
         effectInvoker.register("healthEffect_2", healthEffect2);
         effectInvoker.register("healthEffect_5", healthEffect5);
-        effectInvoker.register("healthEffect_10", healthEffect10);
+        effectInvoker.register("healthEffect_12", healthEffect10);
         effectInvoker.register("poisonEffect_4_3", poisonEffect4_3);
-        effectInvoker.register("passiveHealingEffect_3_5", passiveHealingEffect3_5);
+        effectInvoker.register("passiveHealingEffect_3_4", passiveHealingEffect3_5);
 
         return effectInvoker;
     }
