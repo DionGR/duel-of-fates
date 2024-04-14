@@ -41,6 +41,8 @@ public class PlayerView extends Group {
         //Draw the healthbar
         batch.end();
 
+        manaText.setText(player.getMana().getValue());
+
         float percentage =  Math.max(0,((float) player.getHealth().getValue()/(float) player.getPlayerClass().getMaxHealth().getValue()));
         ShapeRenderer ShapeDrawer = new ShapeRenderer();
         ShapeDrawer.begin(ShapeRenderer.ShapeType.Filled);

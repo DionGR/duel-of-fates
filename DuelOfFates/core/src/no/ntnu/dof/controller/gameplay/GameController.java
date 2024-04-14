@@ -6,28 +6,30 @@ import java.util.Optional;
 
 import lombok.Getter;
 import no.ntnu.dof.controller.ScreenController;
-import no.ntnu.dof.controller.gameplay.player.ClickHostPlayerController;
+import no.ntnu.dof.controller.gameplay.player.HostPlayerController;
 import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.controller.gameplay.player.RemotePlayerController;
 import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
+import no.ntnu.dof.view.entity.view.HostPlayerView;
 
 public class GameController {
     @Getter
     private final Game game;
     private final Map<Player, PlayerController> playerControllers;
-    private final Player ourPlayer;
 
     public GameController(Player host, Player opponent, GameComms comms) {
         this.game = new Game(host, opponent);
-        this.ourPlayer = host;
-        this.playerControllers = new HashMap<>();
+        if (game.getNextPlayer().getName().equals(comms.getPlayerLastTurn())) {
+            game.finalizeTurn();
+        }
 
-        ClickHostPlayerController hostController = ClickHostPlayerController.get();
-        hostController.setPlayer(host, comms);
+        this.playerControllers = new HashMap<>();
+        HostPlayerController hostController = new HostPlayerController(host, comms);
         this.playerControllers.put(host, hostController);
+        HostPlayerView.provideClickListener(hostController);
         this.playerControllers.put(opponent, new RemotePlayerController(opponent, comms));
     }
 
@@ -37,15 +39,7 @@ public class GameController {
             Player currentPlayer = game.getNextPlayer();
             PlayerController currentPlayerController = playerControllers.get(currentPlayer);
 
-            Optional<Card> turnCard;
-
-            if (currentPlayer.canPlay()) {
-                turnCard = currentPlayerController.choosePlay();
-            } else {
-                turnCard = Optional.empty();
-                System.out.println("Player cannot afford to play any card, finalizing turn.");
-            }
-
+            Optional<Card> turnCard = currentPlayerController.choosePlay();
             if (turnCard.isPresent()) {
                 game.playCard(turnCard.get());
             } else {
@@ -55,7 +49,7 @@ public class GameController {
         }
 
         // TODO: Callbacks and so on?
-        if (this.ourPlayer.isDead()) {
+        if (this.game.getHost().isDead()) {
             System.out.println("You lost");
         } else {
             System.out.println("You won");
