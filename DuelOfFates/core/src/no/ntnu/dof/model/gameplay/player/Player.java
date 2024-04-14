@@ -2,10 +2,13 @@ package no.ntnu.dof.model.gameplay.player;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;
 import no.ntnu.dof.model.gameplay.card.Card;
+import no.ntnu.dof.model.gameplay.deck.Deck;
 import no.ntnu.dof.model.gameplay.deck.Hand;
 import no.ntnu.dof.model.gameplay.event.CardPlayedEvent;
 import no.ntnu.dof.model.gameplay.event.TurnEvent;
@@ -23,13 +26,14 @@ public class Player extends GameplayEntity {
     private final Armor armor;
     private final Mana mana;
     private final Hand hand;
+    private final Deck deck;
 
     public final TurnEvent beginTurnEvent = new TurnEvent(this);
     public final TurnEvent endTurnEvent = new TurnEvent(this);
     public final CardPlayedEvent cardPlayedEvent = new CardPlayedEvent(this);
 
     public void refillHand() {
-        this.hand.refill(this.playerClass.getDeck());
+        this.hand.refill(this.deck);
     }
 
     public boolean isDead() {
@@ -53,8 +57,12 @@ public class Player extends GameplayEntity {
             this.armor = new Armor(playerClass.getMaxArmor().getValue());
             this.mana = new Mana(playerClass.getMaxMana().getValue());
             this.hand = Hand.builder().maxSize(3).build();
+            this.deck = Deck.builder()
+                    .name(playerClass.getDeck().getName())
+                    .activeCards(new ArrayList<>(playerClass.getDeck().getActiveCards()))
+                    .build();
 
-            this.hand.refill(playerClass.getDeck());
+            this.hand.refill(this.deck);
 
             return self();
         }
