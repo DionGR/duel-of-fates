@@ -1,5 +1,7 @@
 package no.ntnu.dof.controller.lobby;
 
+import com.badlogic.gdx.Gdx;
+
 import java.util.List;
 
 import lombok.Data;
@@ -40,11 +42,18 @@ public class GameLobbiesController implements LobbiesViewListener {
         ScreenController.transitionToLobby(lobby);
     }
 
+
     public void createNewLobby(String title) {
         GameLobby newLobby = new GameLobby(this.currentUser, title);
         ServiceLocator.getLobbyService().createLobby(new LobbyService.LobbyCreationCallback() {
             @Override
             public void onSuccess(GameLobby lobby) {
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        transitionToLobby(lobby);
+                    }
+                });
             }
 
             @Override
