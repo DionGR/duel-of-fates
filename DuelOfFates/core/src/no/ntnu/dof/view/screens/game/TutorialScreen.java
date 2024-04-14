@@ -29,15 +29,15 @@ public class TutorialScreen implements Screen {
         this.gameView = new GameView(game);
         this.activeLabel = null;
         this.tutorialLabels = new ArrayList<>();
+        stage = new Stage();
 
         this.tutorialLabels.add(new Label("You can play cards from your hand by clicking on them", skin, "default"));
         this.tutorialLabels.add(new Label("When you can't play anymore cards, your turn is finished automatically \n At the beginning of your turn, you get all your mana point \n and draw until your hand reach is maximum hand size", skin, "default"));
-        this.tutorialLabels.add(new Label("On his turn, your opponent will also play card to decrease your health point \n You can play card that get you armor for 1 turn. \n Armor will take damage before your health", skin, "default"));
+        this.tutorialLabels.add(new Label("On his turn, your opponent will also play card to decrease your health point \n You can play card that get you armor for 1 turn. \n Armor is the grey part of health bar \n And it will take damage before your health", skin, "default"));
     }
 
     @Override
     public void show() {
-        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         HighlightedArea = new HighlightingArea(0, 0, 0, 0);
 
@@ -76,7 +76,7 @@ public class TutorialScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 
     public void ActiveLabelPosition()
