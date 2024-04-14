@@ -19,10 +19,9 @@ public class DeckModule {
     @Provides
     @Named("knightDeck")
     public Deck provideKnightDeck(
-            @Named("attackCard_10") Card highDamageCard,
-            @Named("healthCard_10") Card largeHealCard,
-            @Named("defensiveHealthCard_10") Card defensiveHealthCard,
-            @Named("refillHandCard") Card refillHandCard,
+            @Named("attackCard_12") Card highDamageCard,
+            @Named("healthCard_12") Card largeHealCard,
+            @Named("passiveHealingCard_3_4") Card passiveHealingCard,
             @Named("attackCard_2") Card smallDamageCard,
             @Named("healthCard_2") Card healCard,
             @Named("surpriseAttackCard_2") Card surpriseAttackCard
@@ -30,12 +29,13 @@ public class DeckModule {
         List<Card> cards = new ArrayList<>();
         cards.add(highDamageCard);
         cards.add(largeHealCard);
-        cards.add(defensiveHealthCard);
-        cards.add(refillHandCard);
+        cards.add(passiveHealingCard);
+        cards.add(smallDamageCard);
+        cards.add(healCard);
         cards.add(smallDamageCard);
         cards.add(healCard);
         cards.add(surpriseAttackCard);
-        cards.addAll(cards);  // Adding the same set of cards to make it 12
+        cards.addAll(cards);  // Adding the same set of cards to make it 16 cards
 
         return Deck.builder()
                 .activeCards(cards)
@@ -48,10 +48,11 @@ public class DeckModule {
     @Provides
     @Named("mageDeck")
     public Deck provideMageDeck(
-            @Named("manaCard_4") Card manaCard4,
+            @Named("manaCard_5") Card manaCard4,
             @Named("poisonCard_4_3") Card poisonCard,
-            @Named("passiveHealingCard_3_5") Card passiveHealingCard,
+            @Named("passiveHealingCard_3_4") Card passiveHealingCard,
             @Named("refillManaCard") Card refillManaCard,
+            @Named("refillHandCard") Card refillHandCard,
             @Named("attackCard_5") Card moderateDamageCard,
             @Named("manaCard_2") Card manaCard2
     ) {
@@ -60,6 +61,8 @@ public class DeckModule {
         cards.add(poisonCard);
         cards.add(passiveHealingCard);
         cards.add(refillManaCard);
+        cards.add(refillHandCard);
+        cards.add(moderateDamageCard);
         cards.add(moderateDamageCard);
         cards.add(manaCard2);
         cards.addAll(cards);
@@ -78,8 +81,8 @@ public class DeckModule {
             @Named("poisonCard_4_3") Card heavyPoisonCard,
             @Named("healthCard_5") Card skeletonHealingCard,
             @Named("multiPoisonCard_4_3") Card multiPoisonCard,
-            @Named("extendedHealingCard_3_5") Card extendedHealingCard,
-            @Named("attackCard_10") Card devastatingAttackCard,
+            @Named("extendedHealingCard_3_4") Card extendedHealingCard,
+            @Named("attackCard_12") Card devastatingAttackCard,
             @Named("healthCard_2") Card minorHealCard,
             @Named("refillManaCard") Card manaRefillCard
     ) {
@@ -89,6 +92,7 @@ public class DeckModule {
         cards.add(multiPoisonCard);
         cards.add(extendedHealingCard);
         cards.add(devastatingAttackCard);
+        cards.add(minorHealCard);
         cards.add(minorHealCard);
         cards.add(manaRefillCard);
         cards.addAll(cards);

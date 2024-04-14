@@ -57,11 +57,11 @@ public class EffectModule {
     }
 
     @Provides
-    @Named("damageEffect_10")
-    public Effect provideDamageEffect10() {
+    @Named("damageEffect_12")
+    public Effect provideDamageEffect12() {
         return DamageEffect.builder()
-                .name("damageEffect_10")
-                .damage(10)
+                .name("damageEffect_12")
+                .damage(12)
                 .build();
     }
 
@@ -77,11 +77,11 @@ public class EffectModule {
     }
 
     @Provides
-    @Named("manaEffect_4")
-    public Effect provideManaEffect4() {
+    @Named("manaEffect_5")
+    public Effect provideManaEffect5() {
         return ManaEffect.builder()
-                .name("manaEffect_4")
-                .delta(4)
+                .name("manaEffect_5")
+                .delta(5)
                 .build();
     }
 
@@ -106,11 +106,11 @@ public class EffectModule {
     }
 
     @Provides
-    @Named("healthEffect_10")
-    public Effect provideHealthEffect10() {
+    @Named("healthEffect_12")
+    public Effect provideHealthEffect12() {
         return HealthEffect.builder()
-                .name("healthEffect_10")
-                .delta(-10)
+                .name("healthEffect_12")
+                .delta(-12)
                 .build();
     }
 
@@ -127,12 +127,12 @@ public class EffectModule {
 
     /* Passive Healing Effect */
     @Provides
-    @Named("passiveHealingEffect_3_5")
-    public Effect providePassiveHealingEffect3_5() {
+    @Named("passiveHealingEffect_3_4")
+    public Effect providePassiveHealingEffect3_4() {
         return PassiveHealingEffect.builder()
-                .name("passiveHealingEffect_3_5")
+                .name("passiveHealingEffect_3_4")
                 .health(3)
-                .duration(5)
+                .duration(4)
                 .build();
     }
 
