@@ -6,7 +6,6 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import no.ntnu.dof.model.gameplay.card.AttackCard;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.deck.Deck;
 

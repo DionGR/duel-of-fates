@@ -4,20 +4,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import lombok.Data;
-import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.User;
-import no.ntnu.dof.model.gameplay.card.AttackCard;
-import no.ntnu.dof.model.gameplay.card.Card;
-import no.ntnu.dof.model.gameplay.deck.Deck;
-import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
-import no.ntnu.dof.model.gameplay.stats.armor.Armor;
-import no.ntnu.dof.model.gameplay.stats.health.Health;
-import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 @Data
 public class DuelOfFates extends com.badlogic.gdx.Game {

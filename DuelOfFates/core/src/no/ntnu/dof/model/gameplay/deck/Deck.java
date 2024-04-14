@@ -7,7 +7,6 @@ import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;
 import no.ntnu.dof.model.gameplay.card.Card;
@@ -38,11 +37,6 @@ public class Deck extends GameplayEntity implements Iterator<Card> {
         if (!hasNext()) {
             refill();
         }
-
-        Card nextCard = activeCards.remove(0);
-
-        playedCards.add(nextCard);
-
-        return nextCard;
+        return activeCards.remove(0);
     }
 }
