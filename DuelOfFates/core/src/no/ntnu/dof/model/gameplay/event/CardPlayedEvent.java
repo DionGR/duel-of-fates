@@ -11,6 +11,6 @@ public class CardPlayedEvent extends GameEvent<CardPlayedListener> {
     }
 
     public void fire(Card card) {
-        listeners.forEach(l -> l.onCardPlayed(card, player));
+        listeners.removeIf(l -> l.onCardPlayed(card, player));
     }
 }

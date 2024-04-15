@@ -11,6 +11,8 @@ public class ManaEffect extends Effect {
 
     @Override
     public void apply(@NonNull final Player player) {
-        player.getMana().value -= delta;
+        int effectedMana = player.getMana().value - delta;
+        int maxMana = player.getPlayerClass().getMaxMana().value;
+        player.getMana().value = Integer.min(effectedMana, maxMana);
     }
 }

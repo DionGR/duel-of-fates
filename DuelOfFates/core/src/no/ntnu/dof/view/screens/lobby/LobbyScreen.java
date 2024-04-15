@@ -42,7 +42,7 @@ public class LobbyScreen extends BaseScreen {
 
     @Override
     public void show() {
-        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
+        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
         this.stage = new Stage(new ScreenViewport(), this.batch); // Use the batch from BaseScreen
         // Setting up the UI components specific to LobbyScreen
         contentTable = new Table();
@@ -91,7 +91,7 @@ public class LobbyScreen extends BaseScreen {
             deleteLobbyButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    listener.deleteLobby();
+                    listener.deleteLobby(true);
                 }
             });
 

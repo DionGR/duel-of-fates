@@ -9,9 +9,12 @@ import java.util.Stack;
 import no.ntnu.dof.controller.gameplay.GameController;
 import no.ntnu.dof.controller.lobby.GameLobbiesController;
 import no.ntnu.dof.controller.lobby.GameLobbyController;
+import no.ntnu.dof.controller.lobby.HistoryController;
 import no.ntnu.dof.controller.menu.LoginController;
 import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.GameLobby;
+import no.ntnu.dof.model.User;
+import no.ntnu.dof.view.screens.lobby.HistoryScreen;
 import no.ntnu.dof.model.User;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.screens.game.GameScreen;
@@ -70,7 +73,6 @@ public class ScreenController {
 
     public static void transitionToLogin() {
         LoginScreen loginScreen = new LoginScreen(batch, assetManager);
-        // LoginController needs to update the User element in DuelOfFates, and thus needs a reference to application
         new LoginController(application, loginScreen);
         pushScreen(loginScreen);
     }
@@ -81,11 +83,17 @@ public class ScreenController {
         loginScreen.initializeUI();
     }
 
+    public static void transitionToHistory() {
+        HistoryScreen historyScreen = new HistoryScreen();
+        new HistoryController(application.getCurrentUser(), historyScreen);
+        pushScreen(historyScreen);
+    }
+
     public static void transitionToGame(Player host, Player guest, GameComms comms) {
+        popScreen();
         GameController gameController = new GameController(host, guest, comms);
         GameScreen gameScreen = new GameScreen(gameController.getGame());
         new Thread(gameController::gameLoop).start();
-//        Gdx.app.postRunnable(gameController::gameLoop);
         pushScreen(gameScreen);
     }
 }

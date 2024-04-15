@@ -37,7 +37,7 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void show() {
         // Loading skin
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("UISkin.json"));
         stage = new Stage(new ScreenViewport(), this.batch);
 
         // Making a centered table to store title and buttons

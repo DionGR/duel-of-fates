@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import lombok.Setter;
+import no.ntnu.dof.controller.ScreenController;
 import no.ntnu.dof.controller.lobby.LobbiesViewListener;
 import no.ntnu.dof.model.GameLobbies;
 import no.ntnu.dof.model.GameLobby;
@@ -27,6 +28,7 @@ public class LobbiesScreen extends ReturnableScreen {
     private Skin skin;
     private Table contentTable;
     private TextButton createLobbyBtn;
+    private TextButton matchHistoryBtn;
     private Label lobbiesTitle;
     @Setter
     private LobbiesViewListener listener;
@@ -40,7 +42,7 @@ public class LobbiesScreen extends ReturnableScreen {
     @Override
     public void show() {
         super.show();
-        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
+        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
         this.stage = new Stage(new ScreenViewport(), this.batch);
 
         // Making a centered table to store title and buttons
@@ -86,15 +88,26 @@ public class LobbiesScreen extends ReturnableScreen {
             }
         });
 
+        matchHistoryBtn = new TextButton("Match History", skin, "default");
+        matchHistoryBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenController.transitionToHistory();
+            }
+        });
+
         // Add the button directly to the stage
         stage.addActor(createLobbyBtn);
+        stage.addActor(matchHistoryBtn);
 
         // Positioning the create lobby button at the top right with some margin
         float margin = 20; // Adjust the margin value as needed
         float buttonX = Gdx.graphics.getWidth() - createLobbyBtn.getWidth() - margin;
         float buttonY = Gdx.graphics.getHeight() - createLobbyBtn.getHeight() - margin;
 
+        float historyBtnY = buttonY - createLobbyBtn.getHeight() - margin;
         createLobbyBtn.setPosition(buttonX, buttonY);
+        matchHistoryBtn.setPosition(buttonX, historyBtnY);
 
         Gdx.input.setInputProcessor(stage);
     }

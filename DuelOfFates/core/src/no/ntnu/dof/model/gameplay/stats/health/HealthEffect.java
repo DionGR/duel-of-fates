@@ -11,6 +11,8 @@ public class HealthEffect extends Effect {
 
     @Override
     public void apply(@NonNull final Player player) {
-        player.getHealth().value -= delta;
+        int effectedHealth = player.getHealth().value - delta;
+        int maxHealth = player.getPlayerClass().getMaxHealth().value;
+        player.getHealth().value = Integer.min(effectedHealth, maxHealth);
     }
 }

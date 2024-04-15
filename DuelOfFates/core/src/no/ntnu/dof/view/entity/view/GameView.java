@@ -8,20 +8,30 @@ import no.ntnu.dof.view.Image;
 
 public class GameView extends Group {
     private final Game game;
-    private Image graphics;
+    private Image background;
     private final HostPlayerView hostPlayerView;
     private final OpponentPlayerView opponentPlayerView;
+
     public GameView(Game game) {
         this.game = game;
 
-        hostPlayerView = new HostPlayerView(this.game.getPlayers().get(0));
+        background = new Image("background.png", 1.0f);
+        this.addActor(background);
+
+        hostPlayerView = new HostPlayerView(game.getHost());
         this.addActor(hostPlayerView);
-        opponentPlayerView = new OpponentPlayerView(this.game.getPlayers().get(1));
+        opponentPlayerView = new OpponentPlayerView(game.getOpponent());
         this.addActor(opponentPlayerView);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+    }
+
+    public void dispose() {
+        background.dispose();
+        hostPlayerView.dispose();
+        opponentPlayerView.dispose();
     }
 }

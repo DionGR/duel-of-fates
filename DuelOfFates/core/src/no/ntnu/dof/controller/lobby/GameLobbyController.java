@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import lombok.NonNull;
 import no.ntnu.dof.controller.ScreenController;
 import no.ntnu.dof.controller.gameplay.di.DaggerGameLobbyControllerComponent;
 import no.ntnu.dof.controller.gameplay.di.GameLobbyControllerComponent;
@@ -45,11 +46,11 @@ public class GameLobbyController implements LobbyViewListener {
         ServiceLocator.getLobbyService().listenForLobbyUpdate(gameLobby.getLobbyId(), updatedLobby -> {
             gameLobby.setGuest(updatedLobby.getGuest());
             String guestInfo = updatedLobby.getGuest() != null ? updatedLobby.getGuest().getEmail() : "<Available>";
-            if (lobbyScreen != null) {
+            if ("started".equals(updatedLobby.getGameState()))
+                this.handleLobbyGameStart(updatedLobby);
+            else if (lobbyScreen != null)
                 Gdx.app.postRunnable(() -> lobbyScreen.updateGuestInfo(guestInfo));
-            }
         });
-        ServiceLocator.getLobbyService().listenForGameStart(gameLobby.getLobbyId(), this::updateLobbyState);
     }
 
     public void stopListeningForLobbyUpdates() {
@@ -69,6 +70,7 @@ public class GameLobbyController implements LobbyViewListener {
             @Override
             public void onSuccess() {
                 Gdx.app.log("LobbyUpdate", "Successfully updated the lobby state.");
+                deleteLobby(false);
             }
 
             @Override
@@ -79,7 +81,7 @@ public class GameLobbyController implements LobbyViewListener {
         }, gameLobby.getLobbyId(), comms.getGameId());
 
         // Logic to start the game...
-        System.out.println("Starting game for lobby: " + gameLobby.getTitle());
+        Gdx.app.log("LobbyUpdate", "Starting game for lobby: " + gameLobby.getTitle());
     }
 
     private void initializeAndLaunchGame(GameComms comms) {
@@ -92,33 +94,31 @@ public class GameLobbyController implements LobbyViewListener {
             guestUser = gameLobby.getCreator();
         }
         Player host = Player.builder()
-                .name(hostUser.getName())
+                .name(hostUser.getId())
                 .playerClass(playerClassInvoker.invoke(hostUser.getPlayerClassName()))
                 .build();
         Player guest = Player.builder()
-                .name(guestUser.getName())
+                .name(guestUser.getId())
                 .playerClass(playerClassInvoker.invoke(guestUser.getPlayerClassName()))
                 .build();
 
         ScreenController.transitionToGame(host, guest, comms);
     }
 
-    public void updateLobbyState(GameLobby gameLobby) {
-        if (gameLobby.getGameState().equals("started")) {
-            lobbyScreen.showError("Game is starting...");
-            ServiceLocator.getGameService().getComms(gameLobby.getGameId(), new GameService.GetCommsCallback() {
-                @Override
-                public void onSuccess(GameComms comms) {
-                    Gdx.app.postRunnable(() -> initializeAndLaunchGame(comms));
-                }
+    private void handleLobbyGameStart(@NonNull GameLobby gameLobby) {
+        if (lobbyScreen != null) lobbyScreen.showError("Game is starting...");
+        ServiceLocator.getGameService().getComms(gameLobby.getGameId(), new GameService.GetCommsCallback() {
+            @Override
+            public void onSuccess(GameComms comms) {
+                Gdx.app.postRunnable(() -> initializeAndLaunchGame(comms));
+            }
 
-                @Override
-                public void onFailure(Throwable throwable) {
-                    Gdx.app.error("LobbyUpdate", "Failed to retrieve game communications.", throwable);
-                    lobbyScreen.showError("Unable to start game");
-                }
-            });
-        }
+            @Override
+            public void onFailure(Throwable throwable) {
+                Gdx.app.error("LobbyUpdate", "Failed to retrieve game communications.", throwable);
+                if (lobbyScreen != null) lobbyScreen.showError("Unable to start game");
+            }
+        });
     }
 
 
@@ -141,7 +141,7 @@ public class GameLobbyController implements LobbyViewListener {
         }, gameLobby, currentUser);
     }
 
-    public void deleteLobby() {
+    public void deleteLobby(boolean withPop) {
         if (isDeletingLobby) return; // Prevent multiple deletion processes
         isDeletingLobby = true;
 
@@ -150,14 +150,14 @@ public class GameLobbyController implements LobbyViewListener {
             public void onSuccess() {
                 Gdx.app.log("LobbyDeletion", "Lobby successfully deleted.");
                 isDeletingLobby = false; // Reset flags
-                Gdx.app.postRunnable(ScreenController::popScreen);
+                if (withPop) Gdx.app.postRunnable(ScreenController::popScreen);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 Gdx.app.error("LobbyDeletion", "Failed to delete the lobby.", throwable);
                 isDeletingLobby = false; // Reset flag
-                Gdx.app.postRunnable(() -> lobbyScreen.showError("Failed to delete the lobby."));
+                if (withPop) Gdx.app.postRunnable(() -> lobbyScreen.showError("Failed to delete the lobby."));
             }
         });
     }
