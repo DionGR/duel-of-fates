@@ -27,7 +27,6 @@ import no.ntnu.dof.view.screens.BaseScreen;
 import no.ntnu.dof.view.screens.ReturnableScreen;
 
 public class ChooseClassScreen extends ReturnableScreen {
-    private Stage stage;
     private Skin skin;
     private Table contentTable;
     private User user;
@@ -46,10 +45,6 @@ public class ChooseClassScreen extends ReturnableScreen {
 
         this.user = game.getCurrentUser();
         this.skin = new Skin(Gdx.files.internal("UISkin.json"));
-        this.stage = new Stage(new ScreenViewport(), this.batch);
-
-        setupUI();
-        Gdx.input.setInputProcessor(stage);
     }
 
     private void setupUI() {
@@ -98,11 +93,6 @@ public class ChooseClassScreen extends ReturnableScreen {
     }
 
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(stage);
-    }
-
-    @Override
     public void render(float delta) {
         super.render(delta);
 
@@ -114,6 +104,12 @@ public class ChooseClassScreen extends ReturnableScreen {
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
         background.setSize(width, height);
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        setupUI();
     }
 
     @Override

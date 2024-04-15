@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import no.ntnu.dof.controller.ScreenController;
 
-public abstract class ReturnableScreen extends BaseScreen{
+public abstract class ReturnableScreen extends BaseScreen {
     protected Sprite backBtn;
     protected Rectangle backBtnBounds;
 
@@ -37,12 +37,11 @@ public abstract class ReturnableScreen extends BaseScreen{
 
     @Override
     public void render(float delta) {
-        super.render(delta);
         batch.begin();
         background.draw(batch); // Draw the background
         backBtn.draw(batch); // Draw the back button
         batch.end();
-
+        super.renderSoundButton(delta);
         handleBackButtonInput();
     }
 

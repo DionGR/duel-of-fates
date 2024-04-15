@@ -24,7 +24,6 @@ import no.ntnu.dof.view.screens.BaseScreen;
 
 public class MenuScreen extends BaseScreen {
 
-    private Stage stage;
     private Sprite background;
     private Sprite soundOn;
 
@@ -37,8 +36,8 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void show() {
         // Loading skin
+        super.show();
         Skin skin = new Skin(Gdx.files.internal("UISkin.json"));
-        stage = new Stage(new ScreenViewport(), this.batch);
 
         // Making a centered table to store title and buttons
         contentTable = new Table();

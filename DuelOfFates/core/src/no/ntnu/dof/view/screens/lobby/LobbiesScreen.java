@@ -24,7 +24,6 @@ import no.ntnu.dof.view.screens.ReturnableScreen;
 
 public class LobbiesScreen extends ReturnableScreen {
 
-    private Stage stage;
     private Skin skin;
     private Table contentTable;
     private TextButton createLobbyBtn;
@@ -43,7 +42,6 @@ public class LobbiesScreen extends ReturnableScreen {
     public void show() {
         super.show();
         this.skin = new Skin(Gdx.files.internal("UISkin.json"));
-        this.stage = new Stage(new ScreenViewport(), this.batch);
 
         // Making a centered table to store title and buttons
         contentTable = new Table();
