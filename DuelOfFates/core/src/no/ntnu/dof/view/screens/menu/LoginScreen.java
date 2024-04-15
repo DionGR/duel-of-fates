@@ -39,7 +39,7 @@ public class LoginScreen implements Screen {
     public void initializeUI() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new Skin(Gdx.files.internal("UISkin.json"));
 
         Table table = new Table();
         table.setFillParent(true);
@@ -146,5 +146,9 @@ public class LoginScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        spriteBatch.dispose();
+        skin.dispose();
+        assetManager.dispose();
+        skin.dispose();
     }
 }

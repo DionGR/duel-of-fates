@@ -43,13 +43,11 @@ public class FirebaseLobbyService implements LobbyService {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies");
         DatabaseReference lobbyRef = databaseReference.child(lobbyId);
 
-        DatabaseReference.CompletionListener completionListener = (error, ref) -> {
+        lobbyRef.child("gameId").setValue(gameId, (error, ref) -> {});
+        lobbyRef.child("gameState").setValue("started", (error, ref) -> {
             if (error == null) callback.onSuccess();
             else callback.onFailure(error.toException());
-        };
-
-        lobbyRef.child("gameState").setValue("started", completionListener);
-        lobbyRef.child("gameId").setValue(gameId, completionListener);
+        });
     }
 
     @Override

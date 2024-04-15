@@ -3,10 +3,8 @@ package no.ntnu.dof;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
-
 import lombok.extern.slf4j.Slf4j;
 import no.ntnu.dof.controller.DuelOfFates;
-import no.ntnu.dof.controller.network.AuthCallback;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.desktop.FirebaseAuthImpl;
 import no.ntnu.dof.desktop.FirebaseGameService;
@@ -26,7 +24,7 @@ public class DesktopLauncher {
         ServiceLocator.provideAuthService(new FirebaseAuthImpl());
         ServiceLocator.provideLobbyService(new FirebaseLobbyService());
         ServiceLocator.provideGameService(new FirebaseGameService());
-        //ServiceLocator.provideUserService(new FirebaseUserService());
+        ServiceLocator.provideUserService(new FirebaseUserService());
 
         config.setWindowedMode(640, 360);
         new Lwjgl3Application(new DuelOfFates(), config);

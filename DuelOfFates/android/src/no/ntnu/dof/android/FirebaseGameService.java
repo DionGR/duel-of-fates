@@ -24,11 +24,12 @@ public class FirebaseGameService implements GameService {
         String gameId = databaseReference.child("games").push().getKey();
         GameComms comms = new GameComms(gameId, startingPlayerName);
         databaseReference.child("games").child(gameId).setValue(comms);
+
         return comms;
     }
 
     @Override
-    public void getComms(String gameId, GetCommsCallback callback) {
+    public void getComms(@NonNull String gameId, GetCommsCallback callback) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference gameRef = databaseReference.child("games").child(gameId);
 

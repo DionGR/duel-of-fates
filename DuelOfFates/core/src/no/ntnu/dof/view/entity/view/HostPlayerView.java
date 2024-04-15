@@ -39,11 +39,11 @@ public class HostPlayerView extends PlayerView {
 
         hostInterface = new Group();
 
-        deckView = new Image("./assets/Card_back.png", 0.25f);
+        deckView = new Image("cardBackside.png", 0.25f);
         deckView.setPosition(0, 0);
         hostInterface.addActor(deckView);
 
-        discardView = new Image("./assets/Card_back.png", 0.25f);
+        discardView = new Image("cardBackside.png", 0.25f);
         discardView.setPosition((float) Gdx.graphics.getWidth() - discardView.getWidth(), 0);
         hostInterface.addActor(discardView);
 
@@ -87,5 +87,13 @@ public class HostPlayerView extends PlayerView {
 
     public static void provideClickListener(ClickListener playListener) {
         HostPlayerView.playListener = playListener;
+    }
+    public void dispose() {
+        super.dispose();
+        deckView.dispose();
+        discardView.dispose();
+        for (int i = 0; i < handView.getChildren().size; i++) {
+            ((CardView) handView.getChild(i)).dispose();
+        }
     }
 }

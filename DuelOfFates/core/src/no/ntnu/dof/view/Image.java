@@ -34,4 +34,12 @@ public class Image extends Group {
         batch.draw(img, getX(), getY(), getWidth(), getHeight());
         super.draw(batch, parentAlpha);
     }
+
+    public void dispose() {
+        img.dispose();
+    }
+
+    public void reverse() {
+        this.setWidth(-this.getWidth());
+    }
 }

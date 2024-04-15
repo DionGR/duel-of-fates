@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import lombok.NonNull;
 import no.ntnu.dof.controller.ScreenController;
 import no.ntnu.dof.controller.gameplay.di.DaggerGameLobbyControllerComponent;
 import no.ntnu.dof.controller.gameplay.di.GameLobbyControllerComponent;
@@ -104,7 +105,7 @@ public class GameLobbyController implements LobbyViewListener {
         ScreenController.transitionToGame(host, guest, comms);
     }
 
-    private void handleLobbyGameStart(GameLobby gameLobby) {
+    private void handleLobbyGameStart(@NonNull GameLobby gameLobby) {
         if (lobbyScreen != null) lobbyScreen.showError("Game is starting...");
         ServiceLocator.getGameService().getComms(gameLobby.getGameId(), new GameService.GetCommsCallback() {
             @Override

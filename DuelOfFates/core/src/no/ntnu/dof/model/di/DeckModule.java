@@ -20,21 +20,24 @@ public class DeckModule {
     @Named("knightDeck")
     public Deck provideKnightDeck(
             @Named("attackCard_12") Card highDamageCard,
-            @Named("healthCard_12") Card largeHealCard,
-            @Named("passiveHealingCard_3_4") Card passiveHealingCard,
-            @Named("attackCard_2") Card smallDamageCard,
-            @Named("healthCard_2") Card healCard,
-            @Named("surpriseAttackCard_2") Card surpriseAttackCard
+            @Named("passiveHealingCard_4_4") Card passiveHealingCard,
+            @Named("attackCard_4") Card smallDamageCard,
+            @Named("attackCard_8") Card moderateDamageCard,
+            @Named("healthCard_4") Card healCard,
+            @Named("healthCard_8") Card moderateHealCard,
+            @Named("surpriseAttackCard_4") Card surpriseAttackCard
     ) {
         List<Card> cards = new ArrayList<>();
+        cards.add(smallDamageCard);
+        cards.add(moderateDamageCard);
+        cards.add(moderateDamageCard);
         cards.add(highDamageCard);
-        cards.add(largeHealCard);
-        cards.add(passiveHealingCard);
-        cards.add(smallDamageCard);
-        cards.add(healCard);
-        cards.add(smallDamageCard);
-        cards.add(healCard);
         cards.add(surpriseAttackCard);
+
+        cards.add(healCard);
+        cards.add(moderateHealCard);
+        cards.add(passiveHealingCard);
+
         cards.addAll(cards);
 
         return Deck.builder()
@@ -48,23 +51,25 @@ public class DeckModule {
     @Provides
     @Named("mageDeck")
     public Deck provideMageDeck(
-            @Named("manaCard_5") Card manaCard4,
-            @Named("poisonCard_4_3") Card poisonCard,
-            @Named("passiveHealingCard_3_4") Card passiveHealingCard,
-            @Named("refillManaCard") Card refillManaCard,
-            @Named("attackCard_5") Card moderateDamageCard,
-            @Named("manaCard_2") Card manaCard2,
-            @Named("attackCard_12") Card highDamageCard
+            @Named("manaCard_5") Card highManaCard,
+            @Named("manaCard_2") Card lowManaCard,
+            @Named("poisonCard_4_4") Card poisonCard,
+            @Named("passiveHealingCard_4_4") Card passiveHealingCard,
+            @Named("attackCard_8") Card moderateDamageCard
             ) {
         List<Card> cards = new ArrayList<>();
-        cards.add(manaCard4);
-        cards.add(poisonCard);
+
+        cards.add(highManaCard);
+        cards.add(highManaCard);
+        cards.add(lowManaCard);
+
         cards.add(passiveHealingCard);
-        cards.add(refillManaCard);
-        cards.add(highDamageCard);
+
+        cards.add(poisonCard);
+        cards.add(poisonCard);
         cards.add(moderateDamageCard);
         cards.add(moderateDamageCard);
-        cards.add(manaCard2);
+
         cards.addAll(cards);
 
         return Deck.builder()
@@ -78,23 +83,27 @@ public class DeckModule {
     @Provides
     @Named("skeletonDeck")
     public Deck provideSkeletonDeck(
-            @Named("poisonCard_4_3") Card heavyPoisonCard,
-            @Named("healthCard_5") Card skeletonHealingCard,
-            @Named("multiPoisonCard_4_3") Card multiPoisonCard,
-            @Named("extendedHealingCard_3_4") Card extendedHealingCard,
+            @Named("poisonCard_4_4") Card heavyPoisonCard,
+            @Named("healthCard_4") Card skeletonHealingCard,
+            @Named("multiPoisonCard_4_4") Card multiPoisonCard,
+            @Named("extendedHealingCard_4_4") Card extendedHealingCard,
             @Named("attackCard_12") Card devastatingAttackCard,
-            @Named("healthCard_2") Card minorHealCard,
+            @Named("healthCard_4") Card minorHealCard,
             @Named("attackCard_12") Card highDamageCard
     ) {
         List<Card> cards = new ArrayList<>();
-        cards.add(heavyPoisonCard);
-        cards.add(skeletonHealingCard);
-        cards.add(multiPoisonCard);
-        cards.add(extendedHealingCard);
-        cards.add(devastatingAttackCard);
+
         cards.add(minorHealCard);
-        cards.add(highDamageCard);
+        cards.add(skeletonHealingCard);
+        cards.add(extendedHealingCard);
+
+        cards.add(heavyPoisonCard);
         cards.add(multiPoisonCard);
+        cards.add(multiPoisonCard);
+
+        cards.add(devastatingAttackCard);
+        cards.add(highDamageCard);
+
         cards.addAll(cards);
 
         return Deck.builder()

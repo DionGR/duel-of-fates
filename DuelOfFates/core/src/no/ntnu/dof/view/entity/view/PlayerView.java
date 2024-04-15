@@ -25,11 +25,11 @@ public class PlayerView extends Group {
 
     public PlayerView(Player player) {
         this.player = player;
-        graphics = new Image("./assets/Player.png", 0.30f);
+        graphics = new Image(player.getPlayerClass().getName() + ".png", 0.30f);
         this.addActor(graphics);
 
         manaPool = new Group();
-        manaGraphics = new Image("./assets/Mana.png", 0.10f);
+        manaGraphics = new Image("mana.png", 0.10f);
         manaPool.addActor(manaGraphics);
 
         manaText = (new TextLabel(Integer.toString(player.getMana().getValue()), manaGraphics.getWidth()*0.28f,manaGraphics.getHeight()*0.3f,manaGraphics.getWidth()*0.4f,manaGraphics.getHeight()*0.4f,manaGraphics.getHeight()*0.03f, Color.GREEN)).getText();
@@ -42,6 +42,11 @@ public class PlayerView extends Group {
     public void draw(Batch batch, float parentAlpha) {
         healthBarView.setPosition(getX(), getY()-10);
         super.draw(batch, parentAlpha);
+    }
+
+    public void dispose() {
+        graphics.dispose();
+        manaGraphics.dispose();
     }
 
 }
