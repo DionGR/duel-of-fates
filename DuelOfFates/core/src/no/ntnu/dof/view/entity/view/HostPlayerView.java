@@ -83,4 +83,12 @@ public class HostPlayerView extends PlayerView {
     public static void provideClickListener(ClickListener playListener) {
         HostPlayerView.playListener = playListener;
     }
+    public void dispose() {
+        super.dispose();
+        deckView.dispose();
+        discardView.dispose();
+        for (int i = 0; i < handView.getChildren().size; i++) {
+            ((CardView) handView.getChild(i)).dispose();
+        }
+    }
 }

@@ -12,7 +12,7 @@ public class CardTexture {
     TextureRegion background;
     TextureRegion nameFlag;
     TextureRegion line;
-    TextureRegion mana;
+    Texture mana;
     Texture image;
     float width;
     float height;
@@ -23,7 +23,7 @@ public class CardTexture {
         background = new TextureRegion(new Texture("cardBackground.png"), 214, 96, 591, 834);
         nameFlag = new TextureRegion(new Texture("cardNameFlag.png"), 214, 96, 591, 834);
         line = new TextureRegion(new Texture("cardLine.png"), 214, 96, 591, 834);
-        mana = new TextureRegion(new Texture("mana.png"), 214, 96, 591, 834);
+        mana = new Texture(Gdx.files.internal("mana.png"));
         image = new Texture("cardContentDagger.png");
     }
 
@@ -32,6 +32,10 @@ public class CardTexture {
         batch.draw(image,x + width*0.03f, y+height*0.45f, width*0.88f, height*0.41f);
         batch.draw(nameFlag, x, y, width, height);
         batch.draw(line, x, y, width, height);
-        //batch.draw(mana, x, y, width, height);
+        batch.draw(mana, x, y+height*0.85f, height*0.15f, height*0.15f);
+    }
+
+    public void dispose() {
+        image.dispose();
     }
 }
