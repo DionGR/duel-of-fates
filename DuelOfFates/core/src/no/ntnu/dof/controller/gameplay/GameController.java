@@ -1,11 +1,12 @@
 package no.ntnu.dof.controller.gameplay;
 
+import com.badlogic.gdx.Gdx;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import lombok.Getter;
-import no.ntnu.dof.controller.ScreenController;
 import no.ntnu.dof.controller.gameplay.player.HostPlayerController;
 import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.controller.gameplay.player.RemotePlayerController;
@@ -35,7 +36,7 @@ public class GameController {
 
     public void gameLoop() {
         while (!game.isOver()) {
-            System.out.println("Turn of " + game.getNextPlayer().getName() + " " + game.getNextPlayer());
+            Gdx.app.log("Game", "Turn of " + game.getNextPlayer().getName() + " " + game.getNextPlayer());
             Player currentPlayer = game.getNextPlayer();
             PlayerController currentPlayerController = playerControllers.get(currentPlayer);
 
@@ -44,11 +45,15 @@ public class GameController {
                 game.playCard(turnCard.get());
             } else {
                 game.finalizeTurn();
-                System.out.println("Turn finalized.");
+                Gdx.app.log("Game", "Turn finalized.");
             }
         }
 
-        System.out.println("Game over");
-        ScreenController.popScreen(); // TODO display game result
+        // TODO: Callbacks and so on?
+        if (this.game.getHost().isDead()) {
+            Gdx.app.log("Game", "Game over: player lost");
+        } else {
+            Gdx.app.log("Game", "Game over: player won");
+        }
     }
 }

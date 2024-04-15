@@ -13,9 +13,8 @@ public interface LobbyService {
     void listenForLobbyUpdate(String lobbyId, LobbyUpdateListener listener);
 
     void stopListeningForLobbyUpdates(String lobbyId);
-    void initializeGame(LobbyUpdateCallback callback, String lobbyId, String gameId);
 
-    void listenForGameStart(String lobbyId, GameStartListener listener);
+    void initializeGame(LobbyUpdateCallback callback, String lobbyId, String gameId);
 
     void joinLobby(LobbyJoinCallback callback, GameLobby gameLobby, User user);
 
@@ -26,10 +25,6 @@ public interface LobbyService {
     interface LobbyCreationCallback {
         void onSuccess(GameLobby gameLobby);
         void onFailure(Throwable throwable);
-    }
-
-    interface GameStartListener {
-        void onGameStart(GameLobby gameLobby);
     }
 
     interface LobbyChangeListener {
