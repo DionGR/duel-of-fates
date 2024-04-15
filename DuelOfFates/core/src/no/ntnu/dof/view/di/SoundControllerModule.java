@@ -11,10 +11,9 @@ import no.ntnu.dof.controller.SoundController;
 @Module
 public class SoundControllerModule {
 
-    @Singleton
     @Provides
     @Named("soundController")
     public SoundController provideSoundController() {
-        return new SoundController();
+        return SoundController.getInstance();
     }
 }
