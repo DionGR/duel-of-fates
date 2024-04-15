@@ -67,6 +67,9 @@ public class HostPlayerView extends PlayerView {
     }
 
     public void updateHandView() {
+        for (int i = 0; i < handView.getChildren().size; i++) {
+            ((CardView) handView.getChild(i)).dispose();
+        }
         handView.clear();
         List<Card> temporaryList = new ArrayList<>(player.getHand().getCards());
         //has to use iterator to avoid ConcurrentModificationException
