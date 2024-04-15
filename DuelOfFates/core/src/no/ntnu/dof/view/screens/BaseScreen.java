@@ -13,6 +13,12 @@ public abstract class BaseScreen extends ScreenAdapter {
     protected SpriteBatch batch;
     protected Sprite background;
 
+    // Sound
+    private Sprite soundBtn;
+    private Texture soundOnTexture;
+    private Texture soundOffTexture;
+    private Rectangle soundBtnBounds;
+
     public BaseScreen() {
         this.batch = new SpriteBatch();
 
@@ -21,13 +27,15 @@ public abstract class BaseScreen extends ScreenAdapter {
         background = new Sprite(backgroundTexture);
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        /*
+
         // Setting sound buttons
-        soundOn = new Sprite(new Texture(Gdx.files.internal("soundOn.png")));
-        soundOn.setSize(80, 80);
-        Sprite soundOff = new Sprite(new Texture(Gdx.files.internal("soundOff.png")));
-        soundOff.setSize(80,80);
-         */
+        soundOnTexture = new Texture(Gdx.files.internal("soundOn.png"));
+        soundOffTexture = new Texture(Gdx.files.internal("soundOff.png"));
+
+        soundBtn.setSize(60,60);
+        soundBtn.setPosition(10,10);
+        soundBtnBounds = new Rectangle(soundBtn.getX(),soundBtn.getY(),soundBtn.getWidth(),soundBtn.getHeight());
+
     }
     @Override
     public void render(float delta) {
