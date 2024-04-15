@@ -128,6 +128,8 @@ public class ChooseClassScreen extends ReturnableScreen {
     @Override
     public void dispose() {
         stage.dispose();
+        skin.dispose();
+        contentTable.clear();
         super.dispose();
     }
 }
