@@ -9,8 +9,4 @@ public abstract class GameEvent<Listener extends GameEventListener> {
     public void register(Listener listener) {
         listeners.add(listener);
     }
-
-    public void deregister(Listener listener) {
-        listeners.remove(listener);
-    }
 }

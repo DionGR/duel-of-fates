@@ -91,7 +91,7 @@ public class LobbyScreen extends BaseScreen {
             deleteLobbyButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    listener.deleteLobby();
+                    listener.deleteLobby(true);
                 }
             });
 

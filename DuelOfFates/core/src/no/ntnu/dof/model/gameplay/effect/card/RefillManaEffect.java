@@ -9,14 +9,17 @@ import no.ntnu.dof.model.gameplay.stats.mana.ManaEffect;
 
 @SuperBuilder
 public class RefillManaEffect extends Effect implements TurnListener {
+
+    private final int MANA_TO_FILL = 2;
+
     @Override
     public void apply(@NonNull final Player player) {
-        int manaToFill = player.getPlayerClass().getMaxMana().getValue() - player.getMana().getValue();
-        if (manaToFill > 0) ManaEffect.builder().delta(-manaToFill).build().apply(player);
+        ManaEffect.builder().delta(-MANA_TO_FILL).build().apply(player);
     }
 
     @Override
-    public void onTurn(@NonNull final Player player) {
+    public boolean onTurn(@NonNull final Player player) {
         this.apply(player);
+        return false;
     }
 }

@@ -10,16 +10,15 @@ import no.ntnu.dof.view.gameplay.HostPlayerView;
 
 @Getter
 public class GameView extends Group {
-     private final Game game;
+    private final Game game;
     private Image graphics;
     private final HostPlayerView hostPlayerView;
     private final OpponentPlayerView opponentPlayerView;
-    public GameView(Game game) {
-        this.game = game;
 
-        hostPlayerView = new HostPlayerView(this.game.getPlayers().get(0));
+    public GameView(Game game) {
+        hostPlayerView = new HostPlayerView(game.getHost());
         this.addActor(hostPlayerView);
-        opponentPlayerView = new OpponentPlayerView(this.game.getPlayers().get(1));
+        opponentPlayerView = new OpponentPlayerView(game.getOpponent());
         this.addActor(opponentPlayerView);
     }
 
