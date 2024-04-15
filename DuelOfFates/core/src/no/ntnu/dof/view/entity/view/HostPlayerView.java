@@ -45,11 +45,11 @@ public class HostPlayerView extends PlayerView{
         } );
         hostInterface.addActor(handView);
 
-        deckView = new Image("./assets/Card_back.png", 0.25f);
+        deckView = new Image("./assets/Card_back.png", 0.30f);
         deckView.setPosition(0,0);
         hostInterface.addActor(deckView);
 
-        discardView = new Image("./assets/Card_back.png", 0.25f);
+        discardView = new Image("./assets/Card_back.png", 0.30f);
         discardView.setPosition((float)Gdx.graphics.getWidth()-discardView.getWidth(),0);
         hostInterface.addActor(discardView);
 
@@ -74,12 +74,15 @@ public class HostPlayerView extends PlayerView{
     }
 
     public void updateHandView(){
+        for (int i = 0; i < handView.getChildren().size; i++) {
+            ((CardView) handView.getChild(i)).dispose();
+        }
         handView.clear();
         List<Card> temporaryList = new ArrayList<>(player.getHand().getCards());
         //has to use iterator to avoid ConcurrentModificationException
         for(Iterator<Card> iterator = temporaryList.iterator(); iterator.hasNext();){
             Card c = iterator.next();
-            handView.addActor(new CardView(0.3f, c, handView.getChildren().size));
+            handView.addActor(new CardView(0.4f, c, handView.getChildren().size));
         }
         if(handView.getChildren().size > 0){
             handView.setPosition(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 5);

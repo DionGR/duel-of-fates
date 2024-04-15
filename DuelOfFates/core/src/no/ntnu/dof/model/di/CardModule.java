@@ -96,7 +96,7 @@ public class CardModule {
     @Named("poisonCard_4_3")
     public Card providePoisonCard4_3() {
         return AttackCard.builder()
-                .name("poisonCard_4_3")
+                .name("Poison")
                 .cost(new Mana(4))
                 .opponentEffectName("poisonEffect_4_3")
                 .build();
@@ -106,7 +106,7 @@ public class CardModule {
     @Named("passiveHealingCard_3_4")
     public Card providePassiveHealingCard3_4() {
         return DefenseCard.builder()
-                .name("passiveHealingCard_3_4")
+                .name("Heal over time")
                 .cost(new Mana(4))
                 .hostEffectName("passiveHealingEffect_3_4")
                 .build();
@@ -136,7 +136,7 @@ public class CardModule {
     @Named("versatileAttackCard_12")
     public Card provideVersatileAttackCard12() {
         return AttackCard.builder()
-                .name("versatileAttackCard_12")
+                .name("versatileAttack")
                 .cost(new Mana(8))
                 .opponentEffectName("damageEffect_12")
                 .hostEffectName("manaEffect_4")
@@ -147,7 +147,7 @@ public class CardModule {
     @Named("defensiveHealthCard_12")
     public Card provideDefensiveHealthCard12() {
         return DefenseCard.builder()
-                .name("defensiveHealthCard_12")
+                .name("Healing&Damage")
                 .cost(new Mana(8))
                 .hostEffectName("healthEffect_12")
                 .opponentEffectName("damageEffect_5")
@@ -158,7 +158,7 @@ public class CardModule {
     @Named("multiPoisonCard_4_3")
     public Card provideMultiPoisonCard4_3() {
         return AttackCard.builder()
-                .name("multiPoisonCard_4_3")
+                .name("Draining")
                 .cost(new Mana(7))
                 .opponentEffectName("poisonEffect_4_3")
                 .hostEffectName("passiveHealingEffect_3_4")
@@ -169,7 +169,7 @@ public class CardModule {
     @Named("extendedHealingCard_3_4")
     public Card provideExtendedHealingCard3_4() {
         return DefenseCard.builder()
-                .name("extendedHealingCard_3_4")
+                .name("versatileHealing")
                 .cost(new Mana(5))
                 .hostEffectName("passiveHealingEffect_3_4")
                 .opponentEffectName("damageEffect_2")
@@ -180,7 +180,7 @@ public class CardModule {
     @Named("surpriseAttackCard_2")
     public Card provideSurpriseAttackCard2() {
         return AttackCard.builder()
-                .name("surpriseAttackCard_2")
+                .name("surpriseAttack")
                 .cost(new Mana(2))
                 .opponentEffectName("damageEffect_2")
                 .hostEffectName("refillManaEffect")

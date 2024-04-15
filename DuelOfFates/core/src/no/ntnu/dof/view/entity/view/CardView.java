@@ -22,19 +22,18 @@ public class CardView extends Group {
     private float height;
 
     public CardView(float Scale, Card card, int i) {
-        //super("./assets/Card.png", Scale);
         this.card = card;
         this.cardTexture = new CardTexture(card.getName(), Scale* Gdx.graphics.getHeight());
         this.width = cardTexture.getWidth();
         this.height = cardTexture.getHeight();
-        this.setPosition(((float) 2 * width/3)*i, 0);
+        this.setPosition(width*i, 0);
         this.setBounds(this.getX(), this.getY(), width, height);
         this.addListener(ClickHostPlayerController.get());
 
-        Label name = (new TextLabel(card.getName(), width*0.05f,height*0.80f,width*0.8f,height*0.18f,height*0.006f, Color.RED)).getText();
+        Label name = (new TextLabel(card.getName(), width*0.22f,height*0.81f,width*0.7f,height*0.18f,height*0.004f, Color.RED)).getText();
         name.setAlignment(Align.center);
         this.addActor(name);
-        Label cost = (new TextLabel(Integer.toString(card.getCost().getValue()), width*0.82f,height*0.86f,width*0.1f,height*0.1f,height*0.005f, Color.GREEN)).getText();
+        Label cost = (new TextLabel(Integer.toString(card.getCost().getValue()), width*0.05f,height*0.87f,width*0.1f,height*0.1f,height*0.005f, Color.GRAY)).getText();
         this.addActor(cost);
 
 
