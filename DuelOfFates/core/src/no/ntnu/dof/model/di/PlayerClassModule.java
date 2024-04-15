@@ -1,6 +1,5 @@
 package no.ntnu.dof.model.di;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,6 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import jdk.jfr.Name;
 import no.ntnu.dof.model.gameplay.deck.Deck;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClassInvoker;
@@ -20,53 +18,53 @@ import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 public class PlayerClassModule {
 
     @Provides
-    @Named("warriorPlayerClass")
-    public PlayerClass provideWarriorPlayerClass(@Named("exampleDeck") Deck deck) {
+    @Named("knightPlayerClass")
+    public PlayerClass provideKnightPlayerClass(@Named("knightDeck") Deck deck) {
         return PlayerClass.builder()
-                .name("warrior")
+                .name("knight")
                 .deck(deck)
-                .maxHealth(new Health(100))
-                .maxArmor(new Armor(100))
-                .maxMana(new Mana(100))
+                .maxHealth(new Health(40))
+                .maxArmor(new Armor(30))
+                .maxMana(new Mana(5))
                 .build();
     }
 
     @Provides
     @Named("magePlayerClass")
-    public PlayerClass provideMagePlayerClass(@Named("exampleDeck") Deck deck) {
+    public PlayerClass provideMagePlayerClass(@Named("mageDeck") Deck deck) {
         return PlayerClass.builder()
                 .name("mage")
                 .deck(deck)
-                .maxHealth(new Health(100))
-                .maxArmor(new Armor(100))
-                .maxMana(new Mana(100))
+                .maxHealth(new Health(40))
+                .maxArmor(new Armor(15))
+                .maxMana(new Mana(8))
                 .build();
     }
 
     @Provides
-    @Named("roguePlayerClass")
-    public PlayerClass provideRoguePlayerClass(@Named("exampleDeck") Deck deck) {
+    @Named("skeletonPlayerClass")
+    public PlayerClass provideSkeletonPlayerClass(@Named("skeletonDeck") Deck deck) {
         return PlayerClass.builder()
-                .name("rogue")
+                .name("skeleton")
                 .deck(deck)
-                .maxHealth(new Health(100))
-                .maxArmor(new Armor(100))
-                .maxMana(new Mana(100))
+                .maxHealth(new Health(70))
+                .maxArmor(new Armor(0))
+                .maxMana(new Mana(6))
                 .build();
     }
 
     @Provides
     @Named("listPlayerClasses")
     public List<PlayerClass> providePlayerClasses(
-            @Named("warriorPlayerClass") PlayerClass warriorPlayerClass,
+            @Named("knightPlayerClass") PlayerClass knightPlayerClass,
             @Named("magePlayerClass") PlayerClass magePlayerClass,
-            @Named("roguePlayerClass") PlayerClass roguePlayerClass) {
+            @Named("skeletonPlayerClass") PlayerClass skeletonPlayerClass) {
 
         final ArrayList<PlayerClass> playerClasses = new ArrayList<>();
 
-        playerClasses.add(warriorPlayerClass);
+        playerClasses.add(knightPlayerClass);
         playerClasses.add(magePlayerClass);
-        playerClasses.add(roguePlayerClass);
+        playerClasses.add(skeletonPlayerClass);
 
         return playerClasses;
     }
