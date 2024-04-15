@@ -19,7 +19,6 @@ public class HistoryScreen extends ReturnableScreen {
     private Stage stage;
     private User user;
     private Label title;
-    private Table contentTable;
 
     public HistoryScreen() {
         super();
@@ -39,6 +38,7 @@ public class HistoryScreen extends ReturnableScreen {
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
+
     @Override
     public void dispose() {
         super.dispose();
@@ -48,7 +48,7 @@ public class HistoryScreen extends ReturnableScreen {
     public void showMockGameSummaries(@NonNull List<GameSummary> gameSummaries) {
         Table contentTable = new Table();
         contentTable.setWidth(stage.getWidth());
-        contentTable.align(Align.center|Align.top);
+        contentTable.align(Align.center | Align.top);
         contentTable.setPosition(0, Gdx.graphics.getHeight());
 
         title = new Label("Match History", skin, "default");
@@ -66,18 +66,16 @@ public class HistoryScreen extends ReturnableScreen {
             Label loseLabel = new Label("Lost!", skin);
             loseLabel.setColor(Color.RED);
 
+            Label hostResult = summary.getPlayer1Win() ? winLabel : loseLabel;
+            Label guestResult = summary.getPlayer2Win() ? winLabel : loseLabel;
 
-            if (summary.getPlayer1Win() == true && summary.getPlayer2Win() == false) {
-                summaryTable.add(player1Label).padBottom(5).row();
-                summaryTable.add(player1WinLabel).padBottom(5).row();
-                summaryTable.add(player2Label).padBottom(5).row();
-                summaryTable.add(player2LoseLabel).padBottom(5).row();
-            }
-
+            summaryTable.add(hostLabel).padBottom(5).row();
+            summaryTable.add(hostResult).padBottom(5).row();
+            summaryTable.add(guestLabel).padBottom(5).row();
+            summaryTable.add(guestResult).padBottom(5).row();
 
             contentTable.add(summaryTable).padTop(10).row();
         }
         stage.addActor(contentTable);
     }
-
-};
+}
