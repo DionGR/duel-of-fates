@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import no.ntnu.dof.model.gameplay.player.Player;
 
-public class OpponentPlayerView extends PlayerView{
+public class OpponentPlayerView extends PlayerView {
     public OpponentPlayerView(Player player) {
         super(player);
         this.setPosition((float) (3 * Gdx.graphics.getWidth()) /4- (float) -this.getGraphics().getWidth() /2, Gdx.graphics.getHeight()*0.6f);

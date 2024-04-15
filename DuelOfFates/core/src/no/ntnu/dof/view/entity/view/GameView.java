@@ -11,15 +11,16 @@ public class GameView extends Group {
     private Image background;
     private final HostPlayerView hostPlayerView;
     private final OpponentPlayerView opponentPlayerView;
+
     public GameView(Game game) {
         this.game = game;
 
-        background = new Image("./assets/background.png", 1.0f);
+        background = new Image("background.png", 1.0f);
         this.addActor(background);
 
-        hostPlayerView = new HostPlayerView(this.game.getPlayers().get(0));
+        hostPlayerView = new HostPlayerView(game.getHost());
         this.addActor(hostPlayerView);
-        opponentPlayerView = new OpponentPlayerView(this.game.getPlayers().get(1));
+        opponentPlayerView = new OpponentPlayerView(game.getOpponent());
         this.addActor(opponentPlayerView);
     }
 

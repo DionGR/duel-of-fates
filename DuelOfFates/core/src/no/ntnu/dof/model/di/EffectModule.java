@@ -159,14 +159,14 @@ public class EffectModule {
         effectInvoker.register("refillManaEffect", refillManaEffect);
         effectInvoker.register("damageEffect_2", damageEffect2);
         effectInvoker.register("damageEffect_5", damageEffect5);
-        effectInvoker.register("damageEffect_10", damageEffect10);
+        effectInvoker.register("damageEffect_12", damageEffect10);
         effectInvoker.register("manaEffect_2", manaEffect2);
-        effectInvoker.register("manaEffect_4", manaEffect4);
+        effectInvoker.register("manaEffect_5", manaEffect4);
         effectInvoker.register("healthEffect_2", healthEffect2);
         effectInvoker.register("healthEffect_5", healthEffect5);
-        effectInvoker.register("healthEffect_10", healthEffect10);
+        effectInvoker.register("healthEffect_12", healthEffect10);
         effectInvoker.register("poisonEffect_4_3", poisonEffect4_3);
-        effectInvoker.register("passiveHealingEffect_3_5", passiveHealingEffect3_5);
+        effectInvoker.register("passiveHealingEffect_3_4", passiveHealingEffect3_5);
 
         return effectInvoker;
     }

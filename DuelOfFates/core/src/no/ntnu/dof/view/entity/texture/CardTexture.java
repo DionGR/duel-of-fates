@@ -20,11 +20,11 @@ public class CardTexture {
     public CardTexture(String cardName, float height) {
         this.height = height;
         this.width = height * 0.708f;
-        background = new TextureRegion(new Texture(Gdx.files.internal("cards/" + "background.png")), 214, 96, 591, 834);
-        nameFlag = new TextureRegion(new Texture(Gdx.files.internal("cards/" + "nameFlag.png")), 214, 96, 591, 834);
-        line = new TextureRegion(new Texture(Gdx.files.internal("cards/" + "line.png")), 214, 96, 591, 834);
-        mana = new Texture(Gdx.files.internal("cards/" + "mana.png"));
-        image = new Texture(Gdx.files.internal("cards/" + "Card1" + ".png"));
+        background = new TextureRegion(new Texture("cardBackground.png"), 214, 96, 591, 834);
+        nameFlag = new TextureRegion(new Texture("cardNameFlag.png"), 214, 96, 591, 834);
+        line = new TextureRegion(new Texture("cardLine.png"), 214, 96, 591, 834);
+        mana = new Texture(Gdx.files.internal("mana.png"));
+        image = new Texture("cardContentDagger.png");
     }
 
     public void draw(Batch batch, float x, float y) {

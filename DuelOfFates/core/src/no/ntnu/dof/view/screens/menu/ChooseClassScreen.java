@@ -45,7 +45,7 @@ public class ChooseClassScreen extends ReturnableScreen {
         chooseClassScreenComponent.inject(this);
 
         this.user = game.getCurrentUser();
-        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
+        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
         this.stage = new Stage(new ScreenViewport(), this.batch);
 
         setupUI();
@@ -128,6 +128,8 @@ public class ChooseClassScreen extends ReturnableScreen {
     @Override
     public void dispose() {
         stage.dispose();
+        skin.dispose();
+        contentTable.clear();
         super.dispose();
     }
 }

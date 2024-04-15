@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.util.Arrays;
+
 import no.ntnu.dof.controller.ScreenController;
 
 public class LoginScreen implements Screen {
@@ -24,6 +26,9 @@ public class LoginScreen implements Screen {
     private SpriteBatch spriteBatch;
     private AssetManager assetManager;
     private LoginViewListener listener;
+    private TextField emailField;
+    private TextField passwordField;
+    private Skin skin;
 
     public LoginScreen(SpriteBatch spriteBatch, AssetManager assetManager) {
         this.spriteBatch = spriteBatch;
@@ -34,17 +39,23 @@ public class LoginScreen implements Screen {
     public void initializeUI() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new Skin(Gdx.files.internal("UISkin.json"));
 
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
-        feedbackLabel = new Label("", skin);
-        table.add(feedbackLabel).padBottom(20).row();
+        Label headline = new Label("Log in / Sign up", skin);
+        table.add(headline).padTop(10).padBottom(30).center().row();
 
-        TextField emailField = new TextField("admin@gmail.com", skin);
-        TextField passwordField = new TextField("admin123", skin);
+        feedbackLabel = new Label("", skin);
+        table.add(feedbackLabel).padBottom(20).colspan(2).center().row();
+
+        float fieldButtonWidth = 250f;
+        float buttonHeight = 50f;
+
+        emailField = new TextField("", skin);
+        passwordField = new TextField("", skin);
         passwordField.setPasswordCharacter('*');
         passwordField.setPasswordMode(true);
 
@@ -58,21 +69,39 @@ public class LoginScreen implements Screen {
             }
         });
 
-        table.add(emailField).fillX().uniformX().padBottom(10).row();
-        table.add(passwordField).fillX().uniformX().padBottom(10).row();
-        table.add(loginButton).fillX().uniformX();
+        table.add(emailField).width(fieldButtonWidth).padBottom(10).row();
+        table.add(passwordField).width(fieldButtonWidth).padBottom(10).row();
+        table.add(loginButton).width(fieldButtonWidth).height(buttonHeight).padBottom(10).row();
+
+        Label signUpPlaceholder = new Label("", skin);
+        table.add(signUpPlaceholder).width(fieldButtonWidth).height(buttonHeight).row();
+    }
+
+    public void showLoginFailed(String message) {
+        Gdx.app.postRunnable(() -> {
+            feedbackLabel.setText("Login failed, please sign up! " + message);
+            TextButton signUpButton = new TextButton("Sign up", skin);
+            signUpButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    listener.onSignUpAttempt(emailField.getText().trim(), passwordField.getText().trim());
+                }
+            });
+
+            Table table = (Table) stage.getActors().first();
+            table.getCells().peek().setActor(signUpButton);
+            signUpButton.getLabel().setFontScale(1.0f);  // Adjust font scale if needed to match the login button
+            table.invalidateHierarchy();  // Refresh layout to apply changes.
+        });
     }
 
     public interface LoginViewListener {
         void onLoginAttempt(String email, String password);
+        void onSignUpAttempt(String email, String password);
     }
 
     public void setLoginViewListener(LoginViewListener listener) {
         this.listener = listener;
-    }
-
-    public void showLoginFailed(String message) {
-        Gdx.app.postRunnable(() -> feedbackLabel.setText("Login failed: " + message));
     }
 
     private void attemptLogin(String email, String password) {
@@ -116,8 +145,10 @@ public class LoginScreen implements Screen {
 
     @Override
     public void dispose() {
-        // Dispose only the Stage, as it's exclusive to LoginScreen.
         stage.dispose();
-        // Do NOT dispose spriteBatch or assets from assetManager here.
+        spriteBatch.dispose();
+        skin.dispose();
+        assetManager.dispose();
+        skin.dispose();
     }
 }

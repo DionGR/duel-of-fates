@@ -10,6 +10,6 @@ public class TurnEvent extends GameEvent<TurnListener> {
     }
 
     public void fire() {
-        listeners.forEach(l -> l.onTurn(player));
+        listeners.removeIf(l -> l.onTurn(player));
     }
 }

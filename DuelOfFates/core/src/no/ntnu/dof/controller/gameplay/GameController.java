@@ -1,18 +1,20 @@
 package no.ntnu.dof.controller.gameplay;
 
+import com.badlogic.gdx.Gdx;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import lombok.Getter;
-import no.ntnu.dof.controller.ScreenController;
-import no.ntnu.dof.controller.gameplay.player.ClickHostPlayerController;
+import no.ntnu.dof.controller.gameplay.player.HostPlayerController;
 import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.controller.gameplay.player.RemotePlayerController;
 import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
+import no.ntnu.dof.view.entity.view.HostPlayerView;
 
 public class GameController {
     @Getter
@@ -21,38 +23,37 @@ public class GameController {
 
     public GameController(Player host, Player opponent, GameComms comms) {
         this.game = new Game(host, opponent);
-        this.playerControllers = new HashMap<>();
+        if (game.getNextPlayer().getName().equals(comms.getPlayerLastTurn())) {
+            game.finalizeTurn();
+        }
 
-        ClickHostPlayerController hostController = ClickHostPlayerController.get();
-        hostController.setPlayer(host, comms);
+        this.playerControllers = new HashMap<>();
+        HostPlayerController hostController = new HostPlayerController(host, comms);
         this.playerControllers.put(host, hostController);
+        HostPlayerView.provideClickListener(hostController);
         this.playerControllers.put(opponent, new RemotePlayerController(opponent, comms));
     }
 
     public void gameLoop() {
         while (!game.isOver()) {
-            System.out.println("Turn of " + game.getNextPlayer().getName() + " " + game.getNextPlayer());
+            Gdx.app.log("Game", "Turn of " + game.getNextPlayer().getName() + " " + game.getNextPlayer());
             Player currentPlayer = game.getNextPlayer();
             PlayerController currentPlayerController = playerControllers.get(currentPlayer);
 
-            Optional<Card> turnCard;
-
-            if (currentPlayer.canPlay()) {
-                turnCard = currentPlayerController.choosePlay();
-            } else {
-                turnCard = Optional.empty();
-                System.out.println("Player cannot afford to play any card, finalizing turn.");
-            }
-
+            Optional<Card> turnCard = currentPlayerController.choosePlay();
             if (turnCard.isPresent()) {
                 game.playCard(turnCard.get());
             } else {
                 game.finalizeTurn();
-                System.out.println("Turn finalized.");
+                Gdx.app.log("Game", "Turn finalized.");
             }
         }
 
-        System.out.println("Game over");
-        ScreenController.popScreen(); // TODO display game result
+        // TODO: Callbacks and so on?
+        if (this.game.getHost().isDead()) {
+            Gdx.app.log("Game", "Game over: player lost");
+        } else {
+            Gdx.app.log("Game", "Game over: player won");
+        }
     }
 }

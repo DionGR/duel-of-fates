@@ -11,6 +11,8 @@ public class ArmorEffect extends Effect {
 
     @Override
     public void apply(@NonNull final Player player) {
-        player.getArmor().value -= delta;
+        int effectedArmor = player.getArmor().value - delta;
+        int maxArmor = player.getPlayerClass().getMaxArmor().value;
+        player.getArmor().value = Integer.min(effectedArmor, maxArmor);
     }
 }

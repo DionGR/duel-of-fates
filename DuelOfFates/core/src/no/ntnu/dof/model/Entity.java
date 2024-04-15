@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public abstract class Entity {
-    private final String name;
+    private String name;
 
+    public Entity() {}
 }
