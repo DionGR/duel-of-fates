@@ -94,8 +94,11 @@ public abstract class BaseScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         batch.dispose();
+        stage.clear();
         stage.dispose();
+
         background.getTexture().dispose();
+
         soundOnTexture.dispose();
         soundOffTexture.dispose();
     }

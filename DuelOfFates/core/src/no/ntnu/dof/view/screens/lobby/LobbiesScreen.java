@@ -197,8 +197,13 @@ public class LobbiesScreen extends ReturnableScreen {
 
     @Override
     public void dispose() {
-        stage.dispose();
         super.dispose();
+        stage.dispose();
+        skin.dispose();
+        contentTable.clear();
+        createLobbyBtn.clear();
+        matchHistoryBtn.clear();
+        lobbiesTitle.clear();
     }
 
 }
