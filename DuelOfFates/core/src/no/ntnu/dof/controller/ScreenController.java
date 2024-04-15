@@ -81,17 +81,11 @@ public class ScreenController {
     }
 
     public static void transitionToGame(Player host, Player guest, GameComms comms) {
+        popScreen();
         GameController gameController = new GameController(host, guest, comms);
         GameScreen gameScreen = new GameScreen(gameController.getGame());
         new Thread(gameController::gameLoop).start();
-//        Gdx.app.postRunnable(gameController::gameLoop);
         pushScreen(gameScreen);
-    }
-
-    public static void endGameTransition() {
-        while (screens.size() > 2) {
-            screens.pop().dispose();
-        }
     }
 }
 
