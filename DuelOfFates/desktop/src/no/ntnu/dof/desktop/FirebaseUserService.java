@@ -1,14 +1,12 @@
 package no.ntnu.dof.desktop;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import no.ntnu.dof.controller.network.UserService;
@@ -16,7 +14,6 @@ import no.ntnu.dof.model.GameSummary;
 import no.ntnu.dof.model.User;
 
 public class FirebaseUserService implements UserService {
-    private DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
 
     @Override
     public void uploadGameSummary(String userId, GameSummary summary, GameSummaryCallback callback) {
@@ -32,10 +29,11 @@ public class FirebaseUserService implements UserService {
         });
     }
 
+    @Override
     public void addUser(User user, UserCreationCallback callback) {
+        DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
+        String userId = user.getId();
         DatabaseReference newUserRef = usersReference.child(userId);
-        String userId = user.getId(); // Assuming User class has a getId() method that returns a String.
-        DatabaseReference newUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
         newUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -50,7 +48,6 @@ public class FirebaseUserService implements UserService {
                         }
                     });
                 } else {
-                    // Handle the case where a user with the same ID already exists
                     callback.onFailure(new IllegalStateException("A user with this ID already exists."));
                 }
             }
@@ -62,8 +59,10 @@ public class FirebaseUserService implements UserService {
         });
     }
 
+
     @Override
     public void fetchUserGameSummaries(String userId, GameSummariesCallback callback) {
+        DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
         DatabaseReference gameHistoryRef = usersReference.child(userId).child("gameshistory");
         gameHistoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -85,6 +84,7 @@ public class FirebaseUserService implements UserService {
 
     @Override
     public void fetchUserById(String userId, UserCallback callback) {
+        DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
         DatabaseReference userRef = usersReference.child(userId);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

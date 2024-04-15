@@ -6,9 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import com.google.firebase.database.ValueEventListener;
 
 import no.ntnu.dof.controller.network.UserService;
@@ -20,7 +18,6 @@ public class FirebaseUserService implements UserService {
 
     @Override
     public void uploadGameSummary(String userId, GameSummary summary, GameSummaryCallback callback) {
-        DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
         DatabaseReference gameHistoryRef = usersReference.child(userId).child("gameshistory");
         String key = gameHistoryRef.push().getKey(); // Generate a unique key for the new game summary
         gameHistoryRef.child(key).setValue(summary, (databaseError, databaseReference) -> {

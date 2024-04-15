@@ -13,13 +13,13 @@ import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.view.screens.lobby.HistoryScreen;
 
 public class HistoryController {
-    private List<GameSummary> matches;
+    private List<GameSummary> matches = new ArrayList<>();
     private HistoryScreen historyScreen;
     private User user;
 
-    public HistoryController(User user, HistoryScreen historyScreen){
+    public HistoryController(User currentUser, HistoryScreen historyScreen) {
         this.historyScreen = historyScreen;
-        this.user = user;
+        this.user = currentUser;
         //createMockGameSummary();
         fetchGameSummaries();
         historyScreen.showGameSummaries(matches); // Call the method here
@@ -44,44 +44,43 @@ public class HistoryController {
         ServiceLocator.getUserService().fetchUserGameSummaries(user.getId(), new UserService.GameSummariesCallback() {
             @Override
             public void onSuccess(List<GameSummary> summaries) {
-                matches = summaries;
-                fetchGuestUsers(0);
-
+                if (summaries != null && !summaries.isEmpty()) {
+                    matches = summaries;
+                    fetchGuestUsers(0); // Start fetching guest details
+                } else {
+                    Gdx.app.log("History", "No game summaries found.");
+                    Gdx.app.postRunnable(() -> historyScreen.showGameSummaries(new ArrayList<>()));
+                }
             }
 
             @Override
             public void onFailure(Exception e) {
                 Gdx.app.log("History", "Failed to fetch game summaries: " + e.getMessage());
+                Gdx.app.postRunnable(() -> historyScreen.showGameSummaries(new ArrayList<>(matches)));
             }
         });
     }
 
     private void fetchGuestUsers(int index) {
-        if (index >= matches.size()) {
-            historyScreen.showGameSummaries(new ArrayList<>(matches));
-            return;
+        if (index < matches.size()) {
+            GameSummary summary = matches.get(index);
+            Gdx.app.log("History", "Fetching game summaries for user: " + user.getId());
+            ServiceLocator.getUserService().fetchUserById(summary.getGuestId(), new UserService.UserCallback() {
+                @Override
+                public void onSuccess(User guest) {
+                    summary.setUserGuest(guest);
+                    summary.setUserHost(user);
+                    fetchGuestUsers(index + 1); // Recursive call to fetch the next guest
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    Gdx.app.log("History", "Failed to fetch guest details: " + e.getMessage());
+                    fetchGuestUsers(index + 1); // Continue with next guest despite the error
+                }
+            });
+        } else {
+            Gdx.app.postRunnable(() -> historyScreen.showGameSummaries(new ArrayList<>(matches))); // Update UI only after all data is ready
         }
-
-        GameSummary summary = matches.get(index);
-        ServiceLocator.getUserService().fetchUserById(summary.getGuestId(), new UserService.UserCallback() {
-            @Override
-            public void onSuccess(User guest) {
-                summary.setUserGuest(guest);
-                fetchGuestUsers(index + 1); // Fetch next guest
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Gdx.app.log("History", "Failed to fetch guest details: " + e.getMessage());
-                fetchGuestUsers(index + 1); // Continue with next guest despite the error
-            }
-        });
-    }
-
-    public void showMockGameSummary() {
-        historyScreen.showGameSummaries(matches);
-    }
-    public List<GameSummary> getMatches() {
-        return matches;
     }
 }

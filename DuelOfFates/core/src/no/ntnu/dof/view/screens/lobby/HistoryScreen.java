@@ -3,12 +3,11 @@ package no.ntnu.dof.view.screens.lobby;
 import androidx.annotation.NonNull;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import java.util.List;
 import no.ntnu.dof.model.GameSummary;
 import no.ntnu.dof.model.User;
@@ -44,35 +43,57 @@ public class HistoryScreen extends ReturnableScreen {
 
     public void showGameSummaries(@NonNull List<GameSummary> gameSummaries) {
         Table contentTable = new Table();
-        contentTable.setWidth(stage.getWidth());
-        contentTable.align(Align.center | Align.top);
-        contentTable.setPosition(0, Gdx.graphics.getHeight());
+        contentTable.top(); // Align content to the top of the table
 
-        title = new Label("Match History", skin, "default");
-        contentTable.add(title).padTop(20).row();
+        if (gameSummaries.isEmpty()) {
+            Label noHistoryLabel = new Label("No match history yet", skin, "default");
+            noHistoryLabel.setColor(Color.GRAY);
+            contentTable.add(noHistoryLabel).center().padTop(50);
+        } else {
+            for (GameSummary summary : gameSummaries) {
+                Table summaryTable = new Table(skin);
+                summaryTable.setBackground("default-pane");
+                summaryTable.pad(10);
 
-        for (GameSummary summary : gameSummaries) {
-            Table summaryTable = new Table(skin);
-            summaryTable.setBackground("default-pane");
-            summaryTable.pad(10);
+                Label hostLabel = new Label("Host: " + summary.getUserHost().getName(), skin);
+                Label guestLabel = new Label("Guest: " + summary.getUserGuest().getName(), skin);
+                Label winLabel = new Label("Won!", skin);
+                winLabel.setColor(Color.GREEN);
+                Label loseLabel = new Label("Lost!", skin);
+                loseLabel.setColor(Color.RED);
 
-            Label hostLabel = new Label("Host: " + summary.getUserHost().getName(), skin);
-            Label guestLabel = new Label("Guest: " + summary.getUserGuest().getName(), skin);
-            Label winLabel = new Label("Won!", skin);
-            winLabel.setColor(Color.GREEN);
-            Label loseLabel = new Label("Lost!", skin);
-            loseLabel.setColor(Color.RED);
+                Label hostResult = summary.getHostWin() ? winLabel : loseLabel;
+                Label guestResult = summary.getGuestWin() ? winLabel : loseLabel;
 
-            Label hostResult = summary.getHostWin() ? winLabel : loseLabel;
-            Label guestResult = summary.getGuestWin() ? winLabel : loseLabel;
+                summaryTable.add(hostLabel).padBottom(5).row();
+                summaryTable.add(hostResult).padBottom(5).row();
+                summaryTable.add(guestLabel).padBottom(5).row();
+                summaryTable.add(guestResult).padBottom(5).row();
 
-            summaryTable.add(hostLabel).padBottom(5).row();
-            summaryTable.add(hostResult).padBottom(5).row();
-            summaryTable.add(guestLabel).padBottom(5).row();
-            summaryTable.add(guestResult).padBottom(5).row();
-
-            contentTable.add(summaryTable).padTop(10).row();
+                contentTable.add(summaryTable).fill().expandX().padTop(10).row();
+            }
         }
-        stage.addActor(contentTable);
+
+        // Create a ScrollPane for the contentTable
+        ScrollPane scrollPane = new ScrollPane(contentTable, skin);
+        scrollPane.setFadeScrollBars(false);
+        scrollPane.setScrollingDisabled(true, false); // Disable horizontal scrolling, enable vertical
+        scrollPane.getStyle().background = null; // Make the background of the ScrollPane transparent
+
+        // Outer table to position the ScrollPane and the title
+        Table outerTable = new Table();
+        outerTable.setFillParent(true);
+        outerTable.padTop(30).padBottom(50); // Adjust the top and bottom padding
+
+        // Add a title label above the ScrollPane
+        Label titleLabel = new Label("Match History", skin, "default");
+        titleLabel.setFontScale(1.5f);  // Increase the font size of the title
+        outerTable.add(titleLabel).center().padBottom(20).row();  // Add some padding below the title
+
+        // Add the ScrollPane to the outer table
+        outerTable.add(scrollPane).width(400).expandY().fillY().center();
+
+        stage.clear(); // Clear previous actors
+        stage.addActor(outerTable); // Add the outer table to the stage
     }
 }
