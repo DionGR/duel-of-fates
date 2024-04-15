@@ -117,10 +117,10 @@ public class DeckModule {
     @Provides
     @Named("tutorialDeck")
     public Deck provideTutorialDeck(
-            @Named("attackCard_2") Card minorDamageCard,
-            @Named("healthCard_2") Card minorHealCard,
-            @Named("healthCard_5") Card mediumHealCard,
-            @Named("attackCard_5") Card mediumDamageCard,
+            @Named("attackCard_4") Card minorDamageCard,
+            @Named("healthCard_4") Card minorHealCard,
+            @Named("healthCard_8") Card mediumHealCard,
+            @Named("attackCard_8") Card mediumDamageCard,
             @Named("manaCard_2") Card manaCard
     ) {
         List<Card> cards = new ArrayList<>();
