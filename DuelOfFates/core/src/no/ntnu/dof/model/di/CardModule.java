@@ -111,16 +111,6 @@ public class CardModule {
     }
 
     @Provides
-    @Named("refillHandCard")
-    public Card provideRefillHandCard() {
-        return Card.builder()
-                .name("refillHandCard")
-                .cost(new Mana(5))
-                .hostEffectName("refillHandEffect")
-                .build();
-    }
-
-    @Provides
     @Named("refillManaCard")
     public Card provideRefillManaCard() {
         return Card.builder()

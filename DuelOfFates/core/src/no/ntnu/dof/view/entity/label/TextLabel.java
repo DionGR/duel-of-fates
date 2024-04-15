@@ -14,7 +14,7 @@ public class TextLabel{
     private Label text;
 
     public TextLabel(String string, float x, float y, float width, float height, float scale, Color color){
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("UISkin.json"));
         BitmapFont font = skin.getFont("default-font");
         text = new Label(string, new Label.LabelStyle(font, color));
         text.setBounds(x,y,width,height);
