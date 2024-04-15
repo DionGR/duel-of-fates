@@ -41,7 +41,7 @@ public class LobbiesScreen extends ReturnableScreen {
     @Override
     public void show() {
         super.show();
-        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
+        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
         this.stage = new Stage(new ScreenViewport(), this.batch);
 
         // Making a centered table to store title and buttons

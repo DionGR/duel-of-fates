@@ -22,7 +22,7 @@ public class HistoryScreen extends ReturnableScreen {
 
     public HistoryScreen() {
         super();
-        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
+        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
         this.stage = new Stage(new ScreenViewport(), this.batch);
         Gdx.input.setInputProcessor(stage);
     }

@@ -82,7 +82,7 @@ public class GameScreen implements Screen {
         float midX = Gdx.graphics.getWidth() / 2.0f;
         float midY = Gdx.graphics.getHeight() / 2.0f;
 
-        Image resultWindow = new Image("./assets/resultWindow.png", 0.5f);
+        Image resultWindow = new Image("resultWindow.png", 0.5f);
         resultWindow.setPosition(midX, midY, Align.center);
         stage.addActor(resultWindow);
 
@@ -95,7 +95,7 @@ public class GameScreen implements Screen {
         );
         stage.addActor(endLabel.getText());
 
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("UISkin.json"));
         TextButton returnToMenu = new TextButton("Exit", skin, "default");
         returnToMenu.setPosition(midX, midY - returnToMenu.getHeight() * 2, Align.center);
         returnToMenu.addListener(new ClickListener() {
