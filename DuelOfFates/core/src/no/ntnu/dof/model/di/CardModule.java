@@ -15,7 +15,7 @@ public class CardModule {
     public Card provideAttackCard2() {
         return Card.builder()
                 .name("attackCard_2")
-                .cost(new Mana(2))
+                .cost(new Mana(1))
                 .opponentEffectName("damageEffect_2")
                 .build();
     }
@@ -36,7 +36,7 @@ public class CardModule {
         return Card.builder()
                 .name("attackCard_12")
                 .cost(new Mana(6))
-                .opponentEffectName("damageEffect_10")
+                .opponentEffectName("damageEffect_12")
                 .build();
     }
 

@@ -35,7 +35,7 @@ public class DeckModule {
         cards.add(smallDamageCard);
         cards.add(healCard);
         cards.add(surpriseAttackCard);
-        cards.addAll(cards);  // Adding the same set of cards to make it 16 cards
+        cards.addAll(cards);
 
         return Deck.builder()
                 .activeCards(cards)
@@ -52,16 +52,16 @@ public class DeckModule {
             @Named("poisonCard_4_3") Card poisonCard,
             @Named("passiveHealingCard_3_4") Card passiveHealingCard,
             @Named("refillManaCard") Card refillManaCard,
-            @Named("refillHandCard") Card refillHandCard,
             @Named("attackCard_5") Card moderateDamageCard,
-            @Named("manaCard_2") Card manaCard2
-    ) {
+            @Named("manaCard_2") Card manaCard2,
+            @Named("attackCard_12") Card highDamageCard
+            ) {
         List<Card> cards = new ArrayList<>();
         cards.add(manaCard4);
         cards.add(poisonCard);
         cards.add(passiveHealingCard);
         cards.add(refillManaCard);
-        cards.add(refillHandCard);
+        cards.add(highDamageCard);
         cards.add(moderateDamageCard);
         cards.add(moderateDamageCard);
         cards.add(manaCard2);
@@ -84,7 +84,7 @@ public class DeckModule {
             @Named("extendedHealingCard_3_4") Card extendedHealingCard,
             @Named("attackCard_12") Card devastatingAttackCard,
             @Named("healthCard_2") Card minorHealCard,
-            @Named("refillManaCard") Card manaRefillCard
+            @Named("attackCard_12") Card highDamageCard
     ) {
         List<Card> cards = new ArrayList<>();
         cards.add(heavyPoisonCard);
@@ -93,8 +93,8 @@ public class DeckModule {
         cards.add(extendedHealingCard);
         cards.add(devastatingAttackCard);
         cards.add(minorHealCard);
-        cards.add(minorHealCard);
-        cards.add(manaRefillCard);
+        cards.add(highDamageCard);
+        cards.add(multiPoisonCard);
         cards.addAll(cards);
 
         return Deck.builder()
