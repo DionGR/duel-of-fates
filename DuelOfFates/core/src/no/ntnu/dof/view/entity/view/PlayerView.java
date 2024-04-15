@@ -23,7 +23,7 @@ public class PlayerView extends Group {
 
     public PlayerView(Player player) {
         this.player = player;
-        graphics = new Image("player.png", 0.30f);
+        graphics = new Image(player.getPlayerClass().getName() + ".png", 0.30f);
         this.addActor(graphics);
 
         manaPool = new Group();
