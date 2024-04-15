@@ -13,6 +13,10 @@ public interface UserService {
 
     void uploadGameSummary(String userId, GameSummary summary, GameSummaryCallback callback);
 
+    void fetchUserGameSummaries(String userId, GameSummariesCallback callback);
+
+    void fetchUserById(String userId, UserCallback callback);
+
     //List<GameSummary> fetchUserGameSummaries(String userId);
     interface UserCreationCallback {
         void onSuccess(User user);
@@ -24,8 +28,13 @@ public interface UserService {
         void onFailure(Exception e);
     }
 
-    interface UserDeletionCallback {
-        void onSuccess();
+    interface GameSummariesCallback {
+        void onSuccess(List<GameSummary> summaries);
+        void onFailure(Exception e);
+    }
+
+    interface UserCallback {
+        void onSuccess(User user);
         void onFailure(Exception e);
     }
 }

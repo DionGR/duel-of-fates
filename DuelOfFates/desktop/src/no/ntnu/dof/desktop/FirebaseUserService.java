@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.google.firebase.database.ValueEventListener;
 
@@ -14,6 +15,8 @@ import no.ntnu.dof.model.GameSummary;
 import no.ntnu.dof.model.User;
 
 public class FirebaseUserService implements UserService {
+    private DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
+
     @Override
     public void uploadGameSummary(String userId, GameSummary summary, GameSummaryCallback callback) {
         DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
@@ -47,6 +50,48 @@ public class FirebaseUserService implements UserService {
                     });
                 } else {
                     callback.onFailure(new IllegalStateException("A user with this ID already exists."));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onFailure(databaseError.toException());
+            }
+        });
+    }
+
+    @Override
+    public void fetchUserGameSummaries(String userId, GameSummariesCallback callback) {
+        DatabaseReference gameHistoryRef = usersReference.child(userId).child("gameshistory");
+        gameHistoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<GameSummary> summaries = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    GameSummary summary = snapshot.getValue(GameSummary.class);
+                    summaries.add(summary);
+                }
+                callback.onSuccess(summaries);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onFailure(databaseError.toException());
+            }
+        });
+    }
+
+    @Override
+    public void fetchUserById(String userId, UserCallback callback) {
+        DatabaseReference userRef = usersReference.child(userId);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    callback.onSuccess(user);
+                } else {
+                    callback.onFailure(new Exception("User not found"));
                 }
             }
 

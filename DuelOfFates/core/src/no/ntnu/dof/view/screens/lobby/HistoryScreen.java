@@ -45,7 +45,7 @@ public class HistoryScreen extends ReturnableScreen {
         stage.dispose();
     }
 
-    public void showMockGameSummaries(@NonNull List<GameSummary> gameSummaries) {
+    public void showGameSummaries(@NonNull List<GameSummary> gameSummaries) {
         Table contentTable = new Table();
         contentTable.setWidth(stage.getWidth());
         contentTable.align(Align.center | Align.top);
