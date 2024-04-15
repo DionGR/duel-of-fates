@@ -101,4 +101,28 @@ public class DeckModule {
                 .activeCards(cards)
                 .build();
     }
+
+    /**
+     * Creates a deck for the tutorial
+     */
+    @Provides
+    @Named("tutorialDeck")
+    public Deck provideTutorialDeck(
+            @Named("attackCard_2") Card minorDamageCard,
+            @Named("healthCard_2") Card minorHealCard,
+            @Named("healthCard_5") Card mediumHealCard,
+            @Named("attackCard_5") Card mediumDamageCard,
+            @Named("manaCard_2") Card manaCard
+    ) {
+        List<Card> cards = new ArrayList<>();
+        cards.add(minorDamageCard);
+        cards.add(minorHealCard);
+        cards.add(mediumHealCard);
+        cards.add(mediumDamageCard);
+        cards.add(manaCard);
+
+        return Deck.builder()
+                .activeCards(cards)
+                .build();
+    }
 }

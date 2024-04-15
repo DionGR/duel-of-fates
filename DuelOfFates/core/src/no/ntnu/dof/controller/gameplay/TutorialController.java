@@ -1,5 +1,7 @@
 package no.ntnu.dof.controller.gameplay;
 
+import com.badlogic.gdx.Gdx;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +18,7 @@ import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
+import no.ntnu.dof.view.entity.view.HostPlayerView;
 import no.ntnu.dof.view.screens.game.TutorialScreen;
 
 @Getter
@@ -23,26 +26,25 @@ public class TutorialController {
     private final Map<Player, PlayerController> playerControllers;
 
     @Inject
-    @Named("hostTutorialPlayer")
-    Player host;
-    @Inject
-    @Named("botTutorialPlayer")
-    Player bot;
-    @Inject
     @Named("tutorialGame")
     Game game;
     @Inject
     @Named("tutorialScreen")
     TutorialScreen screen;
+    private Player host;
+    private Player bot;
 
 
     public TutorialController() {
+        ClickPlayerController hostController = new ClickPlayerController();
+        HostPlayerView.provideClickListener(hostController);
+
         TutorialComponent tutorialComponent = DaggerTutorialComponent.create();
         tutorialComponent.inject(this);
 
         this.playerControllers = new HashMap<>();
-
-        ClickPlayerController hostController = new ClickPlayerController();
+        this.host = game.getHost();
+        this.bot = game.getOpponent();
         this.playerControllers.put(this.host, hostController);
         this.playerControllers.put(this.bot, new BotTutorialController());
     }
@@ -65,11 +67,10 @@ public class TutorialController {
             if (turnCard.isPresent()) {
                 game.playCard(turnCard.get());
             } else {
-
                 turn++;
                 TutorialTurn(turn);
                 game.finalizeTurn();
-                System.out.println("Turn finalized.");
+                Gdx.app.log("Game", "Turn finalized.");
             }
         }
     }
