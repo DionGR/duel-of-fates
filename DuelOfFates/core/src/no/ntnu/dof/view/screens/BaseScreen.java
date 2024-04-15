@@ -27,21 +27,47 @@ public abstract class BaseScreen extends ScreenAdapter {
         background = new Sprite(backgroundTexture);
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-
         // Setting sound buttons
         soundOnTexture = new Texture(Gdx.files.internal("soundOn.png"));
         soundOffTexture = new Texture(Gdx.files.internal("soundOff.png"));
 
+        soundBtn = new Sprite(soundOnTexture);
         soundBtn.setSize(60,60);
         soundBtn.setPosition(10,10);
         soundBtnBounds = new Rectangle(soundBtn.getX(),soundBtn.getY(),soundBtn.getWidth(),soundBtn.getHeight());
-
     }
+
+//    protected void handleSoundButtonInput() {
+//        if (Gdx.input.justTouched()) {
+//            float touchX = Gdx.input.getX();
+//            float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
+//            if (soundBtnBounds.contains(touchX,touchY)) {
+//                // screenController.toggleSound();
+//            }
+//        }
+//    }
+
+//    public void changeSoundIcon() {
+//        if (screencontroller.getSoundBool()) {
+//            Sprite newSprite = new Sprite(soundOffTexture);
+//            newSprite.setPosition(soundBtn.getX(), soundBtn.getY());
+//            newSprite.setSize(soundBtn.getWidth(), soundBtn.getHeight());
+//            soundBtn = newSprite;
+//        } else {
+//            Sprite newSprite = new Sprite(soundOffTexture);
+//            newSprite.setPosition(soundBtn.getX(), soundBtn.getY());
+//            newSprite.setSize(soundBtn.getWidth(), soundBtn.getHeight());
+//            soundBtn = newSprite;
+//        }
+//    }
+
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen
         batch.begin();
         background.draw(batch); // Draw the background
+        soundBtn.draw(batch); // Draw sound button
         batch.end();
     }
 

@@ -19,7 +19,16 @@ public class SoundController {
         return isSoundOn;
     }
 
-    public void setSoundOn(boolean soundOn) {
-        isSoundOn = soundOn;
+    public void setSoundBool(boolean soundBool) {
+        isSoundOn = soundBool;
+    }
+
+    public void toggleSound() {
+        if (isSoundOn) {
+            music.pause();
+        } else {
+            music.play();
+        }
+        isSoundOn = !isSoundOn;
     }
 }
