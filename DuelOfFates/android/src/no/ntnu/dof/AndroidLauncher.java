@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import no.ntnu.dof.android.FirebaseAuthImpl;
 import no.ntnu.dof.android.FirebaseGameService;
 import no.ntnu.dof.android.FirebaseLobbyService;
+import no.ntnu.dof.android.FirebaseUserService;
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.network.ServiceLocator;
 
@@ -24,6 +25,7 @@ public class AndroidLauncher extends AndroidApplication {
 		ServiceLocator.provideAuthService(new FirebaseAuthImpl());
 		ServiceLocator.provideLobbyService(new FirebaseLobbyService());
 		ServiceLocator.provideGameService(new FirebaseGameService());
+		ServiceLocator.provideUserService(new FirebaseUserService());
 
 		initialize(new DuelOfFates(), config);
 	}

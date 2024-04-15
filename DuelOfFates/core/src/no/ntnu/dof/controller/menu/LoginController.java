@@ -41,6 +41,25 @@ public class LoginController implements LoginScreen.LoginViewListener {
         }
     }
 
+    @Override
+    public void onSignUpAttempt(String email, String password) {
+        if (!email.isEmpty() && !password.isEmpty()) {
+            ServiceLocator.getAuthService().signUp(email, password, new AuthCallback() {
+                @Override
+                public void onSuccess() {
+                    Gdx.app.postRunnable(() -> loginSuccess());
+                }
+
+                @Override
+                public void onError(String message) {
+                    Gdx.app.postRunnable(() -> loginScreen.showLoginFailed("Sign up failed: " + message));
+                }
+            });
+        } else {
+            Gdx.app.postRunnable(() -> loginScreen.showLoginFailed("Email and password cannot be empty."));
+        }
+    }
+
     public void initiateLogout() {
         this.application.setCurrentUser(null);
         ServiceLocator.getAuthService().signOut();
