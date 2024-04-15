@@ -60,20 +60,6 @@ public class GameLobbyController implements LobbyViewListener {
     }
 
     public void startGame(){
-        // TODO: REMOVE TEST UPLOAD GAME SUMMARY
-        GameSummary gameSummary = new GameSummary("KFhL8bcroNMchIO9eO6SMqObuno1", "OHAFibVjKiRMgUgQrhLRQR4FNzf1", true, false);
-        ServiceLocator.getUserService().uploadGameSummary("KFhL8bcroNMchIO9eO6SMqObuno1", gameSummary, new UserService.GameSummaryCallback() {
-            @Override
-            public void onSuccess() {
-                Gdx.app.log("Game", "Game summary uploaded successfully.");
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Gdx.app.log("Game", "Failed to upload game summary: " + e.getMessage());
-            }
-        });
-        // TODO END
 
         if (gameLobby.getGuest() == null) {
             lobbyScreen.showError("A second player is required to start the game.");
