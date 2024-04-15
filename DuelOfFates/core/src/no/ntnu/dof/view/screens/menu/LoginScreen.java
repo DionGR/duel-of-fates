@@ -146,5 +146,9 @@ public class LoginScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        spriteBatch.dispose();
+        skin.dispose();
+        assetManager.dispose();
+        skin.dispose();
     }
 }
