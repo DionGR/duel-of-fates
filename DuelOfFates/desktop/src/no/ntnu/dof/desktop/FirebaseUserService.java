@@ -10,25 +10,34 @@ import java.util.Map;
 import com.google.firebase.database.ValueEventListener;
 
 import no.ntnu.dof.controller.network.UserService;
+import no.ntnu.dof.model.GameSummary;
 import no.ntnu.dof.model.User;
 
 public class FirebaseUserService implements UserService {
-    private final DatabaseReference usersReference;
-
-    public FirebaseUserService() {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        usersReference = firebaseDatabase.getReference("users");
+    @Override
+    public void uploadGameSummary(String userId, GameSummary summary, GameSummaryCallback callback) {
+        DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
+        DatabaseReference gameHistoryRef = usersReference.child(userId).child("gameshistory");
+        String key = gameHistoryRef.push().getKey(); // Generate a unique key for the new game summary
+        gameHistoryRef.child(key).setValue(summary, (databaseError, databaseReference) -> {
+            if (databaseError == null) {
+                callback.onSuccess();
+            } else {
+                callback.onFailure(databaseError.toException());
+            }
+        });
     }
 
     public void addUser(User user, UserCreationCallback callback) {
-        String userId = user.getId(); // Assuming User class has a getId() method that returns a String.
+        DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
+        String userId = user.getId();
         DatabaseReference newUserRef = usersReference.child(userId);
 
         newUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    // No existing data found with the same ID, safe to add new user.
+                    // Add new user if not user exists from before
                     newUserRef.setValue(user, (databaseError, databaseReference) -> {
                         if (databaseError == null) {
                             callback.onSuccess(user);
@@ -37,7 +46,6 @@ public class FirebaseUserService implements UserService {
                         }
                     });
                 } else {
-                    // Handle the case where a user with the same ID already exists
                     callback.onFailure(new IllegalStateException("A user with this ID already exists."));
                 }
             }

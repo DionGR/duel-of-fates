@@ -26,7 +26,7 @@ public class DesktopLauncher {
         ServiceLocator.provideAuthService(new FirebaseAuthImpl());
         ServiceLocator.provideLobbyService(new FirebaseLobbyService());
         ServiceLocator.provideGameService(new FirebaseGameService());
-        //ServiceLocator.provideUserService(new FirebaseUserService());
+        ServiceLocator.provideUserService(new FirebaseUserService());
 
         config.setWindowedMode(640, 360);
         new Lwjgl3Application(new DuelOfFates(), config);

@@ -59,15 +59,15 @@ public class HistoryScreen extends ReturnableScreen {
             summaryTable.setBackground("default-pane");
             summaryTable.pad(10);
 
-            Label hostLabel = new Label("Host: " + summary.getPlayer1().getName(), skin);
-            Label guestLabel = new Label("Guest: " + summary.getPlayer2().getName(), skin);
+            Label hostLabel = new Label("Host: " + summary.getUserHost().getName(), skin);
+            Label guestLabel = new Label("Guest: " + summary.getUserGuest().getName(), skin);
             Label winLabel = new Label("Won!", skin);
             winLabel.setColor(Color.GREEN);
             Label loseLabel = new Label("Lost!", skin);
             loseLabel.setColor(Color.RED);
 
-            Label hostResult = summary.getPlayer1Win() ? winLabel : loseLabel;
-            Label guestResult = summary.getPlayer2Win() ? winLabel : loseLabel;
+            Label hostResult = summary.getHostWin() ? winLabel : loseLabel;
+            Label guestResult = summary.getGuestWin() ? winLabel : loseLabel;
 
             summaryTable.add(hostLabel).padBottom(5).row();
             summaryTable.add(hostResult).padBottom(5).row();
