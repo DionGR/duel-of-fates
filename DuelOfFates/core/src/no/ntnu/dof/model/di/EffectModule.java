@@ -39,20 +39,20 @@ public class EffectModule {
     /* Damage effects */
 
     @Provides
-    @Named("damageEffect_2")
-    public Effect provideDamageEffect2() {
+    @Named("damageEffect_4")
+    public Effect provideDamageEffect4() {
         return DamageEffect.builder()
-                .name("damageEffect_2")
-                .damage(2)
+                .name("damageEffect_4")
+                .damage(4)
                 .build();
     }
 
     @Provides
-    @Named("damageEffect_5")
-    public Effect provideDamageEffect5() {
+    @Named("damageEffect_8")
+    public Effect provideDamageEffect8() {
         return DamageEffect.builder()
-                .name("damageEffect_5")
-                .damage(5)
+                .name("damageEffect_8")
+                .damage(8)
                 .build();
     }
 
@@ -88,20 +88,20 @@ public class EffectModule {
     /* Health effects */
 
     @Provides
-    @Named("healthEffect_2")
-    public Effect provideHealthEffect2() {
+    @Named("healthEffect_4")
+    public Effect provideHealthEffect4() {
         return HealthEffect.builder()
-                .name("healthEffect_2")
-                .delta(-2)
+                .name("healthEffect_4")
+                .delta(-4)
                 .build();
     }
 
     @Provides
-    @Named("healthEffect_5")
-    public Effect provideHealthEffect5() {
+    @Named("healthEffect_8")
+    public Effect provideHealthEffect8() {
         return HealthEffect.builder()
-                .name("healthEffect_5")
-                .delta(-5)
+                .name("healthEffect_8")
+                .delta(-8)
                 .build();
     }
 
@@ -116,22 +116,22 @@ public class EffectModule {
 
     /* Poison Effect */
     @Provides
-    @Named("poisonEffect_4_3")
-    public Effect providePoisonEffect4_3() {
+    @Named("poisonEffect_4_4")
+    public Effect providePoisonEffect4_4() {
         return PoisonEffect.builder()
-                .name("poisonEffect_4_3")
+                .name("poisonEffect_4_4")
                 .damage(4)
-                .duration(3)
+                .duration(4)
                 .build();
     }
 
     /* Passive Healing Effect */
     @Provides
-    @Named("passiveHealingEffect_3_4")
-    public Effect providePassiveHealingEffect3_4() {
+    @Named("passiveHealingEffect_4_4")
+    public Effect providePassiveHealingEffect4_4() {
         return PassiveHealingEffect.builder()
-                .name("passiveHealingEffect_3_4")
-                .health(3)
+                .name("passiveHealingEffect_4_4")
+                .health(4)
                 .duration(4)
                 .build();
     }
@@ -141,32 +141,34 @@ public class EffectModule {
     public EffectInvoker<String, Effect> provideEffectInvoker(
             @Named("refillHandEffect") Effect refillHandEffect,
             @Named("refillManaEffect") Effect refillManaEffect,
-            @Named("damageEffect_2") Effect damageEffect2,
-            @Named("damageEffect_5") Effect damageEffect5,
-            @Named("damageEffect_12") Effect damageEffect10,
+            @Named("damageEffect_4") Effect damageEffect4,
+            @Named("damageEffect_8") Effect damageEffect8,
+            @Named("damageEffect_12") Effect damageEffect12,
             @Named("manaEffect_2") Effect manaEffect2,
-            @Named("manaEffect_5") Effect manaEffect4,
-            @Named("healthEffect_2") Effect healthEffect2,
-            @Named("healthEffect_5") Effect healthEffect5,
-            @Named("healthEffect_12") Effect healthEffect10,
-            @Named("poisonEffect_4_3") Effect poisonEffect4_3,
-            @Named("passiveHealingEffect_3_4") Effect passiveHealingEffect3_5
+            @Named("manaEffect_5") Effect manaEffect5,
+            @Named("healthEffect_4") Effect healthEffect4,
+            @Named("healthEffect_8") Effect healthEffect8,
+            @Named("healthEffect_12") Effect healthEffect12,
+            @Named("poisonEffect_4_4") Effect poisonEffect4_4,
+            @Named("passiveHealingEffect_4_4") Effect passiveHealingEffect4_4
     ) {
 
         EffectInvoker<String, Effect> effectInvoker = new EffectInvoker<>();
 
         effectInvoker.register("refillHandEffect", refillHandEffect);
         effectInvoker.register("refillManaEffect", refillManaEffect);
-        effectInvoker.register("damageEffect_2", damageEffect2);
-        effectInvoker.register("damageEffect_5", damageEffect5);
-        effectInvoker.register("damageEffect_12", damageEffect10);
+        effectInvoker.register("damageEffect_4", damageEffect4);
+        effectInvoker.register("damageEffect_8", damageEffect8);
+        effectInvoker.register("damageEffect_12", damageEffect12);
         effectInvoker.register("manaEffect_2", manaEffect2);
-        effectInvoker.register("manaEffect_5", manaEffect4);
-        effectInvoker.register("healthEffect_2", healthEffect2);
-        effectInvoker.register("healthEffect_5", healthEffect5);
-        effectInvoker.register("healthEffect_12", healthEffect10);
-        effectInvoker.register("poisonEffect_4_3", poisonEffect4_3);
-        effectInvoker.register("passiveHealingEffect_3_4", passiveHealingEffect3_5);
+        effectInvoker.register("manaEffect_5", manaEffect5);
+        effectInvoker.register("healthEffect_4", healthEffect4);
+        effectInvoker.register("healthEffect_8", healthEffect8);
+        effectInvoker.register("healthEffect_12", healthEffect12);
+        effectInvoker.register("poisonEffect_4_4", poisonEffect4_4);
+        effectInvoker.register("passiveHealingEffect_4_4", passiveHealingEffect4_4);
+
+
 
         return effectInvoker;
     }
