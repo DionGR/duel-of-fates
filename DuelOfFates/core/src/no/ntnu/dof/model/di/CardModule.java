@@ -160,7 +160,7 @@ public class CardModule {
                 .name("extendedHealing")
                 .cost(new Mana(6))
                 .hostEffectName("passiveHealingEffect_4_4")
-                .opponentEffectName("damageEffect_2")
+                .opponentEffectName("damageEffect_4")
                 .build();
     }
 
