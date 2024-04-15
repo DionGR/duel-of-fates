@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 import lombok.Getter;
-import no.ntnu.dof.controller.gameplay.player.ClickHostPlayerController;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.view.entity.label.TextLabel;
 import no.ntnu.dof.view.entity.texture.CardTexture;

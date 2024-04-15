@@ -14,16 +14,17 @@ import java.util.Iterator;
 import java.util.List;
 
 import lombok.Getter;
-import no.ntnu.dof.controller.gameplay.player.TestClickPlayerController;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.Image;
 
+@Getter
 public class HostPlayerView extends PlayerView {
     private final Group hostInterface;
     private final Group handView;
     private final Image deckView;
     private final Image discardView;
+    private final TextButton endTurnButton;
     private final Player player;
 
     private static ClickListener playListener;
@@ -51,7 +52,7 @@ public class HostPlayerView extends PlayerView {
         hostInterface.addActor(handView);
 
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-        TextButton endTurnButton = new TextButton("End Turn", skin, "default");
+        endTurnButton = new TextButton("End Turn", skin, "default");
         endTurnButton.addListener(playListener);
         endTurnButton.setPosition(discardView.getX() * 0.9f, (discardView.getY() + discardView.getHeight()) * 1.5f);
         hostInterface.addActor(endTurnButton);

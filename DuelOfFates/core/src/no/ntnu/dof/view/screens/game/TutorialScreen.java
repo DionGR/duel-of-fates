@@ -103,7 +103,7 @@ public class TutorialScreen implements Screen {
                 stage.addActor(activeLabel);
             }
         }
-        else gameView.getGame().getPlayers().get(0).getHand().setMaxSize(5);
+        else gameView.getGame().getHost().getHand().setMaxSize(3);
     }
 
     public void GamePresentation()

@@ -8,12 +8,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import lombok.Getter;
-import no.ntnu.dof.controller.gameplay.di.DaggerGameLobbyControllerComponent;
 import no.ntnu.dof.controller.gameplay.di.DaggerTutorialComponent;
-import no.ntnu.dof.controller.gameplay.di.GameLobbyControllerComponent;
 import no.ntnu.dof.controller.gameplay.di.TutorialComponent;
 import no.ntnu.dof.controller.gameplay.player.BotTutorialController;
-import no.ntnu.dof.controller.gameplay.player.ClickHostPlayerController;
 import no.ntnu.dof.controller.gameplay.player.ClickPlayerController;
 import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.model.gameplay.Game;
@@ -58,15 +55,7 @@ public class TutorialController {
             Player currentPlayer = game.getNextPlayer();
             PlayerController currentPlayerController = playerControllers.get(currentPlayer);
 
-            Optional<Card> turnCard;
-
-
-            if (currentPlayer.canPlay()) {
-                turnCard = currentPlayerController.choosePlay();
-            } else {
-                turnCard = Optional.empty();
-                System.out.println("Player cannot afford to play any card, finalizing turn.");
-            }
+            Optional<Card> turnCard = currentPlayerController.choosePlay();
 
             if(turn == 2)
             {
