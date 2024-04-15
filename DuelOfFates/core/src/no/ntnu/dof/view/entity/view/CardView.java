@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
@@ -15,9 +14,11 @@ import no.ntnu.dof.view.entity.texture.CardTexture;
 
 @Getter
 public class CardView extends Group {
-
     private final Card card;
     private final CardTexture cardTexture;
+    private final TextLabel nameLabel;
+    private final TextLabel costLabel;
+    private final TextLabel descriptionLabel;
     private final float width;
     private final float height;
     private final boolean playable;
@@ -33,11 +34,11 @@ public class CardView extends Group {
         if (playable) this.addListener(playListener);
         else this.setColor(new Color(0.7f, 0.7f, 0.7f, 1.0f));
 
-        Label name = (new TextLabel(card.getName(), width*0.22f,height*0.81f,width*0.7f,height*0.18f,height*0.004f, Color.RED)).getText();
-        name.setAlignment(Align.center);
-        this.addActor(name);
-        Label cost = (new TextLabel(Integer.toString(card.getCost().getValue()), width*0.05f,height*0.87f,width*0.1f,height*0.1f,height*0.005f, Color.GRAY)).getText();
-        this.addActor(cost);
+        nameLabel = new TextLabel(card.getName(), width * 0.22f, height * 0.81f, width * 0.7f, height * 0.18f, height * 0.004f, Color.RED);
+        nameLabel.getText().setAlignment(Align.center);
+        this.addActor(nameLabel.getText());
+        costLabel = new TextLabel(Integer.toString(card.getCost().getValue()), width * 0.05f, height * 0.87f, width * 0.1f, height * 0.1f, height * 0.005f, Color.GRAY);
+        this.addActor(costLabel.getText());
 
         String descriptionString = "";
         for (String effect : card.getHostEffectNames()) {
@@ -46,9 +47,9 @@ public class CardView extends Group {
         for (String effect : card.getOpponentEffectNames()) {
             descriptionString += effect + "\n";
         }
-        Label description = (new TextLabel(descriptionString, width * 0.09f, height * 0.06f, width * 0.8f, height * 0.33f, height * 0.004f, Color.WHITE)).getText();
-        description.setAlignment(Align.topLeft);
-        this.addActor(description);
+        descriptionLabel = new TextLabel(descriptionString, width * 0.09f, height * 0.06f, width * 0.8f, height * 0.33f, height * 0.004f, Color.WHITE);
+        descriptionLabel.getText().setAlignment(Align.topLeft);
+        this.addActor(descriptionLabel.getText());
     }
 
     @Override
@@ -67,6 +68,9 @@ public class CardView extends Group {
 
     public void dispose() {
         cardTexture.dispose();
+        nameLabel.dispose();
+        costLabel.dispose();
+        descriptionLabel.dispose();
     }
 
 }

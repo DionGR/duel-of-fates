@@ -16,10 +16,11 @@ import no.ntnu.dof.view.entity.label.TextLabel;
 @Getter
 public class PlayerView extends Group {
     private final Player player;
+    private final ShapeRenderer shapeDrawer = new ShapeRenderer();
     private final Image graphics;
     private final Group manaPool;
     private final Image manaGraphics;
-    private final Label manaText;
+    protected final TextLabel manaText;
 
     public PlayerView(Player player) {
         this.player = player;
@@ -30,8 +31,8 @@ public class PlayerView extends Group {
         manaGraphics = new Image("mana.png", 0.10f);
         manaPool.addActor(manaGraphics);
 
-        manaText = (new TextLabel(Integer.toString(player.getMana().getValue()), manaGraphics.getWidth()*0.28f,manaGraphics.getHeight()*0.3f,manaGraphics.getWidth()*0.4f,manaGraphics.getHeight()*0.4f,manaGraphics.getHeight()*0.03f, Color.GREEN)).getText();
-        manaPool.addActor(manaText);
+        manaText = new TextLabel(Integer.toString(player.getMana().getValue()), manaGraphics.getWidth()*0.28f,manaGraphics.getHeight()*0.3f,manaGraphics.getWidth()*0.4f,manaGraphics.getHeight()*0.4f,manaGraphics.getHeight()*0.03f, Color.GREEN);
+        manaPool.addActor(manaText.getText());
 
         this.addActor(manaPool);
     }
@@ -41,18 +42,17 @@ public class PlayerView extends Group {
         //Draw the healthbar
         batch.end();
 
-        manaText.setText(player.getMana().getValue());
+        manaText.getText().setText(player.getMana().getValue());
 
         float percentage =  Math.max(0,((float) player.getHealth().getValue()/(float) player.getPlayerClass().getMaxHealth().getValue()));
-        ShapeRenderer ShapeDrawer = new ShapeRenderer();
-        ShapeDrawer.begin(ShapeRenderer.ShapeType.Filled);
-        ShapeDrawer.setColor(Color.BLACK);
-        ShapeDrawer.rect(getX(), getY()-10, graphics.getWidth(), (float) (Gdx.graphics.getHeight()*0.05));
-        ShapeDrawer.setColor(Color.GRAY);
-        ShapeDrawer.rect(getX()+2, getY()-8, graphics.getWidth()-4, (float) (Gdx.graphics.getHeight()*0.05)-4);
-        ShapeDrawer.setColor(Color.RED);
-        ShapeDrawer.rect(getX()+2, getY()-8, (graphics.getWidth()-4)*percentage, (float) (Gdx.graphics.getHeight()*0.05)-4);
-        ShapeDrawer.end();
+        shapeDrawer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeDrawer.setColor(Color.BLACK);
+        shapeDrawer.rect(getX(), getY()-10, graphics.getWidth(), (float) (Gdx.graphics.getHeight()*0.05));
+        shapeDrawer.setColor(Color.GRAY);
+        shapeDrawer.rect(getX()+2, getY()-8, graphics.getWidth()-4, (float) (Gdx.graphics.getHeight()*0.05)-4);
+        shapeDrawer.setColor(Color.RED);
+        shapeDrawer.rect(getX()+2, getY()-8, (graphics.getWidth()-4)*percentage, (float) (Gdx.graphics.getHeight()*0.05)-4);
+        shapeDrawer.end();
 
         batch.begin();
     }
@@ -60,6 +60,8 @@ public class PlayerView extends Group {
     public void dispose() {
         graphics.dispose();
         manaGraphics.dispose();
+        manaText.dispose();
+        shapeDrawer.dispose();
     }
 
 }
