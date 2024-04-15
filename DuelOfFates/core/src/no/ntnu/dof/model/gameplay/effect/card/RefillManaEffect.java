@@ -17,7 +17,8 @@ public class RefillManaEffect extends Effect implements TurnListener {
     }
 
     @Override
-    public void onTurn(@NonNull final Player player) {
+    public boolean onTurn(@NonNull final Player player) {
         this.apply(player);
+        return false; // don't deregister from event
     }
 }

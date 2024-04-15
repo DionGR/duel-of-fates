@@ -20,16 +20,13 @@ public class PassiveHealingEffect extends Effect implements TurnListener {
     }
 
     @Override
-    public void onTurn(@NonNull Player player) {
-        if (duration == 0){
-            player.beginTurnEvent.deregister(this);
-        } else {
-            duration--;
-            this.heal(player);
-        }
+    public boolean onTurn(@NonNull Player player) {
+        duration--;
+        this.heal(player);
+        return duration <= 0;
     }
 
-    private void heal(Player player){
+    private void heal(Player player) {
         HealthEffect effect = HealthEffect.builder().delta(-health).build();
         effect.apply(player);
     }

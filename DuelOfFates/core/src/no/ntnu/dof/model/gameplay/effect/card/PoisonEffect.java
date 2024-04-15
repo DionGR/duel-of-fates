@@ -20,13 +20,10 @@ public class PoisonEffect extends Effect implements TurnListener {
     }
 
     @Override
-    public void onTurn(@NonNull Player player) {
-        if (duration == 0){
-            player.beginTurnEvent.deregister(this);
-        } else {
-            duration--;
-            this.dealDamage(player);
-        }
+    public boolean onTurn(@NonNull Player player) {
+        duration--;
+        this.dealDamage(player);
+        return duration <= 0;
     }
 
     private void dealDamage(Player player){
