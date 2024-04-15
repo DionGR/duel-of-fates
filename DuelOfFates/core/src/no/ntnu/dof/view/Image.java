@@ -3,6 +3,7 @@ package no.ntnu.dof.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -13,10 +14,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Image extends Group {
     @Getter
-    private Texture img;
+    private Sprite img;
 
     public Image(String path, float Scale) {
-        img = new Texture(path);
+        Texture texture = new Texture(path);
+        img = new Sprite(texture);
         float ratio = (float) img.getWidth() / (float) img.getHeight();
         this.setHeight((int) (Gdx.graphics.getHeight() * Scale));
         this.setWidth((int) (getHeight() * ratio));
@@ -36,10 +38,10 @@ public class Image extends Group {
     }
 
     public void dispose() {
-        img.dispose();
+        img.getTexture().dispose();
     }
 
     public void reverse() {
-        this.setWidth(-this.getWidth());
+        img.flip(true, false);
     }
 }

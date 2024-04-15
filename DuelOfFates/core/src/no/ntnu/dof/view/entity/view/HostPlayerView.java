@@ -32,10 +32,10 @@ public class HostPlayerView extends PlayerView {
     public HostPlayerView(Player player) {
         super(player);
         this.player = player;
-        this.setPosition((float) Gdx.graphics.getWidth() / 4 - this.getGraphics().getWidth() / 2, Gdx.graphics.getHeight() * 0.6f);
+        this.setPosition((float) Gdx.graphics.getWidth() / 4 - this.getGraphics().getWidth() / 2, Gdx.graphics.getHeight() * 0.55f);
 
+        this.getHealthBarView().setPosition(this.getX(), this.getY() - Gdx.graphics.getHeight() * 0.05f);
         this.getManaPool().setPosition(-this.getManaGraphics().getWidth()-10, this.getGraphics().getHeight()/2-this.getManaGraphics().getHeight()/2);
-        this.getManaPool().setBounds(this.getManaPool().getX(), this.getManaPool().getY(), this.getManaGraphics().getWidth(), this.getManaGraphics().getHeight());
 
         hostInterface = new Group();
 
@@ -72,6 +72,9 @@ public class HostPlayerView extends PlayerView {
     }
 
     public void updateHandView() {
+        for (int i = 0; i < handView.getChildren().size; i++) {
+            ((CardView) handView.getChild(i)).dispose();
+        }
         handView.clear();
         List<Card> temporaryList = new ArrayList<>(player.getHand().getCards());
         //has to use iterator to avoid ConcurrentModificationException
@@ -81,7 +84,7 @@ public class HostPlayerView extends PlayerView {
             handView.addActor(new CardView(0.3f, card, handView.getChildren().size, cardListener));
         }
         if(handView.getChildren().size > 0){
-            handView.setPosition(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 5);
+            handView.setBounds(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 5, handView.getChild(handView.getChildren().size-1).getWidth()*handView.getChildren().size, (5f/4)*handView.getChild(handView.getChildren().size-1).getHeight());
         }
     }
 

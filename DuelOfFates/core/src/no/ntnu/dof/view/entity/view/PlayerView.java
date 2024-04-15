@@ -28,19 +28,18 @@ public class PlayerView extends Group {
         graphics = new Image(player.getPlayerClass().getName() + ".png", 0.30f);
         this.addActor(graphics);
 
+        healthBarView = new HealthBarView(player, getX(), getY()-Gdx.graphics.getHeight()*0.05f, graphics.getWidth());
+        this.addActor(healthBarView);
+
         manaPool = new Group();
         manaGraphics = new Image("mana.png", 0.10f);
-        manaPool.addActor(manaGraphics);
-
         manaText = (new TextLabel(Integer.toString(player.getMana().getValue()), manaGraphics.getWidth()*0.28f,manaGraphics.getHeight()*0.3f,manaGraphics.getWidth()*0.4f,manaGraphics.getHeight()*0.4f,manaGraphics.getHeight()*0.03f, Color.GREEN)).getText();
+        manaPool.setBounds(getX(), getY(), manaGraphics.getWidth(), manaGraphics.getHeight());
+        manaPool.addActor(manaGraphics);
         manaPool.addActor(manaText);
         this.addActor(manaPool);
-
-        healthBarView = new HealthBarView(player, getX(), getY()-10, graphics.getWidth());
-        this.addActor(healthBarView);
     }
     public void draw(Batch batch, float parentAlpha) {
-        healthBarView.setPosition(getX(), getY()-10);
         super.draw(batch, parentAlpha);
     }
 

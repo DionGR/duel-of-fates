@@ -45,8 +45,6 @@ public class TutorialController {
         this.playerControllers = new HashMap<>();
         this.host = game.getHost();
         this.bot = game.getOpponent();
-        System.out.println(host.hashCode());
-        System.out.println(bot.hashCode());
         this.playerControllers.put(this.host, hostController);
         this.playerControllers.put(this.bot, new BotTutorialController());
     }
@@ -60,7 +58,6 @@ public class TutorialController {
             PlayerController currentPlayerController = playerControllers.get(currentPlayer);
 
             Optional<Card> turnCard = currentPlayerController.choosePlay();
-            System.out.println(turnCard);
 
             if(turn == 2)
             {
@@ -81,7 +78,6 @@ public class TutorialController {
 
     public void TutorialTurn(int turnNumber)
     {
-        System.out.println("Turn " + turnNumber);
         screen.TutorialTurn(turnNumber);
     }
 

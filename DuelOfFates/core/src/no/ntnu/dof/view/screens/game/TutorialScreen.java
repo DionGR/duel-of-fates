@@ -93,6 +93,7 @@ public class TutorialScreen implements Screen {
                 activeLabel = tutorialLabels.get(turnNumber);
                 activeLabel.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
                 activeLabel.setAlignment(Align.center);
+                activeLabel.getListeners().clear();
                 activeLabel.addListener(new ClickListener() {
                     @Override
                     public synchronized boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -111,6 +112,7 @@ public class TutorialScreen implements Screen {
         activeLabel = new Label("Welcome to Duel of Fates! \n Here your are in the tutorial where you will learn the basics of the game \n The goal is to reduce the opponents health to 0", skin, "default");
         activeLabel.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         activeLabel.setAlignment(Align.center);
+        activeLabel.getListeners().clear();
         activeLabel.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -126,6 +128,7 @@ public class TutorialScreen implements Screen {
     {
         activeLabel.setText("We will go over the UI elements of the game");
         ActiveLabelPosition();
+        activeLabel.getListeners().clear();
         activeLabel.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -141,6 +144,7 @@ public class TutorialScreen implements Screen {
     {
         activeLabel.setText("This the health bar of your opponent, when it reaches 0 you win the game");
         ActiveLabelPosition();
+        activeLabel.getListeners().clear();
         activeLabel.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -158,6 +162,7 @@ public class TutorialScreen implements Screen {
     {
         activeLabel.setText("This is your health bar, when it reaches 0 you lose the game");
         ActiveLabelPosition();
+        activeLabel.getListeners().clear();
         activeLabel.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -175,6 +180,7 @@ public class TutorialScreen implements Screen {
     {
         activeLabel.setText("This is your Mana pool, each card has a mana cost \n You regain all your mana at the start of your turn");
         ActiveLabelPosition();
+        activeLabel.getListeners().clear();
         activeLabel.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -185,13 +191,19 @@ public class TutorialScreen implements Screen {
         } );
         stage.addActor(activeLabel);
         //Highlight mana pool
-        HighlightActor(gameView.getHostPlayerView().getManaPool());
+        //Normal way of doing it if bugging so hard coding it
+        //HighlightActor(gameView.getHostPlayerView().getManaPool());
+        HighlightedArea.setX(gameView.getHostPlayerView().getX()-gameView.getHostPlayerView().getManaGraphics().getWidth()-10);
+        HighlightedArea.setY(gameView.getHostPlayerView().getY()+gameView.getHostPlayerView().getGraphics().getHeight()/2-gameView.getHostPlayerView().getManaGraphics().getHeight()/2);
+        HighlightedArea.setWidth(gameView.getHostPlayerView().getManaPool().getWidth());
+        HighlightedArea.setHeight(gameView.getHostPlayerView().getManaPool().getHeight());
     }
 
     public void ShowHand()
     {
         activeLabel.setText("This is your hand, you can play cards from here by clicking on them");
         ActiveLabelPosition();
+        activeLabel.getListeners().clear();
         activeLabel.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -210,6 +222,7 @@ public class TutorialScreen implements Screen {
     {
         activeLabel.setText("This is your deck, you draw cards from here");
         ActiveLabelPosition();
+        activeLabel.getListeners().clear();
         activeLabel.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -227,6 +240,7 @@ public class TutorialScreen implements Screen {
     {
         activeLabel.setText("This is your discard pile, cards you play go here then \n When your deck is empty the discard pile is shuffled back into the deck");
         ActiveLabelPosition();
+        activeLabel.getListeners().clear();
         activeLabel.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -244,6 +258,7 @@ public class TutorialScreen implements Screen {
     {
         activeLabel.setText("This is the end turn button, click it when you are done with your turn");
         ActiveLabelPosition();
+        activeLabel.getListeners().clear();
         activeLabel.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -262,6 +277,7 @@ public class TutorialScreen implements Screen {
     {
         activeLabel.setText("You can play cards from your hand by clicking on them");
         ActiveLabelPosition();
+        activeLabel.getListeners().clear();
         activeLabel.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
