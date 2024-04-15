@@ -51,7 +51,8 @@ public class LobbiesScreen extends ReturnableScreen {
         contentTable.setPosition(0, Gdx.graphics.getHeight());
 
         lobbiesTitle = new Label("Lobbies", skin, "big");
-        contentTable.add(lobbiesTitle).expandX().padTop(20).row();
+        lobbiesTitle.setFontScale(1.5f);
+        contentTable.add(lobbiesTitle).padTop(30).padBottom(20).center().row();
 
         TextButton lobbyBtn = new TextButton("<Lobby Title>\n<Host Name>", skin, "default");
 

@@ -56,14 +56,15 @@ public class ChooseClassScreen extends ReturnableScreen {
         contentTable.top();
 
         Label title = new Label("Choose a Class", skin);
-        contentTable.add(title).padTop(50).padBottom(30).row();
+        title.setFontScale(1.5f);
+        contentTable.add(title).padTop(30).padBottom(20).center().row();
 
         for (PlayerClass playerClass : playerClasses) {
             TextButton classButton = new TextButton(playerClass.getName(), skin);
 
             if (playerClass.getName().equals(user.getPlayerClassName())) {
                 classButton.setStyle(selectedStyle);
-                selectedButton = classButton; // Set this button as selected if it matches the user's class
+                selectedButton = classButton;
             } else {
                 classButton.setStyle(defaultStyle);
             }
