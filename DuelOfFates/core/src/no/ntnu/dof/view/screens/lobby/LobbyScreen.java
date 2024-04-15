@@ -20,7 +20,6 @@ import no.ntnu.dof.view.screens.BaseScreen;
 
 public class LobbyScreen extends BaseScreen {
 
-    private Stage stage;
     private Skin skin;
     private Table contentTable;
     private Label lobbyTitle;
@@ -42,8 +41,8 @@ public class LobbyScreen extends BaseScreen {
 
     @Override
     public void show() {
-        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
-        this.stage = new Stage(new ScreenViewport(), this.batch); // Use the batch from BaseScreen
+        super.show();
+        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
         // Setting up the UI components specific to LobbyScreen
         contentTable = new Table();
         contentTable.setFillParent(true);

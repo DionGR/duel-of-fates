@@ -38,8 +38,8 @@ public class FirebaseLobbyService implements LobbyService {
     public void initializeGame(LobbyUpdateCallback callback, String lobbyId, String gameId) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies");
         DatabaseReference lobbyRef = databaseReference.child(lobbyId);
-        lobbyRef.child("gameState").setValue("started");
         lobbyRef.child("gameId").setValue(gameId);
+        lobbyRef.child("gameState").setValue("started");
     }
 
     public void listenForLobbiesChanges(LobbyChangeListener listener) {

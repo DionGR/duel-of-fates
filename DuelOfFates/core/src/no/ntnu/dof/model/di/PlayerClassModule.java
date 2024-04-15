@@ -25,7 +25,7 @@ public class PlayerClassModule {
                 .deck(deck)
                 .maxHealth(new Health(40))
                 .maxArmor(new Armor(30))
-                .maxMana(new Mana(5))
+                .maxMana(new Mana(6))
                 .build();
     }
 
@@ -37,7 +37,7 @@ public class PlayerClassModule {
                 .deck(deck)
                 .maxHealth(new Health(40))
                 .maxArmor(new Armor(15))
-                .maxMana(new Mana(8))
+                .maxMana(new Mana(9))
                 .build();
     }
 
@@ -49,7 +49,7 @@ public class PlayerClassModule {
                 .deck(deck)
                 .maxHealth(new Health(70))
                 .maxArmor(new Armor(0))
-                .maxMana(new Mana(6))
+                .maxMana(new Mana(7))
                 .build();
     }
 

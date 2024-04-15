@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -23,7 +25,6 @@ import no.ntnu.dof.view.screens.ReturnableScreen;
 
 public class LobbiesScreen extends ReturnableScreen {
 
-    private Stage stage;
     private Skin skin;
     private Table contentTable;
     private TextButton createLobbyBtn;
@@ -41,8 +42,7 @@ public class LobbiesScreen extends ReturnableScreen {
     @Override
     public void show() {
         super.show();
-        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
-        this.stage = new Stage(new ScreenViewport(), this.batch);
+        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
 
         // Making a centered table to store title and buttons
         contentTable = new Table();
@@ -59,16 +59,26 @@ public class LobbiesScreen extends ReturnableScreen {
         contentTable.padTop(30);
         for (GameLobby lobby : gameLobbies.getLobbies()) {
             TextButton lobbyButton = new TextButton(lobby.getTitle() + "\n" + lobby.getCreator().getEmail(), skin, "default");
-            lobbyButton.addListener(new InputListener() {
+            lobbyButton.addListener(new ClickListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     listener.transitionToLobby(lobby);
+                    System.out.println("Clicked on lobby: " + lobby.getTitle());
                     return true;
                 }
             });
             contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
         }
-        stage.addActor(contentTable);
+
+        // Making scrollable table
+        final ScrollPane scroller = new ScrollPane(contentTable);
+        scroller.setTouchable(Touchable.childrenOnly);
+
+        final Table table = new Table();
+        table.setFillParent(true);
+        table.add(scroller).fill().expand();
+
+        stage.addActor(table);
 
         // Setting create lobby button
         createLobbyBtn = new TextButton("Create Lobby", skin, "default");
@@ -99,8 +109,6 @@ public class LobbiesScreen extends ReturnableScreen {
         float historyBtnY = buttonY - createLobbyBtn.getHeight() - margin;
         createLobbyBtn.setPosition(buttonX, buttonY);
         matchHistoryBtn.setPosition(buttonX, historyBtnY);
-
-        Gdx.input.setInputProcessor(stage);
     }
 
     private void showCreateLobbyDialog() {
@@ -166,12 +174,10 @@ public class LobbiesScreen extends ReturnableScreen {
         });
     }
 
-
     @Override
     public void render(float delta) {
         super.render(delta); // This will render the background and the back button
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
     }
 
     @Override

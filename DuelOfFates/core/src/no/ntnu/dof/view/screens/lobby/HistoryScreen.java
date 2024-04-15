@@ -16,15 +16,12 @@ import no.ntnu.dof.view.screens.ReturnableScreen;
 
 public class HistoryScreen extends ReturnableScreen {
     private Skin skin;
-    private Stage stage;
     private User user;
     private Label title;
 
     public HistoryScreen() {
         super();
-        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
-        this.stage = new Stage(new ScreenViewport(), this.batch);
-        Gdx.input.setInputProcessor(stage);
+        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
     }
 
     @Override
@@ -34,10 +31,10 @@ public class HistoryScreen extends ReturnableScreen {
         stage.draw();
     }
 
-    @Override
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
+//    @Override
+//    public void resize(int width, int height) {
+//        stage.getViewport().update(width, height, true);
+//    }
 
     @Override
     public void dispose() {
