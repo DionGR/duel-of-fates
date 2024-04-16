@@ -40,20 +40,28 @@ public class LoginScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("UISkin.json"));
+        float screenWidth = stage.getWidth();
+        float screenHeight = stage.getHeight();
 
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
         Label headline = new Label("Log in / Sign up", skin);
-        headline.setFontScale(1.5f);
+        headline.setFontScale(4f);
         table.add(headline).padTop(30).padBottom(20).center().row();
 
         feedbackLabel = new Label("", skin);
         table.add(feedbackLabel).padBottom(20).colspan(2).center().row();
 
-        float fieldButtonWidth = 250f;
-        float buttonHeight = 50f;
+        float fieldButtonWidth = (float) (0.4*screenWidth);
+        float buttonHeight = (float) (0.1*screenHeight);
+
+
+        // Get the TextField.TextFieldStyle
+        TextField.TextFieldStyle textFieldStyle = skin.get(TextField.TextFieldStyle.class);
+        // Set the font scale directly on the textFieldStyle's font
+        textFieldStyle.font.getData().setScale(2f);
 
         emailField = new TextField("", skin);
         passwordField = new TextField("", skin);
@@ -61,6 +69,7 @@ public class LoginScreen implements Screen {
         passwordField.setPasswordMode(true);
 
         TextButton loginButton = new TextButton("Login", skin);
+        loginButton.getLabel().setFontScale(screenHeight*0.004f);
         loginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -70,8 +79,8 @@ public class LoginScreen implements Screen {
             }
         });
 
-        table.add(emailField).width(fieldButtonWidth).padBottom(10).row();
-        table.add(passwordField).width(fieldButtonWidth).padBottom(10).row();
+        table.add(emailField).width(fieldButtonWidth).height(buttonHeight).padBottom(10).row();
+        table.add(passwordField).width(fieldButtonWidth).height(buttonHeight).padBottom(10).row();
         table.add(loginButton).width(fieldButtonWidth).height(buttonHeight).padBottom(10).row();
 
         Label signUpPlaceholder = new Label("", skin);

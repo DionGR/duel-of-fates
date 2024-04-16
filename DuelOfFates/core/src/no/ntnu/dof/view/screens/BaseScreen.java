@@ -57,7 +57,8 @@ public abstract class BaseScreen extends ScreenAdapter {
         soundBtn = new ImageButton(new TextureRegionDrawable(soundOnTexture), new TextureRegionDrawable(soundOnTexture), new TextureRegionDrawable(soundOffTexture));
         soundBtn.setChecked(!soundController.isSoundOn());
 
-        soundBtn.setSize(60,60);
+
+        soundBtn.setSize(100f,100f);
         soundBtn.setPosition(10,10);
 
         soundBtn.addListener(new ClickListener() {
