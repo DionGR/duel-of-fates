@@ -15,10 +15,10 @@ import no.ntnu.dof.controller.menu.LoginController;
 import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
-import no.ntnu.dof.view.screens.lobby.HistoryScreen;
-import no.ntnu.dof.model.User;
+import no.ntnu.dof.model.gameplay.event.GameEndListener;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.screens.game.GameScreen;
+import no.ntnu.dof.view.screens.lobby.HistoryScreen;
 import no.ntnu.dof.view.screens.game.TutorialScreen;
 import no.ntnu.dof.view.screens.lobby.LobbiesScreen;
 import no.ntnu.dof.view.screens.lobby.LobbyScreen;
@@ -52,6 +52,7 @@ public class ScreenController {
 
     public static void transitionToMenu() {
         pushScreen(new MenuScreen());
+        SoundController.getInstance().start();
     }
 
     public static void transitionToLobbies() {
@@ -69,7 +70,7 @@ public class ScreenController {
     }
 
     public static void transitionToChooseClass() {
-        pushScreen(new ChooseClassScreen(application));
+        pushScreen(new ChooseClassScreen(application.getCurrentUser()));
     }
 
     public static void transitionToLogin() {
@@ -80,6 +81,7 @@ public class ScreenController {
 
     public static void transitionToLoginWhenLoggedIn() {
         popScreen();
+        SoundController.getInstance().stop();
         LoginScreen loginScreen = (LoginScreen) screens.peek();
         loginScreen.initializeUI();
     }
@@ -90,11 +92,11 @@ public class ScreenController {
         new HistoryController(application.getCurrentUser(), historyScreen);
     }
 
-    public static void transitionToGame(Player host, Player guest, GameComms comms) {
+    public static void transitionToGame(Player host, Player guest, GameComms comms, GameEndListener gameEndListener) {
         popScreen();
         GameController gameController = new GameController(host, guest, comms);
         GameScreen gameScreen = new GameScreen(gameController.getGame());
-        new Thread(gameController::gameLoop).start();
+        gameController.startGame(gameEndListener);
         pushScreen(gameScreen);
     }
 

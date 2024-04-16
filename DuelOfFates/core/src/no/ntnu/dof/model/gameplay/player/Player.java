@@ -1,9 +1,8 @@
 package no.ntnu.dof.model.gameplay.player;
 
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 
+import lombok.NonNull;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;
@@ -43,7 +42,7 @@ public class Player extends GameplayEntity {
     @NonNull
     @Override
     public String toString() {
-        return"(" + health.getValue() + " health, " + armor.getValue() + " armor, " + mana.getValue() + " mana)";
+        return "(" + health.getValue() + " health, " + armor.getValue() + " armor, " + mana.getValue() + " mana)";
     }
 
     public boolean canPlay(Card card) {

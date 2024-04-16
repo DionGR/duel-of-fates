@@ -6,35 +6,39 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import com.google.firebase.database.ValueEventListener;
 
 import no.ntnu.dof.controller.network.UserService;
+import no.ntnu.dof.model.GameSummary;
 import no.ntnu.dof.model.User;
 
 public class FirebaseUserService implements UserService {
-    private final DatabaseReference usersReference;
+    private DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
 
-    public FirebaseUserService() {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        usersReference = firebaseDatabase.getReference("users");
+    @Override
+    public void uploadGameSummary(String userId, GameSummary summary, GameSummaryCallback callback) {
+        DatabaseReference gameHistoryRef = usersReference.child(userId).child("gameshistory");
+        String key = gameHistoryRef.push().getKey(); // Generate a unique key for the new game summary
+        gameHistoryRef.child(key).setValue(summary, (databaseError, databaseReference) -> {
+            if (databaseError == null) {
+                callback.onSuccess();
+            } else {
+                callback.onFailure(databaseError.toException());
+            }
+        });
     }
-
-   // @Override
-   // public void uploadGameSummary(User host, User guest, GameSummaryCallback) {
-   // }
 
     @Override
     public void addUser(User user, UserCreationCallback callback) {
-        String userId = user.getId(); // Assuming User class has a getId() method that returns a String.
+        String userId = user.getId();
         DatabaseReference newUserRef = usersReference.child(userId);
 
         newUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    // No existing data found with the same ID, safe to add new user.
+                    // Add new user if not user exists from before
                     newUserRef.setValue(user, (databaseError, databaseReference) -> {
                         if (databaseError == null) {
                             callback.onSuccess(user);
@@ -43,8 +47,49 @@ public class FirebaseUserService implements UserService {
                         }
                     });
                 } else {
-                    // Handle the case where a user with the same ID already exists
                     callback.onFailure(new IllegalStateException("A user with this ID already exists."));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onFailure(databaseError.toException());
+            }
+        });
+    }
+
+    @Override
+    public void fetchUserGameSummaries(String userId, GameSummariesCallback callback) {
+        DatabaseReference gameHistoryRef = usersReference.child(userId).child("gameshistory");
+        gameHistoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<GameSummary> summaries = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    GameSummary summary = snapshot.getValue(GameSummary.class);
+                    summaries.add(summary);
+                }
+                callback.onSuccess(summaries);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onFailure(databaseError.toException());
+            }
+        });
+    }
+
+    @Override
+    public void fetchUserById(String userId, UserCallback callback) {
+        DatabaseReference userRef = usersReference.child(userId);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    callback.onSuccess(user);
+                } else {
+                    callback.onFailure(new Exception("User not found"));
                 }
             }
 

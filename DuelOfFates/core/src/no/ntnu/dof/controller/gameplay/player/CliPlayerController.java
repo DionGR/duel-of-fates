@@ -15,7 +15,7 @@ public class CliPlayerController implements PlayerController {
     }
 
     @Override
-    public Optional<Card> choosePlay() {
+    public Optional<Card> choosePlay(long timeout) { // timeout is ignored
         Optional<Card> toPlay = Optional.empty();
         while (!toPlay.isPresent()) {
             System.out.println(player.getName() + "'s turn " + player);

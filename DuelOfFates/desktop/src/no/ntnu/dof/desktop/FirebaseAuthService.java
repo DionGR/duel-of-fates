@@ -10,13 +10,12 @@ import com.google.firebase.auth.UserRecord;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import no.ntnu.dof.controller.network.AuthCallback;
-import no.ntnu.dof.controller.network.AuthInterface;
+import no.ntnu.dof.controller.network.AuthService;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.controller.network.UserService;
 import no.ntnu.dof.model.User;
 
-public class FirebaseAuthImpl implements AuthInterface {
+public class FirebaseAuthService implements AuthService {
     private boolean appInitialized = false;
     private UserRecord currentUser = null;
 

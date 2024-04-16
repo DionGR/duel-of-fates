@@ -46,7 +46,8 @@ public class LoginScreen implements Screen {
         stage.addActor(table);
 
         Label headline = new Label("Log in / Sign up", skin);
-        table.add(headline).padTop(10).padBottom(30).center().row();
+        headline.setFontScale(1.5f);
+        table.add(headline).padTop(30).padBottom(20).center().row();
 
         feedbackLabel = new Label("", skin);
         table.add(feedbackLabel).padBottom(20).colspan(2).center().row();

@@ -3,7 +3,7 @@ package no.ntnu.dof.controller.menu;
 import com.badlogic.gdx.Gdx;
 
 import no.ntnu.dof.controller.ScreenController;
-import no.ntnu.dof.controller.network.AuthCallback;
+import no.ntnu.dof.controller.network.AuthService;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.view.screens.menu.LoginScreen;
 import no.ntnu.dof.controller.DuelOfFates;
@@ -25,7 +25,7 @@ public class LoginController implements LoginScreen.LoginViewListener {
                 initiateLogout();
             }
 
-            ServiceLocator.getAuthService().signIn(email, password, new AuthCallback() {
+            ServiceLocator.getAuthService().signIn(email, password, new AuthService.AuthCallback() {
                 @Override
                 public void onSuccess() {
                     Gdx.app.postRunnable(() -> loginSuccess());
@@ -44,7 +44,7 @@ public class LoginController implements LoginScreen.LoginViewListener {
     @Override
     public void onSignUpAttempt(String email, String password) {
         if (!email.isEmpty() && !password.isEmpty()) {
-            ServiceLocator.getAuthService().signUp(email, password, new AuthCallback() {
+            ServiceLocator.getAuthService().signUp(email, password, new AuthService.AuthCallback() {
                 @Override
                 public void onSuccess() {
                     Gdx.app.postRunnable(() -> loginSuccess());

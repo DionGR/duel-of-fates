@@ -3,13 +3,12 @@ package no.ntnu.dof.android;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import no.ntnu.dof.controller.network.AuthCallback;
-import no.ntnu.dof.controller.network.AuthInterface;
+import no.ntnu.dof.controller.network.AuthService;
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.controller.network.UserService;
 import no.ntnu.dof.model.User;
 
-public class FirebaseAuthImpl implements AuthInterface {
+public class FirebaseAuthService implements AuthService {
 
     @Override
     public void signIn(String email, String password, AuthCallback callback) {

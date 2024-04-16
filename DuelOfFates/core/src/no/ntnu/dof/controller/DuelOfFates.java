@@ -5,14 +5,16 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import no.ntnu.dof.model.User;
 
-@Data
 public class DuelOfFates extends com.badlogic.gdx.Game {
     private SpriteBatch batch;
     private AssetManager assetManager;
 
+    @Getter
+    @Setter
     private User currentUser;
 
 	public DuelOfFates() {}
@@ -39,6 +41,7 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
     public void dispose() {
         batch.dispose();
         assetManager.dispose();
+        SoundController.getInstance().dispose();
         super.dispose(); // Dispose the screen and other resources
     }
 }

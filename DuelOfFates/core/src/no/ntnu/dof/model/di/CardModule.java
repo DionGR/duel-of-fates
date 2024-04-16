@@ -174,4 +174,14 @@ public class CardModule {
                 .hostEffectName("refillManaEffect")
                 .build();
     }
+
+    @Provides
+    @Named("abortCard")
+    public Card provideAbortCard() {
+        return Card.builder()
+                .name("abort")
+                .cost(new Mana(0))
+                .hostEffectName("suicideEffect")
+                .build();
+    }
 }
