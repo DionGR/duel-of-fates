@@ -19,7 +19,6 @@ import no.ntnu.dof.model.gameplay.event.GameEndListener;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.screens.game.GameScreen;
 import no.ntnu.dof.view.screens.lobby.HistoryScreen;
-import no.ntnu.dof.view.screens.game.TutorialScreen;
 import no.ntnu.dof.view.screens.lobby.LobbiesScreen;
 import no.ntnu.dof.view.screens.lobby.LobbyScreen;
 import no.ntnu.dof.view.screens.menu.ChooseClassScreen;
@@ -102,7 +101,7 @@ public class ScreenController {
 
     public static void transitionToTutorial() {
         TutorialController tutorialController = new TutorialController();
-        new Thread(tutorialController::gameLoop).start();
+        tutorialController.startGame();
         pushScreen(tutorialController.getScreen());
     }
 }

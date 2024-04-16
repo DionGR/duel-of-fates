@@ -5,9 +5,9 @@ import java.util.Optional;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
-public class BotTutorialController implements PlayerController{
+public class BotTutorialController implements PlayerController {
     private boolean played = false;
-    public Optional<Card> choosePlay(){
+    public Optional<Card> choosePlay(long timeout) {
         if(!played){
             played = true;
             return Optional.of(Card.builder()
@@ -20,6 +20,5 @@ public class BotTutorialController implements PlayerController{
             played = false;
             return Optional.empty();
         }
-
     }
 }

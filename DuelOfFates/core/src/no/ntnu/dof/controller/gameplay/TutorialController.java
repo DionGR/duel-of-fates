@@ -1,6 +1,7 @@
 package no.ntnu.dof.controller.gameplay;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.LifecycleListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,10 +29,10 @@ public class TutorialController {
     @Inject
     @Named("tutorialGame")
     Game game;
-    private TutorialScreen screen;
-    private Player host;
-    private Player bot;
-
+    private final TutorialScreen screen;
+    private final Player host;
+    private final Player bot;
+    private boolean quit;
 
     public TutorialController() {
         TutorialComponent tutorialComponent = DaggerTutorialComponent.create();
@@ -41,6 +42,7 @@ public class TutorialController {
         HostPlayerView.provideClickListener(hostController);
 
         this.screen = new TutorialScreen(this.game);
+        this.quit = false;
 
         this.playerControllers = new HashMap<>();
         this.host = game.getHost();
@@ -49,7 +51,37 @@ public class TutorialController {
         this.playerControllers.put(this.bot, new BotTutorialController());
     }
 
-    public void gameLoop() {
+    public void startGame() {
+        Thread gameThread = new Thread(() -> {
+            try {
+                gameLoop();
+            } catch (InterruptedException e) {
+                Gdx.app.log("Game", "Game over: host aborted");
+            }
+        });
+        Gdx.app.addLifecycleListener(new LifecycleListener() {
+            @Override
+            public void pause() {}
+
+            @Override
+            public void resume() {}
+
+            @Override
+            public void dispose() {
+                Gdx.app.log("Application", "Application quit.");
+                quit = true;
+                gameThread.interrupt();
+                try {
+                    gameThread.join();
+                } catch (InterruptedException e) {
+                    Gdx.app.error("Game", "Game ended ungracefully.");
+                }
+            }
+        });
+        gameThread.start();
+    }
+
+    public void gameLoop() throws InterruptedException {
         int turn = 1;
         screen.GamePresentation();
         while (!game.isOver()) {
@@ -57,7 +89,8 @@ public class TutorialController {
             Player currentPlayer = game.getNextPlayer();
             PlayerController currentPlayerController = playerControllers.get(currentPlayer);
 
-            Optional<Card> turnCard = currentPlayerController.choosePlay();
+            if (quit) throw new InterruptedException();
+            Optional<Card> turnCard = currentPlayerController.choosePlay(0);
 
             if(turn == 2)
             {
