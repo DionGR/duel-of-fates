@@ -43,7 +43,7 @@ public class HistoryScreen extends ReturnableScreen {
 
     public void showGameSummaries(@NonNull List<GameSummary> gameSummaries) {
         Table contentTable = new Table();
-        contentTable.top(); // Align content to the top of the table
+        contentTable.top();
 
         if (gameSummaries.isEmpty()) {
             Label noHistoryLabel = new Label("No match history yet", skin, "default");
@@ -65,34 +65,32 @@ public class HistoryScreen extends ReturnableScreen {
                 Label hostResult = summary.getHostWin() ? winLabel : loseLabel;
                 Label guestResult = summary.getGuestWin() ? winLabel : loseLabel;
 
-                summaryTable.add(hostLabel).padBottom(5).row();
-                summaryTable.add(hostResult).padBottom(5).row();
-                summaryTable.add(guestLabel).padBottom(5).row();
-                summaryTable.add(guestResult).padBottom(5).row();
+                // Adjust alignment and spacing for host and guest labels
+                summaryTable.add(hostLabel).align(Align.left).padRight(60).padBottom(6);
+                summaryTable.add(guestLabel).align(Align.left).padBottom(5).row();
+
+                // Align host and guest result directly below the names with adjusted spacing
+                summaryTable.add(hostResult).align(Align.left).padRight(60).padBottom(6);
+                summaryTable.add(guestResult).align(Align.left).padBottom(5).row();
 
                 contentTable.add(summaryTable).fill().expandX().padTop(10).row();
             }
         }
 
-        // Create a ScrollPane for the contentTable
         ScrollPane scrollPane = new ScrollPane(contentTable, skin);
         scrollPane.setFadeScrollBars(false);
-        scrollPane.setScrollingDisabled(true, false); // Disable horizontal scrolling, enable vertical
-        scrollPane.getStyle().background = null; // Make the background of the ScrollPane transparent
+        scrollPane.setScrollingDisabled(true, false);
+        scrollPane.getStyle().background = null;
 
-        // Outer table to position the ScrollPane and the title
         Table outerTable = new Table();
         outerTable.setFillParent(true);
-        outerTable.padTop(30).padBottom(50); // Adjust the top and bottom padding
+        outerTable.padTop(30).padBottom(50);
 
-        // Add a title label above the ScrollPane
         Label titleLabel = new Label("Match History", skin, "default");
-        titleLabel.setFontScale(1.5f);  // Increase the font size of the title
-        outerTable.add(titleLabel).center().padBottom(20).row();  // Add some padding below the title
-
-        // Add the ScrollPane to the outer table
+        titleLabel.setFontScale(1.5f);
+        outerTable.add(titleLabel).center().padBottom(20).row();
         outerTable.add(scrollPane).width(400).expandY().fillY().center();
 
-        stage.addActor(outerTable); // Add the outer table to the stage
+        stage.addActor(outerTable);
     }
 }
