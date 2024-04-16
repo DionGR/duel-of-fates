@@ -67,7 +67,7 @@ public class ScreenController {
     }
 
     public static void transitionToChooseClass() {
-        pushScreen(new ChooseClassScreen(application));
+        pushScreen(new ChooseClassScreen(application.getCurrentUser()));
     }
 
     public static void transitionToLogin() {

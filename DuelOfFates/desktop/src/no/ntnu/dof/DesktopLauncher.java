@@ -6,7 +6,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import no.ntnu.dof.controller.DuelOfFates;
 import no.ntnu.dof.controller.network.ServiceLocator;
-import no.ntnu.dof.desktop.FirebaseAuthImpl;
+import no.ntnu.dof.desktop.FirebaseAuthService;
 import no.ntnu.dof.desktop.FirebaseGameService;
 import no.ntnu.dof.desktop.FirebaseLobbyService;
 import no.ntnu.dof.desktop.FirebaseUserService;
@@ -21,7 +21,7 @@ public class DesktopLauncher {
         config.setTitle("Duel of Fates");
 
         // Initalize mock services to be able to test UI on desktop
-        ServiceLocator.provideAuthService(new FirebaseAuthImpl());
+        ServiceLocator.provideAuthService(new FirebaseAuthService());
         ServiceLocator.provideLobbyService(new FirebaseLobbyService());
         ServiceLocator.provideGameService(new FirebaseGameService());
         ServiceLocator.provideUserService(new FirebaseUserService());
