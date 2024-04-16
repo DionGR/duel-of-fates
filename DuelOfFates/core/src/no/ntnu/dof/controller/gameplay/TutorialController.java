@@ -34,11 +34,11 @@ public class TutorialController {
 
 
     public TutorialController() {
-        ClickPlayerController hostController = new ClickPlayerController();
-        HostPlayerView.provideClickListener(hostController);
-
         TutorialComponent tutorialComponent = DaggerTutorialComponent.create();
         tutorialComponent.inject(this);
+
+        ClickPlayerController hostController = new ClickPlayerController();
+        HostPlayerView.provideClickListener(hostController);
 
         this.screen = new TutorialScreen(this.game);
 

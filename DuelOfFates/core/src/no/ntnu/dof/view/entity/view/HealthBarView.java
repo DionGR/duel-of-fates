@@ -26,7 +26,7 @@ public class HealthBarView extends Group {
         this.setWidth(width);
         this.setHeight((float) (Gdx.graphics.getHeight()*0.05));
 
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("UISkin.json"));
         skin.setScale(0.6f);
         this.healthLabel = new Label( player.getHealth().getValue() + "/" + (player.getPlayerClass().getMaxHealth().getValue()), skin, "default");
         healthLabel.setBounds(getX(), getY(), getWidth(), getHeight());

@@ -54,31 +54,18 @@ public class PlayerClassModule {
     }
 
     @Provides
-    @Named("tutorialPlayerClass")
-    public PlayerClass provideTutorialPlayerClass(@Named("tutorialDeck") Deck deck) {
-        return PlayerClass.builder()
-                .name("skeleton")
-                .deck(deck)
-                .maxHealth(new Health(60))
-                .maxArmor(new Armor(10))
-                .maxMana(new Mana(6))
-                .build();
-    }
-
-    @Provides
     @Named("listPlayerClasses")
     public List<PlayerClass> providePlayerClasses(
             @Named("knightPlayerClass") PlayerClass knightPlayerClass,
             @Named("magePlayerClass") PlayerClass magePlayerClass,
-            @Named("skeletonPlayerClass") PlayerClass skeletonPlayerClass,
-            @Named("tutorialPlayerClass") PlayerClass tutorialPlayerClass) {
+            @Named("skeletonPlayerClass") PlayerClass skeletonPlayerClass
+    ) {
 
         final ArrayList<PlayerClass> playerClasses = new ArrayList<>();
 
         playerClasses.add(knightPlayerClass);
         playerClasses.add(magePlayerClass);
         playerClasses.add(skeletonPlayerClass);
-        playerClasses.add(tutorialPlayerClass);
 
         return playerClasses;
     }

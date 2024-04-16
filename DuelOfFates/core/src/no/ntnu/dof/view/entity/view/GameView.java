@@ -22,7 +22,7 @@ public class GameView extends Group {
         background = new Image("background.png", 1.0f);
         this.addActor(background);
 
-        activePlayerView = new Image("arrow.png", 0.15f);
+        activePlayerView = new Image("arrow.png", 0.10f);
         this.addActor(activePlayerView);
 
         opponentPlayerView = new OpponentPlayerView(game.getOpponent());
@@ -36,7 +36,7 @@ public class GameView extends Group {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         if(game.getNextPlayer() == game.getHost()) {
-            activePlayerView.setPosition(hostPlayerView.getX() + hostPlayerView.getGraphics().getWidth() / 2 - activePlayerView.getWidth() / 2, hostPlayerView.getY() + hostPlayerView.getGraphics().getHeight());
+            activePlayerView.setPosition(hostPlayerView.getX() + hostPlayerView.getGraphics().getWidth() / 2 - activePlayerView.getWidth() / 1.5f, hostPlayerView.getY() + hostPlayerView.getGraphics().getHeight());
             hostPlayerView.addEndTurnButton();
         }
         else {

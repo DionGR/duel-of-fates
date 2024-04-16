@@ -22,7 +22,7 @@ public class TutorialScreen implements Screen {
     private final GameView gameView;
     private Label activeLabel;
     private HighlightingArea HighlightedArea;
-    private final Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+    private final Skin skin = new Skin(Gdx.files.internal("UISkin.json"));
     private ArrayList<Label> tutorialLabels;
 
     public TutorialScreen(Game game) {
