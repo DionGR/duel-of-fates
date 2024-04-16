@@ -6,7 +6,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import lombok.extern.slf4j.Slf4j;
-import no.ntnu.dof.android.FirebaseAuthImpl;
+import no.ntnu.dof.android.FirebaseAuthService;
 import no.ntnu.dof.android.FirebaseGameService;
 import no.ntnu.dof.android.FirebaseLobbyService;
 import no.ntnu.dof.android.FirebaseUserService;
@@ -22,7 +22,7 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
 		// Initialize Firebase services
-		ServiceLocator.provideAuthService(new FirebaseAuthImpl());
+		ServiceLocator.provideAuthService(new FirebaseAuthService());
 		ServiceLocator.provideLobbyService(new FirebaseLobbyService());
 		ServiceLocator.provideGameService(new FirebaseGameService());
 		ServiceLocator.provideUserService(new FirebaseUserService());

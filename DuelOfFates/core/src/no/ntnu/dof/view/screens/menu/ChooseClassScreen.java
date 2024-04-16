@@ -38,12 +38,12 @@ public class ChooseClassScreen extends ReturnableScreen {
     @Named("listPlayerClasses")
     protected List<PlayerClass> playerClasses;
 
-    public ChooseClassScreen(DuelOfFates game) {
+    public ChooseClassScreen(User currentUser) {
         super();
         ChooseClassScreenComponent chooseClassScreenComponent = DaggerChooseClassScreenComponent.create();
         chooseClassScreenComponent.inject(this);
 
-        this.user = game.getCurrentUser();
+        this.user = currentUser;
         this.skin = new Skin(Gdx.files.internal("UISkin.json"));
     }
 
