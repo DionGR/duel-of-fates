@@ -10,7 +10,7 @@ import no.ntnu.dof.model.gameplay.stats.mana.ManaEffect;
 @SuperBuilder
 public class RefillManaEffect extends Effect implements TurnListener {
 
-    private final int MANA_TO_FILL = 2;
+    private final int MANA_TO_FILL = 3;
 
     @Override
     public void apply(@NonNull final Player player) {

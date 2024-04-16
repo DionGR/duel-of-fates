@@ -29,7 +29,6 @@ public class ScreenController {
     private static DuelOfFates application;
     private static SpriteBatch batch;
     private static AssetManager assetManager;
-    private static SoundController soundController;
 
     public static void initialize(DuelOfFates application, SpriteBatch spriteBatch, AssetManager assetMgr) {
         ScreenController.application = application;

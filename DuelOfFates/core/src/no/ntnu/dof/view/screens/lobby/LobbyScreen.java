@@ -42,8 +42,9 @@ public class LobbyScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
-        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
         // Setting up the UI components specific to LobbyScreen
+        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
+
         contentTable = new Table();
         contentTable.setFillParent(true);
         stage.addActor(contentTable);
@@ -172,6 +173,10 @@ public class LobbyScreen extends BaseScreen {
             ((GameLobbyController) listener).stopListeningForLobbyUpdates();
         }
         stage.dispose();
+        skin.dispose();
+        contentTable.clear();
+        guestButton.clear();
+        errorLabel.clear();
         super.dispose();
     }
 
