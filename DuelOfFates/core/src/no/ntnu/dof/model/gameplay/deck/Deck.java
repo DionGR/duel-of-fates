@@ -42,7 +42,6 @@ public class Deck extends GameplayEntity implements Iterator<Card> {
 
     public Card getLastPlayedCard() {
         if(playedCards.isEmpty()) {
-            System.out.println("No card played");
             return null;
         }
         return playedCards.get(playedCards.size() - 1);

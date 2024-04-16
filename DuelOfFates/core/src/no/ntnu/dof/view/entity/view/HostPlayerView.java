@@ -34,9 +34,12 @@ public class HostPlayerView extends PlayerView {
         this.player = player;
         this.setPosition((float) Gdx.graphics.getWidth() / 4 - this.getGraphics().getWidth() / 2, Gdx.graphics.getHeight() * 0.55f);
 
-        this.getHealthBarView().setPosition(this.getX(), this.getY() - Gdx.graphics.getHeight() * 0.05f);
-        this.getManaPool().setPosition(-this.getManaGraphics().getWidth()-10, this.getGraphics().getHeight()/2-this.getManaGraphics().getHeight()/2);
-        this.getArmorPool().setPosition(this.getHealthBarView().getWidth()+10, -this.getHealthBarView().getHeight()/2-this.getArmorPool().getHeight()/2);
+        this.getHealthBarView().setPosition(0, -this.getHealthBarView().getHeight()-5);
+        this.getManaPool().setPosition(-this.getManaPool().getWidth()-10, this.getGraphics().getHeight()/2-this.getManaPool().getHeight()/2);
+        this.getArmorPool().setPosition(this.getHealthBarView().getWidth()+10, this.getHealthBarView().getY()+this.getHealthBarView().getHeight()/2-this.getArmorPool().getHeight()/2);
+
+        //this.setBounds(this.getHealthBarView().getWidth()+10, -this.getHealthBarView().getHeight()/2-this.getArmorPool().getHeight()/2, (-this.getManaGraphics().getWidth()-10+this.getManaPool().getWidth())-this.getHealthBarView().getWidth()+10, this.getGraphics().getY() - this.getHealthBarView().getY());
+
 
         hostInterface = new Group();
 

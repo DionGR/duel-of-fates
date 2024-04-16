@@ -82,36 +82,42 @@ public class TutorialController {
     }
 
     public void gameLoop() throws InterruptedException {
-        int turn = 1;
         screen.GamePresentation();
+
+        Optional<Card> turnCard = playerControllers.get(host).choosePlay(0);
+        playOneCard(turnCard);
+        screen.ShowManaConsumption();
+        turnCard = playerControllers.get(host).choosePlay(0);
+        playOneCard(turnCard);
+        turnCard = playerControllers.get(bot).choosePlay(0);
+        playOneCard(turnCard);
+
+        screen.ShowPlayedCard();
+
         while (!game.isOver()) {
             System.out.println("Turn of " + game.getNextPlayer().getName() + " (" + game.getNextPlayer().getHealth().getValue() + " HP)");
             Player currentPlayer = game.getNextPlayer();
             PlayerController currentPlayerController = playerControllers.get(currentPlayer);
 
             if (quit) throw new InterruptedException();
-            Optional<Card> turnCard = currentPlayerController.choosePlay(0);
-
-            if(turn == 2)
-            {
-                turnCard = Optional.empty();
-            }
+            turnCard = currentPlayerController.choosePlay(0);
 
             if (turnCard.isPresent()) {
                 game.playCard(turnCard.get());
             } else {
-                turn++;
-                TutorialTurn(turn);
                 game.finalizeTurn();
                 Gdx.app.log("Game", "Turn finalized.");
             }
         }
     }
 
-
-    public void TutorialTurn(int turnNumber)
-    {
-        screen.TutorialTurn(turnNumber);
+    public void playOneCard(Optional<Card> turnCard){
+        if (turnCard.isPresent()) {
+            game.playCard(turnCard.get());
+        } else {
+            game.finalizeTurn();
+            Gdx.app.log("Game", "Turn finalized.");
+        }
     }
 
 }
