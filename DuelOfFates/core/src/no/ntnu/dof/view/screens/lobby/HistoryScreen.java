@@ -93,7 +93,6 @@ public class HistoryScreen extends ReturnableScreen {
         // Add the ScrollPane to the outer table
         outerTable.add(scrollPane).width(400).expandY().fillY().center();
 
-        stage.clear(); // Clear previous actors
         stage.addActor(outerTable); // Add the outer table to the stage
     }
 }

@@ -42,36 +42,46 @@ public class LobbiesScreen extends ReturnableScreen {
     @Override
     public void show() {
         super.show();
-        setupUI();
-    }
+        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
 
-    private void setupUI() {
-        if (skin == null) {
-            skin = new Skin(Gdx.files.internal("UISkin.json"));
-        }
-
-        stage.clear();  // Clear the stage to remove old actors
-        Table mainTable = new Table();
-        mainTable.setFillParent(true);
-        stage.addActor(mainTable);
+        // Making a centered table to store title and buttons
+        contentTable = new Table();
+        contentTable.setWidth(stage.getWidth());
+        contentTable.align(Align.center|Align.top);
+        contentTable.setPosition(0, Gdx.graphics.getHeight());
 
         lobbiesTitle = new Label("Lobbies", skin, "big");
-        lobbiesTitle.setFontScale(1.5f);
-        mainTable.add(lobbiesTitle).padTop(30).padBottom(20).center().row();
+        contentTable.add(lobbiesTitle).expandX().padTop(20).row();
 
-        contentTable = new Table(skin);
-        ScrollPane scrollPane = new ScrollPane(contentTable, skin);
-        scrollPane.setScrollingDisabled(true, false);
-        scrollPane.setFadeScrollBars(false);
-        mainTable.add(scrollPane).width(350).expandY().fillY().pad(10);
+        TextButton lobbyBtn = new TextButton("<Lobby Title>\n<Host Name>", skin, "default");
 
-        setupButtons();
-        updateLobbiesList(gameLobbies);  // Refresh list using current lobbies
-    }
+        // Adding content to table
+        contentTable.padTop(30);
+        for (GameLobby lobby : gameLobbies.getLobbies()) {
+            TextButton lobbyButton = new TextButton(lobby.getTitle() + "\n" + lobby.getCreator().getEmail(), skin, "default");
+            lobbyButton.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    listener.transitionToLobby(lobby);
+                    System.out.println("Clicked on lobby: " + lobby.getTitle());
+                    return true;
+                }
+            });
+            contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
+        }
 
+        // Making scrollable table
+        final ScrollPane scroller = new ScrollPane(contentTable);
+        scroller.setTouchable(Touchable.childrenOnly);
 
-    private void setupButtons() {
-        createLobbyBtn = new TextButton("Create Lobby", skin);
+        final Table table = new Table();
+        table.setFillParent(true);
+        table.add(scroller).fill().expand();
+
+        stage.addActor(table);
+
+        // Setting create lobby button
+        createLobbyBtn = new TextButton("Create Lobby", skin, "default");
         createLobbyBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -79,7 +89,7 @@ public class LobbiesScreen extends ReturnableScreen {
             }
         });
 
-        matchHistoryBtn = new TextButton("Match History", skin);
+        matchHistoryBtn = new TextButton("Match History", skin, "default");
         matchHistoryBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -87,18 +97,18 @@ public class LobbiesScreen extends ReturnableScreen {
             }
         });
 
+        // Add the button directly to the stage
         stage.addActor(createLobbyBtn);
         stage.addActor(matchHistoryBtn);
 
-        float margin = 20;
+        // Positioning the create lobby button at the top right with some margin
+        float margin = 20; // Adjust the margin value as needed
         float buttonX = Gdx.graphics.getWidth() - createLobbyBtn.getWidth() - margin;
         float buttonY = Gdx.graphics.getHeight() - createLobbyBtn.getHeight() - margin;
 
         float historyBtnY = buttonY - createLobbyBtn.getHeight() - margin;
         createLobbyBtn.setPosition(buttonX, buttonY);
         matchHistoryBtn.setPosition(buttonX, historyBtnY);
-
-        Gdx.app.log("LobbiesScreen", "Setting up buttons" + gameLobbies.getLobbies().size());
     }
 
     private void showCreateLobbyDialog() {
@@ -137,25 +147,30 @@ public class LobbiesScreen extends ReturnableScreen {
     }
 
     public void updateLobbiesList(GameLobbies gameLobbies) {
-        Gdx.app.postRunnable(() -> {
-            this.gameLobbies = gameLobbies;
-            contentTable.clearChildren();
-            if (gameLobbies.getLobbies().isEmpty()) {
-                contentTable.add(new Label("No lobbies available", skin)).padTop(30).center().row();
-            } else {
-                for (GameLobby lobby : gameLobbies.getLobbies()) {
-                    TextButton lobbyButton = new TextButton(lobby.getTitle() + "\n" + lobby.getCreator().getEmail(), skin);
-                    lobbyButton.addListener(new ClickListener() {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            listener.transitionToLobby(lobby);
-                        }
-                    });
-                    contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                LobbiesScreen.this.gameLobbies = gameLobbies;
+                if (contentTable != null) {
+                    // Clear the existing content but preserve the title
+                    contentTable.clearChildren();
+                    contentTable.add(lobbiesTitle).expandX().padTop(20).row();
+
+                    // Re-add each lobby as a button
+                    for (GameLobby lobby : gameLobbies.getLobbies()) {
+                        TextButton lobbyButton = new TextButton(lobby.getTitle() + "\n" + lobby.getCreator().getEmail(), skin, "default");
+                        lobbyButton.addListener(new ClickListener() {
+                            @Override
+                            public void clicked(InputEvent event, float x, float y) {
+                                listener.transitionToLobby(lobby);
+                            }
+                        });
+                        contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
+                    }
+                } else {
+                    Gdx.app.log("LobbiesScreen", "Attempted to update lobbies list when contentTable is null.");
                 }
             }
-            contentTable.invalidateHierarchy();
-            stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f)); // Ensure updates are processed
         });
     }
 
@@ -176,7 +191,6 @@ public class LobbiesScreen extends ReturnableScreen {
     @Override
     public void resume() {
     }
-
     @Override
     public void hide() {
     }
@@ -191,5 +205,4 @@ public class LobbiesScreen extends ReturnableScreen {
         matchHistoryBtn.clear();
         lobbiesTitle.clear();
     }
-
 }
