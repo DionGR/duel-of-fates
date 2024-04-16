@@ -29,7 +29,7 @@ public class CardView extends Group {
         this.width = cardTexture.getWidth();
         this.height = cardTexture.getHeight();
         this.playable = playListener != null;
-        this.setPosition(width * i, playable ? this.height / 4 : 0);
+        this.setPosition(width * i, playable ? this.height / 8 : 0);
         this.setBounds(this.getX(), this.getY(), width, height);
         if (playable) this.addListener(playListener);
         else this.setColor(new Color(0.7f, 0.7f, 0.7f, 1.0f));
@@ -52,7 +52,7 @@ public class CardView extends Group {
             }
         }
 
-        descriptionLabel = new TextLabel(descriptionString, width * 0.09f, height * 0.06f, width * 0.8f, height * 0.33f, height * 0.004f, Color.WHITE);
+        descriptionLabel = new TextLabel(descriptionString, width * 0.09f, height * 0.06f, width * 0.8f, height * 0.33f, height * 0.005f, Color.WHITE);
         descriptionLabel.getText().setAlignment(Align.topLeft);
         this.addActor(descriptionLabel.getText());
     }

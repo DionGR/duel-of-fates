@@ -74,10 +74,10 @@ public class HostPlayerView extends PlayerView {
         for (Iterator<Card> iterator = temporaryList.iterator(); iterator.hasNext(); ) {
             Card card = iterator.next();
             ClickListener cardListener = player.canPlay(card) ? playListener : null;
-            handView.addActor(new CardView(0.3f, card, handView.getChildren().size, cardListener));
+            handView.addActor(new CardView(0.35f, card, handView.getChildren().size, cardListener));
         }
         if(handView.getChildren().size > 0){
-            handView.setBounds(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 5, handView.getChild(handView.getChildren().size-1).getWidth()*handView.getChildren().size, (5f/4)*handView.getChild(handView.getChildren().size-1).getHeight());
+            handView.setBounds(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 5, handView.getChild(handView.getChildren().size-1).getWidth()*handView.getChildren().size, (9f/8)*handView.getChild(handView.getChildren().size-1).getHeight());
         }
     }
 
