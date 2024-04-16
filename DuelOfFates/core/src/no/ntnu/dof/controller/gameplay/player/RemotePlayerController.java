@@ -18,7 +18,6 @@ import no.ntnu.dof.model.gameplay.player.Player;
 public class RemotePlayerController implements PlayerController, GameService.PlayListener {
     protected Player player;
     protected Optional<Card> chosen;
-    protected boolean played;
     protected boolean abort;
     @Inject
     @Named("abortCard")
@@ -27,7 +26,6 @@ public class RemotePlayerController implements PlayerController, GameService.Pla
     public RemotePlayerController(Player player, GameComms comms) {
         this.player = player;
         this.chosen = Optional.empty();
-        this.played = false;
         this.abort = false;
 
         ServiceLocator.getGameService().addPlayListener(comms, this);
@@ -36,34 +34,24 @@ public class RemotePlayerController implements PlayerController, GameService.Pla
     }
 
     @Override
-    public synchronized Optional<Card> choosePlay() throws InterruptedException {
+    public synchronized Optional<Card> choosePlay(long timeout) throws InterruptedException {
         if (abort) return Optional.of(abortCard);
-        played = false;
-
-        while (!played) {
-            this.wait();
-        }
-
+        chosen = Optional.empty();
+        this.wait(timeout);
         if (abort) return Optional.of(abortCard);
-        played = false;
         return chosen;
     }
 
     @Override
     public synchronized void onCardPlayed(Card card) {
         chosen = Optional.of(card);
-        played = true;
-
         this.notify();
     }
 
     @Override
     public synchronized void onTurnEnd(String player) {
         if (!player.equals(this.player.getName())) return;
-
         chosen = Optional.empty();
-        played = true;
-
         this.notify();
     }
 
@@ -71,8 +59,6 @@ public class RemotePlayerController implements PlayerController, GameService.Pla
     public synchronized void onAbort() {
         Gdx.app.log("Game", "Opponent aborted.");
         abort = true;
-        played = true;
-
         this.notify();
     }
 }

@@ -10,11 +10,9 @@ import no.ntnu.dof.view.entity.view.CardView;
 
 public class ClickPlayerController extends ClickListener implements PlayerController {
     protected Optional<Card> chosen;
-    protected boolean played;
 
     public ClickPlayerController() {
         this.chosen = Optional.empty();
-        this.played = false;
     }
 
     @Override
@@ -24,17 +22,14 @@ public class ClickPlayerController extends ClickListener implements PlayerContro
         } else {
             chosen = Optional.empty();
         }
-        played = true;
         this.notify();
         return super.touchDown(event, x, y, pointer, button);
     }
 
     @Override
-    public synchronized Optional<Card> choosePlay() throws InterruptedException {
-        while (!played) {
-            this.wait();
-        }
-        played = false;
+    public synchronized Optional<Card> choosePlay(long timeout) throws InterruptedException {
+        chosen = Optional.empty();
+        this.wait(timeout);
         return chosen;
     }
 }
