@@ -86,8 +86,8 @@ public class ScreenController {
 
     public static void transitionToHistory() {
         HistoryScreen historyScreen = new HistoryScreen();
-        new HistoryController(application.getCurrentUser(), historyScreen);
         pushScreen(historyScreen);
+        new HistoryController(application.getCurrentUser(), historyScreen);
     }
 
     public static void transitionToGame(Player host, Player guest, GameComms comms) {

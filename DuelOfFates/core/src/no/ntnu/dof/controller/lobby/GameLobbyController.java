@@ -63,7 +63,7 @@ public class GameLobbyController implements LobbyViewListener {
             return;
         }
 
-        GameComms comms = ServiceLocator.getGameService().createComms(gameLobby.getCreator().getName());
+        GameComms comms = ServiceLocator.getGameService().createComms(gameLobby.getCreator().getId());
 
         // update firebase game state to "started"
         ServiceLocator.getLobbyService().initializeGame(new LobbyService.LobbyUpdateCallback() {

@@ -36,6 +36,10 @@ public class CardTexture {
     }
 
     public void dispose() {
+        background.getTexture().dispose();
+        nameFlag.getTexture().dispose();
+        line.getTexture().dispose();
+        mana.dispose();
         image.dispose();
     }
 }

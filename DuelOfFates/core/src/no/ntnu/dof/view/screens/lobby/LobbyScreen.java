@@ -20,7 +20,6 @@ import no.ntnu.dof.view.screens.BaseScreen;
 
 public class LobbyScreen extends BaseScreen {
 
-    private Stage stage;
     private Skin skin;
     private Table contentTable;
     private Label lobbyTitle;
@@ -42,9 +41,10 @@ public class LobbyScreen extends BaseScreen {
 
     @Override
     public void show() {
-        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
-        this.stage = new Stage(new ScreenViewport(), this.batch); // Use the batch from BaseScreen
+        super.show();
         // Setting up the UI components specific to LobbyScreen
+        this.skin = new Skin(Gdx.files.internal("UISkin.json"));
+
         contentTable = new Table();
         contentTable.setFillParent(true);
         stage.addActor(contentTable);
@@ -173,6 +173,10 @@ public class LobbyScreen extends BaseScreen {
             ((GameLobbyController) listener).stopListeningForLobbyUpdates();
         }
         stage.dispose();
+        skin.dispose();
+        contentTable.clear();
+        guestButton.clear();
+        errorLabel.clear();
         super.dispose();
     }
 

@@ -26,6 +26,7 @@ public class HostPlayerView extends PlayerView {
     private final Image discardView;
     private final TextButton endTurnButton;
     private final Player player;
+    private final Skin skin;
 
     private static ClickListener playListener;
 
@@ -36,6 +37,7 @@ public class HostPlayerView extends PlayerView {
 
         this.getHealthBarView().setPosition(this.getX(), this.getY() - Gdx.graphics.getHeight() * 0.05f);
         this.getManaPool().setPosition(-this.getManaGraphics().getWidth()-10, this.getGraphics().getHeight()/2-this.getManaGraphics().getHeight()/2);
+
 
         hostInterface = new Group();
 
@@ -51,7 +53,7 @@ public class HostPlayerView extends PlayerView {
         updateHandView();
         hostInterface.addActor(handView);
 
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new Skin(Gdx.files.internal("UISkin.json"));
         endTurnButton = new TextButton("End Turn", skin, "default");
         endTurnButton.addListener(playListener);
         endTurnButton.setPosition(discardView.getX() * 0.9f, (discardView.getY() + discardView.getHeight()) * 1.5f);
@@ -68,7 +70,7 @@ public class HostPlayerView extends PlayerView {
     }
 
     public void updateManaView() {
-        this.getManaText().setText(Integer.toString(player.getMana().getValue()));
+        this.manaText.getText().setText(Integer.toString(player.getMana().getValue()));
     }
 
     public void updateHandView() {
@@ -95,6 +97,7 @@ public class HostPlayerView extends PlayerView {
         super.dispose();
         deckView.dispose();
         discardView.dispose();
+        skin.dispose();
         for (int i = 0; i < handView.getChildren().size; i++) {
             ((CardView) handView.getChild(i)).dispose();
         }

@@ -17,10 +17,11 @@ import no.ntnu.dof.view.gameplay.HealthBarView;
 @Getter
 public class PlayerView extends Group {
     private final Player player;
+    private final ShapeRenderer shapeDrawer = new ShapeRenderer();
     private final Image graphics;
     private final Group manaPool;
     private final Image manaGraphics;
-    private final Label manaText;
+    private final TextLabel manaText;
     private final HealthBarView healthBarView;
 
     public PlayerView(Player player) {
@@ -33,19 +34,23 @@ public class PlayerView extends Group {
 
         manaPool = new Group();
         manaGraphics = new Image("mana.png", 0.10f);
-        manaText = (new TextLabel(Integer.toString(player.getMana().getValue()), manaGraphics.getWidth()*0.28f,manaGraphics.getHeight()*0.3f,manaGraphics.getWidth()*0.4f,manaGraphics.getHeight()*0.4f,manaGraphics.getHeight()*0.03f, Color.GREEN)).getText();
-        manaPool.setBounds(getX(), getY(), manaGraphics.getWidth(), manaGraphics.getHeight());
         manaPool.addActor(manaGraphics);
-        manaPool.addActor(manaText);
+
+        manaText = new TextLabel(Integer.toString(player.getMana().getValue()), manaGraphics.getWidth()*0.28f,manaGraphics.getHeight()*0.3f,manaGraphics.getWidth()*0.4f,manaGraphics.getHeight()*0.4f,manaGraphics.getHeight()*0.03f, Color.GREEN);
+        manaPool.addActor(manaText.getText());
+
         this.addActor(manaPool);
     }
     public void draw(Batch batch, float parentAlpha) {
+        manaText.getText().setText(player.getMana().getValue());
         super.draw(batch, parentAlpha);
     }
 
     public void dispose() {
         graphics.dispose();
         manaGraphics.dispose();
+        manaText.dispose();
+        shapeDrawer.dispose();
     }
 
 }
