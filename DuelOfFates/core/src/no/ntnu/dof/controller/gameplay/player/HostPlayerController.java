@@ -18,7 +18,7 @@ public class HostPlayerController extends ClickPlayerController {
     }
 
     @Override
-    public Optional<Card> choosePlay() {
+    public Optional<Card> choosePlay() throws InterruptedException {
         Optional<Card> play = super.choosePlay();
 
         comms.setPlayerLastTurn(player.getName());

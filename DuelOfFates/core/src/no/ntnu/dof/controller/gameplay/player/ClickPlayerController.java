@@ -30,12 +30,9 @@ public class ClickPlayerController extends ClickListener implements PlayerContro
     }
 
     @Override
-    public synchronized Optional<Card> choosePlay() {
+    public synchronized Optional<Card> choosePlay() throws InterruptedException {
         while (!played) {
-            try {
-                this.wait();
-            } catch (InterruptedException ignored) {
-            }
+            this.wait();
         }
         played = false;
         return chosen;

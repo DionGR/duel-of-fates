@@ -15,10 +15,14 @@ public interface GameService {
 
     void playCard(GameComms comms, Optional<Card> card);
 
+    void abort(GameComms comms);
+
     interface PlayListener {
         void onCardPlayed(Card card);
 
         void onTurnEnd(String player);
+
+        void onAbort();
     }
 
     interface GetCommsCallback {

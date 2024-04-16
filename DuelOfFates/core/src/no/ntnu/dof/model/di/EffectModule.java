@@ -1,7 +1,5 @@
 package no.ntnu.dof.model.di;
 
-import java.util.HashMap;
-
 import javax.inject.Named;
 
 import dagger.Module;
@@ -13,8 +11,8 @@ import no.ntnu.dof.model.gameplay.effect.card.PassiveHealingEffect;
 import no.ntnu.dof.model.gameplay.effect.card.PoisonEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RefillHandEffect;
 import no.ntnu.dof.model.gameplay.effect.card.RefillManaEffect;
+import no.ntnu.dof.model.gameplay.effect.card.SuicideEffect;
 import no.ntnu.dof.model.gameplay.stats.health.HealthEffect;
-import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 import no.ntnu.dof.model.gameplay.stats.mana.ManaEffect;
 
 @Module
@@ -137,6 +135,12 @@ public class EffectModule {
     }
 
     @Provides
+    @Named("suicideEffect")
+    public Effect provideSuicideEffect() {
+        return SuicideEffect.builder().name("suicideEffect").build();
+    }
+
+    @Provides
     @Named("effectInvoker")
     public EffectInvoker<String, Effect> provideEffectInvoker(
             @Named("refillHandEffect") Effect refillHandEffect,
@@ -150,7 +154,8 @@ public class EffectModule {
             @Named("healthEffect_8") Effect healthEffect8,
             @Named("healthEffect_12") Effect healthEffect12,
             @Named("poisonEffect_4_4") Effect poisonEffect4_4,
-            @Named("passiveHealingEffect_4_4") Effect passiveHealingEffect4_4
+            @Named("passiveHealingEffect_4_4") Effect passiveHealingEffect4_4,
+            @Named("suicideEffect") Effect suicideEffect
     ) {
 
         EffectInvoker<String, Effect> effectInvoker = new EffectInvoker<>();
@@ -167,7 +172,7 @@ public class EffectModule {
         effectInvoker.register("healthEffect_12", healthEffect12);
         effectInvoker.register("poisonEffect_4_4", poisonEffect4_4);
         effectInvoker.register("passiveHealingEffect_4_4", passiveHealingEffect4_4);
-
+        effectInvoker.register("suicideEffect", suicideEffect);
 
 
         return effectInvoker;

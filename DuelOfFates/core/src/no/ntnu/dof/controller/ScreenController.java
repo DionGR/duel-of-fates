@@ -14,10 +14,10 @@ import no.ntnu.dof.controller.menu.LoginController;
 import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.User;
-import no.ntnu.dof.view.screens.lobby.HistoryScreen;
-import no.ntnu.dof.model.User;
+import no.ntnu.dof.model.gameplay.event.GameEndListener;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.screens.game.GameScreen;
+import no.ntnu.dof.view.screens.lobby.HistoryScreen;
 import no.ntnu.dof.view.screens.lobby.LobbiesScreen;
 import no.ntnu.dof.view.screens.lobby.LobbyScreen;
 import no.ntnu.dof.view.screens.menu.ChooseClassScreen;
@@ -88,11 +88,11 @@ public class ScreenController {
         new HistoryController(application.getCurrentUser(), historyScreen);
     }
 
-    public static void transitionToGame(Player host, Player guest, GameComms comms) {
+    public static void transitionToGame(Player host, Player guest, GameComms comms, GameEndListener gameEndListener) {
         popScreen();
-        GameController gameController = new GameController(host, guest, comms, application.getCurrentUser());
+        GameController gameController = new GameController(host, guest, comms);
         GameScreen gameScreen = new GameScreen(gameController.getGame());
-        new Thread(gameController::gameLoop).start();
+        gameController.startGame(gameEndListener);
         pushScreen(gameScreen);
     }
 }

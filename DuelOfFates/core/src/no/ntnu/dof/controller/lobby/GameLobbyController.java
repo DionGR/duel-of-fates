@@ -17,6 +17,7 @@ import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.GameLobby;
 import no.ntnu.dof.model.GameSummary;
 import no.ntnu.dof.model.User;
+import no.ntnu.dof.model.gameplay.event.GameEndListener;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClassInvoker;
@@ -59,7 +60,7 @@ public class GameLobbyController implements LobbyViewListener {
         ServiceLocator.getLobbyService().stopListeningForLobbyUpdates(gameLobby.getLobbyId());
     }
 
-    public void startGame(){
+    public void startGame() {
 
         if (gameLobby.getGuest() == null) {
             lobbyScreen.showError("A second player is required to start the game.");
@@ -102,7 +103,31 @@ public class GameLobbyController implements LobbyViewListener {
                 .playerClass(playerClassInvoker.invoke(guestUser.getPlayerClassName()))
                 .build();
 
-        ScreenController.transitionToGame(host, guest, comms);
+        ScreenController.transitionToGame(host, guest, comms, new GameEndListener() {
+            final UserService.GameSummaryCallback gameSummaryCallback = new UserService.GameSummaryCallback() {
+                @Override
+                public void onSuccess() {
+                    Gdx.app.log("Game", "Game summary uploaded successfully.");
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    Gdx.app.log("Game", "Failed to upload game summary: " + e.getMessage());
+                }
+            };
+
+            @Override
+            public void onGameEnd(GameSummary gameSummary) {
+                ServiceLocator.getUserService().uploadGameSummary(currentUser.getId(), gameSummary, gameSummaryCallback);
+            }
+
+            @Override
+            public void onGameAbort() {
+                ServiceLocator.getGameService().abort(comms);
+                GameSummary gameSummary = new GameSummary(hostUser.getId(), guestUser.getId(), false, !guest.isDead());
+                ServiceLocator.getUserService().uploadGameSummary(currentUser.getId(), gameSummary, gameSummaryCallback);
+            }
+        });
     }
 
     private void handleLobbyGameStart(@NonNull GameLobby gameLobby) {
