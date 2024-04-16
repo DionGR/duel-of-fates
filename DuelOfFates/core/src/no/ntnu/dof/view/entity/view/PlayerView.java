@@ -55,6 +55,7 @@ public class PlayerView extends Group {
     }
     public void draw(Batch batch, float parentAlpha) {
         manaText.getText().setText(Integer.toString(player.getMana().getValue()));
+        armorText.getText().setText(Integer.toString(player.getArmor().getValue()));
         super.draw(batch, parentAlpha);
     }
 

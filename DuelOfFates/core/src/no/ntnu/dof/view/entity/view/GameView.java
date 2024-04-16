@@ -22,7 +22,7 @@ public class GameView extends Group {
         background = new Image("background.png", 1.0f);
         this.addActor(background);
 
-        activePlayerView = new Image("arrow.png", 0.10f);
+        activePlayerView = new Image("arrow.png", 0.15f);
         this.addActor(activePlayerView);
 
         hostPlayerView = new HostPlayerView(game.getHost());
