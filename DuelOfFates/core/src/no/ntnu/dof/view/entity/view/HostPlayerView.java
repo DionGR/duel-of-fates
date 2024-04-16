@@ -45,10 +45,6 @@ public class HostPlayerView extends PlayerView {
         deckView.setPosition(0, 0);
         hostInterface.addActor(deckView);
 
-        discardView = new Image("cardBackside.png", 0.25f);
-        discardView.setPosition((float) Gdx.graphics.getWidth() - discardView.getWidth(), 0);
-        hostInterface.addActor(discardView);
-
         handView = new Group();
         updateHandView();
         hostInterface.addActor(handView);

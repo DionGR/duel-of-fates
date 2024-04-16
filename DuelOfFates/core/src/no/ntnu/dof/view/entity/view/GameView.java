@@ -25,10 +25,12 @@ public class GameView extends Group {
         activePlayerView = new Image("arrow.png", 0.15f);
         this.addActor(activePlayerView);
 
-        hostPlayerView = new HostPlayerView(game.getHost());
-        this.addActor(hostPlayerView);
         opponentPlayerView = new OpponentPlayerView(game.getOpponent());
         this.addActor(opponentPlayerView);
+
+        hostPlayerView = new HostPlayerView(game.getHost());
+        this.addActor(hostPlayerView);
+
     }
 
     @Override

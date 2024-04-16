@@ -15,7 +15,7 @@ public class TutorialPlayerModule {
 
     @Provides
     @Named("hostTutorialPlayer")
-    public Player provideHostTutorialPlayer(@Named("tutorialPlayerClass") PlayerClass playerClass) {
+    public Player provideHostTutorialPlayer(@Named("knightPlayerClass") PlayerClass playerClass) {
         return Player.builder()
                 .name("host")
                 .playerClass(playerClass)

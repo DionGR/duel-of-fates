@@ -11,7 +11,7 @@ public class BotTutorialController implements PlayerController{
         if(!played){
             played = true;
             return Optional.of(Card.builder()
-                    .name("Card1")
+                    .name("attackCard_8")
                     .cost(new Mana(3))
                     .opponentEffectName("damageEffect_8")
                     .build());

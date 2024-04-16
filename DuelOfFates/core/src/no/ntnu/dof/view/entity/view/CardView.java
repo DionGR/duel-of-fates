@@ -41,13 +41,18 @@ public class CardView extends Group {
         this.addActor(costLabel.getText());
 
         String descriptionString = "";
-        for (String effect : card.getHostEffectNames()) {
-            descriptionString += effect + "\n";
+        if(card.getHostEffectNames() != null) {
+            for (String effect : card.getHostEffectNames()) {
+                descriptionString += effect + "\n";
+            }
         }
-        for (String effect : card.getOpponentEffectNames()) {
-            descriptionString += effect + "\n";
+        if(card.getOpponentEffectNames() != null) {
+            for (String effect : card.getOpponentEffectNames()) {
+                descriptionString += effect + "\n";
+            }
         }
-        descriptionLabel = new TextLabel(descriptionString, width * 0.09f, height * 0.06f, width * 0.8f, height * 0.33f, height * 0.004f, Color.WHITE);
+
+        descriptionLabel = new TextLabel(" ", width * 0.09f, height * 0.06f, width * 0.8f, height * 0.33f, height * 0.004f, Color.WHITE);
         descriptionLabel.getText().setAlignment(Align.topLeft);
         this.addActor(descriptionLabel.getText());
     }
@@ -57,7 +62,7 @@ public class CardView extends Group {
         Color originalColor = batch.getColor();
         batch.setColor(this.getColor());
         cardTexture.draw(batch, getX(), getY());
-        originalColor.set(originalColor);
+        batch.setColor(originalColor);
         super.draw(batch, parentAlpha);
     }
 
