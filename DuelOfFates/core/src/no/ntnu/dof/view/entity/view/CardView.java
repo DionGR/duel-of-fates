@@ -40,7 +40,7 @@ public class CardView extends Group {
         costLabel = new TextLabel(Integer.toString(card.getCost().getValue()), width * 0.05f, height * 0.87f, width * 0.1f, height * 0.1f, height * 0.005f, Color.GRAY);
         this.addActor(costLabel.getText());
 
-        String descriptionString = "";
+        String descriptionString = "This card does : \n";
         if(card.getHostEffectNames() != null) {
             for (String effect : card.getHostEffectNames()) {
                 descriptionString += effect + "\n";
@@ -52,7 +52,7 @@ public class CardView extends Group {
             }
         }
 
-        descriptionLabel = new TextLabel(" ", width * 0.09f, height * 0.06f, width * 0.8f, height * 0.33f, height * 0.004f, Color.WHITE);
+        descriptionLabel = new TextLabel(descriptionString, width * 0.09f, height * 0.06f, width * 0.8f, height * 0.33f, height * 0.004f, Color.WHITE);
         descriptionLabel.getText().setAlignment(Align.topLeft);
         this.addActor(descriptionLabel.getText());
     }

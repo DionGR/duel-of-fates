@@ -23,7 +23,6 @@ public class HostPlayerView extends PlayerView {
     private final Group hostInterface;
     private final Group handView;
     private final Image deckView;
-    private final Image discardView;
     private final TextButton endTurnButton;
     private final Player player;
     private final Skin skin;
@@ -52,7 +51,7 @@ public class HostPlayerView extends PlayerView {
         skin = new Skin(Gdx.files.internal("UISkin.json"));
         endTurnButton = new TextButton("End Turn", skin, "default");
         endTurnButton.addListener(playListener);
-        endTurnButton.setPosition(discardView.getX() * 0.9f, (discardView.getY() + discardView.getHeight()) * 1.5f);
+        endTurnButton.setPosition((float) Gdx.graphics.getWidth()*0.8f,  Gdx.graphics.getHeight()*0.375f);
         hostInterface.addActor(endTurnButton);
 
         this.addActor(hostInterface);
@@ -88,7 +87,6 @@ public class HostPlayerView extends PlayerView {
     public void dispose() {
         super.dispose();
         deckView.dispose();
-        discardView.dispose();
         skin.dispose();
         endTurnButton.clear();
         for (int i = 0; i < handView.getChildren().size; i++) {

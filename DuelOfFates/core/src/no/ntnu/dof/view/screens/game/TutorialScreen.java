@@ -251,7 +251,7 @@ public class TutorialScreen implements Screen {
         } );
         stage.addActor(activeLabel);
         //Highlight discard
-        HighlightActor(gameView.getHostPlayerView().getDiscardView());
+        //HighlightActor(gameView.getHostPlayerView().getDiscardView());
     }
 
     public void ShowEndTurn()
