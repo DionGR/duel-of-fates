@@ -14,6 +14,8 @@ public class OpponentPlayerView extends PlayerView {
 
         this.getManaPool().setPosition(this.getGraphics().getWidth()+10, this.getGraphics().getHeight()/2-this.getManaGraphics().getHeight()/2);
         this.getHealthBarView().setPosition(this.getX(), this.getY() - Gdx.graphics.getHeight() * 0.05f);
+        this.getArmorPool().setPosition(-this.getArmorPool().getWidth()-10, -this.getHealthBarView().getHeight()/2-this.getArmorPool().getHeight()/2);
+
     }
 
     @Override

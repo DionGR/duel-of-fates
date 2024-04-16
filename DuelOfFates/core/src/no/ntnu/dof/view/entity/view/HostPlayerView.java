@@ -37,7 +37,7 @@ public class HostPlayerView extends PlayerView {
 
         this.getHealthBarView().setPosition(this.getX(), this.getY() - Gdx.graphics.getHeight() * 0.05f);
         this.getManaPool().setPosition(-this.getManaGraphics().getWidth()-10, this.getGraphics().getHeight()/2-this.getManaGraphics().getHeight()/2);
-
+        this.getArmorPool().setPosition(this.getHealthBarView().getWidth()+10, -this.getHealthBarView().getHeight()/2-this.getArmorPool().getHeight()/2);
 
         hostInterface = new Group();
 
@@ -65,13 +65,9 @@ public class HostPlayerView extends PlayerView {
 
     public void draw(Batch batch, float parentAlpha) {
         updateHandView();
-        updateManaView();
         super.draw(batch, parentAlpha);
     }
 
-    public void updateManaView() {
-        this.manaText.getText().setText(Integer.toString(player.getMana().getValue()));
-    }
 
     public void updateHandView() {
         for (int i = 0; i < handView.getChildren().size; i++) {
@@ -98,8 +94,17 @@ public class HostPlayerView extends PlayerView {
         deckView.dispose();
         discardView.dispose();
         skin.dispose();
+        endTurnButton.clear();
         for (int i = 0; i < handView.getChildren().size; i++) {
             ((CardView) handView.getChild(i)).dispose();
         }
+    }
+
+    public void removeEndTurnButton() {
+        endTurnButton.remove();
+    }
+
+    public void addEndTurnButton() {
+        hostInterface.addActor(endTurnButton);
     }
 }

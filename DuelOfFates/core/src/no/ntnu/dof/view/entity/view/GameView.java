@@ -33,10 +33,14 @@ public class GameView extends Group {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if(game.getNextPlayer() == game.getHost())
+        if(game.getNextPlayer() == game.getHost()) {
             activePlayerView.setPosition(hostPlayerView.getX() + hostPlayerView.getGraphics().getWidth() / 2 - activePlayerView.getWidth() / 2, hostPlayerView.getY() + hostPlayerView.getGraphics().getHeight());
-        else
+            hostPlayerView.addEndTurnButton();
+        }
+        else {
             activePlayerView.setPosition(opponentPlayerView.getX() + opponentPlayerView.getGraphics().getWidth() / 2 - activePlayerView.getWidth() / 2, opponentPlayerView.getY() + opponentPlayerView.getGraphics().getHeight());
+            hostPlayerView.removeEndTurnButton();
+        }
         super.draw(batch, parentAlpha);
     }
 

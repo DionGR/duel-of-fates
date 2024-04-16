@@ -22,6 +22,9 @@ public class PlayerView extends Group {
     private final Group manaPool;
     private final Image manaGraphics;
     private final TextLabel manaText;
+    private final Group armorPool;
+    private final Image armorGraphics;
+    private final TextLabel armorText;
     private final HealthBarView healthBarView;
 
     public PlayerView(Player player) {
@@ -35,14 +38,23 @@ public class PlayerView extends Group {
         manaPool = new Group();
         manaGraphics = new Image("mana.png", 0.10f);
         manaPool.addActor(manaGraphics);
-
         manaText = new TextLabel(Integer.toString(player.getMana().getValue()), manaGraphics.getWidth()*0.28f,manaGraphics.getHeight()*0.3f,manaGraphics.getWidth()*0.4f,manaGraphics.getHeight()*0.4f,manaGraphics.getHeight()*0.03f, Color.GREEN);
         manaPool.addActor(manaText.getText());
-
+        this.manaPool.setBounds(manaPool.getX(), manaPool.getY(), manaGraphics.getWidth(), manaGraphics.getHeight());
         this.addActor(manaPool);
+
+        armorPool = new Group();
+        armorGraphics = new Image("armor.png", 0.10f);
+        armorPool.addActor(armorGraphics);
+        armorText = new TextLabel(Integer.toString(player.getArmor().getValue()), armorGraphics.getWidth()*0.28f,armorGraphics.getHeight()*0.3f,armorGraphics.getWidth()*0.4f,armorGraphics.getHeight()*0.4f,armorGraphics.getHeight()*0.02f, Color.LIGHT_GRAY);
+        armorPool.addActor(armorText.getText());
+        this.armorPool.setBounds(armorPool.getX(), armorPool.getY(), armorGraphics.getWidth(), armorGraphics.getHeight());
+        this.addActor(armorPool);
+
+
     }
     public void draw(Batch batch, float parentAlpha) {
-        manaText.getText().setText(player.getMana().getValue());
+        manaText.getText().setText(Integer.toString(player.getMana().getValue()));
         super.draw(batch, parentAlpha);
     }
 
