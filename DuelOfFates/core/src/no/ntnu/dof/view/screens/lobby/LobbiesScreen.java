@@ -205,5 +205,4 @@ public class LobbiesScreen extends ReturnableScreen {
         matchHistoryBtn.clear();
         lobbiesTitle.clear();
     }
-
 }

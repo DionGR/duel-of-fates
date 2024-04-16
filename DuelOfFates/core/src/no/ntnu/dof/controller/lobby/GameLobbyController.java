@@ -12,8 +12,10 @@ import no.ntnu.dof.controller.gameplay.di.GameLobbyControllerComponent;
 import no.ntnu.dof.controller.network.GameService;
 import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.controller.network.ServiceLocator;
+import no.ntnu.dof.controller.network.UserService;
 import no.ntnu.dof.model.GameComms;
 import no.ntnu.dof.model.GameLobby;
+import no.ntnu.dof.model.GameSummary;
 import no.ntnu.dof.model.User;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
@@ -58,6 +60,7 @@ public class GameLobbyController implements LobbyViewListener {
     }
 
     public void startGame(){
+
         if (gameLobby.getGuest() == null) {
             lobbyScreen.showError("A second player is required to start the game.");
             return;
@@ -79,9 +82,6 @@ public class GameLobbyController implements LobbyViewListener {
                 lobbyScreen.showError("Failed to update the lobby state.");
             }
         }, gameLobby.getLobbyId(), comms.getGameId());
-
-        // Logic to start the game...
-        Gdx.app.log("LobbyUpdate", "Starting game for lobby: " + gameLobby.getTitle());
     }
 
     private void initializeAndLaunchGame(GameComms comms) {

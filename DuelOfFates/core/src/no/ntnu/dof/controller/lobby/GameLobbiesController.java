@@ -34,6 +34,7 @@ public class GameLobbiesController implements LobbiesViewListener {
     }
 
     public void updateLobbiesList(List<GameLobby> gameLobbies) {
+        Gdx.app.log("GameLobbiesController", "Updating lobbies list with " + gameLobbies.size() + " lobbies.");
         this.gameLobbies.setLobbies(gameLobbies);
         lobbiesScreen.updateLobbiesList(this.gameLobbies);
     }
