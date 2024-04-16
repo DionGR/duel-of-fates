@@ -50,6 +50,7 @@ public class ScreenController {
 
     public static void transitionToMenu() {
         pushScreen(new MenuScreen());
+        SoundController.getInstance().start();
     }
 
     public static void transitionToLobbies() {
@@ -78,6 +79,7 @@ public class ScreenController {
 
     public static void transitionToLoginWhenLoggedIn() {
         popScreen();
+        SoundController.getInstance().stop();
         LoginScreen loginScreen = (LoginScreen) screens.peek();
         loginScreen.initializeUI();
     }
