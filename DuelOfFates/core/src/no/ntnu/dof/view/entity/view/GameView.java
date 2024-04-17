@@ -8,6 +8,7 @@ import lombok.Getter;
 import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.view.Image;
+import no.ntnu.dof.view.entity.control.TimerView;
 
 @Getter
 public class GameView extends Group {

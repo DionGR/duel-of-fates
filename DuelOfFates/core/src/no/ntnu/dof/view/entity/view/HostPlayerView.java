@@ -15,6 +15,7 @@ import lombok.Getter;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.Image;
+import no.ntnu.dof.view.entity.control.AbortButton;
 
 @Getter
 public class HostPlayerView extends PlayerView {
@@ -22,6 +23,7 @@ public class HostPlayerView extends PlayerView {
     private final Group handView;
     private final Image deckView;
     private final TextButton endTurnButton;
+    private final AbortButton abortButton;
     private final Player player;
     private final Skin skin;
 
@@ -54,6 +56,10 @@ public class HostPlayerView extends PlayerView {
         endTurnButton.addListener(playListener);
         endTurnButton.setPosition(deckView.getWidth() * 1.4f, Gdx.graphics.getHeight() * 0.375f);
         hostInterface.addActor(endTurnButton);
+
+        abortButton = new AbortButton(0.35f, playListener);
+        abortButton.setPosition(5, Gdx.graphics.getHeight() - abortButton.getHeight() - 5);
+        hostInterface.addActor(abortButton);
 
         this.addActor(hostInterface);
         hostInterface.setPosition(-this.getX(), -this.getY());
@@ -90,6 +96,7 @@ public class HostPlayerView extends PlayerView {
         deckView.dispose();
         skin.dispose();
         endTurnButton.clear();
+        abortButton.dispose();
         for (int i = 0; i < handView.getChildren().size; i++) {
             ((CardView) handView.getChild(i)).dispose();
         }
