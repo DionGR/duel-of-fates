@@ -58,7 +58,7 @@ public abstract class BaseScreen extends ScreenAdapter {
         soundBtn.setChecked(!soundController.isSoundOn());
 
 
-        soundBtn.setSize(100f,100f);
+        soundBtn.setSize((float) getScreenWidth()/10,(float) getScreenWidth()/10);
         soundBtn.setPosition(10,10);
 
         soundBtn.addListener(new ClickListener() {
@@ -68,6 +68,14 @@ public abstract class BaseScreen extends ScreenAdapter {
                 soundController.toggleSound();
             }
         });
+    }
+
+    public float getScreenWidth() {
+        return Gdx.graphics.getWidth();
+    }
+
+    public float getScreenHeight() {
+        return Gdx.graphics.getHeight();
     }
 
     @Override

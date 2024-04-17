@@ -40,15 +40,15 @@ public class LoginScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("UISkin.json"));
-        float screenWidth = stage.getWidth();
-        float screenHeight = stage.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
 
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
         Label headline = new Label("Log in / Sign up", skin);
-        headline.setFontScale(4f);
+        headline.setFontScale(3f);
         table.add(headline).padTop(30).padBottom(20).center().row();
 
         feedbackLabel = new Label("", skin);
@@ -61,7 +61,7 @@ public class LoginScreen implements Screen {
         // Get the TextField.TextFieldStyle
         TextField.TextFieldStyle textFieldStyle = skin.get(TextField.TextFieldStyle.class);
         // Set the font scale directly on the textFieldStyle's font
-        textFieldStyle.font.getData().setScale(2f);
+        textFieldStyle.font.getData().setScale(1.5f);
 
         emailField = new TextField("", skin);
         passwordField = new TextField("", skin);
@@ -69,7 +69,7 @@ public class LoginScreen implements Screen {
         passwordField.setPasswordMode(true);
 
         TextButton loginButton = new TextButton("Login", skin);
-        loginButton.getLabel().setFontScale(screenHeight*0.004f);
+        loginButton.getLabel().setFontScale(screenHeight*0.003f);
         loginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
