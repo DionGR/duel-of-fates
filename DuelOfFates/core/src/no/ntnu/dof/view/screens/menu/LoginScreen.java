@@ -48,13 +48,13 @@ public class LoginScreen implements Screen {
         stage.addActor(table);
 
         Label headline = new Label("Log in / Sign up", skin);
-        headline.setFontScale(3f);
+        headline.setFontScale(2.5f);
         table.add(headline).padTop(30).padBottom(20).center().row();
 
         feedbackLabel = new Label("", skin);
         table.add(feedbackLabel).padBottom(20).colspan(2).center().row();
 
-        float fieldButtonWidth = (float) (0.4*screenWidth);
+        float fieldButtonWidth = (float) (0.3*screenWidth);
         float buttonHeight = (float) (0.1*screenHeight);
 
 
