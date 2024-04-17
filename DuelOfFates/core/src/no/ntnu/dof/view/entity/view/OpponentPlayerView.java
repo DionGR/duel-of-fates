@@ -10,14 +10,15 @@ import no.ntnu.dof.model.gameplay.player.Player;
 @Getter
 public class OpponentPlayerView extends PlayerView {
     private CardView lastPlayedCard;
+
     public OpponentPlayerView(Player player) {
         super(player);
         this.getGraphics().reverse();
-        this.setPosition((float) (3 * Gdx.graphics.getWidth()) /4- (float) this.getGraphics().getWidth() /2, Gdx.graphics.getHeight()*0.55f);
+        this.setPosition((float) (3 * Gdx.graphics.getWidth()) / 4 - this.getGraphics().getWidth() / 2, Gdx.graphics.getHeight() * 0.6f);
 
-        this.getHealthBarView().setPosition(0, -this.getHealthBarView().getHeight()-5);
-        this.getManaPool().setPosition(this.getGraphics().getWidth()+10, this.getGraphics().getHeight()/2-this.getManaPool().getHeight()/2);
-        this.getArmorPool().setPosition(-this.getArmorPool().getWidth()-10, this.getHealthBarView().getY()+this.getHealthBarView().getHeight()/2-this.getArmorPool().getHeight()/2);
+        this.getHealthBarView().setPosition(0, -this.getHealthBarView().getHeight() - 5);
+        this.getManaPool().setPosition(this.getGraphics().getWidth() + 10, this.getGraphics().getHeight() / 2 - this.getManaPool().getHeight() / 2);
+        this.getArmorPool().setPosition(-this.getArmorPool().getWidth() - 10, this.getHealthBarView().getY() + this.getHealthBarView().getHeight() / 2 - this.getArmorPool().getHeight() / 2);
 
         updateLastPlayedCard();
     }
@@ -29,17 +30,17 @@ public class OpponentPlayerView extends PlayerView {
     }
 
     public void updateLastPlayedCard() {
-        if(lastPlayedCard != null) lastPlayedCard.dispose();
+        if (lastPlayedCard != null) lastPlayedCard.dispose();
         Card lastPlayed = getPlayer().getLastPlayedCard();
-        if(lastPlayed != null) {
+        if (lastPlayed != null) {
             lastPlayedCard = new CardView(0.35f, lastPlayed, 0, null);
-            lastPlayedCard.setBounds(-this.getX()+Gdx.graphics.getWidth()-lastPlayedCard.getWidth(), -this.getY(), lastPlayedCard.getWidth(), lastPlayedCard.getHeight());
+            lastPlayedCard.setBounds(-this.getX() + Gdx.graphics.getWidth() - lastPlayedCard.getWidth(), -this.getY() + 20, lastPlayedCard.getWidth(), lastPlayedCard.getHeight());
             this.addActor(lastPlayedCard);
         }
     }
 
     public void dispose() {
         super.dispose();
-        if(lastPlayedCard != null) lastPlayedCard.dispose();
+        if (lastPlayedCard != null) lastPlayedCard.dispose();
     }
 }

@@ -1,5 +1,7 @@
 package no.ntnu.dof.controller.gameplay;
 
+import static java.lang.Thread.sleep;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.LifecycleListener;
 
@@ -82,17 +84,14 @@ public class TutorialController {
     }
 
     public void gameLoop() throws InterruptedException {
+        sleep(200);
         screen.GamePresentation();
 
         Optional<Card> turnCard = playerControllers.get(host).choosePlay(0);
         playOneCard(turnCard);
         screen.ShowManaConsumption();
-        turnCard = playerControllers.get(host).choosePlay(0);
-        playOneCard(turnCard);
-        turnCard = playerControllers.get(bot).choosePlay(0);
-        playOneCard(turnCard);
 
-        screen.ShowPlayedCard();
+        boolean playedCardTutorialShowed = false;
 
         while (!game.isOver()) {
             System.out.println("Turn of " + game.getNextPlayer().getName() + " (" + game.getNextPlayer().getHealth().getValue() + " HP)");
@@ -106,6 +105,10 @@ public class TutorialController {
                 game.playCard(turnCard.get());
             } else {
                 game.finalizeTurn();
+                if(!playedCardTutorialShowed && currentPlayer == bot){
+                    screen.ShowPlayedCard();
+                    playedCardTutorialShowed = true;
+                }
                 Gdx.app.log("Game", "Turn finalized.");
             }
         }
