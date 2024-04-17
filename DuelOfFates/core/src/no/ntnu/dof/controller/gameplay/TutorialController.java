@@ -1,5 +1,7 @@
 package no.ntnu.dof.controller.gameplay;
 
+import static java.lang.Thread.sleep;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.LifecycleListener;
 
@@ -82,6 +84,7 @@ public class TutorialController {
     }
 
     public void gameLoop() throws InterruptedException {
+        sleep(200);
         screen.GamePresentation();
 
         Optional<Card> turnCard = playerControllers.get(host).choosePlay(0);
