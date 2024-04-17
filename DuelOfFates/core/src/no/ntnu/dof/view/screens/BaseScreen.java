@@ -58,7 +58,7 @@ public abstract class BaseScreen extends ScreenAdapter {
         soundBtn.setChecked(!soundController.isSoundOn());
 
 
-        soundBtn.setSize((float) getScreenWidth()/10,(float) getScreenWidth()/10);
+        soundBtn.setSize(getScreenWidth()*0.07f,getScreenWidth()*0.07f);
         soundBtn.setPosition(10,10);
 
         soundBtn.addListener(new ClickListener() {

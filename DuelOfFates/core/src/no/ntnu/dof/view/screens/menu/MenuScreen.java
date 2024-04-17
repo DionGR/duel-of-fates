@@ -63,7 +63,7 @@ public class MenuScreen extends BaseScreen {
 
         // Adding content to table
         contentTable.padTop(getScreenHeight()*0.08f);
-        contentTable.add(logoButton).padBottom(getScreenHeight()*0.04f).row();
+        contentTable.add(logoButton).padBottom(getScreenHeight()*0.04f).width(getScreenWidth()*0.6f).row();
         contentTable.add(lobbiesBtn).padBottom(getScreenHeight()*0.04f).width(getScreenWidth()*0.3f).height(getScreenHeight()*0.12f).row();
         contentTable.add(chooseClassBtn).padBottom(getScreenHeight()*0.04f).width(getScreenWidth()*0.3f).height(getScreenHeight()*0.12f).row();
         contentTable.add(tutorialBtn).padBottom(getScreenHeight()*0.04f).width(getScreenWidth()*0.3f).height(getScreenHeight()*0.12f).row();;
