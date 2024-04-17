@@ -43,6 +43,8 @@ public class LobbiesScreen extends ReturnableScreen {
     public void show() {
         super.show();
         this.skin = new Skin(Gdx.files.internal("UISkin.json"));
+        TextButton.TextButtonStyle textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
+        textButtonStyle.font.getData().setScale(getScreenHeight()*0.002f);
 
         // Making a centered table to store title and buttons
         contentTable = new Table();
