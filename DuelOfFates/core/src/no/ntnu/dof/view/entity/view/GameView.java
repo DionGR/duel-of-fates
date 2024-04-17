@@ -1,20 +1,23 @@
 package no.ntnu.dof.view.entity.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import lombok.Getter;
+import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.view.Image;
-import no.ntnu.dof.view.entity.view.HostPlayerView;
+import no.ntnu.dof.view.entity.control.TimerView;
 
 @Getter
 public class GameView extends Group {
     private final Game game;
-    private Image background;
-    private Image activePlayerView;
+    private final Image background;
+    private final Image activePlayerView;
     private final HostPlayerView hostPlayerView;
     private final OpponentPlayerView opponentPlayerView;
+    private final TimerView timerView;
 
     public GameView(Game game) {
         this.game = game;
@@ -31,6 +34,12 @@ public class GameView extends Group {
         hostPlayerView = new HostPlayerView(game.getHost());
         this.addActor(hostPlayerView);
 
+        timerView = new TimerView(Gdx.graphics.getWidth(), 10, PlayerController.TURN_TIMEOUT);
+        this.addActor(timerView);
+        game.getHost().beginTurnEvent.register(timerView);
+        game.getHost().cardPlayedEvent.register(timerView);
+        game.getOpponent().beginTurnEvent.register(timerView);
+        game.getOpponent().cardPlayedEvent.register(timerView);
     }
 
     @Override
@@ -51,5 +60,6 @@ public class GameView extends Group {
         activePlayerView.dispose();
         hostPlayerView.dispose();
         opponentPlayerView.dispose();
+        timerView.dispose();
     }
 }

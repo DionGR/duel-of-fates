@@ -14,14 +14,16 @@ import no.ntnu.dof.view.entity.texture.CardTexture;
 
 @Getter
 public class CardView extends Group {
-    private final Card card;
-    private final CardTexture cardTexture;
-    private final TextLabel nameLabel;
-    private final TextLabel costLabel;
-    private final TextLabel descriptionLabel;
-    private final float width;
-    private final float height;
-    private final boolean playable;
+    protected Card card;
+    protected CardTexture cardTexture;
+    protected TextLabel nameLabel;
+    protected TextLabel costLabel;
+    protected TextLabel descriptionLabel;
+    protected float width;
+    protected float height;
+    protected boolean playable;
+
+    protected CardView() {}
 
     public CardView(float Scale, Card card, int i, ClickListener playListener) {
         this.card = card;
@@ -59,7 +61,7 @@ public class CardView extends Group {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        Color originalColor = batch.getColor();
+        Color originalColor = batch.getColor().cpy();
         batch.setColor(this.getColor());
         cardTexture.draw(batch, getX(), getY());
         batch.setColor(originalColor);

@@ -25,8 +25,6 @@ public class GameController {
     private final Map<Player, PlayerController> playerControllers;
     private boolean quit = false;
 
-    public static final long TURN_TIMEOUT = 10000; // milliseconds
-
     public GameController(Player host, Player opponent, GameComms comms) {
         this.game = new Game(host, opponent);
         if (game.getNextPlayer().getName().equals(comms.getPlayerLastTurn())) {
@@ -79,7 +77,7 @@ public class GameController {
             PlayerController currentPlayerController = playerControllers.get(currentPlayer);
 
             if (quit) throw new InterruptedException();
-            Optional<Card> turnCard = currentPlayerController.choosePlay(TURN_TIMEOUT);
+            Optional<Card> turnCard = currentPlayerController.choosePlay(PlayerController.TURN_TIMEOUT);
             if (turnCard.isPresent()) {
                 game.playCard(turnCard.get());
             } else {

@@ -36,7 +36,6 @@ public class FirebaseGameService implements GameService {
 
     @Override
     public void addPlayListener(GameComms comms, PlayListener listener) {
-        FirebaseChangeAdapter firebaseChangeAdapter = new FirebaseChangeAdapter(listener);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("games").child(comms.getGameId()).child("cards")
             .addChildEventListener(new ChildAdditionListener(
