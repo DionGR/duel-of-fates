@@ -44,10 +44,7 @@ public class Game {
     }
 
     public boolean isOver() {
-        for (Player player : players) {
-            if (player.isDead()) return true;
-        }
-        return false;
+        return host.isDead() || opponent.isDead();
     }
 
     public Player getNextPlayer() {

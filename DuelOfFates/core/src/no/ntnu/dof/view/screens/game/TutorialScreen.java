@@ -64,6 +64,7 @@ public class TutorialScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
         if (!gameEndScreenShown && game.isOver()) {
             showEndScreen();
             gameEndScreenShown = true;
@@ -287,10 +288,8 @@ public class TutorialScreen implements Screen {
     }
 
     public void ShowPlayedCard() {
-        int i =0;
         while(gameView.getOpponentPlayerView().getLastPlayedCard() == null) {
-            i++;
-            System.out.println(i);
+            System.out.print(' ');
         }
         stage.addActor(HighlightedArea);
         activeLabel.setText("Your opponent have played a card,\nyou can see it here");
