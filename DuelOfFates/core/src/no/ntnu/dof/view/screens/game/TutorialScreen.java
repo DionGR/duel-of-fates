@@ -105,7 +105,7 @@ public class TutorialScreen implements Screen {
 
     public void GamePresentation()
     {
-        activeLabel.setText("Welcome to Duel of Fates! \n Here your are in the tutorial \n where you will learn the basics of the game");
+        activeLabel.setText("Welcome to Duel of Fates! \n In this tutorial you will \n learn about the basics of the game");
         ClickableArea.getListeners().clear();
         ClickableArea.addListener(new ClickListener() {
             @Override
@@ -122,7 +122,7 @@ public class TutorialScreen implements Screen {
 
     public void UIPresentation()
     {
-        activeLabel.setText("We will go over the UI elements of the game");
+        activeLabel.setText("First, we will go over the UI elements of the game");
         ClickableArea.getListeners().clear();
         ClickableArea.addListener(new ClickListener() {
             @Override
@@ -138,7 +138,7 @@ public class TutorialScreen implements Screen {
     }
 
     public void ShowOpponent() {
-        activeLabel.setText("This is your opponent");
+        activeLabel.setText("This is your opponent!");
         ClickableArea.getListeners().clear();
         ClickableArea.addListener(new ClickListener() {
             @Override
@@ -157,7 +157,7 @@ public class TutorialScreen implements Screen {
 
     public void ShowOpponentHealthBar()
     {
-        activeLabel.setText("This the health bar of your opponent,\nwhen it reaches 0 and you are still alive,\nyou win the game");
+        activeLabel.setText("This the health bar of your opponent.\nYour goal is to drain\nit so you win the game!");
         ClickableArea.getListeners().clear();
         ClickableArea.addListener(new ClickListener() {
             @Override
@@ -175,7 +175,7 @@ public class TutorialScreen implements Screen {
     }
 
     public void ShowPlayer() {
-        activeLabel.setText("This is you");
+        activeLabel.setText("This is you!");
         ClickableArea.getListeners().clear();
         ClickableArea.addListener(new ClickListener() {
             @Override
@@ -194,7 +194,7 @@ public class TutorialScreen implements Screen {
 
     public void ShowHealthBar()
     {
-        activeLabel.setText("This is your health bar,\nif it reaches 0 you lose the game");
+        activeLabel.setText("This is your health bar,\nyou lose the game when it is empty!");
         ClickableArea.getListeners().clear();
         ClickableArea.addListener(new ClickListener() {
             @Override
@@ -213,7 +213,7 @@ public class TutorialScreen implements Screen {
 
     public void ShowMana()
     {
-        activeLabel.setText("This is your Mana pool,\neach card played will cost you mana");
+        activeLabel.setText("This is your Mana pool,\na resource for playing cards\nEach card played will cost you mana.");
         ClickableArea.getListeners().clear();
         ClickableArea.addListener(new ClickListener() {
             @Override
@@ -232,7 +232,7 @@ public class TutorialScreen implements Screen {
 
     public void ShowHand()
     {
-        activeLabel.setText("This is your hand,\nyou can play cards from here by clicking on them\nTry playing a card !!");
+        activeLabel.setText("This is your hand where you\ncan play cards by clicking on them\nTry playing a card!");
         ClickableArea.getListeners().clear();
         ClickableArea.addListener(new ClickListener() {
             @Override
@@ -252,7 +252,7 @@ public class TutorialScreen implements Screen {
     public void ShowManaConsumption()
     {
         stage.addActor(HighlightedArea);
-        activeLabel.setText("When you play a card,\nit's mana cost is removed from your mana pool");
+        activeLabel.setText("When you play a card\nit's mana cost will be\nremoved from your mana pool");
         ClickableArea.getListeners().clear();
         ClickableArea.addListener(new ClickListener() {
             @Override
@@ -270,7 +270,7 @@ public class TutorialScreen implements Screen {
 
     public void ShowEndTurn()
     {
-        activeLabel.setText("This is the end turn button,\nYou can click on it whenever you want\nIt will pass turn to your opponent");
+        activeLabel.setText("This is the end turn button.\nYou can click on it whenever you want,\nit will pass the turn to your opponent");
         ClickableArea.getListeners().clear();
         ClickableArea.addListener(new ClickListener() {
             @Override
@@ -292,7 +292,7 @@ public class TutorialScreen implements Screen {
             System.out.print(' ');
         }
         stage.addActor(HighlightedArea);
-        activeLabel.setText("Your opponent have played a card,\nyou can see it here");
+        activeLabel.setText("Your opponent has played a card,\nthis is where you can see it.");
         ClickableArea.getListeners().clear();
         ClickableArea.addListener(new ClickListener() {
             @Override
@@ -311,7 +311,7 @@ public class TutorialScreen implements Screen {
 
     public void ShowArmor()
     {
-        activeLabel.setText("This is your armor,\nit will take damage before your health\nBut in contrary to health,\nit cannot be regenerated");
+        activeLabel.setText("This is your armor,\nit takes damage before your health\nbut in contrary to health,\nit cannot be regenerated!");
         ClickableArea.getListeners().clear();
         ClickableArea.addListener(new ClickListener() {
             @Override
@@ -345,7 +345,7 @@ public class TutorialScreen implements Screen {
         stage.addActor(resultWindow);
 
         TextLabel endLabel = new TextLabel(
-                game.getHost().isDead() ? "You lost" : "You won",
+                game.getHost().isDead() ? "You Lost" : "You Won",
                 0, midY / 10.0f,
                 Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
                 2,
