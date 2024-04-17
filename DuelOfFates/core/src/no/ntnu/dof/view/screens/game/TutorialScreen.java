@@ -30,6 +30,7 @@ public class TutorialScreen implements Screen {
     private final Game game;
     private Label activeLabel;
     private HighlightingArea HighlightedArea;
+    private Actor ClickableArea;
     private final Skin skin = new Skin(Gdx.files.internal("UISkin.json"));
     private boolean gameEndScreenShown;
 
@@ -45,9 +46,18 @@ public class TutorialScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         HighlightedArea = new HighlightingArea(0, 0, 0, 0);
+        ClickableArea = new Actor();
+        ClickableArea.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        activeLabel = new Label("", skin, "default");
+        float width = (gameView.getHostPlayerView().getX()+gameView.getHostPlayerView().getWidth()) - gameView.getOpponentPlayerView().getX();
+        float height = Gdx.graphics.getHeight()-gameView.getHostPlayerView().getY();
+        activeLabel.setBounds(Gdx.graphics.getWidth()/2f-width/2, Gdx.graphics.getHeight()-height, width, height);
+        activeLabel.setPosition(Gdx.graphics.getWidth()/2f - activeLabel.getWidth()/2f, Gdx.graphics.getHeight() - activeLabel.getHeight());
+        activeLabel.setAlignment(Align.top, Align.center);
 
         stage.addActor(gameView);
         stage.addActor(HighlightedArea);
+        stage.addActor(ClickableArea);
     }
 
     @Override
@@ -86,153 +96,154 @@ public class TutorialScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-    }
-
-    public void ActiveLabelPosition()
-    {
-        activeLabel.setPosition(Gdx.graphics.getWidth()/2f - activeLabel.getWidth()/2f, Gdx.graphics.getHeight()*0.9f - activeLabel.getHeight());
-        activeLabel.setAlignment(Align.center);
+        activeLabel.remove();
+        HighlightedArea.remove();
+        ClickableArea.remove();
+        skin.dispose();
     }
 
     public void GamePresentation()
     {
-        activeLabel = new Label("Welcome to Duel of Fates! \n Here your are in the tutorial where you will learn the basics of the game \n The goal is to reduce the opponents health to 0", skin, "default");
-        float width = (gameView.getHostPlayerView().getX()+gameView.getHostPlayerView().getWidth()) - gameView.getOpponentPlayerView().getX();
-        float height = Gdx.graphics.getHeight()*0.9f-gameView.getHostPlayerView().getY();
-        activeLabel.setBounds(Gdx.graphics.getWidth()/2f - width/2, Gdx.graphics.getHeight()*0.9f - height, width, height);
-        activeLabel.setAlignment(Align.center);
-        activeLabel.getListeners().clear();
-        activeLabel.addListener(new ClickListener() {
+        activeLabel.setText("Welcome to Duel of Fates! \n Here your are in the tutorial \n where you will learn the basics of the game");
+        ClickableArea.getListeners().clear();
+        ClickableArea.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
+                ClickableArea.remove();
                 UIPresentation();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
-        HighlightActor(activeLabel);
+        stage.addActor(ClickableArea);
     }
 
     public void UIPresentation()
     {
         activeLabel.setText("We will go over the UI elements of the game");
-        ActiveLabelPosition();
-        activeLabel.getListeners().clear();
-        activeLabel.addListener(new ClickListener() {
+        ClickableArea.getListeners().clear();
+        ClickableArea.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
+                ClickableArea.remove();
                 ShowOpponent();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
+        stage.addActor(ClickableArea);
     }
 
     public void ShowOpponent() {
         activeLabel.setText("This is your opponent");
-        ActiveLabelPosition();
-        activeLabel.getListeners().clear();
-        activeLabel.addListener(new ClickListener() {
+        ClickableArea.getListeners().clear();
+        ClickableArea.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
+                ClickableArea.remove();
                 ShowOpponentHealthBar();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
+        stage.addActor(ClickableArea);
         //Highlight health bar
         HighlightActor(gameView.getOpponentPlayerView().getGraphics());
     }
 
     public void ShowOpponentHealthBar()
     {
-        activeLabel.setText("This the health bar of your opponent, when it reaches 0 and you are still alive, you win the game");
-        ActiveLabelPosition();
-        activeLabel.getListeners().clear();
-        activeLabel.addListener(new ClickListener() {
+        activeLabel.setText("This the health bar of your opponent,\nwhen it reaches 0 and you are still alive,\nyou win the game");
+        ClickableArea.getListeners().clear();
+        ClickableArea.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
+                ClickableArea.remove();
                 ShowPlayer();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
+        stage.addActor(ClickableArea);
         //Highlight health bar
         HighlightActor(gameView.getOpponentPlayerView().getHealthBarView());
     }
 
     public void ShowPlayer() {
         activeLabel.setText("This is you");
-        ActiveLabelPosition();
-        activeLabel.getListeners().clear();
-        activeLabel.addListener(new ClickListener() {
+        ClickableArea.getListeners().clear();
+        ClickableArea.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
+                ClickableArea.remove();
                 ShowHealthBar();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
+        stage.addActor(ClickableArea);
         //Highlight health bar
         HighlightActor(gameView.getHostPlayerView().getGraphics());
     }
 
     public void ShowHealthBar()
     {
-        activeLabel.setText("This is your health bar, if it reaches 0 you lose the game");
-        ActiveLabelPosition();
-        activeLabel.getListeners().clear();
-        activeLabel.addListener(new ClickListener() {
+        activeLabel.setText("This is your health bar,\nif it reaches 0 you lose the game");
+        ClickableArea.getListeners().clear();
+        ClickableArea.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
+                ClickableArea.remove();
                 ShowMana();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
+        stage.addActor(ClickableArea);
         //Highlight health bar
         HighlightActor(gameView.getHostPlayerView().getHealthBarView());
     }
 
     public void ShowMana()
     {
-        activeLabel.setText("This is your Mana pool, each card has a mana cost \n You regain some mana at the start of your turn");
-        ActiveLabelPosition();
-        activeLabel.getListeners().clear();
-        activeLabel.addListener(new ClickListener() {
+        activeLabel.setText("This is your Mana pool,\neach card played will cost you mana");
+        ClickableArea.getListeners().clear();
+        ClickableArea.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
+                ClickableArea.remove();
                 ShowHand();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
+        stage.addActor(ClickableArea);
         //Highlight mana pool
         HighlightActor(gameView.getHostPlayerView().getManaPool());
     }
 
     public void ShowHand()
     {
-        activeLabel.setText("This is your hand, you can play cards from here by clicking on them \n Try playing a card");
-        ActiveLabelPosition();
-        activeLabel.getListeners().clear();
-        activeLabel.addListener(new ClickListener() {
+        activeLabel.setText("This is your hand,\nyou can play cards from here by clicking on them\nTry playing a card !!");
+        ClickableArea.getListeners().clear();
+        ClickableArea.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
                 HighlightedArea.remove();
+                ClickableArea.remove();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
-
+        stage.addActor(ClickableArea);
         //Highlight hand
         HighlightActor(gameView.getHostPlayerView().getHandView());
     }
@@ -240,91 +251,90 @@ public class TutorialScreen implements Screen {
     public void ShowManaConsumption()
     {
         stage.addActor(HighlightedArea);
-        activeLabel.setText("When you play a card, the mana cost is removed from your mana pool");
-        ActiveLabelPosition();
-        activeLabel.getListeners().clear();
-        activeLabel.addListener(new ClickListener() {
+        activeLabel.setText("When you play a card,\nit's mana cost is removed from your mana pool");
+        ClickableArea.getListeners().clear();
+        ClickableArea.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
+                ClickableArea.remove();
                 ShowEndTurn();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
-
+        stage.addActor(ClickableArea);
         HighlightActor(gameView.getHostPlayerView().getManaPool());
     }
 
     public void ShowEndTurn()
     {
-        activeLabel.setText("This is the end turn button, click it when you are done with your turn");
-        ActiveLabelPosition();
-        activeLabel.getListeners().clear();
-        activeLabel.addListener(new ClickListener() {
+        activeLabel.setText("This is the end turn button,\nYou can click on it whenever you want\nIt will pass turn to your opponent");
+        ClickableArea.getListeners().clear();
+        ClickableArea.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
                 HighlightedArea.remove();
+                ClickableArea.remove();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
-
+        stage.addActor(ClickableArea);
         //Highlight end turn button
         HighlightActor(gameView.getHostPlayerView().getEndTurnButton());
     }
 
     public void ShowPlayedCard() {
+        int i =0;
         while(gameView.getOpponentPlayerView().getLastPlayedCard() == null) {
-            System.out.println("Waiting");
+            i++;
+            System.out.println(i);
         }
         stage.addActor(HighlightedArea);
-        activeLabel.setText("Your opponent have played a card, you can see it here");
-        ActiveLabelPosition();
-        activeLabel.getListeners().clear();
-        activeLabel.addListener(new ClickListener() {
+        activeLabel.setText("Your opponent have played a card,\nyou can see it here");
+        ClickableArea.getListeners().clear();
+        ClickableArea.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
+                ClickableArea.remove();
                 ShowArmor();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
-
+        stage.addActor(ClickableArea);
         //Highlight hand
         HighlightActor(gameView.getOpponentPlayerView().getLastPlayedCard());
     }
 
     public void ShowArmor()
     {
-        activeLabel.setText("This is the armor, it will take damage before your health \n But in contrary to health, it cannot be regenerated");
-        ActiveLabelPosition();
-        activeLabel.getListeners().clear();
-        activeLabel.addListener(new ClickListener() {
+        activeLabel.setText("This is your armor,\nit will take damage before your health\nBut in contrary to health,\nit cannot be regenerated");
+        ClickableArea.getListeners().clear();
+        ClickableArea.addListener(new ClickListener() {
             @Override
             public synchronized boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 activeLabel.remove();
                 HighlightedArea.remove();
+                ClickableArea.remove();
                 return super.touchDown(event, x, y, pointer, button);
             }
         } );
         stage.addActor(activeLabel);
-
+        stage.addActor(ClickableArea);
         //Highlight armor
         HighlightActor(gameView.getHostPlayerView().getArmorPool());
     }
 
     private void HighlightActor(Actor actor) {
         Vector2 stageCoordinates = actor.localToStageCoordinates(new Vector2(0, 0));
-        System.out.println(actor);
-        System.out.println(HighlightedArea.getWidth() + " " + HighlightedArea.getHeight() + " " + HighlightedArea.getX() + " " + HighlightedArea.getY());
         HighlightedArea.setX(stageCoordinates.x);
         HighlightedArea.setY(stageCoordinates.y);
         HighlightedArea.setWidth(actor.getWidth());
         HighlightedArea.setHeight(actor.getHeight());
-        System.out.println(HighlightedArea.getWidth() + " " + HighlightedArea.getHeight() + " " + HighlightedArea.getX() + " " + HighlightedArea.getY());
     }
 
     public void showEndScreen() {
@@ -357,5 +367,6 @@ public class TutorialScreen implements Screen {
         stage.addActor(returnToMenu);
 
     }
+
 
 }
