@@ -51,14 +51,14 @@ public class LobbiesScreen extends ReturnableScreen {
         contentTable.setPosition(0, Gdx.graphics.getHeight());
 
         lobbiesTitle = new Label("Lobbies", skin, "big");
-        contentTable.add(lobbiesTitle).expandX().padTop(20).row();
-
-        TextButton lobbyBtn = new TextButton("<Lobby Title>\n<Host Name>", skin, "default");
+        lobbiesTitle.setFontScale(getScreenHeight()*0.003f);
+        contentTable.add(lobbiesTitle).padTop(20).row();
 
         // Adding content to table
         contentTable.padTop(30);
         for (GameLobby lobby : gameLobbies.getLobbies()) {
             TextButton lobbyButton = new TextButton(lobby.getTitle() + "\n" + lobby.getCreator().getEmail(), skin, "default");
+
             lobbyButton.addListener(new ClickListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -67,7 +67,7 @@ public class LobbiesScreen extends ReturnableScreen {
                     return true;
                 }
             });
-            contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
+            contentTable.add(lobbyButton).padBottom(getScreenHeight()*0.03f).width(getScreenWidth()*0.22f).height(getScreenHeight()*0.12f).row();
         }
 
         // Making scrollable table
@@ -82,6 +82,7 @@ public class LobbiesScreen extends ReturnableScreen {
 
         // Setting create lobby button
         createLobbyBtn = new TextButton("Create Lobby", skin, "default");
+        createLobbyBtn.setSize(getScreenWidth()*0.1f, getScreenHeight()*0.1f);
         createLobbyBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -90,6 +91,7 @@ public class LobbiesScreen extends ReturnableScreen {
         });
 
         matchHistoryBtn = new TextButton("Match History", skin, "default");
+        matchHistoryBtn.setSize(getScreenWidth()*0.1f, getScreenHeight()*0.1f);
         matchHistoryBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -102,7 +104,7 @@ public class LobbiesScreen extends ReturnableScreen {
         stage.addActor(matchHistoryBtn);
 
         // Positioning the create lobby button at the top right with some margin
-        float margin = 20; // Adjust the margin value as needed
+        float margin = getScreenWidth()*0.02f; // Adjust the margin value as needed
         float buttonX = Gdx.graphics.getWidth() - createLobbyBtn.getWidth() - margin;
         float buttonY = Gdx.graphics.getHeight() - createLobbyBtn.getHeight() - margin;
 
@@ -165,7 +167,7 @@ public class LobbiesScreen extends ReturnableScreen {
                                 listener.transitionToLobby(lobby);
                             }
                         });
-                        contentTable.add(lobbyButton).padBottom(10).width(300).height(50).row();
+                        contentTable.add(lobbyButton).padBottom(getScreenHeight()*0.03f).width(getScreenWidth()*0.22f).height(getScreenHeight()*0.12f).row();
                     }
                 } else {
                     Gdx.app.log("LobbiesScreen", "Attempted to update lobbies list when contentTable is null.");
