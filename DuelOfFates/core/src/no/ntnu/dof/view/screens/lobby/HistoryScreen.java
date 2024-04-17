@@ -44,7 +44,9 @@ public class HistoryScreen extends ReturnableScreen {
 
     public void showGameSummaries(@NonNull List<GameSummary> gameSummaries) {
         Table contentTable = new Table();
-        contentTable.top();
+        contentTable.setWidth(stage.getWidth());
+        contentTable.align(Align.center|Align.top);
+        contentTable.setPosition(0, Gdx.graphics.getHeight());
         TextButton.TextButtonStyle textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
         textButtonStyle.font.getData().setScale(getScreenHeight()*0.002f);
         Label.LabelStyle labelStyle = skin.get(Label.LabelStyle.class);
