@@ -128,13 +128,20 @@ public class LobbiesScreen extends ReturnableScreen {
             }
         };
         dialog.padTop(30).padBottom(30);
+        dialog.setSize(getScreenWidth()*0.3f,getScreenHeight()*0.5f);
 
         TextField lobbyTitleField = new TextField("", skin);
         lobbyTitleField.setMessageText("Enter Lobby Title");
         lobbyTitleField.setName("lobbyTitleField");
-        dialog.getContentTable().add(lobbyTitleField).width(200);
+        dialog.getContentTable().add(lobbyTitleField).width(dialog.getWidth()*0.9f);
 
         TextButton btnCancel = new TextButton("Cancel", skin);
+        TextButton btnConfirm = new TextButton("Confirm", skin);
+
+        Table buttonTable = new Table();
+        buttonTable.add(btnCancel).width(dialog.getWidth() * 0.4f).height(dialog.getHeight()*0.3f).padRight(dialog.getHeight()*0.2f);
+        buttonTable.add(btnConfirm).width(dialog.getWidth() * 0.4f).height(dialog.getHeight()*0.3f);
+
         btnCancel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -143,8 +150,6 @@ public class LobbiesScreen extends ReturnableScreen {
         });
 
         dialog.button(btnCancel, false); // false - do not create a new lobby
-
-        TextButton btnConfirm = new TextButton("Confirm", skin);
         dialog.button(btnConfirm, true); // true - confirm and create a new lobby
 
         dialog.show(stage);
