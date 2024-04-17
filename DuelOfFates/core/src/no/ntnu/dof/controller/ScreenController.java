@@ -101,8 +101,8 @@ public class ScreenController {
 
     public static void transitionToTutorial() {
         TutorialController tutorialController = new TutorialController();
-        tutorialController.startGame();
         pushScreen(tutorialController.getScreen());
+        tutorialController.startGame();
     }
 }
 

@@ -161,7 +161,11 @@ public class EffectModule {
     @Provides
     @Named("suicideEffect")
     public Effect provideSuicideEffect() {
-        return SuicideEffect.builder().name("suicideEffect").build();
+        return SuicideEffect.builder()
+                .name("suicideEffect")
+                .viewName("Suicide")
+                .description("death")
+                .build();
     }
 
     @Provides

@@ -57,11 +57,8 @@ public class Game {
 
         host.cardPlayedEvent.fire(card);
 
-        if (card.getHostEffectNames() != null)
-            card.getHostEffectNames().forEach(e -> effectInvoker.invoke(e).apply(host));
-
-        if (card.getOpponentEffectNames() != null)
-            card.getOpponentEffectNames().forEach(e -> effectInvoker.invoke(e).apply(opponent));
+        card.getHostEffectNames().forEach(e -> effectInvoker.invoke(e).apply(host));
+        card.getOpponentEffectNames().forEach(e -> effectInvoker.invoke(e).apply(opponent));
     }
 
     public void finalizeTurn() {
