@@ -1,7 +1,6 @@
 package no.ntnu.dof.view.di;
 
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;

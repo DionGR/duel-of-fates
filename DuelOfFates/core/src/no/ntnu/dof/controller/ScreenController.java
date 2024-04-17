@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Stack;
 
 import no.ntnu.dof.controller.gameplay.GameController;
+import no.ntnu.dof.controller.gameplay.TutorialController;
 import no.ntnu.dof.controller.lobby.GameLobbiesController;
 import no.ntnu.dof.controller.lobby.GameLobbyController;
 import no.ntnu.dof.controller.lobby.HistoryController;
@@ -96,6 +97,12 @@ public class ScreenController {
         GameScreen gameScreen = new GameScreen(gameController.getGame());
         gameController.startGame(gameEndListener);
         pushScreen(gameScreen);
+    }
+
+    public static void transitionToTutorial() {
+        TutorialController tutorialController = new TutorialController();
+        tutorialController.startGame();
+        pushScreen(tutorialController.getScreen());
     }
 }
 

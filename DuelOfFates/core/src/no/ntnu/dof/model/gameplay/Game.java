@@ -44,7 +44,7 @@ public class Game {
     }
 
     public boolean isOver() {
-        return players.stream().anyMatch(Player::isDead);
+        return host.isDead() || opponent.isDead();
     }
 
     public Player getNextPlayer() {

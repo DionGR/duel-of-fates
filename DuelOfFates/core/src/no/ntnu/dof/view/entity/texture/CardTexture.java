@@ -24,7 +24,7 @@ public class CardTexture {
         nameFlag = new TextureRegion(new Texture("cardNameFlag.png"), 214, 96, 591, 834);
         line = new TextureRegion(new Texture("cardLine.png"), 214, 96, 591, 834);
         mana = new Texture(Gdx.files.internal("mana.png"));
-        image = new Texture("cardContentDagger.png");
+        image = new Texture("cardsIcon/"+cardName+".png");
     }
 
     public void draw(Batch batch, float x, float y) {

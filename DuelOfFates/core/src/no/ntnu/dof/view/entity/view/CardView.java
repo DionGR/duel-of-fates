@@ -14,14 +14,16 @@ import no.ntnu.dof.view.entity.texture.CardTexture;
 
 @Getter
 public class CardView extends Group {
-    private final Card card;
-    private final CardTexture cardTexture;
-    private final TextLabel nameLabel;
-    private final TextLabel costLabel;
-    private final TextLabel descriptionLabel;
-    private final float width;
-    private final float height;
-    private final boolean playable;
+    protected Card card;
+    protected CardTexture cardTexture;
+    protected TextLabel nameLabel;
+    protected TextLabel costLabel;
+    protected TextLabel descriptionLabel;
+    protected float width;
+    protected float height;
+    protected boolean playable;
+
+    protected CardView() {}
 
     public CardView(float Scale, Card card, int i, ClickListener playListener) {
         this.card = card;
@@ -29,7 +31,7 @@ public class CardView extends Group {
         this.width = cardTexture.getWidth();
         this.height = cardTexture.getHeight();
         this.playable = playListener != null;
-        this.setPosition(width * i, playable ? this.height / 4 : 0);
+        this.setPosition(width * i, playable ? this.height / 8 : 0);
         this.setBounds(this.getX(), this.getY(), width, height);
         if (playable) this.addListener(playListener);
         else this.setColor(new Color(0.7f, 0.7f, 0.7f, 1.0f));
@@ -40,24 +42,29 @@ public class CardView extends Group {
         costLabel = new TextLabel(Integer.toString(card.getCost().getValue()), width * 0.05f, height * 0.87f, width * 0.1f, height * 0.1f, height * 0.005f, Color.GRAY);
         this.addActor(costLabel.getText());
 
-        String descriptionString = "";
-        for (String effect : card.getHostEffectNames()) {
-            descriptionString += effect + "\n";
+        String descriptionString = "This card does : \n";
+        if(card.getHostEffectNames() != null) {
+            for (String effect : card.getHostEffectNames()) {
+                descriptionString += effect + "\n";
+            }
         }
-        for (String effect : card.getOpponentEffectNames()) {
-            descriptionString += effect + "\n";
+        if(card.getOpponentEffectNames() != null) {
+            for (String effect : card.getOpponentEffectNames()) {
+                descriptionString += effect + "\n";
+            }
         }
-        descriptionLabel = new TextLabel(descriptionString, width * 0.09f, height * 0.06f, width * 0.8f, height * 0.33f, height * 0.004f, Color.WHITE);
+
+        descriptionLabel = new TextLabel(descriptionString, width * 0.09f, height * 0.06f, width * 0.8f, height * 0.33f, height * 0.005f, Color.WHITE);
         descriptionLabel.getText().setAlignment(Align.topLeft);
         this.addActor(descriptionLabel.getText());
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        Color originalColor = batch.getColor();
+        Color originalColor = batch.getColor().cpy();
         batch.setColor(this.getColor());
         cardTexture.draw(batch, getX(), getY());
-        originalColor.set(originalColor);
+        batch.setColor(originalColor);
         super.draw(batch, parentAlpha);
     }
 

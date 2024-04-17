@@ -20,7 +20,6 @@ import no.ntnu.dof.view.entity.view.GameView;
 
 public class GameScreen implements Screen {
     private Stage stage;
-
     private final GameView gameView;
     private final Game game;
     private boolean gameEndScreenShown;
@@ -41,7 +40,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (!gameEndScreenShown && game.isOver()) {

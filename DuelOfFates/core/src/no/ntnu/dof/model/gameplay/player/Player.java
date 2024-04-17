@@ -66,4 +66,8 @@ public class Player extends GameplayEntity {
             return self();
         }
     }
+
+    public Card getLastPlayedCard() {
+        return this.deck.getLastPlayedCard();
+    }
 }

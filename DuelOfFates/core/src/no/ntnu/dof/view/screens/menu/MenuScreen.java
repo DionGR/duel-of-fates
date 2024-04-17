@@ -78,6 +78,13 @@ public class MenuScreen extends BaseScreen {
             }
         });
 
+        tutorialBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenController.transitionToTutorial();
+            }
+        });
+
         logoutBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

@@ -58,7 +58,8 @@ public class PlayerClassModule {
     public List<PlayerClass> providePlayerClasses(
             @Named("knightPlayerClass") PlayerClass knightPlayerClass,
             @Named("magePlayerClass") PlayerClass magePlayerClass,
-            @Named("skeletonPlayerClass") PlayerClass skeletonPlayerClass) {
+            @Named("skeletonPlayerClass") PlayerClass skeletonPlayerClass
+    ) {
 
         final ArrayList<PlayerClass> playerClasses = new ArrayList<>();
 

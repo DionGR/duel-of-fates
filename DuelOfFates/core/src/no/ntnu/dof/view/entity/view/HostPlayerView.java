@@ -11,15 +11,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import lombok.Getter;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.view.Image;
+import no.ntnu.dof.view.entity.control.AbortButton;
 
+@Getter
 public class HostPlayerView extends PlayerView {
     private final Group hostInterface;
     private final Group handView;
     private final Image deckView;
-    private final Image discardView;
+    private final TextButton endTurnButton;
+    private final AbortButton abortButton;
     private final Player player;
     private final Skin skin;
 
@@ -30,28 +34,32 @@ public class HostPlayerView extends PlayerView {
         this.player = player;
         this.setPosition((float) Gdx.graphics.getWidth() / 4 - this.getGraphics().getWidth() / 2, Gdx.graphics.getHeight() * 0.6f);
 
-        this.getManaPool().setPosition(-this.getManaGraphics().getWidth() - 10, this.getGraphics().getHeight() / 2 - this.getManaGraphics().getHeight() / 2);
+        this.getHealthBarView().setPosition(0, -this.getHealthBarView().getHeight()-5);
+        this.getManaPool().setPosition(-this.getManaPool().getWidth()-10, this.getGraphics().getHeight()/2-this.getManaPool().getHeight()/2);
+        this.getArmorPool().setPosition(this.getHealthBarView().getWidth()+10, this.getHealthBarView().getY()+this.getHealthBarView().getHeight()/2-this.getArmorPool().getHeight()/2);
+
+        //this.setBounds(this.getHealthBarView().getWidth()+10, -this.getHealthBarView().getHeight()/2-this.getArmorPool().getHeight()/2, (-this.getManaGraphics().getWidth()-10+this.getManaPool().getWidth())-this.getHealthBarView().getWidth()+10, this.getGraphics().getY() - this.getHealthBarView().getY());
 
 
         hostInterface = new Group();
 
         deckView = new Image("cardBackside.png", 0.25f);
-        deckView.setPosition(0, 0);
+        deckView.setPosition(0, 20);
         hostInterface.addActor(deckView);
-
-        discardView = new Image("cardBackside.png", 0.25f);
-        discardView.setPosition((float) Gdx.graphics.getWidth() - discardView.getWidth(), 0);
-        hostInterface.addActor(discardView);
 
         handView = new Group();
         updateHandView();
         hostInterface.addActor(handView);
 
         skin = new Skin(Gdx.files.internal("UISkin.json"));
-        TextButton endTurnButton = new TextButton("End Turn", skin, "default");
+        endTurnButton = new TextButton("End Turn", skin, "default");
         endTurnButton.addListener(playListener);
-        endTurnButton.setPosition(discardView.getX() * 0.9f, (discardView.getY() + discardView.getHeight()) * 1.5f);
+        endTurnButton.setPosition(deckView.getWidth() * 1.4f, Gdx.graphics.getHeight() * 0.375f);
         hostInterface.addActor(endTurnButton);
+
+        abortButton = new AbortButton(0.35f, playListener);
+        abortButton.setPosition(5, Gdx.graphics.getHeight() - abortButton.getHeight() - 5);
+        hostInterface.addActor(abortButton);
 
         this.addActor(hostInterface);
         hostInterface.setPosition(-this.getX(), -this.getY());
@@ -59,13 +67,9 @@ public class HostPlayerView extends PlayerView {
 
     public void draw(Batch batch, float parentAlpha) {
         updateHandView();
-        updateManaView();
         super.draw(batch, parentAlpha);
     }
 
-    public void updateManaView() {
-        this.manaText.getText().setText(Integer.toString(player.getMana().getValue()));
-    }
 
     public void updateHandView() {
         for (int i = 0; i < handView.getChildren().size; i++) {
@@ -77,10 +81,10 @@ public class HostPlayerView extends PlayerView {
         for (Iterator<Card> iterator = temporaryList.iterator(); iterator.hasNext(); ) {
             Card card = iterator.next();
             ClickListener cardListener = player.canPlay(card) ? playListener : null;
-            handView.addActor(new CardView(0.3f, card, handView.getChildren().size, cardListener));
+            handView.addActor(new CardView(0.35f, card, handView.getChildren().size, cardListener));
         }
         if(handView.getChildren().size > 0){
-            handView.setPosition(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 5);
+            handView.setBounds(Gdx.graphics.getWidth()/2f - (handView.getChild(handView.getChildren().size-1).getX()+handView.getChild(handView.getChildren().size-1).getWidth())/2f, 25, handView.getChild(handView.getChildren().size-1).getWidth()*handView.getChildren().size, (9f/8)*handView.getChild(handView.getChildren().size-1).getHeight());
         }
     }
 
@@ -90,10 +94,19 @@ public class HostPlayerView extends PlayerView {
     public void dispose() {
         super.dispose();
         deckView.dispose();
-        discardView.dispose();
         skin.dispose();
+        endTurnButton.clear();
+        abortButton.dispose();
         for (int i = 0; i < handView.getChildren().size; i++) {
             ((CardView) handView.getChild(i)).dispose();
         }
+    }
+
+    public void removeEndTurnButton() {
+        endTurnButton.remove();
+    }
+
+    public void addEndTurnButton() {
+        hostInterface.addActor(endTurnButton);
     }
 }
