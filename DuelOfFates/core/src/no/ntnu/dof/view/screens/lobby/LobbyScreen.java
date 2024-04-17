@@ -44,13 +44,16 @@ public class LobbyScreen extends BaseScreen {
         super.show();
         // Setting up the UI components specific to LobbyScreen
         this.skin = new Skin(Gdx.files.internal("UISkin.json"));
+        TextButton.TextButtonStyle textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
+        textButtonStyle.font.getData().setScale(getScreenHeight()*0.002f);
 
         contentTable = new Table();
         contentTable.setFillParent(true);
         stage.addActor(contentTable);
 
         lobbyTitle = new Label(gameLobby.getTitle(), skin, "big");
-        contentTable.add(lobbyTitle).expandX().padTop(20).row();
+        lobbyTitle.setFontScale(getScreenHeight()*0.003f);
+        contentTable.add(lobbyTitle).expandX().row();
 
         // Making a centered table to store title and buttons
         contentTable = new Table();
@@ -59,14 +62,14 @@ public class LobbyScreen extends BaseScreen {
         contentTable.setPosition(0, Gdx.graphics.getHeight());
 
         // Adding content to table
-        contentTable.padTop(30);
-        contentTable.add(lobbyTitle).colspan(2).padBottom(50).row();
-        contentTable.add(new TextButton(gameLobby.getCreator().getEmail(), skin, "default")).padRight(30).padBottom(100).width(150).height(50);
+        contentTable.padTop(getScreenHeight()*0.1f);
+        contentTable.add(lobbyTitle).colspan(2).row();
+        contentTable.add(new TextButton(gameLobby.getCreator().getEmail(), skin, "default")).padTop(getScreenHeight()*0.1f).padBottom(getScreenHeight()*0.1f).padRight(getScreenWidth()*0.05f).width(getScreenWidth()*0.2f).height(getScreenHeight()*0.12f);
 
         // If gameLobby.getGuest is not null, display guest.getEmail instead of "<Available>"
         String guestDisplay = gameLobby.getGuest() != null ? gameLobby.getGuest().getEmail() : "<Available>";
         guestButton = new TextButton(guestDisplay, skin, "default");
-        contentTable.add(guestButton).padBottom(100).width(150).height(50).row();
+        contentTable.add(guestButton).padTop(getScreenHeight()*0.1f).padBottom(getScreenHeight()*0.1f).width(getScreenWidth()*0.2f).height(getScreenHeight()*0.12f).row();
 
         // If user is the creator, show "start game" button, else if user is a guest --> show join lobby button
         if (isCreator) {
@@ -95,8 +98,8 @@ public class LobbyScreen extends BaseScreen {
                 }
             });
 
-            contentTable.add(startGameButton).colspan(2).padBottom(10).width(150).height(50).row();
-            contentTable.add(deleteLobbyButton).colspan(2).padBottom(10).width(150).height(50).row();
+            contentTable.add(startGameButton).colspan(2).padBottom(getScreenHeight()*0.04f).width(getScreenWidth()*0.2f).height(getScreenHeight()*0.12f).row();
+            contentTable.add(deleteLobbyButton).colspan(2).padBottom(10).width(getScreenWidth()*0.2f).height(getScreenHeight()*0.12f).row();
         } else {
             TextButton joinGameButton = new TextButton("Join Lobby", skin, "default");
             joinGameButton.addListener(new ClickListener() {
@@ -114,8 +117,8 @@ public class LobbyScreen extends BaseScreen {
                 }
             });
 
-            contentTable.add(joinGameButton).colspan(2).padBottom(10).width(150).height(50);
-            contentTable.add(exitLobbyButton).colspan(3).padBottom(10).width(150).height(50);
+            contentTable.add(joinGameButton).colspan(2).padBottom(getScreenHeight()*0.04f).width(getScreenWidth()*0.2f).height(getScreenHeight()*0.12f).row();
+            contentTable.add(exitLobbyButton).colspan(3).width(getScreenWidth()*0.2f).height(getScreenHeight()*0.12f);
         }
         errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1);
