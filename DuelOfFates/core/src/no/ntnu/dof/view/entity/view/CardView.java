@@ -59,7 +59,7 @@ public class CardView extends Group {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        Color originalColor = batch.getColor();
+        Color originalColor = batch.getColor().cpy();
         batch.setColor(this.getColor());
         cardTexture.draw(batch, getX(), getY());
         batch.setColor(originalColor);
