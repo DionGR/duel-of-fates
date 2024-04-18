@@ -35,20 +35,28 @@ public class LoginScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("UISkin.json"));
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
 
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
         Label headline = new Label("Log in / Sign up", skin);
-        headline.setFontScale(1.5f);
+        headline.setFontScale(2.5f);
         table.add(headline).padTop(30).padBottom(20).center().row();
 
         feedbackLabel = new Label("", skin);
         table.add(feedbackLabel).padBottom(20).colspan(2).center().row();
 
-        float fieldButtonWidth = 250f;
-        float buttonHeight = 50f;
+        float fieldButtonWidth = (float) (0.3*screenWidth);
+        float buttonHeight = (float) (0.1*screenHeight);
+
+
+        // Get the TextField.TextFieldStyle
+        TextField.TextFieldStyle textFieldStyle = skin.get(TextField.TextFieldStyle.class);
+        // Set the font scale directly on the textFieldStyle's font
+        textFieldStyle.font.getData().setScale(1.5f);
 
         emailField = new TextField("", skin);
         emailField.setMessageText("Email");
@@ -58,6 +66,7 @@ public class LoginScreen implements Screen {
         passwordField.setPasswordMode(true);
 
         TextButton loginButton = new TextButton("Login", skin);
+        loginButton.getLabel().setFontScale(screenHeight*0.003f);
         loginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -67,8 +76,8 @@ public class LoginScreen implements Screen {
             }
         });
 
-        table.add(emailField).width(fieldButtonWidth).padBottom(10).row();
-        table.add(passwordField).width(fieldButtonWidth).padBottom(10).row();
+        table.add(emailField).width(fieldButtonWidth).height(buttonHeight).padBottom(10).row();
+        table.add(passwordField).width(fieldButtonWidth).height(buttonHeight).padBottom(10).row();
         table.add(loginButton).width(fieldButtonWidth).height(buttonHeight).padBottom(10).row();
 
         Label signUpPlaceholder = new Label("", skin);
@@ -88,7 +97,7 @@ public class LoginScreen implements Screen {
 
             Table table = (Table) stage.getActors().first();
             table.getCells().peek().setActor(signUpButton);
-            signUpButton.getLabel().setFontScale(1.0f);  // Adjust font scale if needed to match the login button
+            signUpButton.getLabel().setFontScale(Gdx.graphics.getHeight()*0.003f);  // Adjust font scale if needed to match the login button
             table.invalidateHierarchy();  // Refresh layout to apply changes.
         });
     }

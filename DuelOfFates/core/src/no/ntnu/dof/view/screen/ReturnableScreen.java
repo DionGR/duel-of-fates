@@ -15,7 +15,7 @@ public abstract class ReturnableScreen extends BaseScreen {
         // Initialize the back button and its bounds
         Texture backBtnTexture = new Texture(Gdx.files.internal("backBtn.png"));
         backBtn = new Sprite(backBtnTexture);
-        backBtn.setSize(30, 50);
+        backBtn.setSize(getScreenWidth()*0.05f, getScreenHeight()*0.16f);
         backBtn.setPosition(20, Gdx.graphics.getHeight() - backBtn.getHeight() - 20);
         backBtnBounds = new Rectangle(backBtn.getX(), backBtn.getY(), backBtn.getWidth(), backBtn.getHeight());
     }

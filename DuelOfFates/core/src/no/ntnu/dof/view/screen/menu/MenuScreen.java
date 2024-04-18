@@ -7,14 +7,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import java.util.Arrays;
+import java.util.List;
+
 import no.ntnu.dof.controller.application.ScreenController;
 import no.ntnu.dof.view.screen.BaseScreen;
 
-
+import no.ntnu.dof.controller.application.ScreenController;
+import no.ntnu.dof.view.screen.BaseScreen;
 public class MenuScreen extends BaseScreen {
     @Override
     public void show() {
@@ -37,13 +42,16 @@ public class MenuScreen extends BaseScreen {
         TextButton tutorialBtn = new TextButton("Tutorial", skin, "default");
         TextButton logoutBtn = new TextButton("Log Out", skin, "default");
 
+        TextButton.TextButtonStyle textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
+        textButtonStyle.font.getData().setScale(getScreenHeight()*0.003f);
+
         // Adding content to table
-        contentTable.padTop(10);
-        contentTable.add(logoButton).padBottom(10).row();
-        contentTable.add(lobbiesBtn).padBottom(10).width(150).height(50).row();
-        contentTable.add(chooseClassBtn).padBottom(10).width(150).height(50).row();
-        contentTable.add(tutorialBtn).padBottom(10).width(150).height(50).row();
-        contentTable.add(logoutBtn).width(150).height(50);
+        contentTable.padTop(getScreenHeight()*0.08f);
+        contentTable.add(logoButton).padBottom(getScreenHeight()*0.04f).width(getScreenWidth()*0.6f).row();
+        contentTable.add(lobbiesBtn).padBottom(getScreenHeight()*0.04f).width(getScreenWidth()*0.3f).height(getScreenHeight()*0.12f).row();
+        contentTable.add(chooseClassBtn).padBottom(getScreenHeight()*0.04f).width(getScreenWidth()*0.3f).height(getScreenHeight()*0.12f).row();
+        contentTable.add(tutorialBtn).padBottom(getScreenHeight()*0.04f).width(getScreenWidth()*0.3f).height(getScreenHeight()*0.12f).row();;
+        contentTable.add(logoutBtn).width(getScreenWidth()*0.3f).height(getScreenHeight()*0.12f);
 
         stage.addActor(contentTable);
 

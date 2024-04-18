@@ -46,8 +46,8 @@ public abstract class BaseScreen extends ScreenAdapter {
         soundBtn = new ImageButton(new TextureRegionDrawable(soundOnTexture), new TextureRegionDrawable(soundOnTexture), new TextureRegionDrawable(soundOffTexture));
         soundBtn.setChecked(!soundController.isSoundOn());
 
-        soundBtn.setSize(60, 60);
-        soundBtn.setPosition(10, 10);
+        soundBtn.setSize(getScreenWidth()*0.07f,getScreenWidth()*0.07f);
+        soundBtn.setPosition(10,10);
 
         soundBtn.addListener(new ClickListener() {
             @Override
@@ -55,6 +55,14 @@ public abstract class BaseScreen extends ScreenAdapter {
                 soundController.toggleSound();
             }
         });
+    }
+
+    public float getScreenWidth() {
+        return Gdx.graphics.getWidth();
+    }
+
+    public float getScreenHeight() {
+        return Gdx.graphics.getHeight();
     }
 
     @Override

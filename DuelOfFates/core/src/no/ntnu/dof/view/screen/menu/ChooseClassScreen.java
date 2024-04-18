@@ -44,13 +44,16 @@ public class ChooseClassScreen extends ReturnableScreen {
         // Initialize styles
         initializeStyles();
 
+        TextButton.TextButtonStyle textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
+        textButtonStyle.font.getData().setScale(getScreenHeight()*0.002f);
+
         contentTable = new Table();
         contentTable.setFillParent(true);
         contentTable.top();
 
         Label title = new Label("Choose a Class", skin);
-        title.setFontScale(1.5f);
-        contentTable.add(title).padTop(30).padBottom(20).center().row();
+        title.setFontScale(getScreenHeight()*0.004f);
+        contentTable.add(title).padTop(getScreenHeight()*0.05f).padBottom(getScreenHeight()*0.1f).center().row();
 
         for (PlayerClass playerClass : playerClasses) {
             TextButton classButton = new TextButton(playerClass.getName(), skin);
@@ -73,7 +76,7 @@ public class ChooseClassScreen extends ReturnableScreen {
                     user.setPlayerClassName(playerClass.getName());
                 }
             });
-            contentTable.add(classButton).padBottom(10).width(200).height(50).row();
+            contentTable.add(classButton).padBottom(getScreenHeight()*0.05f).width(getScreenWidth()*0.22f).height(getScreenHeight()*0.12f).row();
         }
 
         stage.addActor(contentTable);
