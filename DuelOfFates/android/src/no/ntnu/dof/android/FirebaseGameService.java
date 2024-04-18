@@ -2,6 +2,7 @@ package no.ntnu.dof.android;
 
 import androidx.annotation.NonNull;
 
+import com.badlogic.gdx.Gdx;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -10,7 +11,7 @@ import java.util.Optional;
 import no.ntnu.dof.android.listener.ChildAdditionListener;
 import no.ntnu.dof.android.listener.ValueChangeListener;
 import no.ntnu.dof.controller.network.GameService;
-import no.ntnu.dof.model.GameComms;
+import no.ntnu.dof.model.communication.GameComms;
 import no.ntnu.dof.model.gameplay.card.Card;
 
 public class FirebaseGameService implements GameService {
@@ -19,7 +20,9 @@ public class FirebaseGameService implements GameService {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         String gameId = databaseReference.child("games").push().getKey();
         GameComms comms = new GameComms(gameId, startingPlayerName);
-        databaseReference.child("games").child(gameId).setValue(comms);
+        databaseReference.child("games").child(gameId).setValue(comms)
+            .addOnSuccessListener(unused -> Gdx.app.log("GameService", "Communication established. Game ID: " + gameId))
+            .addOnFailureListener(e -> Gdx.app.error("GameService", "Failed to establish communication: " + e.getMessage()));
 
         return comms;
     }
@@ -58,25 +61,24 @@ public class FirebaseGameService implements GameService {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         if (card.isPresent()) {
             String cardId = databaseReference.child("games").child(comms.getGameId())
-                    .child("cards").push().getKey();
+                .child("cards").push().getKey();
             databaseReference.child("games").child(comms.getGameId())
-                    .child("cards").child(cardId).setValue(card.get());
-            // TODO implement callbacks if necessary
-//                    .addOnSuccessListener(aVoid -> callback.onSuccess(lobbyId))
-//                    .addOnFailureListener(callback::onFailure);
+                .child("cards").child(cardId).setValue(card.get())
+                .addOnSuccessListener(unused -> Gdx.app.log("GameService", card.get().getName() + " played."))
+                .addOnFailureListener(e -> Gdx.app.error("GameService", "Failed to play " + card.get().getName() + ": " + e.getMessage()));
         } else {
             databaseReference.child("games").child(comms.getGameId())
-                    .child("playerLastTurn").setValue(comms.getPlayerLastTurn());
-            // TODO implement callbacks if necessary
-//                    .addOnSuccessListener(aVoid -> callback.onSuccess(lobbyId))
-//                    .addOnFailureListener(callback::onFailure);
+                .child("playerLastTurn").setValue(comms.getPlayerLastTurn())
+                .addOnSuccessListener(aVoid -> Gdx.app.log("GameService", "Turn ended."))
+                .addOnFailureListener(e -> Gdx.app.error("GameService", "Failed to end turn: " + e.getMessage()));
         }
     }
 
     @Override
     public void abort(GameComms comms) {
         FirebaseDatabase.getInstance().getReference().child("games")
-            .child(comms.getGameId()).child("abort").setValue(true);
-        // TODO implement callbacks if necessary
+            .child(comms.getGameId()).child("abort").setValue(true)
+            .addOnSuccessListener(unused -> Gdx.app.log("GameService", "Game aborted."))
+            .addOnFailureListener(e -> Gdx.app.error("GameService", "Failed to abort game: " + e.getMessage()));
     }
 }

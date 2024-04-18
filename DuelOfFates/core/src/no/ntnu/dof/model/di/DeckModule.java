@@ -12,7 +12,6 @@ import no.ntnu.dof.model.gameplay.deck.Deck;
 
 @Module(includes = {CardModule.class})
 public class DeckModule {
-
     /**
      * Creates a knightDeck focusing on high defense and strong attacks using armor and health boosts.
      */

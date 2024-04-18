@@ -19,8 +19,8 @@ import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.view.entity.view.HostPlayerView;
-import no.ntnu.dof.view.screens.game.TutorialScreen;
+import no.ntnu.dof.view.gameplay.entity.HostPlayerView;
+import no.ntnu.dof.view.screen.game.TutorialScreen;
 
 @Getter
 public class TutorialController {
@@ -82,11 +82,11 @@ public class TutorialController {
     }
 
     public void gameLoop() throws InterruptedException {
-        screen.GamePresentation();
+        screen.showGamePresentation();
 
         Optional<Card> turnCard = playerControllers.get(host).choosePlay(0);
         playOneCard(turnCard);
-        screen.ShowManaConsumption();
+        screen.showManaConsumption();
 
         boolean playedCardTutorialShowed = false;
 
@@ -103,7 +103,7 @@ public class TutorialController {
             } else {
                 game.finalizeTurn();
                 if(!playedCardTutorialShowed && currentPlayer == bot){
-                    screen.ShowPlayedCard();
+                    screen.showPlayedCard();
                     playedCardTutorialShowed = true;
                 }
                 Gdx.app.log("Game", "Turn finalized.");
@@ -121,5 +121,4 @@ public class TutorialController {
             Gdx.app.log("Game", "Turn finalized.");
         }
     }
-
 }

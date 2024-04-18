@@ -17,7 +17,6 @@ import no.ntnu.dof.model.gameplay.effect.card.RemoveCardFromHandEffect;
 import no.ntnu.dof.model.gameplay.player.Player;
 
 public class Game {
-
     private final LinkedList<Player> players;
     @Getter private final Player host;
     @Getter private final Player opponent;
@@ -70,29 +69,4 @@ public class Game {
 
         players.add(current);
     }
-
-//    public static Player demoPlayer(String name) {
-//        List<Card> cards = new ArrayList<>();
-//
-//        for (int i = 0; i < 10; ++i) {
-//            cards.add(AttackCard.builder()
-//                    .name("Card" + i)
-//                    .cost(new Mana(3))
-//                    .opponentEffectName("damage")
-//                    .build());
-//        }
-//
-//        PlayerClass playerClass = PlayerClass.builder()
-//                .deck(Deck.builder().activeCards(cards).build())
-//                .maxHealth(new Health(10))
-//                .maxArmor(new Armor(0))
-//                .maxMana(new Mana(5))
-//                .build();
-//
-//        return Player.builder()
-//                .name(name)
-//                .playerClass(playerClass)
-//                .hand(Hand.builder().maxSize(3).build())
-//                .build();
-//    }
 }

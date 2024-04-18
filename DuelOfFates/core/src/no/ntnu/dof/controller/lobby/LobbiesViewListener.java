@@ -2,7 +2,7 @@ package no.ntnu.dof.controller.lobby;
 
 import java.util.List;
 
-import no.ntnu.dof.model.GameLobby;
+import no.ntnu.dof.model.communication.GameLobby;
 
 public interface LobbiesViewListener {
     void updateLobbiesList(List<GameLobby> gameLobbies);

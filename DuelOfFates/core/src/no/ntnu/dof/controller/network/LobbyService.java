@@ -2,8 +2,8 @@ package no.ntnu.dof.controller.network;
 
 import java.util.List;
 
-import no.ntnu.dof.model.GameLobby;
-import no.ntnu.dof.model.User;
+import no.ntnu.dof.model.communication.GameLobby;
+import no.ntnu.dof.model.communication.User;
 
 public interface LobbyService {
     void createLobby(LobbyCreationCallback callback, GameLobby gameLobby);

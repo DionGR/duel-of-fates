@@ -17,7 +17,6 @@ import no.ntnu.dof.model.gameplay.stats.mana.ManaEffect;
 
 @Module
 public class EffectModule {
-
     @Provides
     @Named("refillHandEffect")
     public Effect provideRefillHandEffect() {
@@ -201,7 +200,6 @@ public class EffectModule {
         effectInvoker.register("poisonEffect_4_4", poisonEffect4_4);
         effectInvoker.register("passiveHealingEffect_4_4", passiveHealingEffect4_4);
         effectInvoker.register("suicideEffect", suicideEffect);
-
 
         return effectInvoker;
     }

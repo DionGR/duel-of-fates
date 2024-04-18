@@ -5,14 +5,13 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
+import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.model.gameplay.playerclass.PlayerClass;
-import no.ntnu.dof.model.gameplay.Game;
-import no.ntnu.dof.view.screens.game.TutorialScreen;
+import no.ntnu.dof.view.screen.game.TutorialScreen;
 
 @Module(includes = {PlayerClassModule.class})
 public class TutorialPlayerModule {
-
     @Provides
     @Named("hostTutorialPlayer")
     public Player provideHostTutorialPlayer(@Named("knightPlayerClass") PlayerClass playerClass) {

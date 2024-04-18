@@ -5,13 +5,13 @@ import com.badlogic.gdx.Gdx;
 import java.util.List;
 
 import lombok.Data;
-import no.ntnu.dof.controller.ScreenController;
+import no.ntnu.dof.controller.application.ScreenController;
 import no.ntnu.dof.controller.network.LobbyService;
 import no.ntnu.dof.controller.network.ServiceLocator;
-import no.ntnu.dof.model.GameLobbies;
-import no.ntnu.dof.model.GameLobby;
-import no.ntnu.dof.model.User;
-import no.ntnu.dof.view.screens.lobby.LobbiesScreen;
+import no.ntnu.dof.model.communication.GameLobbies;
+import no.ntnu.dof.model.communication.GameLobby;
+import no.ntnu.dof.model.communication.User;
+import no.ntnu.dof.view.screen.lobby.LobbiesScreen;
 
 @Data
 public class GameLobbiesController implements LobbiesViewListener {
@@ -34,7 +34,7 @@ public class GameLobbiesController implements LobbiesViewListener {
     }
 
     public void updateLobbiesList(List<GameLobby> gameLobbies) {
-        Gdx.app.log("GameLobbiesController", "Updating lobbies list with " + gameLobbies.size() + " lobbies.");
+        Gdx.app.log("GameLobbies", "Updating lobbies list with " + gameLobbies.size() + " lobbies.");
         this.gameLobbies.setLobbies(gameLobbies);
         lobbiesScreen.updateLobbiesList(this.gameLobbies);
     }
@@ -49,17 +49,13 @@ public class GameLobbiesController implements LobbiesViewListener {
         ServiceLocator.getLobbyService().createLobby(new LobbyService.LobbyCreationCallback() {
             @Override
             public void onSuccess(GameLobby lobby) {
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        transitionToLobby(lobby);
-                    }
-                });
+                Gdx.app.postRunnable(() -> transitionToLobby(lobby));
+                Gdx.app.log("GameLobbies", "Created lobby with ID: " + lobby.getLobbyId());
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                // TODO: Feedback
+                Gdx.app.error("GameLobbies", "Failed to create lobby: " + throwable.getMessage());
             }
         }, newLobby);
     }

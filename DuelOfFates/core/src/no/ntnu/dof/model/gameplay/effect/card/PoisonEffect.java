@@ -9,7 +9,6 @@ import no.ntnu.dof.model.gameplay.stats.health.HealthEffect;
 
 @SuperBuilder
 public class PoisonEffect extends Effect implements TurnListener {
-
     private int damage;
     private int duration;
 

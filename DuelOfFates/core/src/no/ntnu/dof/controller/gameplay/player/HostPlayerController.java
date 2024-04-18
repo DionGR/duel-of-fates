@@ -3,7 +3,7 @@ package no.ntnu.dof.controller.gameplay.player;
 import java.util.Optional;
 
 import no.ntnu.dof.controller.network.ServiceLocator;
-import no.ntnu.dof.model.GameComms;
+import no.ntnu.dof.model.communication.GameComms;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
 

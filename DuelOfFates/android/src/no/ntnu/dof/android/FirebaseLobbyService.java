@@ -2,6 +2,7 @@ package no.ntnu.dof.android;
 
 import androidx.annotation.NonNull;
 
+import com.badlogic.gdx.Gdx;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,8 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import no.ntnu.dof.controller.network.LobbyService;
-import no.ntnu.dof.model.GameLobby;
-import no.ntnu.dof.model.User;
+import no.ntnu.dof.model.communication.GameLobby;
+import no.ntnu.dof.model.communication.User;
 
 public class FirebaseLobbyService implements LobbyService {
     private final Map<String, ValueEventListener> listeners = new HashMap<>();
@@ -57,7 +58,7 @@ public class FirebaseLobbyService implements LobbyService {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
+                Gdx.app.error("Lobby", "The read failed: " + databaseError.getCode());
             }
         });
     }
@@ -76,7 +77,7 @@ public class FirebaseLobbyService implements LobbyService {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
+                Gdx.app.error("Lobby", "The read failed: " + databaseError.getCode());
             }
         };
         lobbyRef.addValueEventListener(valueEventListener);
@@ -104,7 +105,7 @@ public class FirebaseLobbyService implements LobbyService {
                 if (!dataSnapshot.exists()) {
                     callback.onFailure(new Exception("Lobby does not exist."));
                 } else
-                    lobbyRef.child("guest").setValue(user, (DatabaseReference.CompletionListener) (databaseError, databaseReference1) -> {
+                    lobbyRef.child("guest").setValue(user, (databaseError, databaseReference1) -> {
                         if (databaseError == null) {
                             if (callback != null) {
                                 callback.onSuccess();

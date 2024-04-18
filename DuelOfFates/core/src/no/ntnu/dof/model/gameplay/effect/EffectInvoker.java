@@ -3,10 +3,8 @@ package no.ntnu.dof.model.gameplay.effect;
 import java.util.HashMap;
 import java.util.Map;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
-import no.ntnu.dof.model.gameplay.player.Player;
 
 @Getter
 public class EffectInvoker<K, V extends Effect> {

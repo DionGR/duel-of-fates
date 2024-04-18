@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Getter;
-import no.ntnu.dof.model.gameplay.effect.Effect;
-import no.ntnu.dof.model.gameplay.player.Player;
 
 @Getter
 public class PlayerClassInvoker<K, V extends PlayerClass> {

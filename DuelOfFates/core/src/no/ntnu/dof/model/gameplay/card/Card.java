@@ -18,6 +18,7 @@ public class Card extends GameplayEntity {
     private Mana cost;
 
     public Card() {
+        // Default constructor for serialization
         this.hostEffectNames = new ArrayList<>();
         this.opponentEffectNames = new ArrayList<>();
     }

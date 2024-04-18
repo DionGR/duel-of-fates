@@ -11,8 +11,8 @@ import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 public class BotTutorialController implements PlayerController {
     private boolean played = false;
-    private ArrayList<Card> hand = new ArrayList<>();
-    private Random random = new Random();
+    private final ArrayList<Card> hand = new ArrayList<>();
+    private final Random random = new Random();
 
     public BotTutorialController() {
         hand.add(Card.builder()
@@ -26,12 +26,9 @@ public class BotTutorialController implements PlayerController {
                 .opponentEffectName("damageEffect_4")
                 .build());
     }
-    public Optional<Card> choosePlay(long timeout) {
-        try {
-            sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public Optional<Card> choosePlay(long timeout) throws InterruptedException {
+        sleep(1000);
+
         if(!played){
             played = true;
             return Optional.of(hand.get(random.nextInt(hand.size())));

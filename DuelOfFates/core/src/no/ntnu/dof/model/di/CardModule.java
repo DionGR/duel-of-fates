@@ -9,7 +9,6 @@ import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 @Module
 public class CardModule {
-
     @Provides
     @Named("attackCard_4")
     public Card provideAttackCard4() {
