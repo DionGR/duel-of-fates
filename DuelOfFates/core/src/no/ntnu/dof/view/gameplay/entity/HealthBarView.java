@@ -27,6 +27,7 @@ public class HealthBarView extends Group {
         skin.setScale(0.6f);
         this.healthLabel = new Label(player.getHealth().getValue() + "/" + (player.getPlayerClass().getMaxHealth().getValue()), skin, "default");
         healthLabel.setBounds(0, 0, getWidth(), getHeight());
+        healthLabel.setFontScale(Gdx.graphics.getHeight() * 0.0025f);
         healthLabel.setAlignment(Align.center);
         healthLabel.setColor(Color.WHITE);
         this.addActor(healthLabel);
