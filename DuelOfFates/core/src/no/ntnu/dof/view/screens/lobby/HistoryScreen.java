@@ -96,7 +96,7 @@ public class HistoryScreen extends ReturnableScreen {
         Label titleLabel = new Label("Match History", skin, "default");
 //        titleLabel.setFontScale(1.5f);
         outerTable.add(titleLabel).center().padBottom(20).row();
-        outerTable.add(scrollPane).width(400).expandY().fillY().center();
+        outerTable.add(scrollPane).width(getScreenWidth()*0.8f).expandY().fillY().center();
 
         stage.addActor(outerTable);
     }
