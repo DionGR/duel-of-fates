@@ -51,7 +51,8 @@ public class HostPlayerView extends PlayerView {
         skin = new Skin(Gdx.files.internal("UISkin.json"));
         endTurnButton = new TextButton("End Turn", skin, "default");
         endTurnButton.addListener(playListener);
-        endTurnButton.setPosition(deckView.getWidth() * 1.4f, Gdx.graphics.getHeight() * 0.375f);
+        endTurnButton.setBounds(deckView.getWidth()*1.4f, Gdx.graphics.getHeight()*0.375f, Gdx.graphics.getWidth()*0.12f, Gdx.graphics.getHeight()*0.06f);
+        endTurnButton.getStyle().font.getData().setScale(Gdx.graphics.getHeight()*0.0025f);
         hostInterface.addActor(endTurnButton);
 
         abortButton = new AbortButton(0.35f, playListener);
