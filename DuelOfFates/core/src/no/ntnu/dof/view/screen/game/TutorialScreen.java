@@ -55,8 +55,8 @@ public class TutorialScreen implements Screen {
         activeLabel.setAlignment(Align.top, Align.center);
 
         stage.addActor(gameView);
-        stage.addActor(HighlightedArea);
-        stage.addActor(ClickableArea);
+        stage.addActor(highlightedArea);
+        stage.addActor(clickableArea);
     }
 
     @Override
