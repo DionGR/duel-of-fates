@@ -100,7 +100,7 @@ public class LoginScreen implements Screen {
 
             Table table = (Table) stage.getActors().first();
             table.getCells().peek().setActor(signUpButton);
-            signUpButton.getLabel().setFontScale(1.0f);  // Adjust font scale if needed to match the login button
+            signUpButton.getLabel().setFontScale(Gdx.graphics.getHeight()*0.003f);  // Adjust font scale if needed to match the login button
             table.invalidateHierarchy();  // Refresh layout to apply changes.
         });
     }
