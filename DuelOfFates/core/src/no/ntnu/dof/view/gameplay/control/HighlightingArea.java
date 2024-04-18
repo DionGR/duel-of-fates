@@ -11,6 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HighlightingArea extends Actor {
+    private final ShapeRenderer shapeDrawer = new ShapeRenderer();
+
     public HighlightingArea(float x, float y, float width, float height) {
         this.setX(x);
         this.setY(y);
@@ -23,12 +25,15 @@ public class HighlightingArea extends Actor {
         super.draw(batch, parentAlpha);
         batch.end();
 
-        ShapeRenderer ShapeDrawer = new ShapeRenderer();
-        ShapeDrawer.begin(ShapeRenderer.ShapeType.Line);
-        ShapeDrawer.setColor(Color.RED);
-        ShapeDrawer.rect(getX() - 5, getY() - 5, getWidth() + 10, getHeight() + 10);
-        ShapeDrawer.end();
+        shapeDrawer.begin(ShapeRenderer.ShapeType.Line);
+        shapeDrawer.setColor(Color.RED);
+        shapeDrawer.rect(getX() - 5, getY() - 5, getWidth() + 10, getHeight() + 10);
+        shapeDrawer.end();
 
         batch.begin();
+    }
+
+    public void dispose() {
+        shapeDrawer.dispose();
     }
 }

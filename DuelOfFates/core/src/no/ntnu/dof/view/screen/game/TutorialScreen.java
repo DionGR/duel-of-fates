@@ -99,6 +99,7 @@ public class TutorialScreen implements Screen {
         highlightedArea.remove();
         clickableArea.remove();
         skin.dispose();
+        highlightedArea.dispose();
     }
 
     public void showGamePresentation() {
