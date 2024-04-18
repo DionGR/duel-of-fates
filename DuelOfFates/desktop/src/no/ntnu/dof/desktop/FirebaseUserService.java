@@ -1,20 +1,19 @@
 package no.ntnu.dof.desktop;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.google.firebase.database.ValueEventListener;
 
 import no.ntnu.dof.controller.network.UserService;
-import no.ntnu.dof.model.GameSummary;
-import no.ntnu.dof.model.User;
+import no.ntnu.dof.model.communication.GameSummary;
+import no.ntnu.dof.model.communication.User;
 
 public class FirebaseUserService implements UserService {
-
     @Override
     public void uploadGameSummary(String userId, GameSummary summary, GameSummaryCallback callback) {
         DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");

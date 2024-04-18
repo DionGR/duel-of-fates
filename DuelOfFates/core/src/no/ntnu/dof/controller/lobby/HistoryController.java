@@ -7,37 +7,20 @@ import java.util.List;
 
 import no.ntnu.dof.controller.network.ServiceLocator;
 import no.ntnu.dof.controller.network.UserService;
-import no.ntnu.dof.model.GameSummary;
-import no.ntnu.dof.model.User;
-import no.ntnu.dof.model.gameplay.Game;
-import no.ntnu.dof.view.screens.lobby.HistoryScreen;
+import no.ntnu.dof.model.communication.GameSummary;
+import no.ntnu.dof.model.communication.User;
+import no.ntnu.dof.view.screen.lobby.HistoryScreen;
 
 public class HistoryController {
     private List<GameSummary> matches = new ArrayList<>();
-    private HistoryScreen historyScreen;
-    private User user;
+    private final HistoryScreen historyScreen;
+    private final User user;
 
     public HistoryController(User currentUser, HistoryScreen historyScreen) {
         this.historyScreen = historyScreen;
         this.user = currentUser;
-        //createMockGameSummary();
         fetchGameSummaries();
         historyScreen.showGameSummaries(matches); // Call the method here
-    }
-
-    public void createMockGameSummary() {
-        matches = new ArrayList<>();
-
-        User player1 = new User("player1_id", "player1@test.com");
-        User player2 = new User("player2_id", "player2@test.com");
-        GameSummary gs1 = new GameSummary("Match1", "player1_id", "player2_id", true, false);
-        gs1.setUserHost(player1);
-        gs1.setUserGuest(player2);
-        GameSummary gs2 = new GameSummary("Match2", "player1_id", "player2_id", false, true);
-        gs2.setUserHost(player1);
-        gs2.setUserGuest(player2);
-        matches.add(gs1);
-        matches.add(gs2);
     }
 
     private void fetchGameSummaries() {

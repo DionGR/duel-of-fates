@@ -1,20 +1,17 @@
 package no.ntnu.dof.android;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.badlogic.gdx.Gdx;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Optional;
 
+import no.ntnu.dof.android.listener.ChildAdditionListener;
+import no.ntnu.dof.android.listener.ValueChangeListener;
 import no.ntnu.dof.controller.network.GameService;
-import no.ntnu.dof.model.GameComms;
+import no.ntnu.dof.model.communication.GameComms;
 import no.ntnu.dof.model.gameplay.card.Card;
 
 public class FirebaseGameService implements GameService {
@@ -23,7 +20,9 @@ public class FirebaseGameService implements GameService {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         String gameId = databaseReference.child("games").push().getKey();
         GameComms comms = new GameComms(gameId, startingPlayerName);
-        databaseReference.child("games").child(gameId).setValue(comms);
+        databaseReference.child("games").child(gameId).setValue(comms)
+            .addOnSuccessListener(unused -> Gdx.app.log("GameService", "Communication established. Game ID: " + gameId))
+            .addOnFailureListener(e -> Gdx.app.error("GameService", "Failed to establish communication: " + e.getMessage()));
 
         return comms;
     }
@@ -40,12 +39,21 @@ public class FirebaseGameService implements GameService {
 
     @Override
     public void addPlayListener(GameComms comms, PlayListener listener) {
-        FirebaseChangeAdapter firebaseChangeAdapter = new FirebaseChangeAdapter(listener);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("games").child(comms.getGameId()).child("cards")
-                .addChildEventListener(firebaseChangeAdapter);
+            .addChildEventListener(new ChildAdditionListener(
+                snapshot -> listener.onCardPlayed(snapshot.getValue(Card.class))
+            ));
         databaseReference.child("games").child(comms.getGameId()).child("playerLastTurn")
-                .addValueEventListener(firebaseChangeAdapter);
+            .addValueEventListener(new ValueChangeListener(
+                snapshot -> listener.onTurnEnd(snapshot.getValue(String.class))
+            ));
+        databaseReference.child("games").child(comms.getGameId()).child("abort")
+            .addValueEventListener(new ValueChangeListener(
+                snapshot -> {
+                    if (Boolean.TRUE.equals(snapshot.getValue(Boolean.class))) listener.onAbort();
+                }
+            ));
     }
 
     @Override
@@ -53,50 +61,24 @@ public class FirebaseGameService implements GameService {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         if (card.isPresent()) {
             String cardId = databaseReference.child("games").child(comms.getGameId())
-                    .child("cards").push().getKey();
+                .child("cards").push().getKey();
             databaseReference.child("games").child(comms.getGameId())
-                    .child("cards").child(cardId).setValue(card.get());
-            // TODO implement callbacks if necessary
-//                    .addOnSuccessListener(aVoid -> callback.onSuccess(lobbyId))
-//                    .addOnFailureListener(callback::onFailure);
+                .child("cards").child(cardId).setValue(card.get())
+                .addOnSuccessListener(unused -> Gdx.app.log("GameService", card.get().getName() + " played."))
+                .addOnFailureListener(e -> Gdx.app.error("GameService", "Failed to play " + card.get().getName() + ": " + e.getMessage()));
         } else {
             databaseReference.child("games").child(comms.getGameId())
-                    .child("playerLastTurn").setValue(comms.getPlayerLastTurn());
-            // TODO implement callbacks if necessary
-//                    .addOnSuccessListener(aVoid -> callback.onSuccess(lobbyId))
-//                    .addOnFailureListener(callback::onFailure);
+                .child("playerLastTurn").setValue(comms.getPlayerLastTurn())
+                .addOnSuccessListener(aVoid -> Gdx.app.log("GameService", "Turn ended."))
+                .addOnFailureListener(e -> Gdx.app.error("GameService", "Failed to end turn: " + e.getMessage()));
         }
     }
 
-    public static class FirebaseChangeAdapter implements ValueEventListener, ChildEventListener {
-        private final PlayListener listener;
-
-        public FirebaseChangeAdapter(PlayListener listener) {
-            this.listener = listener;
-        }
-
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
-            listener.onTurnEnd(snapshot.getValue(String.class));
-        }
-
-        @Override
-        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-            listener.onCardPlayed(snapshot.getValue(Card.class));
-        }
-
-        @Override
-        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
-
-        @Override
-        public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
-
-        @Override
-        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
-            Gdx.app.log("DatabaseChange", "Database update cancelled.");
-        }
+    @Override
+    public void abort(GameComms comms) {
+        FirebaseDatabase.getInstance().getReference().child("games")
+            .child(comms.getGameId()).child("abort").setValue(true)
+            .addOnSuccessListener(unused -> Gdx.app.log("GameService", "Game aborted."))
+            .addOnFailureListener(e -> Gdx.app.error("GameService", "Failed to abort game: " + e.getMessage()));
     }
 }

@@ -12,7 +12,6 @@ import no.ntnu.dof.model.gameplay.deck.Deck;
 
 @Module(includes = {CardModule.class})
 public class DeckModule {
-
     /**
      * Creates a knightDeck focusing on high defense and strong attacks using armor and health boosts.
      */
@@ -105,6 +104,30 @@ public class DeckModule {
         cards.add(highDamageCard);
 
         cards.addAll(cards);
+
+        return Deck.builder()
+                .activeCards(cards)
+                .build();
+    }
+
+    /**
+     * Creates a deck for the tutorial
+     */
+    @Provides
+    @Named("tutorialDeck")
+    public Deck provideTutorialDeck(
+            @Named("attackCard_4") Card minorDamageCard,
+            @Named("healthCard_4") Card minorHealCard,
+            @Named("healthCard_8") Card mediumHealCard,
+            @Named("attackCard_8") Card mediumDamageCard,
+            @Named("manaCard_2") Card manaCard
+    ) {
+        List<Card> cards = new ArrayList<>();
+        cards.add(minorDamageCard);
+        cards.add(minorHealCard);
+        cards.add(mediumHealCard);
+        cards.add(mediumDamageCard);
+        cards.add(manaCard);
 
         return Deck.builder()
                 .activeCards(cards)

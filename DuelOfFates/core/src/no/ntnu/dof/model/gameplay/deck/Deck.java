@@ -39,4 +39,11 @@ public class Deck extends GameplayEntity implements Iterator<Card> {
         }
         return activeCards.remove(0);
     }
+
+    public Card getLastPlayedCard() {
+        if(playedCards.isEmpty()) {
+            return null;
+        }
+        return playedCards.get(playedCards.size() - 1);
+    }
 }

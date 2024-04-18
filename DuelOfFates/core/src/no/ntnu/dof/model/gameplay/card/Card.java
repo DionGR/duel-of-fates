@@ -1,5 +1,6 @@
 package no.ntnu.dof.model.gameplay.card;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -16,5 +17,9 @@ public class Card extends GameplayEntity {
 
     private Mana cost;
 
-    public Card() {}
+    public Card() {
+        // Default constructor for serialization
+        this.hostEffectNames = new ArrayList<>();
+        this.opponentEffectNames = new ArrayList<>();
+    }
 }

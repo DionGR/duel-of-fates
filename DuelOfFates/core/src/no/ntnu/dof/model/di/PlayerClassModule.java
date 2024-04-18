@@ -16,7 +16,6 @@ import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 @Module(includes = {DeckModule.class})
 public class PlayerClassModule {
-
     @Provides
     @Named("knightPlayerClass")
     public PlayerClass provideKnightPlayerClass(@Named("knightDeck") Deck deck) {
@@ -58,7 +57,8 @@ public class PlayerClassModule {
     public List<PlayerClass> providePlayerClasses(
             @Named("knightPlayerClass") PlayerClass knightPlayerClass,
             @Named("magePlayerClass") PlayerClass magePlayerClass,
-            @Named("skeletonPlayerClass") PlayerClass skeletonPlayerClass) {
+            @Named("skeletonPlayerClass") PlayerClass skeletonPlayerClass
+    ) {
 
         final ArrayList<PlayerClass> playerClasses = new ArrayList<>();
 

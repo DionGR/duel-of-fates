@@ -1,11 +1,10 @@
 package no.ntnu.dof.controller.network;
 
 import lombok.Getter;
-import no.ntnu.dof.model.User;
 
 public class ServiceLocator {
     @Getter
-    private static AuthInterface authService;
+    private static AuthService authService;
     @Getter
     private static LobbyService lobbyService;
     @Getter
@@ -13,7 +12,7 @@ public class ServiceLocator {
     @Getter
     private static UserService userService;
 
-    public static void provideAuthService(AuthInterface authService) {
+    public static void provideAuthService(AuthService authService) {
         ServiceLocator.authService = authService;
     }
 
