@@ -1,11 +1,9 @@
 package no.ntnu.dof.controller.network;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import no.ntnu.dof.model.GameComms;
-import no.ntnu.dof.model.GameSummary;
-import no.ntnu.dof.model.User;
+import no.ntnu.dof.model.communication.GameSummary;
+import no.ntnu.dof.model.communication.User;
 
 public interface UserService {
 
@@ -17,7 +15,6 @@ public interface UserService {
 
     void fetchUserById(String userId, UserCallback callback);
 
-    //List<GameSummary> fetchUserGameSummaries(String userId);
     interface UserCreationCallback {
         void onSuccess(User user);
         void onFailure(Exception e);

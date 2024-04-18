@@ -16,7 +16,6 @@ import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 @Module(includes = {DeckModule.class})
 public class PlayerClassModule {
-
     @Provides
     @Named("knightPlayerClass")
     public PlayerClass provideKnightPlayerClass(@Named("knightDeck") Deck deck) {

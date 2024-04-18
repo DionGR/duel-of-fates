@@ -4,12 +4,10 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-
-import no.ntnu.dof.controller.SoundController;
+import no.ntnu.dof.controller.application.SoundController;
 
 @Module
 public class SoundControllerModule {
-
     @Provides
     @Named("soundController")
     public SoundController provideSoundController() {

@@ -17,12 +17,13 @@ import no.ntnu.dof.model.gameplay.stats.mana.ManaEffect;
 
 @Module
 public class EffectModule {
-
     @Provides
     @Named("refillHandEffect")
     public Effect provideRefillHandEffect() {
         return RefillHandEffect.builder()
                 .name("refillHandEffect")
+                .viewName("Refill")
+                .description("Hand")
                 .build();
     }
 
@@ -31,6 +32,8 @@ public class EffectModule {
     public Effect provideRefillManaEffect() {
         return RefillManaEffect.builder()
                 .name("refillManaEffect")
+                .viewName("Refill")
+                .description("Mana")
                 .build();
     }
 
@@ -41,6 +44,8 @@ public class EffectModule {
     public Effect provideDamageEffect4() {
         return DamageEffect.builder()
                 .name("damageEffect_4")
+                .viewName("Damage")
+                .description("4 dp")
                 .damage(4)
                 .build();
     }
@@ -50,6 +55,8 @@ public class EffectModule {
     public Effect provideDamageEffect8() {
         return DamageEffect.builder()
                 .name("damageEffect_8")
+                .viewName("Damage")
+                .description("8 dp")
                 .damage(8)
                 .build();
     }
@@ -59,6 +66,8 @@ public class EffectModule {
     public Effect provideDamageEffect12() {
         return DamageEffect.builder()
                 .name("damageEffect_12")
+                .viewName("Damage")
+                .description("12 dp")
                 .damage(12)
                 .build();
     }
@@ -70,7 +79,9 @@ public class EffectModule {
     public Effect provideManaEffect2() {
         return ManaEffect.builder()
                 .name("manaEffect_2")
-                .delta(2)
+                .viewName("Mana")
+                .description("2 mp")
+                .delta(-2)
                 .build();
     }
 
@@ -79,7 +90,9 @@ public class EffectModule {
     public Effect provideManaEffect5() {
         return ManaEffect.builder()
                 .name("manaEffect_5")
-                .delta(5)
+                .viewName("Mana")
+                .description("5 mp")
+                .delta(-5)
                 .build();
     }
 
@@ -90,6 +103,8 @@ public class EffectModule {
     public Effect provideHealthEffect4() {
         return HealthEffect.builder()
                 .name("healthEffect_4")
+                .viewName("Health")
+                .description("4 hp")
                 .delta(-4)
                 .build();
     }
@@ -99,6 +114,8 @@ public class EffectModule {
     public Effect provideHealthEffect8() {
         return HealthEffect.builder()
                 .name("healthEffect_8")
+                .viewName("Health")
+                .description("8 hp")
                 .delta(-8)
                 .build();
     }
@@ -108,6 +125,8 @@ public class EffectModule {
     public Effect provideHealthEffect12() {
         return HealthEffect.builder()
                 .name("healthEffect_12")
+                .viewName("Health")
+                .description("12 hp")
                 .delta(-12)
                 .build();
     }
@@ -118,6 +137,8 @@ public class EffectModule {
     public Effect providePoisonEffect4_4() {
         return PoisonEffect.builder()
                 .name("poisonEffect_4_4")
+                .viewName("Poison")
+                .description("4 dp, 4 turns")
                 .damage(4)
                 .duration(4)
                 .build();
@@ -129,6 +150,8 @@ public class EffectModule {
     public Effect providePassiveHealingEffect4_4() {
         return PassiveHealingEffect.builder()
                 .name("passiveHealingEffect_4_4")
+                .viewName("Healing")
+                .description("4 hp, 4 turns")
                 .health(4)
                 .duration(4)
                 .build();
@@ -137,7 +160,11 @@ public class EffectModule {
     @Provides
     @Named("suicideEffect")
     public Effect provideSuicideEffect() {
-        return SuicideEffect.builder().name("suicideEffect").build();
+        return SuicideEffect.builder()
+                .name("suicideEffect")
+                .viewName("Suicide")
+                .description("death")
+                .build();
     }
 
     @Provides
@@ -173,7 +200,6 @@ public class EffectModule {
         effectInvoker.register("poisonEffect_4_4", poisonEffect4_4);
         effectInvoker.register("passiveHealingEffect_4_4", passiveHealingEffect4_4);
         effectInvoker.register("suicideEffect", suicideEffect);
-
 
         return effectInvoker;
     }

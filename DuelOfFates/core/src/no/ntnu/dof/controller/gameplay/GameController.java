@@ -11,13 +11,13 @@ import lombok.Getter;
 import no.ntnu.dof.controller.gameplay.player.HostPlayerController;
 import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.controller.gameplay.player.RemotePlayerController;
-import no.ntnu.dof.model.GameComms;
-import no.ntnu.dof.model.GameSummary;
+import no.ntnu.dof.model.communication.GameComms;
+import no.ntnu.dof.model.communication.GameSummary;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.event.GameEndListener;
 import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.view.entity.view.HostPlayerView;
+import no.ntnu.dof.view.gameplay.entity.HostPlayerView;
 
 public class GameController {
     @Getter

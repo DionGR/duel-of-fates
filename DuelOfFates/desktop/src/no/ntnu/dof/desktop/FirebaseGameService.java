@@ -1,5 +1,6 @@
 package no.ntnu.dof.desktop;
 
+import com.badlogic.gdx.Gdx;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -11,7 +12,7 @@ import java.util.Optional;
 import no.ntnu.dof.controller.network.GameService;
 import no.ntnu.dof.desktop.listener.ChildAdditionListener;
 import no.ntnu.dof.desktop.listener.ValueChangeListener;
-import no.ntnu.dof.model.GameComms;
+import no.ntnu.dof.model.communication.GameComms;
 import no.ntnu.dof.model.gameplay.card.Card;
 
 public class FirebaseGameService implements GameService {
@@ -23,7 +24,8 @@ public class FirebaseGameService implements GameService {
         GameComms comms = new GameComms(gameId, startingPlayerName);
 
         databaseReference.child("games").child(gameId).setValue(comms, (error, ref) -> {
-            // TODO implement callbacks if necessary
+            if (error == null) Gdx.app.log("GameService", "Communication established. Game ID: " + gameId);
+            else Gdx.app.error("GameService", "Failed to establish communication: " + error.getMessage());
         });
         return comms;
     }
@@ -69,29 +71,21 @@ public class FirebaseGameService implements GameService {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
         if (card.isPresent()) {
-            String cardId = databaseReference
-                    .child("games")
-                    .child(comms.getGameId())
-                    .child("cards")
-                    .push().getKey();
+            String cardId = databaseReference.child("games").child(comms.getGameId())
+                .child("cards").push().getKey();
 
-
-            databaseReference
-                    .child("games")
-                    .child(comms.getGameId())
-                    .child("cards")
-                    .child(cardId)
-                    .setValue(card.get(), (error, ref) -> {
-                        // TODO implement callbacks if necessary
-                    });
+            databaseReference.child("games").child(comms.getGameId())
+                .child("cards").child(cardId).setValue(card.get(), (error, ref) -> {
+                    String cardName = card.get().getName();
+                    if (error == null) Gdx.app.log("GameService", cardName + " played.");
+                    else Gdx.app.error("GameService", "Failed to play " + cardName + ": " + error.getMessage());
+                });
         } else {
-            databaseReference
-                    .child("games")
-                    .child(comms.getGameId())
-                    .child("playerLastTurn")
-                    .setValue(comms.getPlayerLastTurn(), (error, ref) -> {
-                        // TODO implement callbacks if necessary
-                    });
+            databaseReference.child("games").child(comms.getGameId())
+                .child("playerLastTurn").setValue(comms.getPlayerLastTurn(), (error, ref) -> {
+                    if (error == null) Gdx.app.log("GameService", "Turn ended.");
+                    else Gdx.app.error("GameService", "Failed to end turn: " + error.getMessage());
+                });
         }
     }
 
@@ -99,7 +93,8 @@ public class FirebaseGameService implements GameService {
     public void abort(GameComms comms) {
         FirebaseDatabase.getInstance().getReference().child("games")
             .child(comms.getGameId()).child("abort").setValue(true, (error, ref) -> {
-                // TODO implement callbacks if necessary
+                if (error == null) Gdx.app.log("GameService", "Game aborted.");
+                else Gdx.app.error("GameService", "Failed to abort game: " + error.getMessage());
             });
     }
 }

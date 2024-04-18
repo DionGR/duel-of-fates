@@ -9,7 +9,6 @@ import no.ntnu.dof.model.gameplay.stats.health.HealthEffect;
 
 @SuperBuilder
 public class PassiveHealingEffect extends Effect implements TurnListener {
-
     private int health;
     private int duration;
 

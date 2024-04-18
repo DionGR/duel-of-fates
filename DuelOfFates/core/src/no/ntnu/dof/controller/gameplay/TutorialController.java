@@ -1,7 +1,5 @@
 package no.ntnu.dof.controller.gameplay;
 
-import static java.lang.Thread.sleep;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.LifecycleListener;
 
@@ -21,8 +19,8 @@ import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.model.gameplay.Game;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.view.entity.view.HostPlayerView;
-import no.ntnu.dof.view.screens.game.TutorialScreen;
+import no.ntnu.dof.view.gameplay.entity.HostPlayerView;
+import no.ntnu.dof.view.screen.game.TutorialScreen;
 
 @Getter
 public class TutorialController {
@@ -84,17 +82,16 @@ public class TutorialController {
     }
 
     public void gameLoop() throws InterruptedException {
-        sleep(200);
-        screen.GamePresentation();
+        screen.showGamePresentation();
 
         Optional<Card> turnCard = playerControllers.get(host).choosePlay(0);
         playOneCard(turnCard);
-        screen.ShowManaConsumption();
+        screen.showManaConsumption();
 
         boolean playedCardTutorialShowed = false;
 
         while (!game.isOver()) {
-            System.out.println("Turn of " + game.getNextPlayer().getName() + " (" + game.getNextPlayer().getHealth().getValue() + " HP)");
+            Gdx.app.log("Game", "Turn of " + game.getNextPlayer().getName() + " " + game.getNextPlayer());
             Player currentPlayer = game.getNextPlayer();
             PlayerController currentPlayerController = playerControllers.get(currentPlayer);
 
@@ -106,12 +103,14 @@ public class TutorialController {
             } else {
                 game.finalizeTurn();
                 if(!playedCardTutorialShowed && currentPlayer == bot){
-                    screen.ShowPlayedCard();
+                    screen.showPlayedCard();
                     playedCardTutorialShowed = true;
                 }
                 Gdx.app.log("Game", "Turn finalized.");
             }
         }
+
+        Gdx.app.log("Game", "Game over: player " + (game.getHost().isDead() ? "lost" : "won"));
     }
 
     public void playOneCard(Optional<Card> turnCard){
@@ -122,5 +121,4 @@ public class TutorialController {
             Gdx.app.log("Game", "Turn finalized.");
         }
     }
-
 }

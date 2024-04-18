@@ -8,7 +8,9 @@ import lombok.Getter;
 public class Mana implements Comparable<Mana> {
     int value;
 
-    public Mana() {}
+    public Mana() {
+        // Default constructor for serialization
+    }
 
     @Override
     public int compareTo(Mana other) {

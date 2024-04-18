@@ -2,8 +2,8 @@ package no.ntnu.dof.model.gameplay.player;
 
 import java.util.ArrayList;
 
-import lombok.NonNull;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.GameplayEntity;
 import no.ntnu.dof.model.gameplay.card.Card;

@@ -6,9 +6,9 @@ import java.util.List;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.effect.Effect;
+import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.model.gameplay.stats.armor.ArmorEffect;
 import no.ntnu.dof.model.gameplay.stats.health.HealthEffect;
-import no.ntnu.dof.model.gameplay.player.Player;
 
 @SuperBuilder
 public class DamageEffect extends Effect {

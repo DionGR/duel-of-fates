@@ -1,6 +1,6 @@
 package no.ntnu.dof.controller.network;
 
-import no.ntnu.dof.model.User;
+import no.ntnu.dof.model.communication.User;
 
 public interface AuthService {
     void signIn(String email, String password, AuthCallback callback);

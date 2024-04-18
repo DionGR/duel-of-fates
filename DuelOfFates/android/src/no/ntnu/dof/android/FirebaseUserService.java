@@ -1,20 +1,22 @@
 package no.ntnu.dof.android;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import androidx.annotation.NonNull;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.google.firebase.database.ValueEventListener;
 
 import no.ntnu.dof.controller.network.UserService;
-import no.ntnu.dof.model.GameSummary;
-import no.ntnu.dof.model.User;
+import no.ntnu.dof.model.communication.GameSummary;
+import no.ntnu.dof.model.communication.User;
 
 public class FirebaseUserService implements UserService {
-    private DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
+    private final DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("users");
 
     @Override
     public void uploadGameSummary(String userId, GameSummary summary, GameSummaryCallback callback) {
@@ -36,7 +38,7 @@ public class FirebaseUserService implements UserService {
 
         newUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
                     // Add new user if not user exists from before
                     newUserRef.setValue(user, (databaseError, databaseReference) -> {
@@ -52,7 +54,7 @@ public class FirebaseUserService implements UserService {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 callback.onFailure(databaseError.toException());
             }
         });
@@ -63,7 +65,7 @@ public class FirebaseUserService implements UserService {
         DatabaseReference gameHistoryRef = usersReference.child(userId).child("gameshistory");
         gameHistoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<GameSummary> summaries = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     GameSummary summary = snapshot.getValue(GameSummary.class);
@@ -73,7 +75,7 @@ public class FirebaseUserService implements UserService {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 callback.onFailure(databaseError.toException());
             }
         });
@@ -84,7 +86,7 @@ public class FirebaseUserService implements UserService {
         DatabaseReference userRef = usersReference.child(userId);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 if (user != null) {
                     callback.onSuccess(user);
@@ -94,7 +96,7 @@ public class FirebaseUserService implements UserService {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 callback.onFailure(databaseError.toException());
             }
         });
