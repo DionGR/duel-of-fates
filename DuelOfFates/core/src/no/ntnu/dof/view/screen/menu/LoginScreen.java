@@ -51,7 +51,9 @@ public class LoginScreen implements Screen {
         float buttonHeight = 50f;
 
         emailField = new TextField("", skin);
+        emailField.setMessageText("Email");
         passwordField = new TextField("", skin);
+        passwordField.setMessageText("Password");
         passwordField.setPasswordCharacter('*');
         passwordField.setPasswordMode(true);
 
