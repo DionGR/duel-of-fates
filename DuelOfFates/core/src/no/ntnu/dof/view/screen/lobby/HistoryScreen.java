@@ -39,12 +39,12 @@ public class HistoryScreen extends ReturnableScreen {
     public void showGameSummaries(@NonNull List<GameSummary> gameSummaries) {
         Table contentTable = new Table();
         contentTable.setWidth(stage.getWidth());
-        contentTable.align(Align.center|Align.top);
+        contentTable.align(Align.center | Align.top);
         contentTable.setPosition(0, Gdx.graphics.getHeight());
         TextButton.TextButtonStyle textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
-        textButtonStyle.font.getData().setScale(getScreenHeight()*0.002f);
+        textButtonStyle.font.getData().setScale(getScreenHeight() * 0.002f);
         Label.LabelStyle labelStyle = skin.get(Label.LabelStyle.class);
-        labelStyle.font.getData().setScale(getScreenHeight()*0.003f);
+        labelStyle.font.getData().setScale(getScreenHeight() * 0.003f);
 
         if (gameSummaries.isEmpty()) {
             Label noHistoryLabel = new Label("No match history yet", skin, "default");
@@ -90,7 +90,7 @@ public class HistoryScreen extends ReturnableScreen {
         Label titleLabel = new Label("Match History", skin, "default");
 //        titleLabel.setFontScale(1.5f);
         outerTable.add(titleLabel).center().padBottom(20).row();
-        outerTable.add(scrollPane).width(getScreenWidth()*0.8f).expandY().fillY().center();
+        outerTable.add(scrollPane).width(getScreenWidth() * 0.8f).expandY().fillY().center();
 
         stage.addActor(outerTable);
     }

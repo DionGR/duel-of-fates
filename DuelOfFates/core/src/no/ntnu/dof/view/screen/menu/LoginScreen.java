@@ -49,8 +49,8 @@ public class LoginScreen implements Screen {
         feedbackLabel = new Label("", skin);
         table.add(feedbackLabel).padBottom(20).colspan(2).center().row();
 
-        float fieldButtonWidth = (float) (0.3*screenWidth);
-        float buttonHeight = (float) (0.1*screenHeight);
+        float fieldButtonWidth = (float) (0.3 * screenWidth);
+        float buttonHeight = (float) (0.1 * screenHeight);
 
 
         // Get the TextField.TextFieldStyle
@@ -66,7 +66,7 @@ public class LoginScreen implements Screen {
         passwordField.setPasswordMode(true);
 
         TextButton loginButton = new TextButton("Login", skin);
-        loginButton.getLabel().setFontScale(screenHeight*0.003f);
+        loginButton.getLabel().setFontScale(screenHeight * 0.003f);
         loginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -97,13 +97,14 @@ public class LoginScreen implements Screen {
 
             Table table = (Table) stage.getActors().first();
             table.getCells().peek().setActor(signUpButton);
-            signUpButton.getLabel().setFontScale(Gdx.graphics.getHeight()*0.003f);  // Adjust font scale if needed to match the login button
+            signUpButton.getLabel().setFontScale(Gdx.graphics.getHeight() * 0.003f);  // Adjust font scale if needed to match the login button
             table.invalidateHierarchy();  // Refresh layout to apply changes.
         });
     }
 
     public interface LoginViewListener {
         void onLoginAttempt(String email, String password);
+
         void onSignUpAttempt(String email, String password);
     }
 
@@ -141,13 +142,16 @@ public class LoginScreen implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 
     @Override
     public void dispose() {

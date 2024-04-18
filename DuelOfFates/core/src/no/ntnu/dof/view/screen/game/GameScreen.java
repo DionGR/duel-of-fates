@@ -86,17 +86,21 @@ public class GameScreen implements Screen {
         stage.addActor(resultWindow);
 
         TextLabel endLabel = new TextLabel(
-                game.getHost().isDead() ? "You lost" : "You won",
+                game.getHost().isDead() ? "You Lost" : "You Won",
                 0, midY / 10.0f,
                 Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
-                2,
+                Gdx.graphics.getHeight() * 0.006f,
                 game.getHost().isDead() ? Color.RED : Color.GREEN
         );
         stage.addActor(endLabel.getText());
 
         Skin skin = new Skin(Gdx.files.internal("UISkin.json"));
         TextButton returnToMenu = new TextButton("Exit", skin, "default");
-        returnToMenu.setPosition(midX, midY - returnToMenu.getHeight() * 2, Align.center);
+        returnToMenu.setWidth(Gdx.graphics.getWidth() * 0.10f);
+        returnToMenu.setHeight(Gdx.graphics.getHeight() * 0.10f);
+        returnToMenu.setPosition(midX, midY - returnToMenu.getHeight() * 1.25f, Align.center);
+        returnToMenu.getStyle().font.getData().setScale(Gdx.graphics.getHeight() * 0.004f);
+
         returnToMenu.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -105,6 +109,5 @@ public class GameScreen implements Screen {
             }
         });
         stage.addActor(returnToMenu);
-
     }
 }

@@ -47,11 +47,11 @@ public class TutorialScreen implements Screen {
         clickableArea = new Actor();
         clickableArea.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         activeLabel = new Label("", skin, "default");
-        activeLabel.setFontScale(Gdx.graphics.getHeight()*0.0025f);
-        float width = (gameView.getHostPlayerView().getX()+gameView.getHostPlayerView().getWidth()) - gameView.getOpponentPlayerView().getX();
-        float height = Gdx.graphics.getHeight()-gameView.getHostPlayerView().getY();
-        activeLabel.setBounds(Gdx.graphics.getWidth()/2f-width/2, Gdx.graphics.getHeight()-height, width, height);
-        activeLabel.setPosition(Gdx.graphics.getWidth()/2f - activeLabel.getWidth()/2f, Gdx.graphics.getHeight() - activeLabel.getHeight());
+        activeLabel.setFontScale(Gdx.graphics.getHeight() * 0.0025f);
+        float width = (gameView.getHostPlayerView().getX() + gameView.getHostPlayerView().getWidth()) - gameView.getOpponentPlayerView().getX();
+        float height = Gdx.graphics.getHeight() - gameView.getHostPlayerView().getY();
+        activeLabel.setBounds(Gdx.graphics.getWidth() / 2f - width / 2, Gdx.graphics.getHeight() - height, width, height);
+        activeLabel.setPosition(Gdx.graphics.getWidth() / 2f - activeLabel.getWidth() / 2f, Gdx.graphics.getHeight() - activeLabel.getHeight());
         activeLabel.setAlignment(Align.top, Align.center);
 
         stage.addActor(gameView);
@@ -340,17 +340,17 @@ public class TutorialScreen implements Screen {
                 game.getHost().isDead() ? "You Lost" : "You Won",
                 0, midY / 10.0f,
                 Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
-                Gdx.graphics.getHeight()*0.006f,
+                Gdx.graphics.getHeight() * 0.006f,
                 game.getHost().isDead() ? Color.RED : Color.GREEN
         );
         stage.addActor(endLabel.getText());
 
         Skin skin = new Skin(Gdx.files.internal("UISkin.json"));
         TextButton returnToMenu = new TextButton("Exit", skin, "default");
-        returnToMenu.setWidth(Gdx.graphics.getWidth()*0.10f);
-        returnToMenu.setHeight(Gdx.graphics.getHeight()*0.10f);
-        returnToMenu.setPosition(midX, midY - returnToMenu.getHeight()*1.25f, Align.center);
-        returnToMenu.getStyle().font.getData().setScale(Gdx.graphics.getHeight()*0.004f);
+        returnToMenu.setWidth(Gdx.graphics.getWidth() * 0.10f);
+        returnToMenu.setHeight(Gdx.graphics.getHeight() * 0.10f);
+        returnToMenu.setPosition(midX, midY - returnToMenu.getHeight() * 1.25f, Align.center);
+        returnToMenu.getStyle().font.getData().setScale(Gdx.graphics.getHeight() * 0.004f);
 
         returnToMenu.addListener(new ClickListener() {
             @Override
