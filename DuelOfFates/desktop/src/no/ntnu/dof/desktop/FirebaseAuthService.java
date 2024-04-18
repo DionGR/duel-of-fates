@@ -58,8 +58,8 @@ public class FirebaseAuthService implements AuthService {
                     currentUser = null;
                 }
             });
-        } catch (FirebaseAuthException e) {
-            throw new RuntimeException(e);
+        } catch (FirebaseAuthException | IllegalArgumentException e) {
+            callback.onError(e.getMessage());
         }
     }
 

@@ -6,6 +6,8 @@ import no.ntnu.dof.DuelOfFates;
 import no.ntnu.dof.controller.application.ScreenController;
 import no.ntnu.dof.controller.network.AuthService;
 import no.ntnu.dof.controller.network.ServiceLocator;
+import no.ntnu.dof.controller.network.UserService;
+import no.ntnu.dof.model.communication.User;
 import no.ntnu.dof.view.screen.menu.LoginScreen;
 
 public class LoginController implements LoginScreen.LoginViewListener {
@@ -66,7 +68,20 @@ public class LoginController implements LoginScreen.LoginViewListener {
     }
 
     public void loginSuccess() {
-        application.setCurrentUser(ServiceLocator.getAuthService().createGameUserFromFirebaseUser());
+        User user = ServiceLocator.getAuthService().createGameUserFromFirebaseUser();
+        ServiceLocator.getUserService().fetchUserById(user.getId(), new UserService.UserCallback() {
+            @Override
+            public void onSuccess(User updatedUser) {
+                application.setCurrentUser(updatedUser);
+                Gdx.app.log("Login", "Fetched user data.");
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                application.setCurrentUser(user); // use user with default player class
+                Gdx.app.log("Login", "User info could not be fetched, creating user with default class.");
+            }
+        });
 
         // Navigate to the menu screen
         Gdx.app.postRunnable(ScreenController::transitionToMenu);

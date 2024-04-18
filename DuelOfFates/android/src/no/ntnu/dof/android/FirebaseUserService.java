@@ -101,4 +101,11 @@ public class FirebaseUserService implements UserService {
             }
         });
     }
+
+    @Override
+    public void updateUserClass(User user, UserUpdateCallback callback) {
+        usersReference.child(user.getId()).child("playClassName").setValue(user.getPlayerClassName())
+            .addOnSuccessListener(unused -> callback.onSuccess())
+            .addOnFailureListener(callback::onFailure);
+    }
 }

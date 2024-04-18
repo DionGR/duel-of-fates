@@ -15,6 +15,8 @@ public interface UserService {
 
     void fetchUserById(String userId, UserCallback callback);
 
+    void updateUserClass(User user, UserUpdateCallback callback);
+
     interface UserCreationCallback {
         void onSuccess(User user);
         void onFailure(Exception e);
@@ -32,6 +34,11 @@ public interface UserService {
 
     interface UserCallback {
         void onSuccess(User user);
+        void onFailure(Exception e);
+    }
+
+    interface UserUpdateCallback {
+        void onSuccess();
         void onFailure(Exception e);
     }
 }

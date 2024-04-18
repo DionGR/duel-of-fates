@@ -24,6 +24,7 @@ public class ChooseClassScreen extends ReturnableScreen {
     private final Skin skin;
     private Table contentTable;
     private final User user;
+    private final ChooseClassListener listener;
     private TextButton selectedButton = null; // To keep track of the currently selected button
     private TextButton.TextButtonStyle defaultStyle;
     private TextButton.TextButtonStyle selectedStyle;
@@ -32,11 +33,12 @@ public class ChooseClassScreen extends ReturnableScreen {
     @Named("listPlayerClasses")
     protected List<PlayerClass> playerClasses;
 
-    public ChooseClassScreen(User currentUser) {
+    public ChooseClassScreen(User currentUser, ChooseClassListener listener) {
         ChooseClassScreenComponent chooseClassScreenComponent = DaggerChooseClassScreenComponent.create();
         chooseClassScreenComponent.inject(this);
 
         this.user = currentUser;
+        this.listener = listener;
         this.skin = new Skin(Gdx.files.internal("UISkin.json"));
     }
 
@@ -73,7 +75,7 @@ public class ChooseClassScreen extends ReturnableScreen {
                     }
                     classButton.setStyle(selectedStyle);
                     selectedButton = classButton;
-                    user.setPlayerClassName(playerClass.getName());
+                    listener.onClassChoice(playerClass);
                 }
             });
             contentTable.add(classButton).padBottom(getScreenHeight() * 0.05f).width(getScreenWidth() * 0.22f).height(getScreenHeight() * 0.12f).row();
@@ -115,5 +117,9 @@ public class ChooseClassScreen extends ReturnableScreen {
         skin.dispose();
         contentTable.clear();
         super.dispose();
+    }
+
+    public interface ChooseClassListener {
+        void onClassChoice(PlayerClass playerClass);
     }
 }

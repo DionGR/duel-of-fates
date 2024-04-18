@@ -17,6 +17,13 @@ public class User {
         this.id = id;
         this.email = email;
         this.name = this.email.split("@")[0];
-        this.playerClassName = "knight"; // NOTE: To be replaced by dynamically assigning a playerClass (name) from an available PlayerClass
+        this.playerClassName = "knight"; // default player class
+    }
+
+    public User(String id, String email, String name, String playerClassName) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.playerClassName = playerClassName;
     }
 }

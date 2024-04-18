@@ -10,6 +10,7 @@ import no.ntnu.dof.controller.gameplay.TutorialController;
 import no.ntnu.dof.controller.lobby.GameLobbiesController;
 import no.ntnu.dof.controller.lobby.GameLobbyController;
 import no.ntnu.dof.controller.lobby.HistoryController;
+import no.ntnu.dof.controller.menu.ChooseClassController;
 import no.ntnu.dof.controller.menu.LoginController;
 import no.ntnu.dof.model.communication.GameComms;
 import no.ntnu.dof.model.communication.GameLobby;
@@ -64,7 +65,9 @@ public class ScreenController {
     }
 
     public static void transitionToChooseClass() {
-        pushScreen(new ChooseClassScreen(application.getCurrentUser()));
+        ChooseClassController chooseClassController = new ChooseClassController(application.getCurrentUser());
+        ChooseClassScreen chooseClassScreen = new ChooseClassScreen(application.getCurrentUser(), chooseClassController);
+        pushScreen(chooseClassScreen);
     }
 
     public static void transitionToLogin() {
