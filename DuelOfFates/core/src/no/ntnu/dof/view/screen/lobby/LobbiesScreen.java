@@ -155,7 +155,6 @@ public class LobbiesScreen extends ReturnableScreen {
                 contentTable.clearChildren();
                 contentTable.add(lobbiesTitle).expandX().padTop(20).row();
 
-<<<<<<< HEAD:DuelOfFates/core/src/no/ntnu/dof/view/screens/lobby/LobbiesScreen.java
                     // Re-add each lobby as a button
                     for (GameLobby lobby : gameLobbies.getLobbies()) {
                         TextButton lobbyButton = new TextButton(lobby.getTitle() + "\n" + lobby.getCreator().getEmail(), skin, "default");
