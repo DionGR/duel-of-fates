@@ -94,7 +94,9 @@ public class TutorialScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        activeLabel.getStyle().font.dispose();
         activeLabel.remove();
+        //TO-DO HighlightingArea and clickableArea should be disposed
         highlightedArea.remove();
         clickableArea.remove();
         skin.dispose();
