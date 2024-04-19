@@ -30,8 +30,6 @@ public class TutorialController {
     @Named("tutorialGame")
     Game game;
     private final TutorialScreen screen;
-    private final Player host;
-    private final Player bot;
     private boolean quit;
 
     public TutorialController() {
@@ -45,10 +43,8 @@ public class TutorialController {
         this.quit = false;
 
         this.playerControllers = new HashMap<>();
-        this.host = game.getHost();
-        this.bot = game.getOpponent();
-        this.playerControllers.put(this.host, hostController);
-        this.playerControllers.put(this.bot, new BotTutorialController());
+        this.playerControllers.put(game.getHost(), hostController);
+        this.playerControllers.put(game.getOpponent(), new BotTutorialController());
     }
 
     public void startGame() {
@@ -84,7 +80,7 @@ public class TutorialController {
     public void gameLoop() throws InterruptedException {
         screen.showGamePresentation();
 
-        Optional<Card> turnCard = playerControllers.get(host).choosePlay(0);
+        Optional<Card> turnCard = playerControllers.get(game.getHost()).choosePlay(0);
         playOneCard(turnCard);
         screen.showManaConsumption();
 
@@ -102,7 +98,7 @@ public class TutorialController {
                 game.playCard(turnCard.get());
             } else {
                 game.finalizeTurn();
-                if(!playedCardTutorialShowed && currentPlayer == bot){
+                if (!playedCardTutorialShowed && currentPlayer == game.getOpponent()) {
                     screen.showPlayedCard();
                     playedCardTutorialShowed = true;
                 }
@@ -113,7 +109,7 @@ public class TutorialController {
         Gdx.app.log("Game", "Game over: player " + (game.getHost().isDead() ? "lost" : "won"));
     }
 
-    public void playOneCard(Optional<Card> turnCard){
+    public void playOneCard(Optional<Card> turnCard) {
         if (turnCard.isPresent()) {
             game.playCard(turnCard.get());
         } else {
