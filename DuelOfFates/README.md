@@ -55,7 +55,7 @@ Our project follows the Model-View-Controller design pattern. The project is div
 
 
 ### Assets
-Here you can find all the assets used in the game. The assets are divided into different folders based on their type.
+Here you can find all the assets used in the game.
 
     .
     ├── assets
