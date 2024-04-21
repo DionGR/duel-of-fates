@@ -20,7 +20,7 @@ public class EffectInvoker<K, V extends Effect> {
 
     @NonNull
     public V invoke(K key) {
-        return effects.get(key);
+        return (V) effects.get(key).copy();
     }
 
     public void printEffects() {

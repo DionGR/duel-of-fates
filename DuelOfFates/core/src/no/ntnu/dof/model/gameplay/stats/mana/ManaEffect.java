@@ -5,7 +5,7 @@ import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.model.gameplay.player.Player;
 
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class ManaEffect extends Effect {
     private final int delta;
 
@@ -14,5 +14,12 @@ public class ManaEffect extends Effect {
         int effectedMana = player.getMana().value - delta;
         int maxMana = player.getPlayerClass().getMaxMana().value;
         player.getMana().value = Integer.min(effectedMana, maxMana);
+    }
+
+    @Override
+    public ManaEffect copy() {
+        return this.toBuilder()
+                .delta(delta)
+                .build();
     }
 }

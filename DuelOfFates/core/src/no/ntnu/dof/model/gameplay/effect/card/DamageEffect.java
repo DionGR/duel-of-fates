@@ -10,7 +10,7 @@ import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.model.gameplay.stats.armor.ArmorEffect;
 import no.ntnu.dof.model.gameplay.stats.health.HealthEffect;
 
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class DamageEffect extends Effect {
     private final int damage;
 
@@ -30,6 +30,13 @@ public class DamageEffect extends Effect {
         }
 
         effects.forEach(e -> e.apply(player));
+    }
+
+    @Override
+    public DamageEffect copy() {
+        return this.toBuilder()
+                .damage(damage)
+                .build();
     }
 
     @Override

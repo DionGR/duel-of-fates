@@ -7,7 +7,7 @@ import no.ntnu.dof.model.gameplay.event.TurnListener;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.model.gameplay.stats.health.HealthEffect;
 
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class PoisonEffect extends Effect implements TurnListener {
     private int damage;
     private int duration;
@@ -16,6 +16,14 @@ public class PoisonEffect extends Effect implements TurnListener {
     public void apply(@NonNull Player player) {
         player.beginTurnEvent.register(this);
         this.dealDamage(player);
+    }
+
+    @Override
+    public PoisonEffect copy() {
+        return this.toBuilder()
+                .damage(damage)
+                .duration(duration)
+                .build();
     }
 
     @Override

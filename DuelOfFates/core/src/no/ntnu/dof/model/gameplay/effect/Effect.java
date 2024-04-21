@@ -7,7 +7,9 @@ import no.ntnu.dof.model.gameplay.GameplayEntity;
 import no.ntnu.dof.model.gameplay.player.Player;
 
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public abstract class Effect extends GameplayEntity {
     public abstract void apply(@NonNull final Player player);
+
+    public abstract Effect copy();
 }

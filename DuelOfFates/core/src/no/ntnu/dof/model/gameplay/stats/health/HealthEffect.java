@@ -5,7 +5,7 @@ import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.model.gameplay.player.Player;
 
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class HealthEffect extends Effect {
     private final int delta;
 
@@ -14,5 +14,12 @@ public class HealthEffect extends Effect {
         int effectedHealth = player.getHealth().value - delta;
         int maxHealth = player.getPlayerClass().getMaxHealth().value;
         player.getHealth().value = Integer.min(effectedHealth, maxHealth);
+    }
+
+    @Override
+    public HealthEffect copy() {
+        return this.toBuilder()
+                .delta(delta)
+                .build();
     }
 }

@@ -63,6 +63,8 @@ public class Player extends GameplayEntity {
                     .activeCards(new ArrayList<>(playerClass.getDeck().getActiveCards()))
                     .build();
 
+            this.deck.shuffle();
+
             this.hand.refill(this.deck);
 
             return self();

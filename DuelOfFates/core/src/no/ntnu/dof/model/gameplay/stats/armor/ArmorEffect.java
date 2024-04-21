@@ -5,7 +5,7 @@ import lombok.experimental.SuperBuilder;
 import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.model.gameplay.player.Player;
 
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class ArmorEffect extends Effect {
     private final int delta;
 
@@ -14,5 +14,12 @@ public class ArmorEffect extends Effect {
         int effectedArmor = player.getArmor().value - delta;
         int maxArmor = player.getPlayerClass().getMaxArmor().value;
         player.getArmor().value = Integer.min(effectedArmor, maxArmor);
+    }
+
+    @Override
+    public ArmorEffect copy() {
+        return this.toBuilder()
+                .delta(delta)
+                .build();
     }
 }

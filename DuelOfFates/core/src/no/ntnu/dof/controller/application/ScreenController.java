@@ -107,4 +107,3 @@ public class ScreenController {
         screens.forEach(Screen::dispose);
     }
 }
-

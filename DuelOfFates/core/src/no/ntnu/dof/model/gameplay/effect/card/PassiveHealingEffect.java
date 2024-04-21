@@ -7,7 +7,7 @@ import no.ntnu.dof.model.gameplay.event.TurnListener;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.model.gameplay.stats.health.HealthEffect;
 
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class PassiveHealingEffect extends Effect implements TurnListener {
     private int health;
     private int duration;
@@ -16,6 +16,14 @@ public class PassiveHealingEffect extends Effect implements TurnListener {
     public void apply(@NonNull Player player) {
         player.beginTurnEvent.register(this);
         this.heal(player);
+    }
+
+    @Override
+    public PassiveHealingEffect copy() {
+        return this.toBuilder()
+                .health(health)
+                .duration(duration)
+                .build();
     }
 
     @Override

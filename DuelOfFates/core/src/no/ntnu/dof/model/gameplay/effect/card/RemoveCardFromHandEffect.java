@@ -7,7 +7,7 @@ import no.ntnu.dof.model.gameplay.event.CardPlayedListener;
 import no.ntnu.dof.model.gameplay.player.Player;
 import no.ntnu.dof.model.gameplay.stats.mana.ManaEffect;
 
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class RemoveCardFromHandEffect implements CardPlayedListener {
     @Override
     public boolean onCardPlayed(@NonNull final Card card, @NonNull final Player player) {

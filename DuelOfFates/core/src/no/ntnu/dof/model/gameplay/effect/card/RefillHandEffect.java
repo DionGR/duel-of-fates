@@ -6,11 +6,16 @@ import no.ntnu.dof.model.gameplay.effect.Effect;
 import no.ntnu.dof.model.gameplay.event.TurnListener;
 import no.ntnu.dof.model.gameplay.player.Player;
 
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class RefillHandEffect extends Effect implements TurnListener {
     @Override
     public void apply(@NonNull final Player player) {
         player.refillHand();
+    }
+
+    @Override
+    public RefillHandEffect copy() {
+        return this.toBuilder().build();
     }
 
     @Override
