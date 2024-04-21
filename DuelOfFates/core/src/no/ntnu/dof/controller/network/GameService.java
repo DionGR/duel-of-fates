@@ -26,6 +26,7 @@ public interface GameService {
 
     interface GetCommsCallback {
         void onSuccess(GameComms comms);
+
         void onFailure(Throwable throwable);
     }
 }

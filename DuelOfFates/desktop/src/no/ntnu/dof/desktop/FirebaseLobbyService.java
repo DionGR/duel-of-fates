@@ -44,7 +44,8 @@ public class FirebaseLobbyService implements LobbyService {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("lobbies");
         DatabaseReference lobbyRef = databaseReference.child(lobbyId);
 
-        lobbyRef.child("gameId").setValue(gameId, (error, ref) -> {});
+        lobbyRef.child("gameId").setValue(gameId, (error, ref) -> {
+        });
         lobbyRef.child("gameState").setValue("started", (error, ref) -> {
             if (error == null) callback.onSuccess();
             else callback.onFailure(error.toException());
@@ -58,7 +59,7 @@ public class FirebaseLobbyService implements LobbyService {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<GameLobby> updatedLobbies = new ArrayList<>();
-                for (DataSnapshot lobbySnapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot lobbySnapshot : dataSnapshot.getChildren()) {
                     GameLobby lobby = lobbySnapshot.getValue(GameLobby.class);
                     if (lobby != null) {
                         updatedLobbies.add(lobby);

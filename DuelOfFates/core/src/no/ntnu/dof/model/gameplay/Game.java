@@ -18,8 +18,10 @@ import no.ntnu.dof.model.gameplay.player.Player;
 
 public class Game {
     private final LinkedList<Player> players;
-    @Getter private final Player host;
-    @Getter private final Player opponent;
+    @Getter
+    private final Player host;
+    @Getter
+    private final Player opponent;
 
     @Inject
     @Named("effectInvoker")

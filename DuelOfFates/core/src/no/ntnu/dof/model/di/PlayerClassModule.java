@@ -72,7 +72,7 @@ public class PlayerClassModule {
     @Provides
     @Named("playerClassInvoker")
     public PlayerClassInvoker<String, PlayerClass> providePlayerClassInvoker(@Named("listPlayerClasses")
-                                                                                 List<PlayerClass> playerClasses) {
+                                                                             List<PlayerClass> playerClasses) {
 
         PlayerClassInvoker<String, PlayerClass> playerClassInvoker = new PlayerClassInvoker<>();
 

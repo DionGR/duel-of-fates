@@ -15,7 +15,8 @@ import no.ntnu.dof.model.gameplay.card.Card;
 public class Hand extends GameplayEntity {
     @Setter
     private int maxSize;
-    @Builder.Default private List<Card> cards = new ArrayList<>();
+    @Builder.Default
+    private List<Card> cards = new ArrayList<>();
 
     public void refill(final Deck deck) {
         while (cards.size() < maxSize) {

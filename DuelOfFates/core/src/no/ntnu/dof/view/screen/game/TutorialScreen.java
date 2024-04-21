@@ -16,20 +16,20 @@ import com.badlogic.gdx.utils.Align;
 
 import no.ntnu.dof.controller.application.ScreenController;
 import no.ntnu.dof.model.gameplay.Game;
-import no.ntnu.dof.view.gameplay.texture.Image;
-import no.ntnu.dof.view.gameplay.label.TextLabel;
-import no.ntnu.dof.view.gameplay.entity.GameView;
 import no.ntnu.dof.view.gameplay.control.HighlightingArea;
+import no.ntnu.dof.view.gameplay.entity.GameView;
+import no.ntnu.dof.view.gameplay.label.TextLabel;
+import no.ntnu.dof.view.gameplay.texture.Image;
 
 
 public class TutorialScreen implements Screen {
     private final Stage stage;
     private final GameView gameView;
     private final Game game;
+    private final Skin skin = new Skin(Gdx.files.internal("UISkin.json"));
     private Label activeLabel;
     private HighlightingArea highlightedArea;
     private Actor clickableArea;
-    private final Skin skin = new Skin(Gdx.files.internal("UISkin.json"));
     private boolean gameEndScreenShown;
 
     public TutorialScreen(Game game) {

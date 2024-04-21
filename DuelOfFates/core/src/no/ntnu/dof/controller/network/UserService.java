@@ -19,26 +19,31 @@ public interface UserService {
 
     interface UserCreationCallback {
         void onSuccess(User user);
+
         void onFailure(Exception e);
     }
 
     interface GameSummaryCallback {
         void onSuccess();
+
         void onFailure(Exception e);
     }
 
     interface GameSummariesCallback {
         void onSuccess(List<GameSummary> summaries);
+
         void onFailure(Exception e);
     }
 
     interface UserCallback {
         void onSuccess(User user);
+
         void onFailure(Exception e);
     }
 
     interface UserUpdateCallback {
         void onSuccess();
+
         void onFailure(Exception e);
     }
 }

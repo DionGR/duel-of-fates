@@ -7,9 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import lombok.Getter;
 
 public class SoundController extends ClickListener {
-    protected Music music;
-    @Getter protected boolean isSoundOn;
     private static final SoundController soundController = new SoundController();
+    protected Music music;
+    @Getter
+    protected boolean isSoundOn;
 
     private SoundController() {
         this.music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
@@ -18,7 +19,7 @@ public class SoundController extends ClickListener {
         this.isSoundOn = true;
     }
 
-    public static SoundController getInstance(){
+    public static SoundController getInstance() {
         return soundController;
     }
 

@@ -15,8 +15,8 @@ import no.ntnu.dof.view.screen.lobby.LobbiesScreen;
 
 @Data
 public class GameLobbiesController implements LobbiesViewListener {
-    private GameLobbies gameLobbies;
     private final LobbiesScreen lobbiesScreen;
+    private GameLobbies gameLobbies;
     private User currentUser;
 
     public GameLobbiesController(User currentUser, LobbiesScreen lobbiesScreen) {

@@ -10,8 +10,8 @@ import javax.inject.Named;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.view.di.AbortButtonComponent;
 import no.ntnu.dof.view.di.DaggerAbortButtonComponent;
-import no.ntnu.dof.view.gameplay.texture.CardTexture;
 import no.ntnu.dof.view.gameplay.entity.CardView;
+import no.ntnu.dof.view.gameplay.texture.CardTexture;
 
 public class AbortButton extends CardView {
     @Inject

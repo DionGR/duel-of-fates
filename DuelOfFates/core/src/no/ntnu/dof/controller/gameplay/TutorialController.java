@@ -25,11 +25,10 @@ import no.ntnu.dof.view.screen.game.TutorialScreen;
 @Getter
 public class TutorialController {
     private final Map<Player, PlayerController> playerControllers;
-
+    private final TutorialScreen screen;
     @Inject
     @Named("tutorialGame")
     Game game;
-    private final TutorialScreen screen;
     private boolean quit;
 
     public TutorialController() {
@@ -57,10 +56,12 @@ public class TutorialController {
         });
         Gdx.app.addLifecycleListener(new LifecycleListener() {
             @Override
-            public void pause() {}
+            public void pause() {
+            }
 
             @Override
-            public void resume() {}
+            public void resume() {
+            }
 
             @Override
             public void dispose() {

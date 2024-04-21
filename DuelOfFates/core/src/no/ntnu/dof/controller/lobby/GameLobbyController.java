@@ -28,11 +28,10 @@ public class GameLobbyController implements LobbyViewListener {
     private final User currentUser;
     private final LobbyScreen lobbyScreen;
     private final GameLobby gameLobby;
-    private boolean isDeletingLobby = false;
-
     @Inject
     @Named("playerClassInvoker")
     PlayerClassInvoker<String, PlayerClass> playerClassInvoker;
+    private boolean isDeletingLobby = false;
 
     public GameLobbyController(User currentUser, LobbyScreen lobbyScreen, GameLobby gameLobby) {
         GameLobbyControllerComponent gameLobbyControllerComponent = DaggerGameLobbyControllerComponent.create();
@@ -182,7 +181,8 @@ public class GameLobbyController implements LobbyViewListener {
             public void onFailure(Throwable throwable) {
                 Gdx.app.error("LobbyDeletion", "Failed to delete the lobby.", throwable);
                 isDeletingLobby = false; // Reset flag
-                if (withPop) Gdx.app.postRunnable(() -> lobbyScreen.showError("Failed to delete the lobby."));
+                if (withPop)
+                    Gdx.app.postRunnable(() -> lobbyScreen.showError("Failed to delete the lobby."));
             }
         });
     }

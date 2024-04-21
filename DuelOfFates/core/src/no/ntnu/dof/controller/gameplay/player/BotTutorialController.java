@@ -10,9 +10,9 @@ import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 
 public class BotTutorialController implements PlayerController {
-    private boolean played = false;
     private final ArrayList<Card> hand = new ArrayList<>();
     private final Random random = new Random();
+    private boolean played = false;
 
     public BotTutorialController() {
         hand.add(Card.builder()
@@ -26,14 +26,14 @@ public class BotTutorialController implements PlayerController {
                 .opponentEffectName("damageEffect_4")
                 .build());
     }
+
     public Optional<Card> choosePlay(long timeout) throws InterruptedException {
         sleep(1000);
 
-        if(!played){
+        if (!played) {
             played = true;
             return Optional.of(hand.get(random.nextInt(hand.size())));
-        }
-        else {
+        } else {
             played = false;
             return Optional.empty();
         }

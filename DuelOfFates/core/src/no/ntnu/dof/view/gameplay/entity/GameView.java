@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import lombok.Getter;
 import no.ntnu.dof.controller.gameplay.player.PlayerController;
 import no.ntnu.dof.model.gameplay.Game;
-import no.ntnu.dof.view.gameplay.texture.Image;
 import no.ntnu.dof.view.gameplay.control.TimerView;
+import no.ntnu.dof.view.gameplay.texture.Image;
 
 @Getter
 public class GameView extends Group {

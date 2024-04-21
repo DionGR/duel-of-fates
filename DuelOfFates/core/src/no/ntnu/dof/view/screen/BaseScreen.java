@@ -22,12 +22,10 @@ import no.ntnu.dof.view.di.DaggerBaseScreenComponent;
 public abstract class BaseScreen extends ScreenAdapter {
     private final Texture soundOnTexture = new Texture(Gdx.files.internal("soundOn.png"));
     private final Texture soundOffTexture = new Texture(Gdx.files.internal("soundOff.png"));
-
+    private final ImageButton soundBtn;
     protected SpriteBatch batch;
     protected Sprite background;
     protected Stage stage;
-    private final ImageButton soundBtn;
-
     @Inject
     @Named("soundController")
     protected SoundController soundController;

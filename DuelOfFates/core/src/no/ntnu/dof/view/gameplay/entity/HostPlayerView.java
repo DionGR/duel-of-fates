@@ -14,11 +14,12 @@ import java.util.List;
 import lombok.Getter;
 import no.ntnu.dof.model.gameplay.card.Card;
 import no.ntnu.dof.model.gameplay.player.Player;
-import no.ntnu.dof.view.gameplay.texture.Image;
 import no.ntnu.dof.view.gameplay.control.AbortButton;
+import no.ntnu.dof.view.gameplay.texture.Image;
 
 @Getter
 public class HostPlayerView extends PlayerView {
+    private static ClickListener playListener;
     private final Group hostInterface;
     private final Group handView;
     private final Image deckView;
@@ -26,8 +27,6 @@ public class HostPlayerView extends PlayerView {
     private final AbortButton abortButton;
     private final Player player;
     private final Skin skin;
-
-    private static ClickListener playListener;
 
     public HostPlayerView(Player player) {
         super(player);
@@ -51,8 +50,8 @@ public class HostPlayerView extends PlayerView {
         skin = new Skin(Gdx.files.internal("UISkin.json"));
         endTurnButton = new TextButton("End Turn", skin, "default");
         endTurnButton.addListener(playListener);
-        endTurnButton.setBounds(deckView.getWidth()*1.4f, Gdx.graphics.getHeight()*0.375f, Gdx.graphics.getWidth()*0.12f, Gdx.graphics.getHeight()*0.06f);
-        endTurnButton.getStyle().font.getData().setScale(Gdx.graphics.getHeight()*0.0025f);
+        endTurnButton.setBounds(deckView.getWidth() * 1.4f, Gdx.graphics.getHeight() * 0.375f, Gdx.graphics.getWidth() * 0.12f, Gdx.graphics.getHeight() * 0.06f);
+        endTurnButton.getStyle().font.getData().setScale(Gdx.graphics.getHeight() * 0.0025f);
         hostInterface.addActor(endTurnButton);
 
         abortButton = new AbortButton(0.35f, playListener);
@@ -63,11 +62,14 @@ public class HostPlayerView extends PlayerView {
         hostInterface.setPosition(-this.getX(), -this.getY());
     }
 
+    public static void provideClickListener(ClickListener playListener) {
+        HostPlayerView.playListener = playListener;
+    }
+
     public void draw(Batch batch, float parentAlpha) {
         updateHandView();
         super.draw(batch, parentAlpha);
     }
-
 
     public void updateHandView() {
         for (int i = 0; i < handView.getChildren().size; i++) {
@@ -84,10 +86,6 @@ public class HostPlayerView extends PlayerView {
         if (handView.getChildren().size > 0) {
             handView.setBounds(Gdx.graphics.getWidth() / 2f - (handView.getChild(handView.getChildren().size - 1).getX() + handView.getChild(handView.getChildren().size - 1).getWidth()) / 2f, 25, handView.getChild(handView.getChildren().size - 1).getWidth() * handView.getChildren().size, (9f / 8) * handView.getChild(handView.getChildren().size - 1).getHeight());
         }
-    }
-
-    public static void provideClickListener(ClickListener playListener) {
-        HostPlayerView.playListener = playListener;
     }
 
     public void dispose() {

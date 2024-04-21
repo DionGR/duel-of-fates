@@ -7,19 +7,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class LoginScreen implements Screen {
-    private Stage stage;
-    private Label feedbackLabel;
     private final SpriteBatch batch;
     private final Texture background;
+    private Stage stage;
+    private Label feedbackLabel;
     private LoginViewListener listener;
     private TextField emailField;
     private TextField passwordField;
@@ -102,12 +102,6 @@ public class LoginScreen implements Screen {
         });
     }
 
-    public interface LoginViewListener {
-        void onLoginAttempt(String email, String password);
-
-        void onSignUpAttempt(String email, String password);
-    }
-
     public void setLoginViewListener(LoginViewListener listener) {
         this.listener = listener;
     }
@@ -160,5 +154,11 @@ public class LoginScreen implements Screen {
         skin.dispose();
         background.dispose();
         skin.dispose();
+    }
+
+    public interface LoginViewListener {
+        void onLoginAttempt(String email, String password);
+
+        void onSignUpAttempt(String email, String password);
     }
 }

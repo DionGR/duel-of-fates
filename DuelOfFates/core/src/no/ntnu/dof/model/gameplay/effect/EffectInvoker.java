@@ -18,7 +18,8 @@ public class EffectInvoker<K, V extends Effect> {
         effects.put(key, effect);
     }
 
-    @NonNull public V invoke(K key) {
+    @NonNull
+    public V invoke(K key) {
         return effects.get(key);
     }
 

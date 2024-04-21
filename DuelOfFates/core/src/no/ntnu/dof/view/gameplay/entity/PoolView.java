@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import lombok.Getter;
-import no.ntnu.dof.view.gameplay.texture.Image;
 import no.ntnu.dof.view.gameplay.label.TextLabel;
+import no.ntnu.dof.view.gameplay.texture.Image;
 
 @Getter
 public class PoolView extends Group {

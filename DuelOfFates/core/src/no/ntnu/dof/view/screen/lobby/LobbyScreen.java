@@ -17,10 +17,9 @@ import no.ntnu.dof.model.communication.User;
 import no.ntnu.dof.view.screen.BaseScreen;
 
 public class LobbyScreen extends BaseScreen {
+    private final GameLobby gameLobby;
     private Skin skin;
     private Table contentTable;
-    private final GameLobby gameLobby;
-
     @Setter
     private LobbyViewListener listener;
 

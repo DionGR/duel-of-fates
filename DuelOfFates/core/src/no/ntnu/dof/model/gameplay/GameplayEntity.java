@@ -10,5 +10,6 @@ public abstract class GameplayEntity {
     private String viewName;
     private String description;
 
-    public GameplayEntity() {}
+    public GameplayEntity() {
+    }
 }

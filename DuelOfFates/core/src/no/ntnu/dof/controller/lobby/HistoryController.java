@@ -12,9 +12,9 @@ import no.ntnu.dof.model.communication.User;
 import no.ntnu.dof.view.screen.lobby.HistoryScreen;
 
 public class HistoryController {
-    private List<GameSummary> matches = new ArrayList<>();
     private final HistoryScreen historyScreen;
     private final User user;
+    private List<GameSummary> matches = new ArrayList<>();
 
     public HistoryController(User currentUser, HistoryScreen historyScreen) {
         this.historyScreen = historyScreen;

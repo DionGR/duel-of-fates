@@ -50,10 +50,12 @@ public class GameController {
         });
         Gdx.app.addLifecycleListener(new LifecycleListener() {
             @Override
-            public void pause() {}
+            public void pause() {
+            }
 
             @Override
-            public void resume() {}
+            public void resume() {
+            }
 
             @Override
             public void dispose() {
@@ -88,10 +90,10 @@ public class GameController {
 
         Gdx.app.log("Game", "Game over: player " + (game.getHost().isDead() ? "lost" : "won"));
         return new GameSummary(
-            game.getHost().getName(),
-            game.getOpponent().getName(),
-            !game.getHost().isDead(),
-            !game.getOpponent().isDead()
+                game.getHost().getName(),
+                game.getOpponent().getName(),
+                !game.getHost().isDead(),
+                !game.getOpponent().isDead()
         );
     }
 }

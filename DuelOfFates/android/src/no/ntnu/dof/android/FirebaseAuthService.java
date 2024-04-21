@@ -12,8 +12,8 @@ public class FirebaseAuthService implements AuthService {
     @Override
     public void signIn(String email, String password, AuthCallback callback) {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener(authResult -> callback.onSuccess())
-            .addOnFailureListener(e -> callback.onError(e.getMessage()));
+                .addOnSuccessListener(authResult -> callback.onSuccess())
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
     @Override

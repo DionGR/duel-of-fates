@@ -49,7 +49,7 @@ public class FirebaseLobbyService implements LobbyService {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<GameLobby> updatedLobbies = new ArrayList<>();
-                for (DataSnapshot lobbySnapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot lobbySnapshot : dataSnapshot.getChildren()) {
                     GameLobby lobby = lobbySnapshot.getValue(GameLobby.class);
                     updatedLobbies.add(lobby);
                 }

@@ -24,6 +24,7 @@ public interface LobbyService {
 
     interface LobbyCreationCallback {
         void onSuccess(GameLobby gameLobby);
+
         void onFailure(Throwable throwable);
     }
 
@@ -37,21 +38,25 @@ public interface LobbyService {
 
     interface LobbyJoinCallback {
         void onSuccess();
+
         void onFailure(Throwable throwable);
     }
 
     interface LobbyExitCallback {
         void onSuccess();
+
         void onFailure(Throwable throwable);
     }
 
     interface LobbyDeletionCallback {
         void onSuccess();
+
         void onFailure(Throwable throwable);
     }
 
     interface LobbyUpdateCallback {
         void onSuccess();
+
         void onFailure(Throwable throwable);
     }
 }

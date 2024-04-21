@@ -22,16 +22,15 @@ import no.ntnu.dof.view.screen.ReturnableScreen;
 
 public class ChooseClassScreen extends ReturnableScreen {
     private final Skin skin;
-    private Table contentTable;
     private final User user;
     private final ChooseClassListener listener;
-    private TextButton selectedButton = null; // To keep track of the currently selected button
-    private TextButton.TextButtonStyle defaultStyle;
-    private TextButton.TextButtonStyle selectedStyle;
-
     @Inject
     @Named("listPlayerClasses")
     protected List<PlayerClass> playerClasses;
+    private Table contentTable;
+    private TextButton selectedButton = null; // To keep track of the currently selected button
+    private TextButton.TextButtonStyle defaultStyle;
+    private TextButton.TextButtonStyle selectedStyle;
 
     public ChooseClassScreen(User currentUser, ChooseClassListener listener) {
         ChooseClassScreenComponent chooseClassScreenComponent = DaggerChooseClassScreenComponent.create();

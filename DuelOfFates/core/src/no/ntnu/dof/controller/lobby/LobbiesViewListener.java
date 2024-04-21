@@ -6,6 +6,8 @@ import no.ntnu.dof.model.communication.GameLobby;
 
 public interface LobbiesViewListener {
     void updateLobbiesList(List<GameLobby> gameLobbies);
+
     void transitionToLobby(GameLobby lobby);
+
     void createNewLobby(String title);
 }

@@ -19,17 +19,15 @@ import no.ntnu.dof.model.gameplay.stats.mana.Mana;
 @Getter
 @SuperBuilder(toBuilder = true)
 public class Player extends GameplayEntity {
+    public final TurnEvent beginTurnEvent = new TurnEvent(this);
+    public final TurnEvent endTurnEvent = new TurnEvent(this);
+    public final CardPlayedEvent cardPlayedEvent = new CardPlayedEvent(this);
     private final PlayerClass playerClass;
-
     private final Health health;
     private final Armor armor;
     private final Mana mana;
     private final Hand hand;
     private final Deck deck;
-
-    public final TurnEvent beginTurnEvent = new TurnEvent(this);
-    public final TurnEvent endTurnEvent = new TurnEvent(this);
-    public final CardPlayedEvent cardPlayedEvent = new CardPlayedEvent(this);
 
     public void refillHand() {
         this.hand.refill(this.deck);
@@ -49,6 +47,10 @@ public class Player extends GameplayEntity {
         return mana.compareTo(card.getCost()) >= 0;
     }
 
+    public Card getLastPlayedCard() {
+        return this.deck.getLastPlayedCard();
+    }
+
     public static abstract class PlayerBuilder<C extends Player, B extends PlayerBuilder<C, B>> extends GameplayEntityBuilder<C, B> {
         public B playerClass(PlayerClass playerClass) {
             this.playerClass = playerClass;
@@ -65,9 +67,5 @@ public class Player extends GameplayEntity {
 
             return self();
         }
-    }
-
-    public Card getLastPlayedCard() {
-        return this.deck.getLastPlayedCard();
     }
 }

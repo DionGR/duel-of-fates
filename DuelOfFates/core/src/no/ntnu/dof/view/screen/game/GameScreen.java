@@ -13,15 +13,15 @@ import com.badlogic.gdx.utils.Align;
 
 import no.ntnu.dof.controller.application.ScreenController;
 import no.ntnu.dof.model.gameplay.Game;
-import no.ntnu.dof.view.gameplay.texture.Image;
-import no.ntnu.dof.view.gameplay.label.TextLabel;
 import no.ntnu.dof.view.gameplay.entity.GameView;
+import no.ntnu.dof.view.gameplay.label.TextLabel;
+import no.ntnu.dof.view.gameplay.texture.Image;
 
 
 public class GameScreen implements Screen {
-    private Stage stage;
     private final GameView gameView;
     private final Game game;
+    private Stage stage;
     private boolean gameEndScreenShown;
 
     public GameScreen(Game game) {

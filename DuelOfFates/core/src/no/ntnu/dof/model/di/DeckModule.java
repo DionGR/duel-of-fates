@@ -55,7 +55,7 @@ public class DeckModule {
             @Named("poisonCard_4_4") Card poisonCard,
             @Named("passiveHealingCard_4_4") Card passiveHealingCard,
             @Named("attackCard_8") Card moderateDamageCard
-            ) {
+    ) {
         List<Card> cards = new ArrayList<>();
 
         cards.add(highManaCard);

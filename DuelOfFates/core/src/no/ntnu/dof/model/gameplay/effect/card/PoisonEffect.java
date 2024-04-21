@@ -25,7 +25,7 @@ public class PoisonEffect extends Effect implements TurnListener {
         return duration <= 0;
     }
 
-    private void dealDamage(Player player){
+    private void dealDamage(Player player) {
         HealthEffect effect = HealthEffect.builder().delta(damage).build();
         effect.apply(player);
     }

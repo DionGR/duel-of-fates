@@ -11,14 +11,15 @@ public class DuelOfFates extends com.badlogic.gdx.Game {
     @Setter
     private User currentUser;
 
-	public DuelOfFates() {}
+    public DuelOfFates() {
+    }
 
     @Override
     public void create() {
         // Initialize first screen and ScreenManager
         ScreenController.initialize(this);
         ScreenController.transitionToLogin();
-	}
+    }
 
     @Override
     public void render() {
