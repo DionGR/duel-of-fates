@@ -11,10 +11,18 @@ One of the following:
 - Android emulator for the android application (>= Android 7.0)
 - Java for desktop application (>= Java 8)
 
-### Installation
-1. Clone the repository
-2. Import the [project folder](./DuelOfFates/) in Android Studio
-3. Run the project on your device or emulator
+### Installation 
+
+#### APK
+1. Clone the repository.
+2. Transfer the APK file to your compatible mobile device.
+3. Install the application.
+4. Enjoy the game!
+
+#### Project Source
+1. Clone the repository.
+2. Import the [project folder](./DuelOfFates/) in Android Studio.
+3. Run the project on your device or emulator.
 4. Enjoy the game!
 
 ## Structure
